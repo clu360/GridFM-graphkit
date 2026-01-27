@@ -37,10 +37,13 @@ class HeteroGridDatasetDisk(Dataset):
         transform: Optional[Callable] = None,
         pre_transform: Optional[Callable] = None,
         pre_filter: Optional[Callable] = None,
+        fit_normalizer: bool = True,
     ):
         self.norm_method = norm_method
         self.data_normalizer = data_normalizer
         self.length = None
+        self.fit_normalizer = fit_normalizer
+
 
         super().__init__(root, transform, pre_transform, pre_filter)
 
@@ -50,12 +53,8 @@ class HeteroGridDatasetDisk(Dataset):
             f"data_stats_{self.norm_method}.pt",
         )
 
-        load_scenarios_path = osp.join(self.processed_dir, "load_scenarios.pt")
-
-        if osp.exists(data_stats_path) and osp.exists(load_scenarios_path):
-            self.data_stats = torch.load(data_stats_path, weights_only=True)
-            self.data_normalizer.fit_from_dict(self.data_stats)
-            self.load_scenarios = torch.load(load_scenarios_path, weights_only=True)
+        self.data_stats = torch.load(data_stats_path, weights_only=True)
+        self.data_normalizer.fit_from_dict(self.data_stats)
 
     @property
     def raw_file_names(self):
@@ -69,23 +68,73 @@ class HeteroGridDatasetDisk(Dataset):
     def processed_file_names(self):
         return [
             f"data_stats_{self.norm_method}.pt",
-            "load_scenarios.pt",
             self.processed_done_file,
         ]
 
     def download(self):
         pass
 
+    def _find_parquet_files(self, base_dir, filename):
+        """Find all parquet files with given filename in subdirectories."""
+        parquet_files = []
+        print(f"Searching for {filename} in {base_dir}")
+        for root, dirs, files in os.walk(base_dir):
+            if filename in files:
+                parquet_files.append(osp.join(root, filename))
+                print(f"Found {filename} in {osp.join(root, filename)}")
+        return parquet_files
+
     def process(self):
         print("LOADING DATA")
-        bus_data = pd.read_parquet(osp.join(self.raw_dir, "bus_data.parquet"))
-        gen_data = pd.read_parquet(osp.join(self.raw_dir, "gen_data.parquet"))
-        branch_data = pd.read_parquet(osp.join(self.raw_dir, "branch_data.parquet"))
+        
+        # Find parquet files in subdirectories and combine them
+        # Search from root directory (not raw_dir) to find all nested raw/ subdirectories
+        bus_files = self._find_parquet_files(self.root, "bus_data.parquet")
+        gen_files = self._find_parquet_files(self.root, "gen_data.parquet")
+        branch_files = self._find_parquet_files(self.root, "branch_data.parquet")
+        
+        if not bus_files or not gen_files or not branch_files:
+            raise FileNotFoundError(
+                f"Could not find parquet files in {self.root} or its subdirectories"
+            )
+        
+        # Load and process each parquet file, reassigning scenario indices
+        bus_data_list = []
+        gen_data_list = []
+        branch_data_list = []
+        
+        current_scenario_offset = 0
+        
+        for i, (bus_file, gen_file, branch_file) in enumerate(zip(bus_files, gen_files, branch_files)):
+            bus_df = pd.read_parquet(bus_file)
+            gen_df = pd.read_parquet(gen_file)
+            branch_df = pd.read_parquet(branch_file)
+            
+            # Get unique scenarios in this dataframe
+            unique_scenarios = bus_df['scenario'].unique()
+            num_scenarios = len(unique_scenarios)
+            
+            # Create mapping from old scenario to new continuous scenario index
+            scenario_mapping = {old_scenario: current_scenario_offset + idx 
+                               for idx, old_scenario in enumerate(unique_scenarios)}
+            
+            # Apply mapping to all dataframes
+            bus_df['scenario'] = bus_df['scenario'].map(scenario_mapping)
+            gen_df['scenario'] = gen_df['scenario'].map(scenario_mapping)
+            branch_df['scenario'] = branch_df['scenario'].map(scenario_mapping)
+            
+            bus_data_list.append(bus_df)
+            gen_data_list.append(gen_df)
+            branch_data_list.append(branch_df)
+            
+            # Update offset for next dataframe
+            current_scenario_offset += num_scenarios
+        
+        # Combine all dataframes
+        bus_data = pd.concat(bus_data_list, ignore_index=True)
+        gen_data = pd.concat(gen_data_list, ignore_index=True)
+        branch_data = pd.concat(branch_data_list, ignore_index=True)
 
-        load_scenarios = torch.tensor(
-            bus_data.groupby("scenario")["load_scenario_idx"].first().values,
-        )
-        torch.save(load_scenarios, osp.join(self.processed_dir, "load_scenarios.pt"))
 
         agg_gen = (
             gen_data.groupby(["scenario", "bus"])[["min_q_mvar", "max_q_mvar"]]
@@ -94,13 +143,23 @@ class HeteroGridDatasetDisk(Dataset):
         )
         bus_data = bus_data.merge(agg_gen, on=["scenario", "bus"], how="left").fillna(0)
 
-        print("FIT NORMALIZER")
-        self.data_stats = self.data_normalizer.fit(bus_data=bus_data, gen_data=gen_data)
         data_stats_path = osp.join(
             self.processed_dir,
             f"data_stats_{self.norm_method}.pt",
         )
-        torch.save(self.data_stats, data_stats_path)
+        
+        # Only fit normalizer if requested (typically only for train split)
+        if self.fit_normalizer:
+            print("FIT NORMALIZER")
+            self.data_stats = self.data_normalizer.fit(bus_data=bus_data, gen_data=gen_data)
+            torch.save(self.data_stats, data_stats_path)
+        else:
+            # Load stats from train split (they should already be fitted)
+            if not osp.exists(data_stats_path):
+                raise FileNotFoundError(f"Normalizer stats not found at {data_stats_path}")
+            self.data_stats = torch.load(data_stats_path, weights_only=True)
+            self.data_normalizer.fit_from_dict(self.data_stats)
+
 
         done_path = osp.join(self.processed_dir, self.processed_done_file)
         if osp.exists(done_path):
@@ -157,10 +216,10 @@ class HeteroGridDatasetDisk(Dataset):
         branch_groups = branch_data.groupby("scenario")
 
         # Process each scenario
-        for scenario in tqdm(
+        for idx, scenario in enumerate(tqdm(
             bus_data["scenario"].unique(),
             desc="Processing scenarios",
-        ):
+        )):
             if (
                 scenario not in gen_groups.groups
                 or scenario not in branch_groups.groups
@@ -168,6 +227,7 @@ class HeteroGridDatasetDisk(Dataset):
                 raise ValueError
 
             data = HeteroData()
+            assert idx == scenario, "Scenario index does not match scenario"
 
             # Bus nodes
             bus_df = bus_groups.get_group(scenario)
@@ -234,7 +294,7 @@ class HeteroGridDatasetDisk(Dataset):
             # Save graph
             torch.save(
                 data.to_dict(),
-                osp.join(self.processed_dir, f"data_index_{scenario}.pt"),
+                osp.join(self.processed_dir, f"data_index_{idx}.pt"),
             )
 
         with open(osp.join(self.processed_dir, self.processed_done_file), "w") as f:

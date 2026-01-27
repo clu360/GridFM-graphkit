@@ -1,54 +1,47 @@
 import torch
 from torch_geometric.loader import DataLoader
 from torch.utils.data import ConcatDataset
-from torch.utils.data import Subset
 import torch.distributed as dist
 from gridfm_graphkit.io.param_handler import (
     NestedNamespace,
     load_normalizer,
     get_task_transforms,
 )
-from gridfm_graphkit.datasets.utils import (
-    split_dataset,
-    split_dataset_by_load_scenario_idx,
-)
 from gridfm_graphkit.datasets.powergrid_hetero_dataset import HeteroGridDatasetDisk
-import numpy as np
-import random
-import warnings
 import os
+import os.path as osp
 import lightning as L
 
 
 class LitGridHeteroDataModule(L.LightningDataModule):
     """
-    PyTorch Lightning DataModule for power grid datasets.
+    PyTorch Lightning DataModule for power grid datasets using task-based structure.
 
-    This datamodule handles loading, preprocessing, splitting, and batching
-    of power grid graph datasets (`GridDatasetDisk`) for training, validation,
-    testing, and prediction. It ensures reproducibility through fixed seeds.
+    This datamodule handles loading and preprocessing of power grid graph datasets
+    from the task-based directory structure (data_tasks/{task}/train, valid, test).
+    Splits are already defined in the folder structure, so no shuffling or splitting is performed.
 
     Args:
-        args (NestedNamespace): Experiment configuration.
+        args (NestedNamespace): Experiment configuration. Must include ``args.data.task``.
         data_dir (str, optional): Root directory for datasets. Defaults to "./data".
 
     Attributes:
         batch_size (int): Batch size for all dataloaders. From ``args.training.batch_size``
-        data_normalizers (list): List of data normalizers, one per dataset.
-        datasets (list): Original datasets for each network.
-        train_datasets (list): Train splits for each network.
-        val_datasets (list): Validation splits for each network.
-        test_datasets (list): Test splits for each network.
-        train_dataset_multi (ConcatDataset): Concatenated train datasets for multi-network training.
-        val_dataset_multi (ConcatDataset): Concatenated validation datasets for multi-network validation.
+        data_normalizers (list): List of data normalizers (single normalizer for all splits).
+        train_datasets (list): Train datasets.
+        val_datasets (list): Validation datasets.
+        test_datasets (list): Test datasets (kept separate, not concatenated).
+        train_dataset_multi (ConcatDataset): Concatenated train datasets.
+        val_dataset_multi (ConcatDataset): Concatenated validation datasets.
         _is_setup_done (bool): Tracks whether `setup` has been executed to avoid repeated processing.
 
     Methods:
         setup(stage):
-            Load and preprocess datasets, split into train/val/test, and store normalizers.
+            Load and preprocess datasets from data_tasks/{task}/train, valid, test folders.
+            Normalizer is fitted only on training data; validation and test use those stats.
             Handles distributed preprocessing safely.
         train_dataloader():
-            Returns a DataLoader for concatenated training datasets.
+            Returns a DataLoader for concatenated training datasets (no shuffling).
         val_dataloader():
             Returns a DataLoader for concatenated validation datasets.
         test_dataloader():
@@ -58,13 +51,13 @@ class LitGridHeteroDataModule(L.LightningDataModule):
 
     Notes:
         - Preprocessing is only performed on rank 0 in distributed settings.
-        - Subsets and splits are deterministic based on the provided random seed.
-        - Normalizers are loaded for each network independently.
-        - Test and predict dataloaders are returned as lists, one per dataset.
+        - No shuffling or splitting is performed - splits are defined by folder structure.
+        - Normalizer is fitted on training data only; same stats used for validation and test.
+        - Test datasets are kept separate (not concatenated) - each gets its own DataLoader.
 
     Example:
         ```python
-        from gridfm_graphkit.datasets.powergrid_datamodule import LitGridDataModule
+        from gridfm_graphkit.datasets.hetero_powergrid_datamodule import LitGridHeteroDataModule
         from gridfm_graphkit.io.param_handler import NestedNamespace
         import yaml
 
@@ -72,7 +65,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             base_config = yaml.safe_load(f)
         args = NestedNamespace(**base_config)
 
-        datamodule = LitGridDataModule(args, data_dir="./data")
+        datamodule = LitGridHeteroDataModule(args, data_dir="./data")
 
         datamodule.setup("fit")
         train_loader = datamodule.train_dataloader()
@@ -83,17 +76,12 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = int(args.training.batch_size)
-        self.split_by_load_scenario_idx = getattr(
-            args.data,
-            "split_by_load_scenario_idx",
-            False,
-        )
         self.args = args
         self.data_normalizers = []
-        self.datasets = []
         self.train_datasets = []
         self.val_datasets = []
         self.test_datasets = []
+        self.test_dataset_names = []  # Store dataset names for test datasets
         self._is_setup_done = False
 
     def setup(self, stage: str):
@@ -101,93 +89,180 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             print(f"Setup already done for stage={stage}, skipping...")
             return
 
-        for i, network in enumerate(self.args.data.networks):
-            data_normalizer = load_normalizer(args=self.args)
-            self.data_normalizers.append(data_normalizer)
+        # Task-based structure: load from data_tasks/{task}/train, valid, test
+        task_name = self.args.data.task
+        task_base_dir = os.path.join(self.data_dir, "data_tasks", task_name)
+        
 
-            # Create torch dataset and split
-            data_path_network = os.path.join(self.data_dir, network)
-
+        
+        # Create a single normalizer for all splits
+        data_normalizer = load_normalizer(args=self.args)
+        self.data_normalizers.append(data_normalizer)
+        
+        # First, process train split to fit normalizer
+        train_split_dir = os.path.join(task_base_dir, "train")
+        train_split_root = train_split_dir  # Use split dir as root
+        
+        if os.path.exists(train_split_dir):
             # Run preprocessing only on rank 0
             if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
-                print(f"Pre-processing of {network} dataset on rank 0")
+                print(f"Pre-processing train dataset on rank 0")
                 _ = HeteroGridDatasetDisk(  # just to trigger processing
-                    root=data_path_network,
+                    root=train_split_root,
                     norm_method=self.args.data.normalization,
                     data_normalizer=data_normalizer,
                     transform=get_task_transforms(args=self.args),
                 )
-
+            
             # All ranks wait here until processing is done
             if torch.distributed.is_available() and torch.distributed.is_initialized():
                 torch.distributed.barrier()
-
-            dataset = HeteroGridDatasetDisk(
-                root=data_path_network,
+            
+            train_dataset = HeteroGridDatasetDisk(
+                root=train_split_root,
                 norm_method=self.args.data.normalization,
                 data_normalizer=data_normalizer,
                 transform=get_task_transforms(args=self.args),
             )
-            self.datasets.append(dataset)
-
-            num_scenarios = self.args.data.scenarios[i]
-            if num_scenarios > len(dataset):
-                warnings.warn(
-                    f"Requested number of scenarios ({num_scenarios}) exceeds dataset size ({len(dataset)}). "
-                    "Using the full dataset instead.",
-                )
-                num_scenarios = len(dataset)
-
-            # Create a subset
-            all_indices = list(range(len(dataset)))
-            # Random seed set before every shuffle for reproducibility in case the power grid datasets are analyzed in a different order
-            random.seed(self.args.seed)
-            random.shuffle(all_indices)
-            subset_indices = all_indices[:num_scenarios]
-
-            # load_scenario for each scenario in the subset
-            load_scenarios = dataset.load_scenarios[subset_indices]
-
-            dataset = Subset(dataset, subset_indices)
-
-            # Random seed set before every split, same as above
-            np.random.seed(self.args.seed)
-            if self.split_by_load_scenario_idx:
-                train_dataset, val_dataset, test_dataset = (
-                    split_dataset_by_load_scenario_idx(
-                        dataset,
-                        self.data_dir,
-                        load_scenarios,
-                        self.args.data.val_ratio,
-                        self.args.data.test_ratio,
-                    )
-                )
-            else:
-                train_dataset, val_dataset, test_dataset = split_dataset(
-                    dataset,
-                    self.data_dir,
-                    self.args.data.val_ratio,
-                    self.args.data.test_ratio,
-                )
-
             self.train_datasets.append(train_dataset)
-            self.val_datasets.append(val_dataset)
-            self.test_datasets.append(test_dataset)
-
-        self.train_dataset_multi = ConcatDataset(self.train_datasets)
-        self.val_dataset_multi = ConcatDataset(self.val_datasets)
+        
+        # Process valid and test splits (they will use the normalizer stats from train)
+        # Load train stats path to pass to other splits
+        train_stats_path = os.path.join(train_split_root, "processed", f"data_stats_{self.args.data.normalization}.pt")
+        
+        # Process valid split (single dataset combining all cases)
+        valid_split_dir = os.path.join(task_base_dir, "valid")
+        if os.path.exists(valid_split_dir):
+            valid_split_root = valid_split_dir
+            
+            # Copy train stats to this split's processed dir so it can load them
+            if osp.exists(train_stats_path):
+                import shutil
+                valid_processed_dir = os.path.join(valid_split_root, "processed")
+                os.makedirs(valid_processed_dir, exist_ok=True)
+                valid_stats_path = os.path.join(valid_processed_dir, f"data_stats_{self.args.data.normalization}.pt")
+                if not osp.exists(valid_stats_path):
+                    shutil.copy2(train_stats_path, valid_stats_path)
+            
+            # Run preprocessing only on rank 0
+            if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
+                print(f"Pre-processing valid dataset on rank 0")
+                _ = HeteroGridDatasetDisk(  # just to trigger processing
+                    root=valid_split_root,
+                    norm_method=self.args.data.normalization,
+                    data_normalizer=data_normalizer,
+                    transform=get_task_transforms(args=self.args),
+                    fit_normalizer=False,  # Don't refit, use train stats
+                )
+            
+            # All ranks wait here until processing is done
+            if torch.distributed.is_available() and torch.distributed.is_initialized():
+                torch.distributed.barrier()
+            
+            valid_dataset = HeteroGridDatasetDisk(
+                root=valid_split_root,
+                norm_method=self.args.data.normalization,
+                data_normalizer=data_normalizer,
+                transform=get_task_transforms(args=self.args),
+                fit_normalizer=False,  # Don't refit, use train stats
+            )
+            self.val_datasets.append(valid_dataset)
+        
+        # Process test split - create separate dataset for each case_folder/grid_type/subdir combination
+        test_split_dir = os.path.join(task_base_dir, "test")
+        if os.path.exists(test_split_dir):
+            # Find all case folders (case14, case30, etc.)
+            case_folders = [
+                d for d in os.listdir(test_split_dir)
+                if os.path.isdir(os.path.join(test_split_dir, d)) and d.startswith("case")
+            ]
+            
+            for case_folder in case_folders:
+                case_dir = os.path.join(test_split_dir, case_folder)
+                
+                # Find all grid_type folders (n, n-1, n-2, etc.)
+                grid_types = [
+                    d for d in os.listdir(case_dir)
+                    if os.path.isdir(os.path.join(case_dir, d)) and not d.startswith('.') and d != 'processed'
+                ]
+                
+                for grid_type in grid_types:
+                    grid_type_dir = os.path.join(case_dir, grid_type)
+                    
+                    # Find all subdirectories (feasible, nose, around_nose, etc.)
+                    subdirs = [
+                        d for d in os.listdir(grid_type_dir)
+                        if os.path.isdir(os.path.join(grid_type_dir, d)) and not d.startswith('.')
+                    ]
+                    
+                    for subdir in subdirs:
+                        dataset_dir = os.path.join(grid_type_dir, subdir)
+                        dataset_root = dataset_dir  # Use subdir as root (contains raw/ folder)
+                        
+                        # Copy train stats to this dataset's processed dir so it can load them
+                        if osp.exists(train_stats_path):
+                            import shutil
+                            dataset_processed_dir = os.path.join(dataset_root, "processed")
+                            os.makedirs(dataset_processed_dir, exist_ok=True)
+                            dataset_stats_path = os.path.join(dataset_processed_dir, f"data_stats_{self.args.data.normalization}.pt")
+                            if not osp.exists(dataset_stats_path):
+                                shutil.copy2(train_stats_path, dataset_stats_path)
+                        
+                        # Run preprocessing only on rank 0
+                        if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
+                            print(f"Pre-processing test dataset for {case_folder}/{grid_type}/{subdir} on rank 0")
+                            _ = HeteroGridDatasetDisk(  # just to trigger processing
+                                root=dataset_root,
+                                norm_method=self.args.data.normalization,
+                                data_normalizer=data_normalizer,
+                                transform=get_task_transforms(args=self.args),
+                                fit_normalizer=False,  # Don't refit, use train stats
+                            )
+                        
+                        # All ranks wait here until processing is done
+                        if torch.distributed.is_available() and torch.distributed.is_initialized():
+                            torch.distributed.barrier()
+                        
+                        dataset_name = f"test_{case_folder}_{grid_type}_{subdir}"
+                        test_dataset = HeteroGridDatasetDisk(
+                            root=dataset_root,
+                            norm_method=self.args.data.normalization,
+                            data_normalizer=data_normalizer,
+                            transform=get_task_transforms(args=self.args),
+                            fit_normalizer=False,  # Don't refit, use train stats
+                        )
+                        self.test_datasets.append(test_dataset)
+                        self.test_dataset_names.append(dataset_name)
+            
+        self.train_dataset_multi = ConcatDataset(self.train_datasets) if self.train_datasets else None
+        self.val_dataset_multi = ConcatDataset(self.val_datasets) if self.val_datasets else None
+        # Note: test_datasets are kept separate (not concatenated) - each gets its own DataLoader
+        
         self._is_setup_done = True
+        
+        print("Length of train datasets: ", len(self.train_dataset_multi))
+        print("Length of valid datasets: ", len(self.val_dataset_multi))
+        print("Combined length of train and valid datasets: ", len(self.train_dataset_multi) + len(self.val_dataset_multi))
+        print("Number of test datasets: ", len(self.test_datasets))
+        for i, dataset in enumerate(self.test_datasets):
+            # name:
+            print(f"Name: {self.test_dataset_names[i]}")
+            print(f"Length: {len(dataset)}")
 
     def train_dataloader(self):
+        if self.train_dataset_multi is None:
+            raise ValueError("No training datasets found. Make sure train split exists.")
         return DataLoader(
             self.train_dataset_multi,
             batch_size=self.batch_size,
-            shuffle=True,
+            shuffle=False,  # No shuffling - splits are already defined in folder structure
             num_workers=self.args.data.workers,
             pin_memory=True,
         )
 
     def val_dataloader(self):
+        if self.val_dataset_multi is None:
+            raise ValueError("No validation datasets found. Make sure valid split exists.")
         return DataLoader(
             self.val_dataset_multi,
             batch_size=self.batch_size,

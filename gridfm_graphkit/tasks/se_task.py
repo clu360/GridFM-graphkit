@@ -32,10 +32,11 @@ class StateEstimationTask(ReconstructionTask):
     # TODO: add custom test and predict steps
     def test_step(self, batch, batch_idx, dataloader_idx=0):
         output, loss_dict = self.shared_step(batch)
-        dataset_name = self.args.data.networks[dataloader_idx]
-
-        self.data_normalizers[dataloader_idx].inverse_transform(batch)
-        self.data_normalizers[dataloader_idx].inverse_output(output)
+        # Get dataset name from datamodule
+        dataset_name = self.trainer.datamodule.test_dataset_names[dataloader_idx]
+        # All datasets use the same normalizer (index 0)
+        self.data_normalizers[0].inverse_transform(batch)
+        self.data_normalizers[0].inverse_output(output)
 
         num_bus = batch.x_dict["bus"].size(0)
         _, gen_to_bus_index = batch.edge_index_dict[("gen", "connected_to", "bus")]
@@ -106,6 +107,9 @@ class StateEstimationTask(ReconstructionTask):
         # fig.savefig('p_inj.png')
         # assert False
 
+        # Initialize list for this dataloader if it doesn't exist
+        if dataloader_idx not in self.test_outputs:
+            self.test_outputs[dataloader_idx] = []
         self.test_outputs[dataloader_idx].append(
             {
                 "dataset": dataset_name,
@@ -132,8 +136,8 @@ class StateEstimationTask(ReconstructionTask):
 
         if self.args.verbose:
             for dataset_idx, outputs in self.test_outputs.items():
-                dataset_name = self.args.data.networks[dataset_idx]
-
+                # Get dataset name from datamodule
+                dataset_name = self.trainer.datamodule.test_dataset_names[dataset_idx]
                 plot_dir = os.path.join(artifact_dir, "test_plots", dataset_name)
                 os.makedirs(plot_dir, exist_ok=True)
 

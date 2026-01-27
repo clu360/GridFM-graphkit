@@ -37,7 +37,9 @@ class ReconstructionTask(BaseTask):
         self.model = load_model(args=args)
         self.loss_fn = get_loss_function(args)
         self.batch_size = int(args.training.batch_size)
-        self.test_outputs = {i: [] for i in range(len(args.data.networks))}
+        # Initialize test_outputs with a default size (will be extended if needed)
+        # For task-based structure, we don't know the number of test datasets upfront
+        self.test_outputs = {}
 
     def forward(self, x_dict, edge_index_dict, edge_attr_dict, mask_dict):
         return self.model(x_dict, edge_index_dict, edge_attr_dict, mask_dict)

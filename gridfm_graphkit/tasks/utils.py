@@ -9,8 +9,21 @@ import os
 def residual_stats_by_type(residual, mask, bus_batch):
     residual_masked = residual[mask]
     batch_masked = bus_batch[mask]
+    # Ensure tensors are on the same device and move to CPU if needed for scatter operations
+    # torch_scatter may have issues with MPS, so move to CPU
+    device = residual_masked.device
+    if device.type == 'mps':
+        residual_masked = residual_masked.cpu()
+        batch_masked = batch_masked.cpu()
+    
     mean_res = scatter_mean(torch.abs(residual_masked), batch_masked, dim=0)
     max_res, _ = scatter_max(torch.abs(residual_masked), batch_masked, dim=0)
+    
+    # Move results back to original device if needed
+    if device.type == 'mps':
+        mean_res = mean_res.to(device)
+        max_res = max_res.to(device)
+    
     return mean_res, max_res
 
 

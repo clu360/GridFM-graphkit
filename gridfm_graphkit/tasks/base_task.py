@@ -58,8 +58,10 @@ class BaseTask(L.LightningModule, ABC):
         log_stats_path = os.path.join(log_dir, "normalization_stats.txt")
         with open(log_stats_path, "w") as log_file:
             for i, normalizer in enumerate(self.data_normalizers):
+                # For task-based structure, use generic identifier
+                normalizer_name = getattr(self.args.data, "task", f"normalizer_{i}")
                 log_file.write(
-                    f"Data Normalizer {self.args.data.networks[i]} stats:\n{normalizer.get_stats()}\n\n",
+                    f"Data Normalizer {normalizer_name} stats:\n{normalizer.get_stats()}\n\n",
                 )
 
     def configure_optimizers(self):
