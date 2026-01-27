@@ -11,6 +11,7 @@ from gridfm_graphkit.datasets.powergrid_hetero_dataset import HeteroGridDatasetD
 import os
 import os.path as osp
 import lightning as L
+from lightning.pytorch.loggers import MLFlowLogger
 
 
 class LitGridHeteroDataModule(L.LightningDataModule):
@@ -248,6 +249,42 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             # name:
             print(f"Name: {self.test_dataset_names[i]}")
             print(f"Length: {len(dataset)}")
+
+        # Log the same dataset summary information to MLflow, if an MLFlowLogger is active.
+        logger = getattr(getattr(self, "trainer", None), "logger", None)
+        if isinstance(logger, MLFlowLogger):
+            run_id = logger.run_id
+            experiment = logger.experiment
+            try:
+                if self.train_dataset_multi is not None:
+                    experiment.log_param(
+                        run_id,
+                        "dataset_train_len",
+                        len(self.train_dataset_multi),
+                    )
+                if self.val_dataset_multi is not None:
+                    experiment.log_param(
+                        run_id,
+                        "dataset_valid_len",
+                        len(self.val_dataset_multi),
+                    )
+                    experiment.log_param(
+                        run_id,
+                        "dataset_train_plus_valid_len",
+                        len(self.train_dataset_multi) + len(self.val_dataset_multi),
+                    )
+                experiment.log_param(
+                    run_id,
+                    "dataset_test_count",
+                    len(self.test_datasets),
+                )
+                for i, dataset in enumerate(self.test_datasets):
+                    name = self.test_dataset_names[i]
+                    length = len(dataset)
+                    experiment.log_param(run_id, f"test_dataset_{i}_name", name)
+                    experiment.log_param(run_id, f"test_dataset_{i}_len", length)
+            except Exception as e:
+                print(f"Warning: failed to log dataset summary to MLflow: {e}")
 
     def train_dataloader(self):
         if self.train_dataset_multi is None:
