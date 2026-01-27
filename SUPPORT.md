@@ -2,24 +2,14 @@ _Use this file to detail how to make get support forthe project. The structure b
 
 # Getting Help
 
-There are a few ways to connect with the PROJECT NAME project:
+There are a few ways to connect with the GridFM project:
 
-* _provide email list details_
-* _provide Slack details_
-* _provide link to submit issue_
-
-## How to Ask for Help
-
-If you have trouble installing, building, or using PROJECT NAME, but there's not yet reason to suspect you've encountered a genuine bug,
-start by posting a question to the mailing list or Slack channel. This is the place for question such has "How do I...".
-
-## How to report a bug or request an enhancement
-
-PROJECT NAME manages bug and enhancement using it's [issue tracker]. The issue template will guide you on making an effective report.
+* Join the GridFM community and subscribe to attend our monthly meetings on gridfm.org
+* To submit an issue: https://github.com/gridfm/gridfm-graphkit/issues
 
 ## How to report a security vulnerability
 
-If you think you've found a potential vulnerability in PROJECT NAME, please
+If you think you've found a potential vulnerability in GridFM, please
 email security@PROJECT DOMAIN to responsibly disclose it.
 
 ## Contributing a fix

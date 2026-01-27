@@ -1,5 +1,3 @@
-_Use this file to detail how to make a contribution to the project. The structure below is generally recommended, but can be changed to meet the needs of the project_
-
 # Contributing to GridFM
 
 Thank you for your interest in contributing to GridFM. This document explains our contribution process and procedures:
@@ -16,18 +14,20 @@ If you just need help or have a question, refer to [SUPPORT.md](SUPPORT.md).
 
 To contribute code to the project, first read over the [governance policies] page to understand the roles involved. 
 
-Each contribution must meet the [coding style] and include..
+Each contribution must meet the [PEP 8] and include..
 
 * Tests and documentation to explain the functionality.
 * Any new files have [copyright and license headers]
 * A [Developer Certificate of Origin signoff].
 * Submitted to the project as a pull request.
 
-PROJECT NAME is licensed under the [LICENSE NAME](LICENSE.md) license. Contributions should abide by that standard license.
+GridFM is licensed under the [Apache 2.0 license]. Contributions should abide by that standard license.
 
 Project committers will review the contribution in a timely manner, and advise of any changes needed to merge the request.
 
 
+[PEP 8]: https://peps.python.org/pep-0008/
+[Apache 2.0 license]: LICENSE
 [governance policies]: GOVERNANCE.md
 [Technical Charter]: https://github.com/lf-energy/foundation/blob/main/project_charters/gridfm_charter.pdf
 [copyright and license headers]: https://github.com/lf-energy/tac/blob/main/process/contribution_guidelines.md#license
