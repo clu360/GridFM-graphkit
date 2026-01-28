@@ -7,8 +7,6 @@ data:
   baseMVA: 100
   mask_value: 0.0
   normalization: HeteroDataMVANormalizer
-  normalizationMVA: 240
-  task: task_4.3
   workers: 16
 model:
   attention_head: 8

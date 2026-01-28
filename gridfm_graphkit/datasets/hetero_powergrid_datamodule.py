@@ -23,7 +23,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
     Splits are already defined in the folder structure, so no shuffling or splitting is performed.
 
     Args:
-        args (NestedNamespace): Experiment configuration. Must include ``args.data.task``.
+        args (NestedNamespace): Experiment configuration.
         data_dir (str, optional): Root directory for datasets. Defaults to "./data".
 
     Attributes:
@@ -89,19 +89,13 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         if self._is_setup_done:
             print(f"Setup already done for stage={stage}, skipping...")
             return
-
-        # Task-based structure: load from data_tasks/{task}/train, valid, test
-        task_name = self.args.data.task
-        task_base_dir = os.path.join(self.data_dir, "data_tasks", task_name)
-        
-
         
         # Create a single normalizer for all splits
         data_normalizer = load_normalizer(args=self.args)
         self.data_normalizers.append(data_normalizer)
         
         # First, process train split to fit normalizer
-        train_split_dir = os.path.join(task_base_dir, "train")
+        train_split_dir = os.path.join(self.data_dir, "train")
         train_split_root = train_split_dir  # Use split dir as root
         
         if os.path.exists(train_split_dir):
@@ -132,7 +126,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         train_stats_path = os.path.join(train_split_root, "processed", f"data_stats_{self.args.data.normalization}.pt")
         
         # Process valid split (single dataset combining all cases)
-        valid_split_dir = os.path.join(task_base_dir, "valid")
+        valid_split_dir = os.path.join(self.data_dir, "valid")
         if os.path.exists(valid_split_dir):
             valid_split_root = valid_split_dir
             
@@ -170,7 +164,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             self.val_datasets.append(valid_dataset)
         
         # Process test split - create separate dataset for each case_folder/grid_type/subdir combination
-        test_split_dir = os.path.join(task_base_dir, "test")
+        test_split_dir = os.path.join(self.data_dir, "test")
         if os.path.exists(test_split_dir):
             # Find all case folders (case14, case30, etc.)
             case_folders = [
@@ -292,7 +286,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         return DataLoader(
             self.train_dataset_multi,
             batch_size=self.batch_size,
-            shuffle=False,  # No shuffling - splits are already defined in folder structure
+            shuffle=True, 
             num_workers=self.args.data.workers,
             pin_memory=True,
         )

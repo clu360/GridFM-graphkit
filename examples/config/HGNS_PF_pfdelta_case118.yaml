@@ -7,7 +7,6 @@ data:
   baseMVA: 100
   mask_value: 0.0
   normalization: HeteroDataMVANormalizer
-  normalizationMVA: 240
   networks:
   - case118_ieee_N_1
   - case118_ieee_N_2
