@@ -9,6 +9,7 @@ from gridfm_graphkit.datasets.globals import (
     PG_OUT,
     QG_OUT,
 )
+import numpy as np
 
 from gridfm_graphkit.tasks.reconstruction_tasks import ReconstructionTask
 from gridfm_graphkit.io.registries import TASK_REGISTRY
@@ -21,6 +22,7 @@ from pytorch_lightning.utilities import rank_zero_only
 import torch
 import torch.nn.functional as F
 from torch_scatter import scatter_add
+from torch_geometric.nn import global_mean_pool
 from gridfm_graphkit.models.utils import (
     ComputeBranchFlow,
     ComputeNodeInjection,
@@ -40,6 +42,8 @@ class PowerFlowTask(ReconstructionTask):
 
     def __init__(self, args, data_normalizers):
         super().__init__(args, data_normalizers)
+        # Store per-graph PBE values to compute dataset-level stats (mean/max)
+        self._pbe_max_per_batch_per_dataset = {}
 
     def test_step(self, batch, batch_idx, dataloader_idx=0):
         output, loss_dict = self.shared_step(batch)
@@ -153,11 +157,28 @@ class PowerFlowTask(ReconstructionTask):
                 },
             )
 
+        # --- Power balance residual metrics (PBE) following PFΔ paper ---
+        # Per-bus complex mismatch magnitude |ΔS_i| = sqrt(ΔP_i^2 + ΔQ_i^2)
+        delta_PQ_2 = residual_P**2 + residual_Q**2
+        delta_PQ_magn = torch.sqrt(delta_PQ_2)
+        pbe_mean_per_graph = global_mean_pool(delta_PQ_magn, bus_batch)  # [num_graphs]
+        pbe_mean = pbe_mean_per_graph.mean().detach().cpu() # [1]
+        
+        pbe_max = delta_PQ_magn.max().detach().cpu().item()
+
+
+        # Store per-graph PBE means for dataset-level stats in on_test_end
+        if dataset_name not in self._pbe_max_per_batch_per_dataset:
+            self._pbe_max_per_batch_per_dataset[dataset_name] = []
+        self._pbe_max_per_batch_per_dataset[dataset_name].append(pbe_max)
+
+
         final_residual_real_bus = torch.mean(torch.abs(residual_P))
         final_residual_imag_bus = torch.mean(torch.abs(residual_Q))
 
         loss_dict["Active Power Loss"] = final_residual_real_bus.detach()
         loss_dict["Reactive Power Loss"] = final_residual_imag_bus.detach()
+        loss_dict["PBE (Mean)"] = pbe_mean.detach()
 
         mse_PQ = F.mse_loss(
             output["bus"][mask_PQ],
@@ -253,7 +274,7 @@ class PowerFlowTask(ReconstructionTask):
             # Residuals and generator metrics
             avg_active_res = metrics.get("Active Power Loss", " ")
             avg_reactive_res = metrics.get("Reactive Power Loss", " ")
-
+            pbe_mean = metrics.get("PBE (Mean)", " ")
             # --- Main RMSE metrics file ---
             data_main = {
                 "Metric": ["RMSE-PQ", "RMSE-PV", "RMSE-REF"],
@@ -265,12 +286,19 @@ class PowerFlowTask(ReconstructionTask):
             df_main = pd.DataFrame(data_main)
 
             # --- Residuals / generator metrics file ---
+            
+            all_pbe_max = np.array(self._pbe_max_per_batch_per_dataset[dataset])
+            pbe_max = all_pbe_max.max()
+            
+            
             data_residuals = {
                 "Metric": [
                     "Avg. active res. (MW)",
                     "Avg. reactive res. (MVar)",
+                    "PBE (Mean, MVA)",
+                    "PBE (Max, MVA)",
                 ],
-                "Value": [avg_active_res, avg_reactive_res],
+                "Value": [avg_active_res, avg_reactive_res, pbe_mean, pbe_max],
             }
             df_residuals = pd.DataFrame(data_residuals)
 
@@ -312,6 +340,7 @@ class PowerFlowTask(ReconstructionTask):
                 )
 
         self.test_outputs.clear()
+        self._pbe_max_per_batch_per_dataset.clear()
 
     def predict_step(self, batch, batch_idx, dataloader_idx=0):
         raise NotImplementedError
