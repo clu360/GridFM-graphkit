@@ -34,9 +34,10 @@ class StateEstimationTask(ReconstructionTask):
         output, loss_dict = self.shared_step(batch)
         # Get dataset name from datamodule
         dataset_name = self.trainer.datamodule.test_dataset_names[dataloader_idx]
-        # All datasets use the same normalizer (index 0)
-        self.data_normalizers[0].inverse_transform(batch)
-        self.data_normalizers[0].inverse_output(output)
+        # get normalizer for this dataset
+        normalizer = self.data_normalizers[dataloader_idx]
+        normalizer.inverse_transform(batch)
+        normalizer.inverse_output(output,batch)
 
         num_bus = batch.x_dict["bus"].size(0)
         _, gen_to_bus_index = batch.edge_index_dict[("gen", "connected_to", "bus")]

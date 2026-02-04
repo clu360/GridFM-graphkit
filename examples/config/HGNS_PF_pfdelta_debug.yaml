@@ -6,7 +6,7 @@ task:
 data:
   baseMVA: 100
   mask_value: 0.0
-  normalization: HeteroDataMVANormalizer
+  normalization: HeteroDataPerSampleMVANormalizer
   task: task_4.3
   workers: 16
 model:
@@ -28,7 +28,7 @@ optimizer:
 seed: 0
 training:
   batch_size: 256
-  epochs: 1
+  epochs: 4
   loss_weights:
   - 0.1
   - 0.9
@@ -38,7 +38,7 @@ training:
   loss_args:
   - base_weight: 0.5
   - {}
-  accelerator: auto
+  accelerator: cpu
   devices: auto
   strategy: auto
 verbose: true

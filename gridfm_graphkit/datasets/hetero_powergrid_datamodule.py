@@ -28,7 +28,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
 
     Attributes:
         batch_size (int): Batch size for all dataloaders. From ``args.training.batch_size``
-        data_normalizers (list): List of data normalizers (single normalizer for all splits).
+        data_normalizers (list): List of data normalizers.
         train_datasets (list): Train datasets.
         val_datasets (list): Validation datasets.
         test_datasets (list): Test datasets (kept separate, not concatenated).
@@ -90,13 +90,14 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             print(f"Setup already done for stage={stage}, skipping...")
             return
         
-        # Create a single normalizer for all splits
-        data_normalizer = load_normalizer(args=self.args)
-        self.data_normalizers.append(data_normalizer)
+
         
         # First, process train split to fit normalizer
         train_split_dir = os.path.join(self.data_dir, "train")
         train_split_root = train_split_dir  # Use split dir as root
+        
+        data_normalizer_train = load_normalizer(args=self.args)
+        self.data_normalizers.append(data_normalizer_train)
         
         if os.path.exists(train_split_dir):
             # Run preprocessing only on rank 0
@@ -105,7 +106,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
                 _ = HeteroGridDatasetDisk(  # just to trigger processing
                     root=train_split_root,
                     norm_method=self.args.data.normalization,
-                    data_normalizer=data_normalizer,
+                    data_normalizer=data_normalizer_train,
                     transform=get_task_transforms(args=self.args),
                 )
             
@@ -116,7 +117,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             train_dataset = HeteroGridDatasetDisk(
                 root=train_split_root,
                 norm_method=self.args.data.normalization,
-                data_normalizer=data_normalizer,
+                data_normalizer=data_normalizer_train,
                 transform=get_task_transforms(args=self.args),
             )
             self.train_datasets.append(train_dataset)
@@ -130,24 +131,17 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         if os.path.exists(valid_split_dir):
             valid_split_root = valid_split_dir
             
-            # Copy train stats to this split's processed dir so it can load them
-            if osp.exists(train_stats_path):
-                import shutil
-                valid_processed_dir = os.path.join(valid_split_root, "processed")
-                os.makedirs(valid_processed_dir, exist_ok=True)
-                valid_stats_path = os.path.join(valid_processed_dir, f"data_stats_{self.args.data.normalization}.pt")
-                if not osp.exists(valid_stats_path):
-                    shutil.copy2(train_stats_path, valid_stats_path)
-            
+            data_normalizer_valid = load_normalizer(args=self.args)
+            self.data_normalizers.append(data_normalizer_valid)
+
             # Run preprocessing only on rank 0
             if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
                 print(f"Pre-processing valid dataset on rank 0")
                 _ = HeteroGridDatasetDisk(  # just to trigger processing
                     root=valid_split_root,
                     norm_method=self.args.data.normalization,
-                    data_normalizer=data_normalizer,
+                    data_normalizer=data_normalizer_valid,
                     transform=get_task_transforms(args=self.args),
-                    fit_normalizer=False,  # Don't refit, use train stats
                 )
             
             # All ranks wait here until processing is done
@@ -157,9 +151,8 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             valid_dataset = HeteroGridDatasetDisk(
                 root=valid_split_root,
                 norm_method=self.args.data.normalization,
-                data_normalizer=data_normalizer,
+                data_normalizer=data_normalizer_valid,
                 transform=get_task_transforms(args=self.args),
-                fit_normalizer=False,  # Don't refit, use train stats
             )
             self.val_datasets.append(valid_dataset)
         
@@ -194,14 +187,8 @@ class LitGridHeteroDataModule(L.LightningDataModule):
                         dataset_dir = os.path.join(grid_type_dir, subdir)
                         dataset_root = dataset_dir  # Use subdir as root (contains raw/ folder)
                         
-                        # Copy train stats to this dataset's processed dir so it can load them
-                        if osp.exists(train_stats_path):
-                            import shutil
-                            dataset_processed_dir = os.path.join(dataset_root, "processed")
-                            os.makedirs(dataset_processed_dir, exist_ok=True)
-                            dataset_stats_path = os.path.join(dataset_processed_dir, f"data_stats_{self.args.data.normalization}.pt")
-                            if not osp.exists(dataset_stats_path):
-                                shutil.copy2(train_stats_path, dataset_stats_path)
+                        data_normalizer_test = load_normalizer(args=self.args)
+                        self.data_normalizers.append(data_normalizer_test)
                         
                         # Run preprocessing only on rank 0
                         if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
@@ -209,9 +196,8 @@ class LitGridHeteroDataModule(L.LightningDataModule):
                             _ = HeteroGridDatasetDisk(  # just to trigger processing
                                 root=dataset_root,
                                 norm_method=self.args.data.normalization,
-                                data_normalizer=data_normalizer,
+                                data_normalizer=data_normalizer_test,
                                 transform=get_task_transforms(args=self.args),
-                                fit_normalizer=False,  # Don't refit, use train stats
                             )
                         
                         # All ranks wait here until processing is done
@@ -222,9 +208,8 @@ class LitGridHeteroDataModule(L.LightningDataModule):
                         test_dataset = HeteroGridDatasetDisk(
                             root=dataset_root,
                             norm_method=self.args.data.normalization,
-                            data_normalizer=data_normalizer,
+                            data_normalizer=data_normalizer_test,
                             transform=get_task_transforms(args=self.args),
-                            fit_normalizer=False,  # Don't refit, use train stats
                         )
                         self.test_datasets.append(test_dataset)
                         self.test_dataset_names.append(dataset_name)

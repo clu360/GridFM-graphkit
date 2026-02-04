@@ -37,12 +37,10 @@ class HeteroGridDatasetDisk(Dataset):
         transform: Optional[Callable] = None,
         pre_transform: Optional[Callable] = None,
         pre_filter: Optional[Callable] = None,
-        fit_normalizer: bool = True,
     ):
         self.norm_method = norm_method
         self.data_normalizer = data_normalizer
         self.length = None
-        self.fit_normalizer = fit_normalizer
 
 
         super().__init__(root, transform, pre_transform, pre_filter)
@@ -149,16 +147,10 @@ class HeteroGridDatasetDisk(Dataset):
         )
         
         # Only fit normalizer if requested (typically only for train split)
-        if self.fit_normalizer:
-            print("FIT NORMALIZER")
-            self.data_stats = self.data_normalizer.fit(bus_data=bus_data, gen_data=gen_data)
-            torch.save(self.data_stats, data_stats_path)
-        else:
-            # Load stats from train split (they should already be fitted)
-            if not osp.exists(data_stats_path):
-                raise FileNotFoundError(f"Normalizer stats not found at {data_stats_path}")
-            self.data_stats = torch.load(data_stats_path, weights_only=True)
-            self.data_normalizer.fit_from_dict(self.data_stats)
+        print("FIT NORMALIZER")
+        self.data_stats = self.data_normalizer.fit(bus_data=bus_data, gen_data=gen_data)
+        torch.save(self.data_stats, data_stats_path)
+
 
 
         done_path = osp.join(self.processed_dir, self.processed_done_file)
@@ -289,7 +281,7 @@ class HeteroGridDatasetDisk(Dataset):
                 dtype=torch.long,
             )
 
-            data["scenario_id"] = torch.tensor([scenario], dtype=torch.long)
+            data["scenario_id"] = torch.tensor([idx], dtype=torch.long)
 
             # Save graph
             torch.save(

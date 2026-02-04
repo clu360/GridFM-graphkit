@@ -50,9 +50,10 @@ class PowerFlowTask(ReconstructionTask):
         # Get dataset name from datamodule
         dataset_name = self.trainer.datamodule.test_dataset_names[dataloader_idx]
 
-        # All datasets use the same normalizer (index 0)
-        self.data_normalizers[0].inverse_transform(batch)
-        self.data_normalizers[0].inverse_output(output)
+        # get normalizer for this dataset
+        normalizer = self.data_normalizers[dataloader_idx]
+        normalizer.inverse_transform(batch)
+        normalizer.inverse_output(output,batch)
 
         branch_flow_layer = ComputeBranchFlow()
         node_injection_layer = ComputeNodeInjection()

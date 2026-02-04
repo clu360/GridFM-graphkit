@@ -1,5 +1,6 @@
 from gridfm_graphkit.datasets.normalizers import (
     HeteroDataMVANormalizer,
+    HeteroDataPerSampleMVANormalizer,
 )
 from gridfm_graphkit.datasets.task_transforms import (
     PowerFlowTransforms,
@@ -9,6 +10,7 @@ from gridfm_graphkit.datasets.task_transforms import (
 
 __all__ = [
     "HeteroDataMVANormalizer",
+    "HeteroDataPerSampleMVANormalizer",
     "PowerFlowTransforms",
     "OptimalPowerFlowTransforms",
     "StateEstimationTransforms",
