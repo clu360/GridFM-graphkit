@@ -387,19 +387,24 @@ class HeteroDataPerSampleMVANormalizer(Normalizer):
         """
         Get per-node and per-edge baseMVA/vn_kv_max from data.scenario_id (single sample or batch).
         Returns (b, b_orig, vn, g, e_b, e_b_orig) with shapes (n, 1) for bus, gen, edge so they broadcast.
+        Fully GPU/CPU safe.
         """
         if self._baseMVA_lookup is None:
             raise ValueError("Normalizer not fitted or lookups not built")
+        
         device = data.x_dict["bus"].device
         dtype = data.x_dict["bus"].dtype
+
         bus_batch = getattr(data["bus"], "batch", None)
         gen_batch = getattr(data["gen"], "batch", None)
         n_bus = data.x_dict["bus"].size(0)
         n_gen = data.x_dict["gen"].size(0)
         edge_index = data["bus", "connects", "bus"].edge_index
         n_edge = edge_index.size(1)
+
         scenario_id = data["scenario_id"]
-        # Scenario id per node/edge: batched -> index by batch; single -> one scenario for all
+
+        # Scenario id per node/edge
         if bus_batch is not None:
             sid_bus = scenario_id[bus_batch]
             sid_gen = scenario_id[gen_batch]
@@ -409,15 +414,22 @@ class HeteroDataPerSampleMVANormalizer(Normalizer):
             sid_bus = torch.full((n_bus,), sid, device=device, dtype=torch.long)
             sid_gen = torch.full((n_gen,), sid, device=device, dtype=torch.long)
             sid_edge = torch.full((n_edge,), sid, device=device, dtype=torch.long)
-        # Index prebuilt lookups (no list creation); move to data device
-        b = self._baseMVA_lookup[sid_bus].to(device=device, dtype=dtype)
-        vn = self._vn_kv_max_lookup[sid_bus].to(device=device, dtype=dtype)
-        g = self._baseMVA_lookup[sid_gen].to(device=device, dtype=dtype)
-        e_b = self._baseMVA_lookup[sid_edge].to(device=device, dtype=dtype)
+
+        # Move lookups to correct device/dtype before indexing
+        baseMVA_lookup = self._baseMVA_lookup.to(device=device, dtype=dtype)
+        vn_kv_max_lookup = self._vn_kv_max_lookup.to(device=device, dtype=dtype)
+
+        b = baseMVA_lookup[sid_bus]
+        vn = vn_kv_max_lookup[sid_bus]
+        g = baseMVA_lookup[sid_gen]
+        e_b = baseMVA_lookup[sid_edge]
+
         b_orig_val = self.baseMVA_orig if isinstance(self.baseMVA_orig, (int, float)) else self.baseMVA_orig.item()
-        b_orig = torch.full_like(b, b_orig_val, device=device, dtype=dtype)
-        e_b_orig = torch.full_like(e_b, b_orig_val, device=device, dtype=dtype)
+        b_orig = torch.full_like(b, b_orig_val)
+        e_b_orig = torch.full_like(e_b, b_orig_val)
+
         return b, b_orig, vn, g, e_b, e_b_orig
+
 
     def transform(self, data: HeteroData):
         """Apply per-unit normalization using per-scenario baseMVA/vn_kv_max (same formulas as base MVA normalizer)."""
@@ -525,22 +537,29 @@ class HeteroDataPerSampleMVANormalizer(Normalizer):
 
 
     def inverse_output(self, output, batch):
-        """Denormalize model output (bus PG/QG, gen PG) using per-sample baseMVA from lookups."""
+        """
+        Denormalize model output (bus PG/QG, gen PG) using per-sample baseMVA from lookups.
+        Fully GPU/CPU safe.
+        """
         bus_output = output["bus"]
         gen_output = output["gen"]
 
         bus_batch = getattr(batch["bus"], "batch", None)
+
+        # Move lookup tensor to correct device
+        baseMVA_lookup = self._baseMVA_lookup.to(device=bus_output.device, dtype=bus_output.dtype)
+
         if bus_batch is not None:
             # Batched: scenario_id per node via batch index; lookup base MVA per node
             sid_bus = batch["scenario_id"][bus_batch]
             sid_gen = batch["scenario_id"][batch["gen"].batch]
-            b_bus = self._baseMVA_lookup[sid_bus].to(device=bus_output.device, dtype=bus_output.dtype)
-            b_gen = self._baseMVA_lookup[sid_gen].to(device=gen_output.device, dtype=gen_output.dtype)
+            b_bus = baseMVA_lookup[sid_bus]
+            b_gen = baseMVA_lookup[sid_gen]
         else:
-            # Single graph: one scenario_id; use its base MVA or fallback
+            # Single graph: one scenario_id; use its base MVA
             sid = batch["scenario_id"].item()
-            b_bus = self._baseMVA_lookup[sid].to(device=bus_output.device, dtype=bus_output.dtype)
-            b_gen = self._baseMVA_lookup[sid].to(device=gen_output.device, dtype=gen_output.dtype)
+            b_bus = baseMVA_lookup[sid]
+            b_gen = baseMVA_lookup[sid]
 
         # Scale per-unit power back to MW/Mvar
         bus_output[:, PG_OUT] *= b_bus
