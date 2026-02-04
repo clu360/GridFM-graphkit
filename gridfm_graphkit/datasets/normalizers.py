@@ -117,6 +117,7 @@ class HeteroDataMVANormalizer(Normalizer):
         """
         self.baseMVA_orig = getattr(args.data, "baseMVA", 100)
         self.baseMVA = getattr(args.data, "normalizationMVA", None)
+        self.name  = "HeteroDataMVANormalizer"
 
     def to(self, device):
         pass
@@ -310,6 +311,8 @@ class HeteroDataPerSampleMVANormalizerPF(Normalizer):
         self._baseMVA_lookup = None  # tensor indexed by scenario_id
         self._vn_kv_max_lookup = None
         self._scenario_ids = None  # scenario ids that were fitted (for save/load)
+        self._percentile = args.data.norm_percentile
+        self.name  = "HeteroDataPerSampleMVANormalizerPF" + f"_p{self._percentile}"
 
     def to(self, device):
         pass
@@ -349,7 +352,7 @@ class HeteroDataPerSampleMVANormalizerPF(Normalizer):
 
             all_values = pd.concat([pd_values, qd_values, pg_values])
             non_zero_values = all_values[all_values != 0]
-            baseMVA.append(np.percentile(non_zero_values, 95))
+            baseMVA.append(np.percentile(non_zero_values,self._percentile))
             vn_kv_max.append(float(bus_group["vn_kv"].max()))
             scenarios.append(scenario)
 
@@ -368,6 +371,7 @@ class HeteroDataPerSampleMVANormalizerPF(Normalizer):
             "scenarios": scenarios_t,
             "baseMVA": baseMVA_t,
             "vn_kv_max": vn_kv_max_t,
+            "percentile": torch.tensor(self._percentile, dtype=torch.float),
         }
 
     def fit_from_dict(self, params: dict):
@@ -574,5 +578,6 @@ class HeteroDataPerSampleMVANormalizerPF(Normalizer):
             "scenarios": self._scenario_ids,
             "baseMVA": self._baseMVA_lookup[self._scenario_ids],
             "vn_kv_max": self._vn_kv_max_lookup[self._scenario_ids],
+            "percentile": torch.tensor(self._percentile, dtype=torch.float),
         }
    

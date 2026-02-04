@@ -48,7 +48,7 @@ class HeteroGridDatasetDisk(Dataset):
         # Load normalization stats if available
         data_stats_path = osp.join(
             self.processed_dir,
-            f"data_stats_{self.norm_method}.pt",
+            f"data_stats_{self.data_normalizer.name}.pt",
         )
 
         self.data_stats = torch.load(data_stats_path, weights_only=True)
@@ -65,7 +65,7 @@ class HeteroGridDatasetDisk(Dataset):
     @property
     def processed_file_names(self):
         return [
-            f"data_stats_{self.norm_method}.pt",
+            f"data_stats_{self.data_normalizer.name}.pt",
             self.processed_done_file,
         ]
 
@@ -143,7 +143,7 @@ class HeteroGridDatasetDisk(Dataset):
 
         data_stats_path = osp.join(
             self.processed_dir,
-            f"data_stats_{self.norm_method}.pt",
+            f"data_stats_{self.data_normalizer.name}.pt",
         )
         
         # Only fit normalizer if requested (typically only for train split)
