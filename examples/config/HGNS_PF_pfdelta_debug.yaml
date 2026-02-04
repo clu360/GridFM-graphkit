@@ -6,7 +6,7 @@ task:
 data:
   baseMVA: 100
   mask_value: 0.0
-  normalization: HeteroDataPerSampleMVANormalizer
+  normalization: HeteroDataPerSampleMVANormalizerPF
   task: task_4.3
   workers: 16
 model:

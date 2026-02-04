@@ -296,11 +296,11 @@ class HeteroDataMVANormalizer(Normalizer):
 
 
 
-@NORMALIZERS_REGISTRY.register("HeteroDataPerSampleMVANormalizer")
-class HeteroDataPerSampleMVANormalizer(Normalizer):
+@NORMALIZERS_REGISTRY.register("HeteroDataPerSampleMVANormalizerPF")
+class HeteroDataPerSampleMVANormalizerPF(Normalizer):
     """
-    Per-sample MVA normalizer: each scenario (sample) gets its own baseMVA and vn_kv_max,
-    computed as the 95th percentile of Pd, Qd, Pg, Qg for that scenario. Same per-unit
+    Per-sample MVA normalizer for Power Flow: each scenario (sample) gets its own baseMVA and vn_kv_max,
+    computed as the 95th percentile of Pd, Qd, Pg (excluding generators connected to REF buses), and excluding Qg (since they are not known in PF) for that scenario. Same per-unit
     formulas as HeteroDataMVANormalizer, but applied with per-scenario scales so that
     batched data with different scenarios is normalized correctly.
     """
@@ -343,10 +343,11 @@ class HeteroDataPerSampleMVANormalizer(Normalizer):
             gen_group = gen_groups.get_group(scenario)
             pd_values = bus_group["Pd"]
             qd_values = bus_group["Qd"]
-            qg_values = bus_group["Qg"]
-            pg_values = gen_group["p_mw"]
+            pg_values = gen_group[gen_group.is_slack_gen != 1]["p_mw"]
+            
+            # no Qg since Qg is not known in PF
 
-            all_values = pd.concat([pd_values, qd_values, pg_values, qg_values])
+            all_values = pd.concat([pd_values, qd_values, pg_values])
             non_zero_values = all_values[all_values != 0]
             baseMVA.append(np.percentile(non_zero_values, 95))
             vn_kv_max.append(float(bus_group["vn_kv"].max()))
