@@ -18,6 +18,7 @@ import random
 import warnings
 import os
 import lightning as L
+from typing import List
 
 
 class LitGridHeteroDataModule(L.LightningDataModule):
@@ -94,6 +95,9 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         self.train_datasets = []
         self.val_datasets = []
         self.test_datasets = []
+        self.train_scenario_ids: List[List[int]] = []
+        self.val_scenario_ids: List[List[int]] = []
+        self.test_scenario_ids: List[List[int]] = []
         self._is_setup_done = False
 
     def setup(self, stage: str):
@@ -105,15 +109,13 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             data_normalizer = load_normalizer(args=self.args)
             self.data_normalizers.append(data_normalizer)
 
-            # Create torch dataset and split
+            # Create torch dataset (normalizer is NOT yet fitted)
             data_path_network = os.path.join(self.data_dir, network)
 
-            # Run preprocessing only on rank 0
             if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
                 print(f"Pre-processing of {network} dataset on rank 0")
                 _ = HeteroGridDatasetDisk(  # just to trigger processing
                     root=data_path_network,
-                    norm_method=self.args.data.normalization,
                     data_normalizer=data_normalizer,
                     transform=get_task_transforms(args=self.args),
                 )
@@ -124,7 +126,6 @@ class LitGridHeteroDataModule(L.LightningDataModule):
 
             dataset = HeteroGridDatasetDisk(
                 root=data_path_network,
-                norm_method=self.args.data.normalization,
                 data_normalizer=data_normalizer,
                 transform=get_task_transforms(args=self.args),
             )
@@ -170,13 +171,60 @@ class LitGridHeteroDataModule(L.LightningDataModule):
                     self.args.data.test_ratio,
                 )
 
+            # Extract scenario IDs for each split
+            train_scenario_ids = self._extract_scenario_ids(
+                train_dataset, subset_indices,
+            )
+            val_scenario_ids = self._extract_scenario_ids(
+                val_dataset, subset_indices,
+            )
+            test_scenario_ids = self._extract_scenario_ids(
+                test_dataset, subset_indices,
+            )
+
+            # Fit normalizer based on strategy
+            # All ranks fit independently (deterministic computation)
+            raw_data_path = os.path.join(data_path_network, "raw")
+            if data_normalizer.fit_strategy == "fit_on_train":
+                print(f"Fitting normalizer on train set ({len(train_scenario_ids)} scenarios)")
+                data_normalizer.fit(raw_data_path, train_scenario_ids)
+            elif data_normalizer.fit_strategy == "fit_on_dataset":
+                all_scenario_ids = train_scenario_ids + val_scenario_ids + test_scenario_ids
+                assert np.unique(all_scenario_ids).shape[0] == num_scenarios
+                print(f"Fitting normalizer on full dataset ({len(all_scenario_ids)} scenarios)")
+                data_normalizer.fit(raw_data_path, all_scenario_ids)
+            else:
+                raise ValueError(
+                    f"Unknown fit_strategy: {data_normalizer.fit_strategy}"
+                )
+
             self.train_datasets.append(train_dataset)
             self.val_datasets.append(val_dataset)
             self.test_datasets.append(test_dataset)
+            self.train_scenario_ids.append(train_scenario_ids)
+            self.val_scenario_ids.append(val_scenario_ids)
+            self.test_scenario_ids.append(test_scenario_ids)
 
         self.train_dataset_multi = ConcatDataset(self.train_datasets)
         self.val_dataset_multi = ConcatDataset(self.val_datasets)
         self._is_setup_done = True
+
+    @staticmethod
+    def _extract_scenario_ids(
+        subset: Subset, subset_indices: List[int],
+    ) -> List[int]:
+        """
+        Extract original scenario IDs from a Subset.
+
+        The subset's indices point into an outer Subset defined by subset_indices,
+        so we map: original_scenario_id = subset_indices[subset_idx].
+        """
+        indices = subset.indices
+        if isinstance(indices, torch.Tensor):
+            indices = indices.flatten().tolist()
+        elif not isinstance(indices, list):
+            indices = list(indices)
+        return [subset_indices[idx] for idx in indices]
 
     def train_dataloader(self):
         return DataLoader(
