@@ -48,8 +48,8 @@ def set_env():
 
 
 def main():
-    # set_env()
-    # fix_infiniband()
+    set_env()
+    fix_infiniband()
     parser = argparse.ArgumentParser(
         prog="gridfm_graphkit",
         description="gridfm-graphkit CLI",
