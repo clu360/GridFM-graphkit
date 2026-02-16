@@ -187,12 +187,12 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             raw_data_path = os.path.join(data_path_network, "raw")
             if data_normalizer.fit_strategy == "fit_on_train":
                 print(f"Fitting normalizer on train set ({len(train_scenario_ids)} scenarios)")
-                data_normalizer.fit(raw_data_path, train_scenario_ids)
+                print(data_normalizer.fit(raw_data_path, train_scenario_ids))
             elif data_normalizer.fit_strategy == "fit_on_dataset":
                 all_scenario_ids = train_scenario_ids + val_scenario_ids + test_scenario_ids
                 assert np.unique(all_scenario_ids).shape[0] == num_scenarios
                 print(f"Fitting normalizer on full dataset ({len(all_scenario_ids)} scenarios)")
-                data_normalizer.fit(raw_data_path, all_scenario_ids)
+                print(data_normalizer.fit(raw_data_path, all_scenario_ids))
             else:
                 raise ValueError(
                     f"Unknown fit_strategy: {data_normalizer.fit_strategy}"

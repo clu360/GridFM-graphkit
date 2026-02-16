@@ -19,6 +19,7 @@ from gridfm_graphkit.tasks.utils import (
 )
 from pytorch_lightning.utilities import rank_zero_only
 import torch
+import torch.distributed as dist
 import torch.nn.functional as F
 from torch_scatter import scatter_add
 from torch_geometric.nn import global_mean_pool
@@ -224,8 +225,24 @@ class PowerFlowTask(ReconstructionTask):
         )
         return
 
-    @rank_zero_only
     def on_test_end(self):
+        # In DDP, gather verbose test outputs from all ranks to rank 0
+        # so that plots and detailed analysis cover the full test set.
+        if self.args.verbose and dist.is_available() and dist.is_initialized():
+            world_size = dist.get_world_size()
+            gathered = [None] * world_size if dist.get_rank() == 0 else None
+            dist.gather_object(self.test_outputs, gathered, dst=0)
+            if dist.get_rank() == 0:
+                merged = {i: [] for i in range(len(self.args.data.networks))}
+                for rank_data in gathered:
+                    for dl_idx, batches in rank_data.items():
+                        merged[dl_idx].extend(batches)
+                self.test_outputs = merged
+
+        # Only rank 0 proceeds with logging, CSV writing, and plotting
+        if dist.is_available() and dist.is_initialized() and dist.get_rank() != 0:
+            return
+
         if isinstance(self.logger, MLFlowLogger):
             artifact_dir = os.path.join(
                 self.logger.save_dir,

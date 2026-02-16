@@ -52,9 +52,7 @@ def main_cli(args):
 
     config_args = NestedNamespace(**base_config)
 
-    torch.manual_seed(config_args.seed)
-    random.seed(config_args.seed)
-    np.random.seed(config_args.seed)
+    L.seed_everything(config_args.seed, workers=True)
 
     litGrid = LitGridHeteroDataModule(config_args, args.data_path)
     model = get_task(config_args, litGrid.data_normalizers)

@@ -43,7 +43,6 @@ class HeteroGridDatasetDisk(Dataset):
         load_scenarios_path = osp.join(self.processed_dir, "load_scenarios.pt")
         if osp.exists(load_scenarios_path):
             self.load_scenarios = torch.load(load_scenarios_path, weights_only=True)
-
     @property
     def raw_file_names(self):
         return ["bus_data.parquet", "gen_data.parquet", "branch_data.parquet"]
@@ -71,7 +70,7 @@ class HeteroGridDatasetDisk(Dataset):
         assert bus_data['scenario'].min() == 0 and bus_data['scenario'].max() == len(bus_data['scenario'].unique()) - 1
 
         load_scenarios = torch.tensor(
-            bus_data.groupby("scenario")["load_scenario_idx"].first().values,
+            bus_data.groupby("scenario", sort=True)["load_scenario_idx"].first().values,
         )
         torch.save(load_scenarios, osp.join(self.processed_dir, "load_scenarios.pt"))
 
