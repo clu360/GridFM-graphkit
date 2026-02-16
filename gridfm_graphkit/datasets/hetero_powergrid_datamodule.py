@@ -80,7 +80,12 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         ```
     """
 
-    def __init__(self, args: NestedNamespace, data_dir: str = "./data"):
+    def __init__(
+        self,
+        args: NestedNamespace,
+        data_dir: str = "./data",
+        normalizer_stats_path: str = None,
+    ):
         super().__init__()
         self.data_dir = data_dir
         self.batch_size = int(args.training.batch_size)
@@ -90,6 +95,7 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             False,
         )
         self.args = args
+        self.normalizer_stats_path = normalizer_stats_path
         self.data_normalizers = []
         self.datasets = []
         self.train_datasets = []
@@ -104,6 +110,14 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         if self._is_setup_done:
             print(f"Setup already done for stage={stage}, skipping...")
             return
+
+        # Load pre-fitted normalizer stats if provided (e.g. from a training run)
+        saved_stats = None
+        if self.normalizer_stats_path is not None:
+            saved_stats = torch.load(
+                self.normalizer_stats_path, map_location="cpu", weights_only=True,
+            )
+            print(f"Loaded normalizer stats from {self.normalizer_stats_path}")
 
         for i, network in enumerate(self.args.data.networks):
             data_normalizer = load_normalizer(args=self.args)
@@ -182,20 +196,23 @@ class LitGridHeteroDataModule(L.LightningDataModule):
                 test_dataset, subset_indices,
             )
 
-            # Fit normalizer based on strategy
-            # All ranks fit independently (deterministic computation)
-            raw_data_path = os.path.join(data_path_network, "raw")
-            if data_normalizer.fit_strategy == "fit_on_train":
-                print(f"Fitting normalizer on train set ({len(train_scenario_ids)} scenarios)")
-                print(data_normalizer.fit(raw_data_path, train_scenario_ids))
-            elif data_normalizer.fit_strategy == "fit_on_dataset":
-                all_scenario_ids = train_scenario_ids + val_scenario_ids + test_scenario_ids
-                assert np.unique(all_scenario_ids).shape[0] == num_scenarios
-                print(f"Fitting normalizer on full dataset ({len(all_scenario_ids)} scenarios)")
-                print(data_normalizer.fit(raw_data_path, all_scenario_ids))
+            # Fit normalizer: restore from saved stats only for fit_on_train
+            # normalizers (global baseMVA must match the model's training run).
+            # fit_on_dataset normalizers compute per-scenario stats and must
+            # always fit on the actual scenarios being used.
+            use_saved = (
+                saved_stats is not None
+                and network in saved_stats
+                and data_normalizer.fit_strategy == "fit_on_train"
+            )
+            if use_saved:
+                print(f"Restoring normalizer for {network} from saved stats")
+                data_normalizer.fit_from_dict(saved_stats[network])
             else:
-                raise ValueError(
-                    f"Unknown fit_strategy: {data_normalizer.fit_strategy}"
+                self._fit_normalizer(
+                    data_normalizer, data_path_network, network,
+                    train_scenario_ids, val_scenario_ids, test_scenario_ids,
+                    num_scenarios, saved_stats,
                 )
 
             self.train_datasets.append(train_dataset)
@@ -208,6 +225,49 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         self.train_dataset_multi = ConcatDataset(self.train_datasets)
         self.val_dataset_multi = ConcatDataset(self.val_datasets)
         self._is_setup_done = True
+
+    @staticmethod
+    def _fit_normalizer(
+        data_normalizer, data_path_network, network,
+        train_scenario_ids, val_scenario_ids, test_scenario_ids,
+        num_scenarios, saved_stats,
+    ):
+        """
+        Fit normalizer from raw data. In distributed settings, only rank 0
+        reads the parquet files and computes stats; the result is broadcast
+        to all other ranks via fit_from_dict.
+        """
+        is_distributed = dist.is_available() and dist.is_initialized()
+        is_rank0 = not is_distributed or dist.get_rank() == 0
+
+        raw_data_path = os.path.join(data_path_network, "raw")
+        stats = None
+
+        if is_rank0:
+            if data_normalizer.fit_strategy == "fit_on_train":
+                if saved_stats is not None and network not in saved_stats:
+                    warnings.warn(
+                        f"No saved normalizer stats found for network '{network}'. "
+                        "Fitting from data instead.",
+                    )
+                print(f"Fitting normalizer on train set ({len(train_scenario_ids)} scenarios)")
+                stats = data_normalizer.fit(raw_data_path, train_scenario_ids)
+            elif data_normalizer.fit_strategy == "fit_on_dataset":
+                all_scenario_ids = train_scenario_ids + val_scenario_ids + test_scenario_ids
+                assert np.unique(all_scenario_ids).shape[0] == num_scenarios
+                print(f"Fitting normalizer on full dataset ({len(all_scenario_ids)} scenarios)")
+                stats = data_normalizer.fit(raw_data_path, all_scenario_ids)
+            else:
+                raise ValueError(
+                    f"Unknown fit_strategy: {data_normalizer.fit_strategy}"
+                )
+
+        if is_distributed:
+            stats_list = [stats]
+            dist.broadcast_object_list(stats_list, src=0)
+            stats = stats_list[0]
+            if dist.get_rank() != 0:
+                data_normalizer.fit_from_dict(stats)
 
     @staticmethod
     def _extract_scenario_ids(

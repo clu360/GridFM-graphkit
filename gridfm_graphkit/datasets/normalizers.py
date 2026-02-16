@@ -122,7 +122,7 @@ class HeteroDataMVANormalizer(Normalizer):
             baseMVA (float): baseMVA found in casefile. From ``args.data.baseMVA``.
         """
         self.baseMVA_orig = getattr(args.data, "baseMVA", 100)
-        self.baseMVA = getattr(args.data, "normalizationMVA", None)
+        self.baseMVA = None
 
     def to(self, device):
         pass
@@ -172,9 +172,8 @@ class HeteroDataMVANormalizer(Normalizer):
 
     def fit_from_dict(self, params: dict):
         # Base MVA
-        if self.baseMVA is None:
-            self.baseMVA = params.get("baseMVA").item()
-            self.baseMVA_orig = params.get("baseMVA_orig").item()
+        self.baseMVA = params.get("baseMVA").item()
+        self.baseMVA_orig = params.get("baseMVA_orig").item()
 
         # vn_kv
         self.vn_kv_max = params.get("vn_kv_max").item()

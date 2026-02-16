@@ -17,7 +17,6 @@ from gridfm_graphkit.tasks.utils import (
     plot_residuals_histograms,
     residual_stats_by_type,
 )
-from pytorch_lightning.utilities import rank_zero_only
 import torch
 import torch.distributed as dist
 import torch.nn.functional as F
@@ -30,7 +29,6 @@ from gridfm_graphkit.models.utils import (
 )
 from lightning.pytorch.loggers import MLFlowLogger
 import os
-import json
 import pandas as pd
 
 
@@ -320,21 +318,6 @@ class PowerFlowTask(ReconstructionTask):
 
             df_main.to_csv(main_csv_path, index=False)
             df_residuals.to_csv(residuals_csv_path, index=False)
-
-        # --- Save scenario splits ---
-        datamodule = self.trainer.datamodule
-        if datamodule is not None:
-            for i, network in enumerate(self.args.data.networks):
-                splits = {
-                    "train": datamodule.train_scenario_ids[i],
-                    "val": datamodule.val_scenario_ids[i],
-                    "test": datamodule.test_scenario_ids[i],
-                }
-                splits_path = os.path.join(
-                    artifact_dir, "test", f"{network}_scenario_splits.json"
-                )
-                with open(splits_path, "w") as f:
-                    json.dump(splits, f, indent=2)
 
         if self.args.verbose:
             for dataset_idx, outputs in self.test_outputs.items():

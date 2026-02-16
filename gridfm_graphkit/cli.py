@@ -54,7 +54,10 @@ def main_cli(args):
 
     L.seed_everything(config_args.seed, workers=True)
 
-    litGrid = LitGridHeteroDataModule(config_args, args.data_path)
+    normalizer_stats_path = getattr(args, "normalizer_stats", None)
+    litGrid = LitGridHeteroDataModule(
+        config_args, args.data_path, normalizer_stats_path=normalizer_stats_path,
+    )
     model = get_task(config_args, litGrid.data_normalizers)
     if args.command != "train":
         print(f"Loading model weights from {args.model_path}")
