@@ -1,3 +1,4 @@
+import json
 import torch
 from torch_geometric.loader import DataLoader
 from torch.utils.data import ConcatDataset
@@ -19,6 +20,8 @@ import warnings
 import os
 import lightning as L
 from typing import List
+from lightning.pytorch.loggers import MLFlowLogger
+
 
 
 class LitGridHeteroDataModule(L.LightningDataModule):
@@ -126,23 +129,25 @@ class LitGridHeteroDataModule(L.LightningDataModule):
             # Create torch dataset (normalizer is NOT yet fitted)
             data_path_network = os.path.join(self.data_dir, network)
 
-            if dist.is_available() and dist.is_initialized() and dist.get_rank() == 0:
-                print(f"Pre-processing of {network} dataset on rank 0")
-                _ = HeteroGridDatasetDisk(  # just to trigger processing
+            is_distributed = dist.is_available() and dist.is_initialized()
+
+            if not is_distributed or dist.get_rank() == 0:
+                dataset = HeteroGridDatasetDisk(
                     root=data_path_network,
                     data_normalizer=data_normalizer,
                     transform=get_task_transforms(args=self.args),
                 )
 
-            # All ranks wait here until processing is done
-            if torch.distributed.is_available() and torch.distributed.is_initialized():
-                torch.distributed.barrier()
+            # All ranks wait here until rank 0 processing is done
+            if is_distributed:
+                dist.barrier()
 
-            dataset = HeteroGridDatasetDisk(
-                root=data_path_network,
-                data_normalizer=data_normalizer,
-                transform=get_task_transforms(args=self.args),
-            )
+            if is_distributed and dist.get_rank() != 0:
+                dataset = HeteroGridDatasetDisk(
+                    root=data_path_network,
+                    data_normalizer=data_normalizer,
+                    transform=get_task_transforms(args=self.args),
+                )
             self.datasets.append(dataset)
 
             num_scenarios = self.args.data.scenarios[i]
@@ -226,6 +231,26 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         self.val_dataset_multi = ConcatDataset(self.val_datasets)
         self._is_setup_done = True
 
+        # Save scenario splits (rank 0 only in DDP)
+        is_rank0 = (
+            not dist.is_available()
+            or not dist.is_initialized()
+            or dist.get_rank() == 0
+        )
+        if is_rank0 and self.trainer is not None and self.trainer.logger is not None:
+            logger = self.trainer.logger
+            if isinstance(logger, MLFlowLogger):
+                log_dir = os.path.join(
+                    logger.save_dir,
+                    logger.experiment_id,
+                    logger.run_id,
+                    "artifacts",
+                    "stats",
+                )
+            else:
+                log_dir = os.path.join(logger.save_dir, "stats")
+            self.save_scenario_splits(log_dir)
+
     @staticmethod
     def _fit_normalizer(
         data_normalizer, data_path_network, network,
@@ -285,6 +310,19 @@ class LitGridHeteroDataModule(L.LightningDataModule):
         elif not isinstance(indices, list):
             indices = list(indices)
         return [subset_indices[idx] for idx in indices]
+
+    def save_scenario_splits(self, log_dir: str):
+        """Save train/val/test scenario ID splits to JSON files."""
+        os.makedirs(log_dir, exist_ok=True)
+        for i, network in enumerate(self.args.data.networks):
+            splits = {
+                "train": self.train_scenario_ids[i],
+                "val": self.val_scenario_ids[i],
+                "test": self.test_scenario_ids[i],
+            }
+            splits_path = os.path.join(log_dir, f"{network}_scenario_splits.json")
+            with open(splits_path, "w") as f:
+                json.dump(splits, f, indent=2)
 
     def train_dataloader(self):
         return DataLoader(
