@@ -86,6 +86,7 @@ def main_cli(args):
             num_nodes=1,
             log_every_n_steps=1,
             default_root_dir=args.log_dir,
+
         )
         test_trainer.test(model=model, datamodule=litGrid)
 

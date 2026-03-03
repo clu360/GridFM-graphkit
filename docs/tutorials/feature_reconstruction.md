@@ -1,4 +1,5 @@
 👉 [Link](https://github.com/gridfm/gridfm-graphkit/tree/main/examples/notebooks) to the tutorial notebooks on Github
+👉 [Link](https://colab.research.google.com/github/gridfm/gridfm-graphkit/blob/main/examples/notebooks/Tutorial_reconstruction_visualization.ipynb) to the tutorial on Google Colab
 
 ---
 This notebook demonstrates the state reconstruction capabilities of **GridFM-v0.2**, a graph-based neural network model for transmission grids. We focus on the IEEE case30 network, a standard benchmark with 30 buses, chosen for its compact size and suitability for visualization.
@@ -13,6 +14,19 @@ The dataset includes **1,023 load scenarios**, each representing a different ope
 - Voltage Angle (degrees)
 
 ```python
+import sys
+
+if "google.colab" in sys.modules:
+    try:
+        !git clone https://github.com/gridfm/gridfm-graphkit.git
+        %cd /content/gridfm-graphkit
+        !pip install .
+        %cd examples/notebooks/
+    except Exception as e:
+        print(f"Failed to start Google Collab setup, due to {e}")
+```
+
+```python
 from gridfm_graphkit.datasets.powergrid_datamodule import LitGridDataModule
 from gridfm_graphkit.io.param_handler import NestedNamespace
 from gridfm_graphkit.tasks.feature_reconstruction_task import FeatureReconstructionTask
@@ -23,18 +37,6 @@ import yaml
 import torch
 import numpy as np
 import random
-
-import sys
-
-if "google.colab" in sys.modules:
-    try:
-        !git clone https://github.com/gridfm/gridfm-graphkit.git
-        %cd /content/gridfm-graphkit
-        !pip install -e .
-        !pip install -e .[dev,test]
-    except Exception as e:
-
-        print(f"Failed to start Google Collab setup, due to {e}")
 ```
 
 ## Load YAML configuration file

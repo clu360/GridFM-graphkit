@@ -9,7 +9,7 @@ namespaces = false
 [project]
 name = "gridfm-graphkit"
 description = "Grid Foundation Model"
-version = "0.0.4"
+version = "0.0.6"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10,<3.13"
@@ -60,8 +60,8 @@ dependencies = [
 dev = [
   "mkdocs-material",
   "mkdocstrings[python]",
-  "pre-commit>=4.2.0",
-  "bandit>=1.8.5",
+  "pre-commit",
+  "bandit",
   "build"
 ]
 
