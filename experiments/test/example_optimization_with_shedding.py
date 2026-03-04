@@ -148,7 +148,7 @@ problem_with_shedding = DispatchOptimizationProblem(
     overload_eval=overload_eval,
     alpha=1.0,
     lambda_=1.0,
-    beta=10.0,  # Penalize shedding (but allow it if needed)
+    beta=3.0,  # Penalize shedding (but allow it if needed)
 )
 
 result_with_shedding = problem_with_shedding.optimize(
