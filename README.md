@@ -33,7 +33,7 @@ pip install -e .
 
 Get PyTorch + CUDA version for torch-scatter
 ```bash
-TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else '+' + torch.version.cuda))")
+TORCH_CUDA_VERSION=$(python -c "import torch; print(torch.__version__ + ('+cpu' if torch.version.cuda is None else ''))")
 ```
 
 Install the correct torch-scatter wheel
