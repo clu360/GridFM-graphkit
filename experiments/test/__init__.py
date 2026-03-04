@@ -15,6 +15,8 @@ Main modules:
 
 from .scenario_data import ScenarioData, extract_scenario_from_batch
 from .pv_dispatch import PVDispatchDecisionSpec
+from .load_shedding_spec import LoadSheddingSpec
+from .extended_dispatch_spec import ExtendedDispatchSpec
 from .neural_solver import NeuralSolverWrapper
 from .overload_penalty import OverloadPenaltyEvaluator
 from .optimization import DispatchOptimizationProblem
@@ -24,6 +26,8 @@ __all__ = [
     "ScenarioData",
     "extract_scenario_from_batch",
     "PVDispatchDecisionSpec",
+    "LoadSheddingSpec",
+    "ExtendedDispatchSpec",
     "NeuralSolverWrapper",
     "OverloadPenaltyEvaluator",
     "DispatchOptimizationProblem",

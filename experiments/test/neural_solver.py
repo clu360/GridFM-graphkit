@@ -39,7 +39,7 @@ class NeuralSolverWrapper:
         model: nn.Module,
         model_type: Literal["gnn", "gps"],
         scenario: ScenarioData,
-        decision_spec: PVDispatchDecisionSpec,
+        decision_spec,  # Can be PVDispatchDecisionSpec or ExtendedDispatchSpec
         device: str = "cpu",
     ):
         """
@@ -53,8 +53,8 @@ class NeuralSolverWrapper:
             Either "gnn" or "gps"
         scenario : ScenarioData
             Canonical scenario data
-        decision_spec : PVDispatchDecisionSpec
-            Decision variable specification
+        decision_spec : PVDispatchDecisionSpec or ExtendedDispatchSpec
+            Decision variable specification (supports both generation-only and with shedding)
         device : str, optional
             Device for computation (default: "cpu")
         """

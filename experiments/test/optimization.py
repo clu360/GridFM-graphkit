@@ -44,11 +44,12 @@ class DispatchOptimizationProblem:
     def __init__(
         self,
         scenario: ScenarioData,
-        decision_spec: PVDispatchDecisionSpec,
+        decision_spec,  # PVDispatchDecisionSpec or ExtendedDispatchSpec
         solver: NeuralSolverWrapper,
         overload_eval: OverloadPenaltyEvaluator,
         alpha: float = 1.0,
         lambda_: float = 1.0,
+        beta: float = 0.0,  # Shedding cost weight (0 if no shedding)
     ):
         """
         Initialize optimization problem.
@@ -57,7 +58,7 @@ class DispatchOptimizationProblem:
         ----------
         scenario : ScenarioData
             Canonical scenario data
-        decision_spec : PVDispatchDecisionSpec
+        decision_spec : PVDispatchDecisionSpec or ExtendedDispatchSpec
             Decision variable specification
         solver : NeuralSolverWrapper
             Neural solver wrapper (GNN or GPS)
@@ -67,6 +68,8 @@ class DispatchOptimizationProblem:
             Weight for baseline deviation cost (default: 1.0)
         lambda_ : float, optional
             Weight for overload penalty (default: 1.0)
+        beta : float, optional
+            Weight for load shedding cost (default: 0.0 = no shedding)
         """
         self.scenario = scenario
         self.decision_spec = decision_spec
@@ -74,6 +77,10 @@ class DispatchOptimizationProblem:
         self.overload_eval = overload_eval
         self.alpha = alpha
         self.lambda_ = lambda_
+        self.beta = beta
+        
+        # Detect if extended dispatch spec (with shedding)
+        self.has_shedding = hasattr(decision_spec, 'shed_spec')
         
         # Track optimization history
         self.history = {
@@ -81,6 +88,7 @@ class DispatchOptimizationProblem:
             "cost": [],
             "deviation": [],
             "penalty": [],
+            "shedding": [],
         }
     
     def cost_baseline_deviation(self, u: np.ndarray) -> float:
@@ -90,7 +98,7 @@ class DispatchOptimizationProblem:
         Parameters
         ----------
         u : np.ndarray
-            Decision vector, shape (n_pv,)
+            Decision vector, shape (n_pv,) or (n_pv + n_pq,)
         
         Returns
         -------
@@ -99,6 +107,29 @@ class DispatchOptimizationProblem:
         """
         u_base = self.decision_spec.u_base
         return float(np.sum((u - u_base) ** 2))
+    
+    def cost_load_shedding(self, u: np.ndarray) -> float:
+        """
+        Compute load shedding cost: ||delta||_2^2.
+        
+        Only applicable if decision spec has shedding (ExtendedDispatchSpec).
+        
+        Parameters
+        ----------
+        u : np.ndarray
+            Extended decision vector, shape (n_pv + n_pq,)
+        
+        Returns
+        -------
+        float
+            Shedding cost (0 if no shedding in spec)
+        """
+        if not self.has_shedding:
+            return 0.0
+        
+        # Extract shedding part
+        _, delta = self.decision_spec.split_decision_vector(u)
+        return float(np.sum(delta ** 2))
     
     def penalty_overload(self, u: np.ndarray) -> Tuple[float, Dict]:
         """
@@ -132,7 +163,7 @@ class DispatchOptimizationProblem:
         Parameters
         ----------
         u : np.ndarray
-            Decision vector, shape (n_pv,)
+            Decision vector, shape (n_pv,) or (n_pv + n_pq,)
         return_details : bool, optional
             If True, return (objective, details) instead of just objective
         
@@ -149,16 +180,20 @@ class DispatchOptimizationProblem:
         # Baseline deviation cost
         cost_dev = self.cost_baseline_deviation(u)
         
+        # Load shedding cost
+        cost_shed = self.cost_load_shedding(u)
+        
         # Overload penalty
         penalty, details = self.penalty_overload(u)
         
         # Total objective
-        obj = self.alpha * cost_dev + self.lambda_ * penalty
+        obj = self.alpha * cost_dev + self.beta * cost_shed + self.lambda_ * penalty
         
         if return_details:
             details_full = {
                 "objective": obj,
                 "cost_deviation": cost_dev,
+                "cost_shedding": cost_shed,
                 "penalty_overload": penalty,
             }
             details_full.update(details)
