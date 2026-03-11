@@ -1,6 +1,6 @@
 import torch
-from gridfm_graphkit.training.loss import MixedLoss
 from gridfm_graphkit.io.registries import (
+    MASKING_REGISTRY,
     NORMALIZERS_REGISTRY,
     MODELS_REGISTRY,
     LOSS_REGISTRY,
@@ -11,7 +11,45 @@ from gridfm_graphkit.io.registries import (
 
 import argparse
 from torch_geometric.transforms import Compose
-from gridfm_graphkit.tasks.base_task import BaseTask
+
+
+def _ensure_datasets_registered() -> None:
+    import gridfm_graphkit.datasets  # noqa: F401
+    import gridfm_graphkit.datasets.transforms  # noqa: F401
+
+
+def _ensure_model_registered(model_type: str) -> None:
+    if model_type in MODELS_REGISTRY:
+        return
+
+    if model_type == "GNN_TransformerConv":
+        import gridfm_graphkit.models.gnn_transformer  # noqa: F401
+        return
+    if model_type == "GPSTransformer":
+        import gridfm_graphkit.models.gps_transformer  # noqa: F401
+        return
+    if model_type == "GNS_heterogeneous":
+        import gridfm_graphkit.models.gnn_heterogeneous_gns  # noqa: F401
+        return
+
+
+def _ensure_task_registered(task: str) -> None:
+    if task in TASK_REGISTRY:
+        return
+
+    if task == "PowerFlow":
+        import gridfm_graphkit.tasks.pf_task  # noqa: F401
+        return
+    if task == "OptimalPowerFlow":
+        import gridfm_graphkit.tasks.opf_task  # noqa: F401
+        return
+    if task == "StateEstimation":
+        import gridfm_graphkit.tasks.se_task  # noqa: F401
+        return
+
+
+def _ensure_physics_decoder_registered() -> None:
+    import gridfm_graphkit.models.utils  # noqa: F401
 
 
 class NestedNamespace(argparse.Namespace):
@@ -72,9 +110,15 @@ def load_normalizer(args):
     Raises:
         ValueError: If an unknown normalization method is specified.
     """
+    _ensure_datasets_registered()
     method = args.data.normalization
 
     try:
+        if method in {"baseMVAnorm", "identity", "minmax", "standard"}:
+            return (
+                NORMALIZERS_REGISTRY.create(method, True, args),
+                NORMALIZERS_REGISTRY.create(method, False, args),
+            )
         return NORMALIZERS_REGISTRY.create(
             method,
             args,
@@ -96,6 +140,8 @@ def get_loss_function(args):
     Raises:
         ValueError: If an unknown loss function is specified.
     """
+    from gridfm_graphkit.training.loss import MixedLoss
+
     loss_functions = []
     for loss_name, loss_args in zip(args.training.losses, args.training.loss_args):
         try:
@@ -120,6 +166,7 @@ def load_model(args) -> torch.nn.Module:
         ValueError: If an unknown model type is specified.
     """
     model_type = args.model.type
+    _ensure_model_registered(model_type)
 
     try:
         return MODELS_REGISTRY.create(model_type, args)
@@ -132,6 +179,7 @@ def get_task_transforms(args) -> Compose:
     Load the task-specific transforms
     """
 
+    _ensure_datasets_registered()
     task_transforms = args.task.task_name
 
     try:
@@ -140,11 +188,25 @@ def get_task_transforms(args) -> Compose:
         raise ValueError(f"Unknown task: {task_transforms}")
 
 
-def get_task(args, data_normalizers) -> BaseTask:
+def get_transform(args):
+    """
+    Load the legacy dataset masking transform from the registry.
+    """
+    _ensure_datasets_registered()
+    mask_type = args.data.mask_type
+
+    try:
+        return MASKING_REGISTRY.create(mask_type, args)
+    except KeyError:
+        raise ValueError(f"Unknown transformation: {mask_type}")
+
+
+def get_task(args, data_normalizers):
     """
     Load the task module
     """
     task = args.task.task_name
+    _ensure_task_registered(task)
 
     try:
         return TASK_REGISTRY.create(task, args, data_normalizers)
@@ -157,6 +219,7 @@ def get_physics_decoder(args) -> torch.nn.Module:
     Load the task module
     """
     task = args.task.task_name
+    _ensure_physics_decoder_registered()
 
     try:
         return PHYSICS_DECODER_REGISTRY.create(task)

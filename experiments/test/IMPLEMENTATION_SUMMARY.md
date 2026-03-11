@@ -1,195 +1,166 @@
-# Implementation Summary: Wildfire-Aware Dispatch Optimization
+# Implementation Summary
 
-## Executive Summary
+## Current Situation
 
-The `experiments/test` package has been refactored into a cleaner wildfire-aware optimization framework while keeping the existing decision variables unchanged.
+`experiments/test` now reflects the restored IEEE-30 wildfire-dispatch workflow
+that is currently runnable in this repo.
 
-Current design:
+That means:
 
-- decision vector remains `u = [u_Pg ; u_delta]`
-- objective now uses:
-  - generator deviation cost
-  - linear load shedding cost
-  - wildfire branch-risk cost
-- thermal overload is no longer part of the optimization objective
+- the experiment is back on `case30_ieee`
+- the loader path is the legacy homogeneous path
+- the active objective is wildfire-only
+- the extended decision vector is still `u = [u_Pg ; u_delta]`
+- both pretrained checkpoints can be used again when present:
+  - `GridFM_v0_1.pth` for GNN
+  - `GridFM_v0_2.pth` for GPS
 
-This is now a clearer framework for wildfire-aware surrogate dispatch experiments on IEEE-30.
+## What Has Been Restored
 
-## What Was Implemented
+The synced repo had drifted away from the original IEEE-30 experiment path. The
+current `experiments/test` layer assumes the restored legacy setup:
 
-### 1. Wildfire penalty module
+- config: `tests/config/gridFMv0.1_dummy.yaml`
+- dataset: `tests/data/case30_ieee`
+- datamodule: `LitGridDataModule`
+- single-scenario extraction by `scenario_idx`
 
-Added:
+This restored the intended real-data experiment structure used by:
 
-- `experiments/test/wildfire_penalty.py`
+- `example_optimization.py`
+- `example_optimization_with_shedding.py`
+- `test_pipeline_ieee30.py`
+- `test_gnn_vs_gps_shedding.py`
+- `ieee30_optimization_validation.ipynb`
 
-This module:
+## Active Objective
 
-- reuses the branch loading logic from `overload_penalty.py`
-- computes wildfire risk with:
-  - branch weights `w_l`
-  - branch thresholds `eta_l`
-- exposes debugging details:
-  - `branch_loading`
-  - `branch_risk_terms`
-  - `active_risk_mask`
+The optimization objective in `optimization.py` is:
 
-Default wildfire settings:
+`J(u) = lambda_gen * sum((u_Pg - Pg_base)^2) + lambda_shed * sum(u_delta) + lambda_wf * wildfire_penalty(u)`
 
-- `w_l = 1.0`
-- `eta_l = 0.7`
-
-### 2. Optimizer refactor
-
-Updated:
-
-- `experiments/test/optimization.py`
-
-The current objective is:
-
-- `J(u) = lambda_gen * sum((u_Pg - Pg_base)^2) + lambda_shed * sum(u_delta) + lambda_wf * wildfire_penalty(u)`
-
-Default weights:
+with defaults:
 
 - `lambda_gen = 1.0`
 - `lambda_shed = 50.0`
 - `lambda_wf = 10.0`
 
-The optimizer still keeps the same constraints:
+Thermal overload is no longer a separate objective term.
 
-- generator bounds
-- shedding bounds
+## Decision Variables
 
-### 3. Framework cleanup
+The current decision-variable setup is:
 
-Added:
+- `u_Pg`
+  - active-power redispatch at controllable PV buses
 
-- `experiments/test/pipeline_utils.py`
+- `u_delta`
+  - load shedding at PQ buses in MW
 
-This is the main structural cleanup.
+For the current extracted IEEE-30 graph:
 
-It now centralizes:
+- 5 PV variables
+- 24 shedding variables
+- 29 total extended variables
 
-- repo-root resolution
-- config loading
-- test datamodule setup
-- batch loading
-- single-scenario extraction
-- checkpointed GNN loading
-- checkpointed GPS loading
+## Wildfire Risk Term
 
-This removed repeated boilerplate across the real-data scripts.
+`wildfire_penalty.py` reuses branch loading from `overload_penalty.py` and
+applies:
 
-### 4. Real-data scripts cleaned up
+- `branch_term_l = w_l * max(0, loading_l - eta_l)^2`
+- `wildfire_penalty = sum(branch_term_l)`
 
-Updated:
+Current defaults:
 
-- `example_optimization.py`
-- `example_optimization_with_shedding.py`
-- `test_pipeline_ieee30.py`
-- `test_gnn_vs_gps_shedding.py`
+- `w_l = 1.0`
+- `eta_l = 0.7`
 
-These scripts now:
+The objective details now expose:
 
-- use the shared setup helpers
-- use the wildfire evaluator
-- use the new optimizer weights
-- report wildfire cost instead of overload penalty
+- `total_cost`
+- `generator_deviation_cost`
+- `load_shedding_cost`
+- `wildfire_cost`
+- `branch_loading`
+- `branch_risk_terms`
+- `active_risk_mask`
 
-### 5. Notebook updated
+## File Cleanup Status
 
-Updated:
-
-- `ieee30_optimization_validation.ipynb`
-
-The notebook now:
-
-- matches the corrected single-scenario extraction path
-- uses the wildfire-aware objective
-- executes without errors
-
-## Current Framework Structure
-
-### Core data and decisions
+The main files now represent the current situation as follows:
 
 - `scenario_data.py`
-- `pv_dispatch.py`
+  - extracts a single graph correctly from the batched IEEE-30 loader
+  - matches the restored legacy homogeneous feature layout
+
 - `load_shedding_spec.py`
+  - documents shedding as MW, not normalized fraction
+
 - `extended_dispatch_spec.py`
-
-### Surrogate and risk evaluation
-
-- `neural_solver.py`
-- `overload_penalty.py`
-- `wildfire_penalty.py`
-
-### Optimization and validation
-
-- `optimization.py`
-- `validation.py`
-
-### Shared experiment setup
+  - documents the current 29-variable IEEE-30 extended case correctly
 
 - `pipeline_utils.py`
+  - centralizes config loading, datamodule setup, scenario extraction, and
+    checkpoint-path resolution
 
-### Examples and tests
+- `validation.py`
+  - treats wildfire evaluation as the primary path
+  - still tolerates the legacy overload evaluator for compatibility
 
-- `example_optimization.py`
-- `example_optimization_with_shedding.py`
-- `test_pipeline.py`
-- `test_pipeline_ieee30.py`
-- `test_gnn_vs_gps_shedding.py`
-- `ieee30_optimization_validation.ipynb`
+- `__init__.py`
+  - now describes `experiments/test` as the restored IEEE-30 wildfire sandbox
+  - keeps overload utilities available only as legacy helpers
 
-## Current Verified Results
+- `README_PIPELINE.md`
+  - now describes the restored legacy IEEE-30 path accurately
 
-Verified locally on March 11, 2026:
+## Current Verified Behavior
+
+The current workflow is runnable end to end.
+
+Verified scripts:
 
 - `python experiments/test/test_pipeline.py`
 - `python experiments/test/test_pipeline_ieee30.py`
-- `python experiments/test/test_gnn_vs_gps_shedding.py`
 - `python experiments/test/example_optimization.py`
 - `python experiments/test/example_optimization_with_shedding.py`
-- notebook execution via `nbclient`
+- `python experiments/test/test_gnn_vs_gps_shedding.py`
 
-Observed behavior:
+Current notebook:
 
-- the framework runs end to end
-- the decision dimension for the extracted IEEE-30 graph remains 29
-- the optimizer still often stays at the baseline with 0 iterations
-- GNN remains much more stable than GPS under the wildfire objective
+- `experiments/test/ieee30_optimization_validation.ipynb`
 
-Representative current behavior:
+The notebook source has been updated to match the shared Python helpers,
+including legacy checkpoint loading with `weights_only=False` for the restored
+checkpoint files. Automated execution from this shell is currently blocked by a
+local Windows Jupyter runtime permission issue, so the notebook should be
+rerun from your normal VS Code/Jupyter session for fresh outputs.
 
-- physical baseline wildfire cost can be zero while surrogate wildfire cost is nonzero
-- this indicates that the remaining bottleneck is still surrogate fidelity, not pipeline wiring
+## What Is Still Not Fixed
 
-## What Is Cleaner Now
+The framework is cleaner and consistent, but the optimization results are still
+limited by surrogate behavior.
 
-The framework is cleaner in three main ways:
+Current symptoms:
 
-1. Shared setup is no longer duplicated across every script.
-2. The optimization objective is now explicit and aligned with the wildfire use case.
-3. The examples, tests, and notebook all use the same conceptual pipeline.
+- surrogate voltage predictions can be physically unreasonable
+- surrogate wildfire cost can be much larger than the physical baseline cost
+- optimization often returns 0 iterations and 0 percent objective improvement
+- GPS is usually less stable than GNN on the extended dispatch setup
 
-## Remaining Limitations
-
-- the surrogate still fails some physical reasonableness checks
-- the optimizer still frequently finds no improving step
-- GPS remains unstable on the extended decision space
-- branch wildfire weights are still uniform defaults
-- no true PF solve is in the optimization loop
-
-## Recommended Next Steps
-
-1. Add real branch wildfire exposure weights.
-2. Add case-specific thermal ratings and generator limits where available.
-3. Benchmark surrogate wildfire cost against PF-derived branch flows.
-4. Consider alternative optimizers if baseline sticking persists.
-5. Add uncertainty-aware safeguards before interpreting optimized dispatches operationally.
+So the remaining bottleneck is not the file structure in `experiments/test`.
+It is the reliability of the restored surrogate inference path.
 
 ## Bottom Line
 
-`experiments/test` is now a clearer and more maintainable wildfire-aware research framework.
+`experiments/test` now matches the current restored IEEE-30 wildfire-dispatch
+workflow in this repo.
 
-The software structure is in good shape. The main remaining issue is model fidelity: the surrogate predictions are still the limiting factor for meaningful optimization improvement.
+The code and summaries now consistently describe:
+
+- the restored data/config path
+- the current wildfire-only objective
+- the current decision variables
+- the current experimental limitation: surrogate fidelity rather than missing
+  pipeline wiring

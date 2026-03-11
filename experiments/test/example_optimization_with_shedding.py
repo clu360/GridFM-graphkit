@@ -19,6 +19,7 @@ from experiments.test import (
     NeuralSolverWrapper,
     WildfirePenaltyEvaluator,
     DispatchOptimizationProblem,
+    get_gnn_checkpoint_path,
     load_gnn_model,
     load_single_test_scenario,
 )
@@ -64,8 +65,12 @@ print(f"  - Max total shedding: {decision_spec.get_summary()['shed_max_shed_tota
 # ============================================================================
 print("\n[3] Loading neural model...")
 device = "cpu"
+gnn_path = get_gnn_checkpoint_path(repo_root)
 model = load_gnn_model(args, repo_root=repo_root, device=device)
-print("[OK] Loaded weights from GridFM_v0_1.pth")
+if gnn_path.exists():
+    print(f"[OK] Loaded weights from {gnn_path.name}")
+else:
+    print(f"[WARN] Checkpoint not found at {gnn_path}; using model init state")
 
 solver = NeuralSolverWrapper(
     model,

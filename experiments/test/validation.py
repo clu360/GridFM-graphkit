@@ -11,8 +11,8 @@ from typing import Dict, Tuple, List, Optional
 from .scenario_data import ScenarioData
 from .pv_dispatch import PVDispatchDecisionSpec
 from .neural_solver import NeuralSolverWrapper
-from .overload_penalty import OverloadPenaltyEvaluator
 from .wildfire_penalty import WildfirePenaltyEvaluator
+from .overload_penalty import OverloadPenaltyEvaluator
 
 
 class PipelineValidationHarness:
@@ -193,16 +193,15 @@ class PipelineValidationHarness:
     
     @staticmethod
     def validate_risk_evaluator(
-        risk_eval: OverloadPenaltyEvaluator,
+        risk_eval,
     ) -> Dict[str, any]:
         """
         Validate a branch-risk evaluator.
         
         Parameters
         ----------
-        risk_eval : OverloadPenaltyEvaluator
-            Risk evaluator to validate. This may be the legacy overload
-            evaluator or the current wildfire evaluator.
+        risk_eval : OverloadPenaltyEvaluator or WildfirePenaltyEvaluator
+            Risk evaluator to validate.
         
         Returns
         -------
@@ -225,10 +224,11 @@ class PipelineValidationHarness:
                 "total_penalty",
                 "n_overloaded_lines",
                 "max_loading",
-                "max_overload",
                 "mean_loading",
             }
-            checks["evaluation_keys_complete"] = set(baseline_eval.keys()) == expected_keys
+            checks["evaluation_keys_complete"] = expected_keys.issubset(
+                set(baseline_eval.keys())
+            )
             
             # Check values are reasonable
             checks["penalty_nonnegative"] = baseline_eval["total_penalty"] >= 0
@@ -273,8 +273,6 @@ class PipelineValidationHarness:
         dict
             Complete validation report
         """
-        from typing import Optional
-        
         report = {}
         
         # Validate scenario

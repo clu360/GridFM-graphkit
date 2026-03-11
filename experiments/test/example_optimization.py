@@ -22,6 +22,7 @@ from experiments.test import (
     WildfirePenaltyEvaluator,
     DispatchOptimizationProblem,
     PipelineValidationHarness,
+    get_gnn_checkpoint_path,
     load_gnn_model,
     load_single_test_scenario,
 )
@@ -60,8 +61,12 @@ def main():
     
     # 4. Load and wrap model
     print("[4/8] Loading pretrained model...")
+    gnn_path = get_gnn_checkpoint_path(repo_root)
     model = load_gnn_model(args, repo_root=repo_root, device=device)
-    print("[OK] Loaded weights from GridFM_v0_1.pth\n")
+    if gnn_path.exists():
+        print(f"[OK] Loaded weights from {gnn_path.name}\n")
+    else:
+        print(f"[WARN] Checkpoint not found at {gnn_path}; using model init state\n")
     
     # 5. Create solver wrapper
     print("[5/8] Creating solver wrapper...")
@@ -86,7 +91,11 @@ def main():
     # 7. Quick validation
     print("[7/8] Running pipeline validation...")
     validation_report = PipelineValidationHarness.full_validation(
-        scenario, decision_spec, solver, None, wildfire_eval
+        scenario,
+        decision_spec,
+        solver,
+        solver_gps=None,
+        wildfire_eval=wildfire_eval,
     )
     if validation_report['all_passed']:
         print("[OK] All validation checks passed\n")

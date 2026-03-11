@@ -11,6 +11,7 @@ sys.path.insert(0, str(repo_root))
 
 from experiments.test import (
     DispatchOptimizationProblem,
+    get_gnn_checkpoint_path,
     NeuralSolverWrapper,
     PVDispatchDecisionSpec,
     PipelineValidationHarness,
@@ -45,7 +46,12 @@ def main() -> None:
     print(f"[OK] PV decision dimension={decision_spec.n_pv}")
 
     print("\n[4/6] Creating solver and baseline prediction...")
+    gnn_path = get_gnn_checkpoint_path(repo_root)
     model = load_gnn_model(args, repo_root=repo_root, device="cpu")
+    if gnn_path.exists():
+        print(f"[OK] Loaded GNN checkpoint: {gnn_path.name}")
+    else:
+        print(f"[WARN] GNN checkpoint not found: {gnn_path}")
     solver = NeuralSolverWrapper(model, "gnn", scenario, decision_spec, device="cpu")
     pred = solver.predict_state(decision_spec.u_base)
     print(
@@ -77,7 +83,7 @@ def main() -> None:
         decision_spec,
         solver,
         solver_gps=None,
-        overload_eval=wildfire_eval,
+        wildfire_eval=wildfire_eval,
     )
     print(f"[OK] Validation all_passed={report['all_passed']}")
 

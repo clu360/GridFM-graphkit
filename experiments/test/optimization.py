@@ -15,10 +15,10 @@ from .wildfire_penalty import WildfirePenaltyEvaluator
 
 class DispatchOptimizationProblem:
     """
-    Dispatch redispatch optimization problem using pretrained neural solver.
+    Dispatch optimization problem using a pretrained neural surrogate.
     
     Minimizes:
-        J(u) = lambda_gen * ||u_pg - u_pg,base||_2^2
+        J(u) = lambda_gen * sum((u_pg - u_pg_base)^2)
              + lambda_shed * sum(u_delta)
              + lambda_wf * wildfire_penalty(Phi_theta(u))
     
@@ -195,9 +195,6 @@ class DispatchOptimizationProblem:
                 "generator_deviation_cost": cost_gen,
                 "load_shedding_cost": cost_shed,
                 "wildfire_cost": wildfire_cost,
-                # Backward-compatible aliases for existing scripts.
-                "cost_deviation": cost_gen,
-                "cost_shedding": cost_shed,
             }
             details_full.update(details)
             return obj, details_full
@@ -330,8 +327,6 @@ class DispatchOptimizationProblem:
             "generator_deviation_cost": cost_gen_opt,
             "load_shedding_cost": cost_shed_opt,
             "wildfire_cost": wildfire_opt,
-            "cost_deviation": cost_gen_opt,
-            "cost_shedding": cost_shed_opt,
         }
         details_opt.update(wildfire_details_opt)
         
@@ -382,8 +377,6 @@ class DispatchOptimizationProblem:
             "generator_deviation_cost": cost_base,
             "load_shedding_cost": cost_shed_base,
             "wildfire_cost": wildfire_base,
-            "cost_deviation": cost_base,
-            "cost_shedding": cost_shed_base,
         }
         details_base.update(wildfire_details_base)
         pred_base = self.solver.predict_state(u_base)
@@ -402,8 +395,6 @@ class DispatchOptimizationProblem:
             "generator_deviation_cost": cost_opt,
             "load_shedding_cost": cost_shed_opt,
             "wildfire_cost": wildfire_opt,
-            "cost_deviation": cost_opt,
-            "cost_shedding": cost_shed_opt,
         }
         details_opt.update(wildfire_details_opt)
         pred_opt = self.solver.predict_state(u_opt)
@@ -418,8 +409,6 @@ class DispatchOptimizationProblem:
                 "generator_deviation_cost": details_base["generator_deviation_cost"],
                 "load_shedding_cost": details_base["load_shedding_cost"],
                 "wildfire_cost": details_base["wildfire_cost"],
-                "cost": details_base["generator_deviation_cost"],
-                "penalty": details_base["wildfire_cost"],
                 "n_active_risk_branches": details_base["n_active_risk_branches"],
                 "max_loading": details_base["max_loading"],
             },
@@ -429,8 +418,6 @@ class DispatchOptimizationProblem:
                 "generator_deviation_cost": details_opt["generator_deviation_cost"],
                 "load_shedding_cost": details_opt["load_shedding_cost"],
                 "wildfire_cost": details_opt["wildfire_cost"],
-                "cost": details_opt["generator_deviation_cost"],
-                "penalty": details_opt["wildfire_cost"],
                 "n_active_risk_branches": details_opt["n_active_risk_branches"],
                 "max_loading": details_opt["max_loading"],
             },
@@ -439,11 +426,6 @@ class DispatchOptimizationProblem:
                 "objective_pct": 100 * obj_improvement / abs(obj_base) if obj_base != 0 else 0.0,
                 "wildfire": wildfire_improvement,
                 "wildfire_pct": 100 * wildfire_improvement / abs(details_base["wildfire_cost"])
-                if details_base["wildfire_cost"] != 0
-                else 0.0,
-                # Backward-compatible aliases.
-                "penalty": wildfire_improvement,
-                "penalty_pct": 100 * wildfire_improvement / abs(details_base["wildfire_cost"])
                 if details_base["wildfire_cost"] != 0
                 else 0.0,
             },

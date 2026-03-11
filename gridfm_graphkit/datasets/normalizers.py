@@ -100,6 +100,92 @@ class Normalizer(ABC):
         """
 
 
+@NORMALIZERS_REGISTRY.register("baseMVAnorm")
+class BaseMVANormalizer(Normalizer):
+    fit_strategy = "fit_on_train"
+
+    def __init__(self, node_data: bool, args):
+        self.node_data = node_data
+        self.baseMVA_orig = getattr(args.data, "baseMVA", 100)
+        self.baseMVA = None
+
+    def to(self, device):
+        if isinstance(self.baseMVA, torch.Tensor):
+            self.baseMVA = self.baseMVA.to(device)
+
+    def fit(self, data: torch.Tensor, baseMVA: float = None) -> dict:
+        if self.node_data:
+            non_zero_values = data[:, :4][data[:, :4] != 0]
+            self.baseMVA = (
+                torch.quantile(non_zero_values, 0.95).item()
+                if baseMVA is None
+                else float(baseMVA)
+            )
+        else:
+            self.baseMVA = float(baseMVA)
+        return {
+            "baseMVA_orig": torch.tensor(self.baseMVA_orig, dtype=torch.float),
+            "baseMVA": torch.tensor(self.baseMVA, dtype=torch.float),
+        }
+
+    def fit_from_dict(self, params: dict):
+        base_mva = params.get("baseMVA")
+        base_mva_orig = params.get("baseMVA_orig")
+        self.baseMVA = base_mva.item() if hasattr(base_mva, "item") else float(base_mva)
+        self.baseMVA_orig = (
+            base_mva_orig.item()
+            if hasattr(base_mva_orig, "item")
+            else float(base_mva_orig)
+        )
+
+    def transform(self, data: torch.Tensor) -> torch.Tensor:
+        out = data.clone()
+        if self.node_data:
+            out[:, :4] /= self.baseMVA
+            out[:, 5] *= torch.pi / 180.0
+        else:
+            out *= self.baseMVA_orig / self.baseMVA
+        return out
+
+    def inverse_transform(self, normalized_data: torch.Tensor) -> torch.Tensor:
+        out = normalized_data.clone()
+        if self.node_data:
+            out[:, :4] *= self.baseMVA
+            out[:, 5] *= 180.0 / torch.pi
+        else:
+            out *= self.baseMVA / self.baseMVA_orig
+        return out
+
+    def get_stats(self) -> dict:
+        return {
+            "baseMVA_orig": torch.tensor(self.baseMVA_orig, dtype=torch.float),
+            "baseMVA": torch.tensor(self.baseMVA, dtype=torch.float),
+        }
+
+
+@NORMALIZERS_REGISTRY.register("identity")
+class IdentityNormalizer(Normalizer):
+    fit_strategy = "fit_on_train"
+
+    def __init__(self, node_data: bool, args):
+        self.node_data = node_data
+
+    def fit(self, data: torch.Tensor) -> dict:
+        return {}
+
+    def fit_from_dict(self, params: dict):
+        return None
+
+    def transform(self, data):
+        return data.clone() if isinstance(data, torch.Tensor) else data
+
+    def inverse_transform(self, normalized_data):
+        return normalized_data.clone() if isinstance(normalized_data, torch.Tensor) else normalized_data
+
+    def get_stats(self) -> dict:
+        return {}
+
+
 @NORMALIZERS_REGISTRY.register("HeteroDataMVANormalizer")
 class HeteroDataMVANormalizer(Normalizer):
     """

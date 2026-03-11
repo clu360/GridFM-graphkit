@@ -1,13 +1,8 @@
-from gridfm_graphkit.models.gnn_heterogeneous_gns import GNS_heterogeneous
-from gridfm_graphkit.models.utils import (
-    PhysicsDecoderOPF,
-    PhysicsDecoderPF,
-    PhysicsDecoderSE,
-)
+"""
+Model subpackage.
 
-__all__ = [
-    "GNS_heterogeneous",
-    "PhysicsDecoderOPF",
-    "PhysicsDecoderPF",
-    "PhysicsDecoderSE",
-]
+Keep package init lightweight so legacy and current model stacks can be
+imported on demand without forcing optional dependencies at import time.
+"""
+
+__all__ = []

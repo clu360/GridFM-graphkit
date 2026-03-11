@@ -28,6 +28,16 @@ def get_repo_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
+def get_gnn_checkpoint_path(repo_root: Optional[Path] = None) -> Path:
+    repo_root = repo_root or get_repo_root()
+    return repo_root / "examples" / "models" / "GridFM_v0_1.pth"
+
+
+def get_gps_checkpoint_path(repo_root: Optional[Path] = None) -> Path:
+    repo_root = repo_root or get_repo_root()
+    return repo_root / "examples" / "models" / "GridFM_v0_2.pth"
+
+
 def load_test_config(
     repo_root: Optional[Path] = None,
     config_name: str = "gridFMv0.1_dummy.yaml",
@@ -44,7 +54,10 @@ def load_test_datamodule(
     repo_root: Optional[Path] = None,
 ) -> LitGridDataModule:
     repo_root = repo_root or get_repo_root()
-    datamodule = LitGridDataModule(args, data_dir=str(repo_root / "tests" / "data"))
+    datamodule = LitGridDataModule(
+        args,
+        data_dir=str(repo_root / "tests" / "data"),
+    )
     datamodule.setup(stage="test")
     return datamodule
 
@@ -86,7 +99,14 @@ def load_checkpointed_model(
 ):
     model = load_model(args)
     if checkpoint_path.exists():
-        checkpoint = torch.load(checkpoint_path, map_location=device)
+        try:
+            checkpoint = torch.load(
+                checkpoint_path,
+                map_location=device,
+                weights_only=False,
+            )
+        except TypeError:
+            checkpoint = torch.load(checkpoint_path, map_location=device)
         state_dict = checkpoint["state_dict"] if isinstance(checkpoint, dict) and "state_dict" in checkpoint else checkpoint
         model.load_state_dict(state_dict, strict=False)
     return model.to(device)
@@ -100,7 +120,7 @@ def load_gnn_model(
     repo_root = repo_root or get_repo_root()
     return load_checkpointed_model(
         args,
-        repo_root / "examples" / "models" / "GridFM_v0_1.pth",
+        get_gnn_checkpoint_path(repo_root),
         device=device,
     )
 
@@ -117,7 +137,7 @@ def load_gps_model(
     args_gps = NestedNamespace(**gps_config)
     model = load_checkpointed_model(
         args_gps,
-        repo_root / "examples" / "models" / "GridFM_v0_2.pth",
+        get_gps_checkpoint_path(repo_root),
         device=device,
     )
     return model, args_gps

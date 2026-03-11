@@ -52,3 +52,18 @@ ANG_MIN = 7  # Angle min (deg)
 ANG_MAX = 8  # Angle max (deg)
 RATE_A = 9  # Thermal limit
 B_ON = 10  # Branch on/off
+
+# ==========================
+# === LEGACY INDEX ALIASES ==
+# ==========================
+PD = PD_H
+QD = QD_H
+QG = QG_H
+VM = VM_H
+VA = VA_H
+PQ = PQ_H
+PV = PV_H
+REF = REF_H
+PG = PG_H
+G = 0
+B = 1

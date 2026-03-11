@@ -1,17 +1,17 @@
 """
-Wildfire-aware predict-then-optimize pipeline for GridFM dispatch experiments.
+Wildfire-aware IEEE-30 surrogate dispatch workflow.
 
-This package provides the scenario extraction, neural surrogate wrappers,
-wildfire-risk evaluation, optimization, and validation utilities used by the
-`experiments/test` IEEE-30 workflow.
+`experiments/test` is the restored research sandbox around the legacy
+homogeneous GridFM IEEE-30 data path. The current workflow:
 
-Main modules:
-- scenario_data: Canonical scenario representation
-- pv_dispatch / extended_dispatch_spec: Decision variable specifications
-- neural_solver: Neural solver wrapper for GNN and GPS models
-- wildfire_penalty: Branch-loading wildfire-risk computation
-- optimization: Wildfire-aware dispatch optimization problem
-- validation: Pipeline validation harness
+- loads one IEEE-30 graph from `tests/config/gridFMv0.1_dummy.yaml`
+- wraps pretrained GNN or GPS checkpoints as surrogate PF predictors
+- optimizes PV redispatch and optional PQ load shedding
+- scores candidate dispatches with a wildfire-risk term derived from
+  predicted branch loading
+
+`overload_penalty.py` remains available as a legacy postprocessing helper, but
+the active objective in this package is wildfire-only.
 """
 
 from .scenario_data import ScenarioData, extract_scenario_from_batch
@@ -23,6 +23,8 @@ from .overload_penalty import OverloadPenaltyEvaluator
 from .pipeline_utils import (
     TestScenarioContext,
     get_repo_root,
+    get_gnn_checkpoint_path,
+    get_gps_checkpoint_path,
     load_first_test_batch,
     load_gnn_model,
     load_gps_model,
@@ -44,6 +46,8 @@ __all__ = [
     "OverloadPenaltyEvaluator",
     "TestScenarioContext",
     "get_repo_root",
+    "get_gnn_checkpoint_path",
+    "get_gps_checkpoint_path",
     "load_test_config",
     "load_test_datamodule",
     "load_first_test_batch",

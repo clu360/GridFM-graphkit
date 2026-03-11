@@ -12,6 +12,8 @@ sys.path.insert(0, str(repo_root))
 from experiments.test import (
     DispatchOptimizationProblem,
     ExtendedDispatchSpec,
+    get_gnn_checkpoint_path,
+    get_gps_checkpoint_path,
     NeuralSolverWrapper,
     WildfirePenaltyEvaluator,
     load_gnn_model,
@@ -41,7 +43,12 @@ def main() -> None:
         f"[OK] Physical baseline wildfire cost={wildfire_eval.evaluate_baseline()['wildfire_cost']:.6f}"
     )
 
+    gnn_path = get_gnn_checkpoint_path(repo_root)
     model_gnn = load_gnn_model(args, repo_root=repo_root, device="cpu")
+    if gnn_path.exists():
+        print(f"[OK] Loaded GNN checkpoint: {gnn_path.name}")
+    else:
+        print(f"[WARN] GNN checkpoint not found: {gnn_path}")
     solver_gnn = NeuralSolverWrapper(model_gnn, "gnn", scenario, decision_spec, device="cpu")
     problem_gnn = DispatchOptimizationProblem(
         scenario,
@@ -60,12 +67,13 @@ def main() -> None:
     print(f"  active_risk_branches={det_gnn['n_active_risk_branches']}")
     print(f"  max_loading={det_gnn['max_loading']:.4f}")
 
-    gps_path = repo_root / "examples" / "models" / "GridFM_v0_2.pth"
+    gps_path = get_gps_checkpoint_path(repo_root)
     if not gps_path.exists():
         print("\n[WARN] GPS checkpoint not found; skipping GPS comparison")
         return
 
     model_gps, _ = load_gps_model(config_dict, repo_root=repo_root, device="cpu")
+    print(f"[OK] Loaded GPS checkpoint: {gps_path.name}")
     solver_gps = NeuralSolverWrapper(model_gps, "gps", scenario, decision_spec, device="cpu")
     problem_gps = DispatchOptimizationProblem(
         scenario,

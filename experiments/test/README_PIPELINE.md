@@ -1,207 +1,195 @@
-# Wildfire-Aware Dispatch Pipeline for GridFM
+# Wildfire-Aware IEEE-30 Workflow
 
 ## Overview
 
-`experiments/test` now implements a wildfire-aware surrogate dispatch workflow for the IEEE-30 test case.
+`experiments/test` is the restored IEEE-30 research sandbox built on top of the
+legacy homogeneous GridFM data path. It is not a standalone solver package.
+It depends on:
 
-The pipeline:
+- `tests/config/gridFMv0.1_dummy.yaml`
+- `tests/data/case30_ieee`
+- legacy homogeneous dataset/model compatibility files under `gridfm_graphkit`
+- pretrained checkpoints in `examples/models`
 
-1. Loads one graph from the batched IEEE-30 test loader.
-2. Builds a decision vector over generator redispatch and load shedding.
-3. Uses a pretrained GridFM model to predict bus states.
-4. Computes branch loading from predicted voltages.
-5. Optimizes a wildfire-aware objective over the existing dispatch variables.
+The active workflow is:
 
-This is still a surrogate optimization workflow, not a full AC-OPF solver.
+1. Load the restored IEEE-30 test config.
+2. Pull one graph from the batched test dataloader.
+3. Extract a single scenario with `scenario_idx`.
+4. Build a dispatch decision vector.
+5. Run a pretrained GNN or GPS surrogate.
+6. Convert predicted voltages into branch loading.
+7. Optimize a wildfire-aware objective.
+
+This remains a surrogate predict-then-optimize prototype, not an AC-OPF solver.
+
+## Current Data and Scenario Path
+
+The real-data scripts in this folder now use:
+
+- config: `tests/config/gridFMv0.1_dummy.yaml`
+- dataset: `tests/data/case30_ieee`
+- datamodule: `gridfm_graphkit.datasets.powergrid_datamodule.LitGridDataModule`
+
+On the current restored path, `scenario_idx=0` extracts:
+
+- 30 buses
+- 24 PQ buses
+- 5 PV buses
+- 1 REF bus
 
 ## Decision Variables
 
-The extended decision vector is unchanged:
+Two decision specifications are used:
 
-`u = [u_Pg ; u_delta]`
+- `PVDispatchDecisionSpec`
+  - Phase 1 only
+  - decision vector `u = u_Pg`
+  - one active-power redispatch variable per controllable PV bus
 
-where:
-
-- `u_Pg` = active generation at controllable PV buses
-- `u_delta` = load shedding at PQ buses, in MW
+- `ExtendedDispatchSpec`
+  - extended wildfire experiment
+  - decision vector `u = [u_Pg ; u_delta]`
+  - `u_delta` is PQ-bus load shedding in MW
 
 For the current extracted IEEE-30 graph:
 
-- 5 PV generation variables
+- 5 PV redispatch variables
 - 24 shedding variables
-- 29 total decision variables
+- 29 total variables in the extended case
 
-## Current Objective
+## Objective
 
-The optimizer now uses:
+The active optimization objective in `optimization.py` is:
 
 `J(u) = lambda_gen * sum((u_Pg - Pg_base)^2) + lambda_shed * sum(u_delta) + lambda_wf * wildfire_penalty(u)`
 
-Default weights:
+Defaults:
 
 - `lambda_gen = 1.0`
 - `lambda_shed = 50.0`
 - `lambda_wf = 10.0`
 
+Line loading enters the objective only through the wildfire penalty.
+`overload_penalty.py` is still present for legacy postprocessing, but it is not
+part of the current objective.
+
 ## Wildfire Penalty
 
-Wildfire risk is computed from branch loading.
+`wildfire_penalty.py` reuses the branch-loading logic from
+`overload_penalty.py` and applies:
 
-For each branch `l`:
-
-- `loading_l = branch_loading_l`
 - `branch_term_l = w_l * max(0, loading_l - eta_l)^2`
-
-Total wildfire penalty:
-
 - `wildfire_penalty = sum(branch_term_l)`
 
-Default wildfire parameters:
+Defaults:
 
 - `w_l = 1.0`
 - `eta_l = 0.7`
 
-This means:
+Returned diagnostics include:
 
-- no wildfire penalty below 70% loading
-- quadratic growth above the threshold
-- easy extension to branch-specific wildfire weights later
+- `branch_loading`
+- `branch_risk_terms`
+- `active_risk_mask`
+- `n_active_risk_branches`
+- `max_loading`
 
-## Core Modules
+## File Roles
 
-### `scenario_data.py`
+Core workflow files:
 
-Canonical single-scenario representation.
+- `scenario_data.py`
+  - canonical single-scenario representation
+  - slices one graph from a PyG batch with `batch.ptr`
+  - currently interprets the restored legacy 9-feature homogeneous node layout
 
-Responsibilities:
+- `pv_dispatch.py`
+  - PV-only decision spec
 
-- stores baseline bus variables and masks
-- stores graph structure, edge parameters, positional encodings, and feature masks
-- exposes provisional generator bounds
-- slices one graph from a PyG batch using `batch.ptr`
+- `load_shedding_spec.py`
+  - PQ shedding spec in MW
 
-### `pv_dispatch.py`
+- `extended_dispatch_spec.py`
+  - combined PV redispatch + shedding spec
 
-PV-only decision specification for Phase 1.
+- `neural_solver.py`
+  - wraps pretrained GNN or GPS checkpoints for surrogate inference
 
-### `load_shedding_spec.py`
+- `wildfire_penalty.py`
+  - current line-risk objective module
 
-PQ-bus load shedding specification using MW shed.
+- `optimization.py`
+  - wildfire-only objective and `L-BFGS-B` wrapper
 
-### `extended_dispatch_spec.py`
+- `validation.py`
+  - scenario, solver, and risk-evaluator checks
 
-Combined decision specification for:
+- `pipeline_utils.py`
+  - shared setup helpers for config loading, datamodule setup, scenario
+    extraction, and checkpoint resolution
 
-- PV redispatch
-- PQ shedding
+Examples and checks:
 
-### `neural_solver.py`
+- `example_optimization.py`
+  - minimal PV-only IEEE-30 run
 
-Unified GNN/GPS wrapper for:
+- `example_optimization_with_shedding.py`
+  - extended dispatch run with three weight settings
 
-- masked input construction
-- inference
-- denormalized predicted bus states
+- `test_pipeline.py`
+  - synthetic smoke test
 
-### `wildfire_penalty.py`
+- `test_pipeline_ieee30.py`
+  - real-data smoke test on the restored IEEE-30 path
 
-Wildfire-aware branch risk module.
+- `test_gnn_vs_gps_shedding.py`
+  - compares GNN and GPS on the extended dispatch baseline
 
-Responsibilities:
+- `ieee30_optimization_validation.ipynb`
+  - presentation notebook for the same workflow
 
-- reuses branch loading logic from `overload_penalty.py`
-- computes wildfire cost from thresholded branch loading
-- returns debugging details including:
-  - `branch_loading`
-  - `branch_risk_terms`
-  - `active_risk_mask`
+## Current Verified State
 
-### `optimization.py`
+As of March 11, 2026, the restored workflow is consistent enough to run:
 
-Wildfire-aware optimization wrapper around `scipy.optimize.minimize`.
+- `python experiments/test/test_pipeline.py`
+- `python experiments/test/test_pipeline_ieee30.py`
+- `python experiments/test/example_optimization.py`
+- `python experiments/test/example_optimization_with_shedding.py`
+- `python experiments/test/test_gnn_vs_gps_shedding.py`
 
-Responsibilities:
+The notebook source is aligned with the same restored path. In this shell
+environment, automated `nbclient` execution is currently blocked by a local
+Windows Jupyter runtime ACL issue rather than by notebook code drift.
 
-- enforces generator and shedding bounds
-- evaluates generator deviation cost
-- evaluates shedding cost
-- evaluates wildfire cost from surrogate predictions
-- tracks optimization history
+## What The Current Results Mean
 
-### `pipeline_utils.py`
+The framework is operational, but the surrogate remains the limiting factor.
+Typical current behavior is:
 
-Shared framework helpers for the real IEEE-30 workflow.
+- physical baseline wildfire cost is small or zero
+- surrogate wildfire cost can still be very large
+- validation may fail voltage reasonableness checks
+- optimization often stops at the baseline with 0 iterations
+- GPS is usually less stable than GNN on the extended decision space
 
-Responsibilities:
+So the main issue is no longer pipeline wiring. It is the quality and
+compatibility of surrogate predictions under this restored workflow.
 
-- load config and datamodule
-- load the first test batch
-- extract one scenario by `scenario_idx`
-- load checkpointed GNN or GPS models
+## Important Limitations
 
-This is the main cleanup layer that removes repetitive setup code from the examples and tests.
-
-### `validation.py`
-
-Validation harness for:
-
-- scenario structure
-- decision specs
-- solver behavior
-- branch-risk evaluator behavior
-
-## Entry Points
-
-### `example_optimization.py`
-
-Minimal PV-only wildfire-dispatch example.
-
-### `example_optimization_with_shedding.py`
-
-Extended wildfire-dispatch example with:
-
-- PV-only case
-- PV + shedding case
-- lower shedding penalty case
-
-### `test_pipeline.py`
-
-Synthetic smoke test for the core module wiring.
-
-### `test_pipeline_ieee30.py`
-
-Real-data smoke test for one extracted IEEE-30 graph.
-
-### `test_gnn_vs_gps_shedding.py`
-
-Real-data comparison of GNN vs GPS under the wildfire objective.
-
-### `ieee30_optimization_validation.ipynb`
-
-Presentation notebook for the same workflow.
-
-## Current Verified Behavior
-
-As currently verified:
-
-- single-scenario extraction works correctly
-- all examples and tests under `experiments/test` run
-- the notebook executes without errors
-- the optimizer still tends to stop at the baseline with 0 iterations on the tested scenarios
-- GNN is materially more stable than GPS under the extended wildfire objective
-
-## Known Limitations
-
-- optimization quality is still limited by surrogate fidelity
-- voltage predictions can still fail reasonableness checks
-- GPS remains unstable on the extended decision space
-- branch risk is based on surrogate voltages and simplified branch postprocessing
-- there is still no explicit AC feasibility enforcement in the objective loop
+- this is a restored legacy IEEE-30 path, not the newer hetero dataset path
+- branch ratings and admittance processing remain simplified in the risk model
+- no explicit AC feasibility solve is inside the optimization loop
+- wildfire weights are still uniform defaults
+- exact pre-sync numbers are not guaranteed even though the same checkpoints are
+  being loaded
 
 ## Recommended Next Steps
 
-1. Add branch-specific wildfire weights from external fire exposure data.
-2. Replace provisional branch and generator metadata with case-specific values where available.
-3. Compare surrogate wildfire cost against a true PF-based branch flow calculation.
-4. Test derivative-free methods if `L-BFGS-B` continues to stop at the baseline.
-5. Add uncertainty-aware decision logic if the surrogate remains noisy.
+1. Compare current surrogate outputs against the known pre-sync notebook output
+   cell by cell.
+2. Add branch-specific wildfire weights if external exposure data is available.
+3. Benchmark surrogate branch loading against a true PF calculation.
+4. Revisit optimizer choice only after surrogate behavior is trusted again.

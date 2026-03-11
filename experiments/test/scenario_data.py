@@ -267,8 +267,6 @@ def extract_scenario_from_batch(
     ScenarioData
         Canonical scenario representation
     """
-    from gridfm_graphkit.datasets.globals import PD, QD, PG, QG, VM, VA, PQ, PV, REF
-    
     if not hasattr(batch, "ptr"):
         raise ValueError("Batch object is missing 'ptr'; expected a PyG Batch with graph boundaries.")
 
@@ -299,17 +297,19 @@ def extract_scenario_from_batch(
     # Denormalize node features to get baseline state for the selected graph.
     x_denorm = node_normalizer.inverse_transform(x_graph)
     
-    Pd_base = x_denorm[:, PD].cpu().numpy()
-    Qd_base = x_denorm[:, QD].cpu().numpy()
-    Pg_base = x_denorm[:, PG].cpu().numpy()
-    Qg_base = x_denorm[:, QG].cpu().numpy()
-    Vm_base = x_denorm[:, VM].cpu().numpy()
-    Va_base = x_denorm[:, VA].cpu().numpy()
+    # Legacy homogeneous GridFM format:
+    # [Pd, Qd, Pg, Qg, Vm, Va, PQ, PV, REF]
+    Pd_base = x_denorm[:, 0].cpu().numpy()
+    Qd_base = x_denorm[:, 1].cpu().numpy()
+    Pg_base = x_denorm[:, 2].cpu().numpy()
+    Qg_base = x_denorm[:, 3].cpu().numpy()
+    Vm_base = x_denorm[:, 4].cpu().numpy()
+    Va_base = x_denorm[:, 5].cpu().numpy()
     
-    # Extract bus types
-    PQ_mask = x_denorm[:, PQ].cpu().numpy() > 0.5
-    PV_mask = x_denorm[:, PV].cpu().numpy() > 0.5
-    REF_mask = x_denorm[:, REF].cpu().numpy() > 0.5
+    # Extract bus types from the legacy one-hot columns.
+    PQ_mask = x_denorm[:, 6].cpu().numpy() > 0.5
+    PV_mask = x_denorm[:, 7].cpu().numpy() > 0.5
+    REF_mask = x_denorm[:, 8].cpu().numpy() > 0.5
     
     num_buses = x_denorm.shape[0]
     bus_indices = np.arange(num_buses)
