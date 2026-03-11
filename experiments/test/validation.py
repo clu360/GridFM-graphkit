@@ -1,8 +1,8 @@
 """
 Validation utilities for the predict-then-optimize pipeline.
 
-Provides validation harness to verify solver correctness, overload computation,
-and model compatibility before optimization.
+Provides a validation harness to verify scenario integrity, solver behavior,
+and branch-loading risk evaluation before optimization.
 """
 
 import numpy as np
@@ -12,6 +12,7 @@ from .scenario_data import ScenarioData
 from .pv_dispatch import PVDispatchDecisionSpec
 from .neural_solver import NeuralSolverWrapper
 from .overload_penalty import OverloadPenaltyEvaluator
+from .wildfire_penalty import WildfirePenaltyEvaluator
 
 
 class PipelineValidationHarness:
@@ -22,10 +23,14 @@ class PipelineValidationHarness:
     1. Models load correctly (GNN and GPS)
     2. Positional encodings are correct (pe_dim=20 for both)
     3. Solver produces reasonable predictions
-    4. Overload computation is consistent
+    4. Branch-risk computation is consistent
     5. Pipeline components work together
     """
     
+    @staticmethod
+    def _is_bool_like(value) -> bool:
+        return isinstance(value, (bool, np.bool_))
+
     @staticmethod
     def validate_scenario_structure(scenario: ScenarioData) -> Dict[str, bool]:
         """
@@ -187,16 +192,17 @@ class PipelineValidationHarness:
         return checks
     
     @staticmethod
-    def validate_overload_evaluator(
-        overload_eval: OverloadPenaltyEvaluator,
+    def validate_risk_evaluator(
+        risk_eval: OverloadPenaltyEvaluator,
     ) -> Dict[str, any]:
         """
-        Validate overload penalty evaluator.
+        Validate a branch-risk evaluator.
         
         Parameters
         ----------
-        overload_eval : OverloadPenaltyEvaluator
-            Overload evaluator to validate
+        risk_eval : OverloadPenaltyEvaluator
+            Risk evaluator to validate. This may be the legacy overload
+            evaluator or the current wildfire evaluator.
         
         Returns
         -------
@@ -206,12 +212,12 @@ class PipelineValidationHarness:
         checks = {}
         
         # Check admittance matrices exist
-        checks["Yf_exists"] = overload_eval.scenario.Yf is not None
-        checks["Yt_exists"] = overload_eval.scenario.Yt is not None
+        checks["Yf_exists"] = risk_eval.scenario.Yf is not None
+        checks["Yt_exists"] = risk_eval.scenario.Yt is not None
         
         # Try baseline evaluation
         try:
-            baseline_eval = overload_eval.evaluate_baseline()
+            baseline_eval = risk_eval.evaluate_baseline()
             checks["baseline_eval_successful"] = True
             
             # Check all keys present
@@ -242,6 +248,7 @@ class PipelineValidationHarness:
         solver_gnn: NeuralSolverWrapper,
         solver_gps: Optional[NeuralSolverWrapper] = None,
         overload_eval: Optional[OverloadPenaltyEvaluator] = None,
+        wildfire_eval: Optional[WildfirePenaltyEvaluator] = None,
     ) -> Dict:
         """
         Run full validation harness on all pipeline components.
@@ -257,7 +264,9 @@ class PipelineValidationHarness:
         solver_gps : NeuralSolverWrapper, optional
             GPS solver to validate
         overload_eval : OverloadPenaltyEvaluator, optional
-            Overload evaluator to validate
+            Legacy alias for the branch-risk evaluator.
+        wildfire_eval : WildfirePenaltyEvaluator, optional
+            Current wildfire evaluator to validate.
         
         Returns
         -------
@@ -285,15 +294,15 @@ class PipelineValidationHarness:
                 decision_spec,
             )
         
-        # Validate overload evaluator
-        if overload_eval is not None:
-            report["overload_evaluator"] = PipelineValidationHarness.validate_overload_evaluator(
-                overload_eval
+        risk_eval = wildfire_eval if wildfire_eval is not None else overload_eval
+        if risk_eval is not None:
+            report["risk_evaluator"] = PipelineValidationHarness.validate_risk_evaluator(
+                risk_eval
             )
         
         # Summary
         all_passes = all(
-            all(v for k, v in checks.items() if isinstance(v, bool))
+            all(v for k, v in checks.items() if PipelineValidationHarness._is_bool_like(v))
             for section, checks in report.items()
             if isinstance(checks, dict)
         )
@@ -326,24 +335,30 @@ class PipelineValidationHarness:
             
             print(f"\n[{section.upper()}]")
             
-            bool_checks = {k: v for k, v in checks.items() if isinstance(v, bool)}
+            bool_checks = {
+                k: bool(v)
+                for k, v in checks.items()
+                if PipelineValidationHarness._is_bool_like(v)
+            }
             n_pass = sum(bool_checks.values())
             n_total = len(bool_checks)
             
-            status = "✓ PASS" if n_pass == n_total else "✗ FAIL"
+            status = "PASS" if n_pass == n_total else "FAIL"
             print(f"  Status: {status} ({n_pass}/{n_total})")
             
             if verbose:
                 for check_name, result in bool_checks.items():
-                    symbol = "✓" if result else "✗"
+                    symbol = "[OK]" if result else "[FAIL]"
                     print(f"    {symbol} {check_name}")
             
             # Print non-bool details
             for key, val in checks.items():
-                if not isinstance(val, bool) and verbose:
+                if not PipelineValidationHarness._is_bool_like(val) and verbose:
                     print(f"    {key}: {val}")
         
         print("\n" + "=" * 80)
-        overall_status = "✓ ALL CHECKS PASSED" if all_passed else "✗ SOME CHECKS FAILED"
+        overall_status = "ALL CHECKS PASSED" if all_passed else "SOME CHECKS FAILED"
         print(f"Overall: {overall_status}")
         print("=" * 80)
+
+    validate_overload_evaluator = validate_risk_evaluator

@@ -269,8 +269,35 @@ def extract_scenario_from_batch(
     """
     from gridfm_graphkit.datasets.globals import PD, QD, PG, QG, VM, VA, PQ, PV, REF
     
-    # Denormalize node features to get baseline state
-    x_denorm = node_normalizer.inverse_transform(batch.x)
+    if not hasattr(batch, "ptr"):
+        raise ValueError("Batch object is missing 'ptr'; expected a PyG Batch with graph boundaries.")
+
+    num_graphs = int(batch.ptr.numel() - 1)
+    if scenario_idx < 0 or scenario_idx >= num_graphs:
+        raise IndexError(
+            f"scenario_idx={scenario_idx} is out of range for batch with {num_graphs} graphs."
+        )
+
+    node_start = int(batch.ptr[scenario_idx].item())
+    node_end = int(batch.ptr[scenario_idx + 1].item())
+
+    # Slice a single graph from the batched tensors before denormalization.
+    x_graph = batch.x[node_start:node_end]
+    pe_graph = batch.pe[node_start:node_end]
+    mask_graph = batch.mask[node_start:node_end]
+
+    edge_index = batch.edge_index
+    edge_mask = (
+        (edge_index[0] >= node_start)
+        & (edge_index[0] < node_end)
+        & (edge_index[1] >= node_start)
+        & (edge_index[1] < node_end)
+    )
+    edge_index_graph = edge_index[:, edge_mask] - node_start
+    edge_attr_graph = batch.edge_attr[edge_mask]
+
+    # Denormalize node features to get baseline state for the selected graph.
+    x_denorm = node_normalizer.inverse_transform(x_graph)
     
     Pd_base = x_denorm[:, PD].cpu().numpy()
     Qd_base = x_denorm[:, QD].cpu().numpy()
@@ -287,15 +314,15 @@ def extract_scenario_from_batch(
     num_buses = x_denorm.shape[0]
     bus_indices = np.arange(num_buses)
     
-    # Denormalize edge features
-    edge_attr_denorm = edge_normalizer.inverse_transform(batch.edge_attr)
+    # Denormalize edge features for the selected graph.
+    edge_attr_denorm = edge_normalizer.inverse_transform(edge_attr_graph)
     G = edge_attr_denorm[:, 0].cpu().numpy()
     B = edge_attr_denorm[:, 1].cpu().numpy()
     
     # Move to CPU for storage
-    edge_index_cpu = batch.edge_index.cpu()
-    pe_cpu = batch.pe.cpu()
-    mask_cpu = batch.mask.cpu()
+    edge_index_cpu = edge_index_graph.cpu()
+    pe_cpu = pe_graph.cpu()
+    mask_cpu = mask_graph.cpu()
     
     # Generator bounds: initialize as baseline +/- 20% if not available
     Pg_min = np.maximum(Pg_base * 0.8, 0)

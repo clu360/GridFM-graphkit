@@ -24,9 +24,16 @@ class OverloadPenaltyEvaluator:
         Canonical scenario data with topology and network parameters
     sn_mva : float
         System base power in MVA (default: 100)
+    standard_rate_a_mva : float
+        Fallback branch rating in MVA used when scenario.rate_a is unavailable
     """
     
-    def __init__(self, scenario: ScenarioData, sn_mva: float = 100.0):
+    def __init__(
+        self,
+        scenario: ScenarioData,
+        sn_mva: float = 100.0,
+        standard_rate_a_mva: float = 100.0,
+    ):
         """
         Initialize overload evaluator.
         
@@ -36,9 +43,13 @@ class OverloadPenaltyEvaluator:
             Canonical scenario data
         sn_mva : float, optional
             Base power in MVA (default: 100)
+        standard_rate_a_mva : float, optional
+            Fallback branch thermal rating in MVA when ScenarioData does not
+            provide per-branch rate_a values (default: 100.0)
         """
         self.scenario = scenario
         self.sn_mva = sn_mva
+        self.standard_rate_a_mva = standard_rate_a_mva
         
         # Build admittance matrices if not already present
         if self.scenario.Yf is None or self.scenario.Yt is None:
@@ -86,8 +97,8 @@ class OverloadPenaltyEvaluator:
             self.scenario.base_kv = np.ones(nb)
         
         if self.scenario.rate_a is None:
-            # Default: unity loading limit (no thermal limit)
-            self.scenario.rate_a = np.ones(len(f))
+            # Fallback to a standard branch thermal rating when true data is absent.
+            self.scenario.rate_a = np.full(len(f), self.standard_rate_a_mva, dtype=float)
     
     def compute_branch_currents_pu(
         self,

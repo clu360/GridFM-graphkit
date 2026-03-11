@@ -1,299 +1,207 @@
-# Predict-Then-Optimize Pipeline for GridFM
+# Wildfire-Aware Dispatch Pipeline for GridFM
 
 ## Overview
 
-This package implements a **predict-then-optimize pipeline** for power grid dispatch optimization using pretrained GridFM neural solvers (GNN_v0.1 or GPS_v0.2).
+`experiments/test` now implements a wildfire-aware surrogate dispatch workflow for the IEEE-30 test case.
 
-The pipeline enables **differentiable power grid optimization** by:
-1. Using a pretrained neural surrogate model $\Phi_\theta$ to predict grid state
-2. Formulating a constrained optimization problem in the decision variable space
-3. Leveraging only generator bounds and surrogate predictions (no explicit AC-OPF constraints)
+The pipeline:
 
-## Quick Start
+1. Loads one graph from the batched IEEE-30 test loader.
+2. Builds a decision vector over generator redispatch and load shedding.
+3. Uses a pretrained GridFM model to predict bus states.
+4. Computes branch loading from predicted voltages.
+5. Optimizes a wildfire-aware objective over the existing dispatch variables.
 
-### Basic Usage Example
+This is still a surrogate optimization workflow, not a full AC-OPF solver.
 
-```python
-# 1. Load scenario
-from experiments.test import *
-scenario = extract_scenario_from_batch(batch, node_normalizer, edge_normalizer)
+## Decision Variables
 
-# 2. Define decision variables (PV-bus Pg)
-decision_spec = PVDispatchDecisionSpec(scenario)
+The extended decision vector is unchanged:
 
-# 3. Load pretrained model and create solver wrapper
-model_gnn = load_model(args)  # Load GNN_v0.1 or GPS_v0.2
-solver = NeuralSolverWrapper(model_gnn, "gnn", scenario, decision_spec)
+`u = [u_Pg ; u_delta]`
 
-# 4. Create overload evaluator
-overload_eval = OverloadPenaltyEvaluator(scenario)
+where:
 
-# 5. Define and solve optimization problem
-problem = DispatchOptimizationProblem(
-    scenario, decision_spec, solver, overload_eval,
-    alpha=1.0,      # Weight on baseline deviation
-    lambda_=1.0,    # Weight on overload penalty
-)
-result = problem.optimize(method="L-BFGS-B", maxiter=100)
+- `u_Pg` = active generation at controllable PV buses
+- `u_delta` = load shedding at PQ buses, in MW
 
-# 6. Analyze results
-comparison = problem.compare_baseline_vs_optimized(result['u_opt'])
-print(f"Objective improvement: {comparison['improvement']['objective_pct']:.2f}%")
-```
+For the current extracted IEEE-30 graph:
 
-## Module Reference
+- 5 PV generation variables
+- 24 shedding variables
+- 29 total decision variables
 
-### 1. `scenario_data.py` – Canonical Scenario Representation
+## Current Objective
 
-**Purpose**: Single in-memory representation of a power grid scenario with all fixed and variable components.
+The optimizer now uses:
 
-**Main Class**: `ScenarioData`
+`J(u) = lambda_gen * sum((u_Pg - Pg_base)^2) + lambda_shed * sum(u_delta) + lambda_wf * wildfire_penalty(u)`
 
-**Key Attributes**:
-- Fixed scenario data:
-  - `Pd_base, Qd_base` – demand (fixed)
-  - `Pg_base, Qg_base, Vm_base, Va_base` – baseline state
-  - `PQ_mask, PV_mask, REF_mask` – one-hot bus type indicators
-  - `edge_index, G, B` – network topology and admittance
-  - `pe` – positional encoding (pe_dim=20)
-  - `mask` – node feature mask tensor
+Default weights:
 
-- Metadata:
-  - `node_normalizer, edge_normalizer` – for denormalization
-  - `Pg_min, Pg_max` – generator bounds per bus
+- `lambda_gen = 1.0`
+- `lambda_shed = 50.0`
+- `lambda_wf = 10.0`
 
-**Functions**:
-- `get_pv_buses()` – indices of PV buses
-- `get_baseline_state()` – full bus state dict
-- `to_device(device)` – move tensors to device
-- `extract_scenario_from_batch()` – extract from PyTorch Geometric batch
+## Wildfire Penalty
 
-### 2. `pv_dispatch.py` – PV-Bus Dispatch Decision Variables
+Wildfire risk is computed from branch loading.
 
-**Purpose**: Map between optimization decision vector $u$ (Pg on PV buses) and full scenario representation.
+For each branch `l`:
 
-**Main Class**: `PVDispatchDecisionSpec`
+- `loading_l = branch_loading_l`
+- `branch_term_l = w_l * max(0, loading_l - eta_l)^2`
 
-**Key Methods**:
-- `u_to_Pg(u)` – expand decision vector to full Pg array
-- `Pg_to_u(Pg)` – extract decision vector from full Pg
-- `u_to_node_features(u)` – convert u to normalized node feature array
-- `check_bounds(u)` – verify u satisfies bounds
-- `get_distance_from_baseline(u)` – compute $\|u - u_{\text{base}}\|_2$
+Total wildfire penalty:
 
-**Attributes**:
-- `pv_bus_indices` – indices of PV buses
-- `n_pv` – dimension of decision vector
-- `u_base` – baseline Pg at PV buses
-- `u_min, u_max` – bounds
+- `wildfire_penalty = sum(branch_term_l)`
 
-### 3. `neural_solver.py` – Neural Solver Wrapper
+Default wildfire parameters:
 
-**Purpose**: Unified interface to both GNN_v0.1 and GPS_v0.2 models with input preparation, inference, and denormalization.
+- `w_l = 1.0`
+- `eta_l = 0.7`
 
-**Main Class**: `NeuralSolverWrapper`
+This means:
 
-**Key Methods**:
-- `predict_state(u)` – run inference on decision vector, return denormalized state
-- `predict_normalized(u)` – return normalized predictions
-- `predict_batch(u_batch)` – batch predictions
-- `validate_baseline()` – compare predictions vs. baseline
-- `prepare_input_tensors(u)` – internal: tensor preparation + masking
+- no wildfire penalty below 70% loading
+- quadratic growth above the threshold
+- easy extension to branch-specific wildfire weights later
 
-**Features**:
-- ✓ Handles both GNN and GPS model types
-- ✓ Applies PF masking during inference
-- ✓ Normalizes inputs, denormalizes outputs
-- ✓ pe_dim=20 for both models (no padding workaround)
-- ✓ Single graph inference pipeline
-
-### 4. `overload_penalty.py` – Line Loading & Overload Evaluation
-
-**Purpose**: Compute branch loading, overload amounts, and total overload penalty from predicted bus state.
-
-**Main Class**: `OverloadPenaltyEvaluator`
-
-**Key Methods**:
-- `compute_loading(Vm_pred, Va_pred)` – compute per-branch normalized loading
-- `compute_overload_penalty(Vm_pred, Va_pred, penalty_type)` – total overload penalty
-- `evaluate(Vm_pred, Va_pred)` – return overload metrics dict
-- `evaluate_batch(Vm_pred_batch, Va_pred_batch)` – batch evaluation
-- `evaluate_baseline()` – baseline overload
-
-**Penalty Formulation**:
-
-$$\rho_{\text{overload}}(\hat{v}) = \sum_{\ell} \max(0, \text{loading}_\ell - 1)^2$$
-
-### 5. `optimization.py` – Dispatch Optimization Problem
-
-**Purpose**: Define and solve the full optimization problem with objective, constraints, and optimization interface.
-
-**Main Class**: `DispatchOptimizationProblem`
-
-**Objective Function**:
-
-$$J(u) = \alpha \|u - u_{\text{base}}\|_2^2 + \lambda \rho_{\text{overload}}(\Phi_\theta(u))$$
-
-**Key Methods**:
-- `objective(u, return_details)` – evaluate objective
-- `optimize(method, maxiter, verbose)` – solve problem
-- `compare_baseline_vs_optimized(u_opt)` – comparison metrics
-- `cost_baseline_deviation(u)` – component 1
-- `penalty_overload(u)` – component 2
-
-**Optimization Interface**:
-- Uses `scipy.optimize.minimize` with L-BFGS-B
-- Respects generator bounds automatically
-- Tracks history: cost, penalty, dispatch
-- Numerical gradient computation
-
-### 6. `validation.py` – Pipeline Validation Harness
-
-**Purpose**: Systematic validation before optimization.
-
-**Main Class**: `PipelineValidationHarness`
-
-**Static Methods**:
-- `validate_scenario_structure(scenario)` – check dimensions, consistency
-- `validate_decision_spec(decision_spec)` – check decision variables
-- `validate_solver(solver, decision_spec)` – test predictions, check dimensions
-- `validate_overload_evaluator(overload_eval)` – test overload computation
-- `full_validation(...)` – run all validations
-- `print_validation_report(report)` – formatted console output
-
-**Validation Checks**:
-- ✓ Tensor shapes and types
-- ✓ Bus type consistency (mutually exclusive)
-- ✓ Bounds feasibility
-- ✓ Model in eval mode
-- ✓ Predictions are finite and reasonable
-- ✓ Positional encoding dimension (pe_dim=20)
-- ✓ Overload computation consistency
-
-## Design Choices – Phase 1
-
-| Choice | Value | Rationale |
-|--------|-------|-----------|
-| Mask policy | `pf` | Keeps solver near pretrained task distribution |
-| Decision vector | `Pg` on PV buses | Avoids conflict with REF-bus PF masking |
-| Cost term | Baseline deviation | $\|u - u_{\text{base}}\|_2^2$ |
-| Risk term | Total overload | $\sum \max(0, \text{loading} - 1)^2$ |
-| Constraints | Generator bounds | $P_{g,i}^{\min} \le u_i \le P_{g,i}^{\max}$ |
-| Model compatibility | GNN v0.1 + GPS v0.2 | Both use true pe_dim=20 |
-
-## Files in This Module
-
-```
-experiments/test/
-├── __init__.py                          # Package exports
-├── scenario_data.py                     # ScenarioData class and extraction
-├── pv_dispatch.py                       # PVDispatchDecisionSpec class
-├── neural_solver.py                     # NeuralSolverWrapper class
-├── overload_penalty.py                  # OverloadPenaltyEvaluator class
-├── optimization.py                      # DispatchOptimizationProblem class
-├── validation.py                        # PipelineValidationHarness class
-├── ieee30_optimization_validation.ipynb # Full demonstration notebook
-└── README.md                            # This file
-```
-
-## Notebook: IEEE-30 Optimization Validation
-
-The jupyter notebook `ieee30_optimization_validation.ipynb` provides a complete walkthrough:
-
-1. Load IEEE-30 test data
-2. Extract canonical scenario
-3. Create decision spec (PV-bus Pg)
-4. Load pretrained GNN model
-5. Create neural solver wrapper
-6. Create overload evaluator
-7. Run full pipeline validation
-8. Test solver predictions
-9. Create optimization problem
-10. Evaluate objective at baseline
-11. Run optimization
-12. Compare baseline vs. optimized
-13. Plot optimization progress
-
-**To run**:
-```bash
-jupyter notebook experiments/test/ieee30_optimization_validation.ipynb
-```
-
-## Known Limitations (Phase 1)
-
-- ⚠ Only PV-bus `Pg` is optimized; REF-bus and other controls not yet included
-- ⚠ Only generator bounds are enforced; full AC power flow feasibility not guaranteed
-- ⚠ Surrogate predictions may become unreliable if $u$ moves far from baseline
-- ⚠ Overload penalty depends on accurate branch postprocessing from predicted state
-- ⚠ No explicit AC-OPF penalty for voltage or reactive power violations
-
-## Future Extensions (Phases 2+)
-
-### Phase 2: REF-Bus Participation
-- Include REF-bus $V_m$ setpoint as decision variable
-- Requires careful handling of slack bus in masking
-
-### Phase 2: Reactive Power Control
-- Add `Qg` at PV buses to decision vector
-- Requires extending bounds and masking logic
-
-### Phase 3: Advanced Constraints
-- Explicit AC-OPF penalty terms
-- Voltage magnitude constraints
-- Reactive power limits
-- Advanced ramp rate constraints
-
-### Phase 3: Uncertainty Quantification
-- Ensemble predictions from multiple scenarios
-- Robustness to model prediction errors
-- Distributionally robust optimization
-
-## Generator Bounds Sourcing
-
-**Current implementation**: Provisional bounds around baseline ($u_{\text{base}} \pm 20\%$)
-
-**Future options**:
-- Load from scenario metadata if available
-- Parse from bus/generator parameter tables
-- Use empirical percentiles from training data
-- User-provided custom bounds
-
-## Quick Reference: Class Instantiation
-
-```python
-# 1. Start with batch
-scenario = extract_scenario_from_batch(batch, node_norm, edge_norm)
-
-# 2. Define decision variables
-decision_spec = PVDispatchDecisionSpec(scenario)
-
-# 3. Create solver (GNN or GPS)
-solver_gnn = NeuralSolverWrapper(model_gnn, "gnn", scenario, decision_spec)
-solver_gps = NeuralSolverWrapper(model_gps, "gps", scenario, decision_spec)
-
-# 4. Create overload evaluator
-overload_eval = OverloadPenaltyEvaluator(scenario)
-
-# 5. Create problem
-problem = DispatchOptimizationProblem(
-    scenario, decision_spec, solver_gnn, overload_eval,
-    alpha=1.0, lambda_=1.0
-)
-
-# 6. Validate (optional but recommended)
-from experiments.test import PipelineValidationHarness
-report = PipelineValidationHarness.full_validation(
-    scenario, decision_spec, solver_gnn, solver_gps, overload_eval
-)
-PipelineValidationHarness.print_validation_report(report)
-
-# 7. Optimize
-result = problem.optimize(method="L-BFGS-B", maxiter=100)
-```
-
-## Author & Version
-
-Phase 1 Implementation: Predict-then-Optimize Pipeline for GridFM  
-Base Model: GNN v0.1 (pe_dim=20, hidden_size=64)  
-Tested on: IEEE-30 network  
-Compatibility: GPS v0.2 (pe_dim=20, hidden_size=256)
+## Core Modules
+
+### `scenario_data.py`
+
+Canonical single-scenario representation.
+
+Responsibilities:
+
+- stores baseline bus variables and masks
+- stores graph structure, edge parameters, positional encodings, and feature masks
+- exposes provisional generator bounds
+- slices one graph from a PyG batch using `batch.ptr`
+
+### `pv_dispatch.py`
+
+PV-only decision specification for Phase 1.
+
+### `load_shedding_spec.py`
+
+PQ-bus load shedding specification using MW shed.
+
+### `extended_dispatch_spec.py`
+
+Combined decision specification for:
+
+- PV redispatch
+- PQ shedding
+
+### `neural_solver.py`
+
+Unified GNN/GPS wrapper for:
+
+- masked input construction
+- inference
+- denormalized predicted bus states
+
+### `wildfire_penalty.py`
+
+Wildfire-aware branch risk module.
+
+Responsibilities:
+
+- reuses branch loading logic from `overload_penalty.py`
+- computes wildfire cost from thresholded branch loading
+- returns debugging details including:
+  - `branch_loading`
+  - `branch_risk_terms`
+  - `active_risk_mask`
+
+### `optimization.py`
+
+Wildfire-aware optimization wrapper around `scipy.optimize.minimize`.
+
+Responsibilities:
+
+- enforces generator and shedding bounds
+- evaluates generator deviation cost
+- evaluates shedding cost
+- evaluates wildfire cost from surrogate predictions
+- tracks optimization history
+
+### `pipeline_utils.py`
+
+Shared framework helpers for the real IEEE-30 workflow.
+
+Responsibilities:
+
+- load config and datamodule
+- load the first test batch
+- extract one scenario by `scenario_idx`
+- load checkpointed GNN or GPS models
+
+This is the main cleanup layer that removes repetitive setup code from the examples and tests.
+
+### `validation.py`
+
+Validation harness for:
+
+- scenario structure
+- decision specs
+- solver behavior
+- branch-risk evaluator behavior
+
+## Entry Points
+
+### `example_optimization.py`
+
+Minimal PV-only wildfire-dispatch example.
+
+### `example_optimization_with_shedding.py`
+
+Extended wildfire-dispatch example with:
+
+- PV-only case
+- PV + shedding case
+- lower shedding penalty case
+
+### `test_pipeline.py`
+
+Synthetic smoke test for the core module wiring.
+
+### `test_pipeline_ieee30.py`
+
+Real-data smoke test for one extracted IEEE-30 graph.
+
+### `test_gnn_vs_gps_shedding.py`
+
+Real-data comparison of GNN vs GPS under the wildfire objective.
+
+### `ieee30_optimization_validation.ipynb`
+
+Presentation notebook for the same workflow.
+
+## Current Verified Behavior
+
+As currently verified:
+
+- single-scenario extraction works correctly
+- all examples and tests under `experiments/test` run
+- the notebook executes without errors
+- the optimizer still tends to stop at the baseline with 0 iterations on the tested scenarios
+- GNN is materially more stable than GPS under the extended wildfire objective
+
+## Known Limitations
+
+- optimization quality is still limited by surrogate fidelity
+- voltage predictions can still fail reasonableness checks
+- GPS remains unstable on the extended decision space
+- branch risk is based on surrogate voltages and simplified branch postprocessing
+- there is still no explicit AC feasibility enforcement in the objective loop
+
+## Recommended Next Steps
+
+1. Add branch-specific wildfire weights from external fire exposure data.
+2. Replace provisional branch and generator metadata with case-specific values where available.
+3. Compare surrogate wildfire cost against a true PF-based branch flow calculation.
+4. Test derivative-free methods if `L-BFGS-B` continues to stop at the baseline.
+5. Add uncertainty-aware decision logic if the surrogate remains noisy.

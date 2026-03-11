@@ -1,15 +1,16 @@
 """
-Predict-then-optimize pipeline for GridFM power grid dispatch optimization.
+Wildfire-aware predict-then-optimize pipeline for GridFM dispatch experiments.
 
-This package provides a complete pipeline for optimizing power grid dispatch
-using pretrained GridFM neural solvers (GNN_v0.1 or GPS_v0.2).
+This package provides the scenario extraction, neural surrogate wrappers,
+wildfire-risk evaluation, optimization, and validation utilities used by the
+`experiments/test` IEEE-30 workflow.
 
 Main modules:
 - scenario_data: Canonical scenario representation
-- pv_dispatch: PV-bus Pg decision variable specification
-- neural_solver: Neural solver wrapper for both models
-- overload_penalty: Line loading and overload computation
-- optimization: Dispatch optimization problem
+- pv_dispatch / extended_dispatch_spec: Decision variable specifications
+- neural_solver: Neural solver wrapper for GNN and GPS models
+- wildfire_penalty: Branch-loading wildfire-risk computation
+- optimization: Wildfire-aware dispatch optimization problem
 - validation: Pipeline validation harness
 """
 
@@ -19,6 +20,17 @@ from .load_shedding_spec import LoadSheddingSpec
 from .extended_dispatch_spec import ExtendedDispatchSpec
 from .neural_solver import NeuralSolverWrapper
 from .overload_penalty import OverloadPenaltyEvaluator
+from .pipeline_utils import (
+    TestScenarioContext,
+    get_repo_root,
+    load_first_test_batch,
+    load_gnn_model,
+    load_gps_model,
+    load_single_test_scenario,
+    load_test_config,
+    load_test_datamodule,
+)
+from .wildfire_penalty import WildfirePenaltyEvaluator, compute_wildfire_penalty
 from .optimization import DispatchOptimizationProblem
 from .validation import PipelineValidationHarness
 
@@ -30,6 +42,16 @@ __all__ = [
     "ExtendedDispatchSpec",
     "NeuralSolverWrapper",
     "OverloadPenaltyEvaluator",
+    "TestScenarioContext",
+    "get_repo_root",
+    "load_test_config",
+    "load_test_datamodule",
+    "load_first_test_batch",
+    "load_single_test_scenario",
+    "load_gnn_model",
+    "load_gps_model",
+    "WildfirePenaltyEvaluator",
+    "compute_wildfire_penalty",
     "DispatchOptimizationProblem",
     "PipelineValidationHarness",
 ]

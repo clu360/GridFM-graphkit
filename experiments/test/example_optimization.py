@@ -12,24 +12,21 @@ import sys
 from pathlib import Path
 import numpy as np
 import torch
-import yaml
 
-# Add repo to path
-repo_root = Path(__file__).parent.parent.parent
+repo_root = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(repo_root))
 
 from experiments.test import (
-    ScenarioData,
-    extract_scenario_from_batch,
     PVDispatchDecisionSpec,
     NeuralSolverWrapper,
-    OverloadPenaltyEvaluator,
+    WildfirePenaltyEvaluator,
     DispatchOptimizationProblem,
     PipelineValidationHarness,
+    load_gnn_model,
+    load_single_test_scenario,
 )
 
-from gridfm_graphkit.io.param_handler import NestedNamespace, load_model
-from gridfm_graphkit.datasets.powergrid_datamodule import LitGridDataModule
+STANDARD_BRANCH_RATING_MVA = 100.0
 
 
 def main():
@@ -45,77 +42,67 @@ def main():
     
     # 1. Load configuration and data
     print("[1/8] Loading test data...")
-    config_path = repo_root / "tests" / "config" / "gridFMv0.1_dummy.yaml"
-    with open(config_path, 'r') as f:
-        config_dict = yaml.safe_load(f)
-    args = NestedNamespace(**config_dict)
-    
-    data_dir = repo_root / "tests" / "data"  # Use tests/data, not data/
-    datamodule = LitGridDataModule(args, data_dir=str(data_dir))
-    datamodule.setup(stage="test")
-    test_loader = datamodule.test_dataloader()[0]
-    batch = next(iter(test_loader))
-    print("✓ Loaded IEEE-30 test batch\n")
+    context = load_single_test_scenario(scenario_idx=0, scenario_id="IEEE-30")
+    repo_root = context.repo_root
+    args = context.args
+    scenario = context.scenario
+    print("[OK] Loaded IEEE-30 test batch\n")
     
     # 2. Extract scenario
     print("[2/8] Extracting scenario...")
-    scenario = extract_scenario_from_batch(
-        batch,
-        datamodule.node_normalizers[0],
-        datamodule.edge_normalizers[0],
-        scenario_id="IEEE-30",
-    )
-    print(f"✓ Scenario with {scenario.num_buses} buses, "
+    print(f"[OK] Scenario with {scenario.num_buses} buses, "
           f"{np.sum(scenario.PV_mask)} PV buses\n")
     
     # 3. Define decision variables
     print("[3/8] Creating decision spec...")
     decision_spec = PVDispatchDecisionSpec(scenario)
-    print(f"✓ Decision vector dimension: {decision_spec.n_pv}\n")
+    print(f"[OK] Decision vector dimension: {decision_spec.n_pv}\n")
     
     # 4. Load and wrap model
     print("[4/8] Loading pretrained model...")
-    model = load_model(args)
-    model_path = repo_root / "examples" / "models" / "GridFM_v0_1.pth"
-    if model_path.exists():
-        checkpoint = torch.load(model_path, map_location=device)
-        if isinstance(checkpoint, dict) and 'state_dict' in checkpoint:
-            model.load_state_dict(checkpoint['state_dict'], strict=False)
-        else:
-            model.load_state_dict(checkpoint, strict=False)
-        print(f"✓ Loaded weights from {model_path.name}\n")
-    else:
-        print(f"⚠ Model file not found, using untrained model\n")
+    model = load_gnn_model(args, repo_root=repo_root, device=device)
+    print("[OK] Loaded weights from GridFM_v0_1.pth\n")
     
     # 5. Create solver wrapper
     print("[5/8] Creating solver wrapper...")
     solver = NeuralSolverWrapper(
         model, "gnn", scenario, decision_spec, device=device
     )
-    print("✓ Solver ready for inference\n")
+    print("[OK] Solver ready for inference\n")
     
-    # 6. Create overload evaluator
-    print("[6/8] Creating overload evaluator...")
-    overload_eval = OverloadPenaltyEvaluator(scenario)
-    baseline_overload = overload_eval.evaluate_baseline()
-    print(f"✓ Baseline: {baseline_overload['n_overloaded_lines']} overloaded lines, "
-          f"max loading {baseline_overload['max_loading']:.3f}\n")
+    # 6. Create wildfire evaluator
+    print("[6/8] Creating wildfire evaluator...")
+    wildfire_eval = WildfirePenaltyEvaluator(
+        scenario,
+        standard_rate_a_mva=STANDARD_BRANCH_RATING_MVA,
+    )
+    baseline_risk = wildfire_eval.evaluate_baseline()
+    print(
+        f"[OK] Baseline wildfire cost: {baseline_risk['wildfire_cost']:.6f}, "
+        f"active risk branches {baseline_risk['n_active_risk_branches']}, "
+        f"max loading {baseline_risk['max_loading']:.3f}\n"
+    )
     
     # 7. Quick validation
     print("[7/8] Running pipeline validation...")
     validation_report = PipelineValidationHarness.full_validation(
-        scenario, decision_spec, solver, None, overload_eval
+        scenario, decision_spec, solver, None, wildfire_eval
     )
     if validation_report['all_passed']:
-        print("✓ All validation checks passed\n")
+        print("[OK] All validation checks passed\n")
     else:
-        print("⚠ Some validation checks failed (see details above)\n")
+        print("[WARN] Some validation checks failed (see details above)\n")
     
     # 8. Optimize
     print("[8/8] Running optimization...")
     problem = DispatchOptimizationProblem(
-        scenario, decision_spec, solver, overload_eval,
-        alpha=1.0, lambda_=1.0
+        scenario,
+        decision_spec,
+        solver,
+        wildfire_eval,
+        lambda_gen=1.0,
+        lambda_shed=50.0,
+        lambda_wf=10.0,
     )
     
     result = problem.optimize(method="L-BFGS-B", maxiter=50, verbose=False)
@@ -133,18 +120,18 @@ def main():
     print(f"  Optimized: {comparison['optimized']['objective']:.6f}")
     print(f"  Improvement: {comparison['improvement']['objective_pct']:.2f}%")
     
-    print(f"\nCost (baseline deviation):")
-    print(f"  Baseline:  {comparison['baseline']['cost']:.6f}")
-    print(f"  Optimized: {comparison['optimized']['cost']:.6f}")
+    print(f"\nGenerator deviation cost:")
+    print(f"  Baseline:  {comparison['baseline']['generator_deviation_cost']:.6f}")
+    print(f"  Optimized: {comparison['optimized']['generator_deviation_cost']:.6f}")
     
-    print(f"\nPenalty (overload):")
-    print(f"  Baseline:  {comparison['baseline']['penalty']:.6f}")
-    print(f"  Optimized: {comparison['optimized']['penalty']:.6f}")
-    print(f"  Reduction: {comparison['improvement']['penalty_pct']:.2f}%")
+    print(f"\nWildfire cost:")
+    print(f"  Baseline:  {comparison['baseline']['wildfire_cost']:.6f}")
+    print(f"  Optimized: {comparison['optimized']['wildfire_cost']:.6f}")
+    print(f"  Reduction: {comparison['improvement']['wildfire_pct']:.2f}%")
     
-    print(f"\nOverloaded lines:")
-    print(f"  Baseline:  {comparison['baseline']['n_overloaded']}")
-    print(f"  Optimized: {comparison['optimized']['n_overloaded']}")
+    print(f"\nActive wildfire-risk branches:")
+    print(f"  Baseline:  {comparison['baseline']['n_active_risk_branches']}")
+    print(f"  Optimized: {comparison['optimized']['n_active_risk_branches']}")
     
     print(f"\nMax line loading:")
     print(f"  Baseline:  {comparison['baseline']['max_loading']:.4f}")
@@ -155,7 +142,7 @@ def main():
     print(f"  Success: {result['success']}")
     
     print("\n" + "=" * 70)
-    print("✓ Example complete!")
+    print("[OK] Example complete!")
     print("=" * 70)
 
 

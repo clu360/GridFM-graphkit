@@ -7,11 +7,10 @@ and optimization interfaces.
 
 import numpy as np
 import scipy.optimize as opt
-from typing import Dict, Callable, Optional, Tuple
+from typing import Dict, Tuple
 from .scenario_data import ScenarioData
-from .pv_dispatch import PVDispatchDecisionSpec
 from .neural_solver import NeuralSolverWrapper
-from .overload_penalty import OverloadPenaltyEvaluator
+from .wildfire_penalty import WildfirePenaltyEvaluator
 
 
 class DispatchOptimizationProblem:
@@ -19,7 +18,9 @@ class DispatchOptimizationProblem:
     Dispatch redispatch optimization problem using pretrained neural solver.
     
     Minimizes:
-        J(u) = alpha * ||u - u_base||_2^2 + lambda * rho_overload(Phi_theta(u))
+        J(u) = lambda_gen * ||u_pg - u_pg,base||_2^2
+             + lambda_shed * sum(u_delta)
+             + lambda_wf * wildfire_penalty(Phi_theta(u))
     
     Subject to:
         u_min <= u <= u_max
@@ -33,12 +34,8 @@ class DispatchOptimizationProblem:
         Decision variable spec for PV-bus Pg
     solver : NeuralSolverWrapper
         Neural solver wrapper
-    overload_eval : OverloadPenaltyEvaluator
-        Overload evaluator
-    alpha : float
-        Cost weight for baseline deviation
-    lambda_ : float
-        Cost weight for overload penalty
+    wildfire_eval : WildfirePenaltyEvaluator
+        Wildfire penalty evaluator
     """
     
     def __init__(
@@ -46,10 +43,10 @@ class DispatchOptimizationProblem:
         scenario: ScenarioData,
         decision_spec,  # PVDispatchDecisionSpec or ExtendedDispatchSpec
         solver: NeuralSolverWrapper,
-        overload_eval: OverloadPenaltyEvaluator,
-        alpha: float = 1.0,
-        lambda_: float = 1.0,
-        beta: float = 0.0,  # Shedding cost weight (0 if no shedding)
+        wildfire_eval: WildfirePenaltyEvaluator,
+        lambda_gen: float = 1.0,
+        lambda_shed: float = 50.0,
+        lambda_wf: float = 10.0,
     ):
         """
         Initialize optimization problem.
@@ -62,22 +59,22 @@ class DispatchOptimizationProblem:
             Decision variable specification
         solver : NeuralSolverWrapper
             Neural solver wrapper (GNN or GPS)
-        overload_eval : OverloadPenaltyEvaluator
-            Overload penalty evaluator
-        alpha : float, optional
-            Weight for baseline deviation cost (default: 1.0)
-        lambda_ : float, optional
-            Weight for overload penalty (default: 1.0)
-        beta : float, optional
-            Weight for load shedding cost (default: 0.0 = no shedding)
+        wildfire_eval : WildfirePenaltyEvaluator
+            Wildfire penalty evaluator
+        lambda_gen : float, optional
+            Weight for generator deviation cost
+        lambda_shed : float, optional
+            Weight for load shedding cost
+        lambda_wf : float, optional
+            Weight for wildfire penalty
         """
         self.scenario = scenario
         self.decision_spec = decision_spec
         self.solver = solver
-        self.overload_eval = overload_eval
-        self.alpha = alpha
-        self.lambda_ = lambda_
-        self.beta = beta
+        self.wildfire_eval = wildfire_eval
+        self.lambda_gen = lambda_gen
+        self.lambda_shed = lambda_shed
+        self.lambda_wf = lambda_wf
         
         # Detect if extended dispatch spec (with shedding)
         self.has_shedding = hasattr(decision_spec, 'shed_spec')
@@ -85,15 +82,15 @@ class DispatchOptimizationProblem:
         # Track optimization history
         self.history = {
             "u": [],
-            "cost": [],
-            "deviation": [],
-            "penalty": [],
-            "shedding": [],
+            "generator_deviation": [],
+            "load_shedding": [],
+            "wildfire": [],
+            "objective": [],
         }
     
-    def cost_baseline_deviation(self, u: np.ndarray) -> float:
+    def cost_generator_deviation(self, u: np.ndarray) -> float:
         """
-        Compute baseline deviation cost: ||u - u_base||_2^2.
+        Compute PV generator deviation cost.
         
         Parameters
         ----------
@@ -103,14 +100,19 @@ class DispatchOptimizationProblem:
         Returns
         -------
         float
-            Cost
+            Generator deviation cost
         """
+        if self.has_shedding:
+            u_pg, _ = self.decision_spec.split_decision_vector(u)
+            u_pg_base = self.decision_spec.pv_spec.u_base
+            return float(np.sum((u_pg - u_pg_base) ** 2))
+
         u_base = self.decision_spec.u_base
         return float(np.sum((u - u_base) ** 2))
     
     def cost_load_shedding(self, u: np.ndarray) -> float:
         """
-        Compute load shedding cost: ||delta||_2^2.
+        Compute load shedding cost: sum(delta).
         
         Only applicable if decision spec has shedding (ExtendedDispatchSpec).
         
@@ -129,11 +131,11 @@ class DispatchOptimizationProblem:
         
         # Extract shedding part
         _, delta = self.decision_spec.split_decision_vector(u)
-        return float(np.sum(delta ** 2))
+        return float(np.sum(delta))
     
-    def penalty_overload(self, u: np.ndarray) -> Tuple[float, Dict]:
+    def penalty_wildfire(self, u: np.ndarray) -> Tuple[float, Dict]:
         """
-        Compute overload penalty from neural solver prediction.
+        Compute wildfire penalty from neural solver prediction.
         
         Parameters
         ----------
@@ -143,18 +145,17 @@ class DispatchOptimizationProblem:
         Returns
         -------
         tuple
-            (penalty: float, details: dict)
+            (wildfire_cost: float, details: dict)
         """
-        # Get predicted state
         pred = self.solver.predict_state(u)
-        
-        # Compute overload penalty
-        penalty, details = self.overload_eval.compute_overload_penalty(
+
+        wildfire_cost, details = self.wildfire_eval.compute_wildfire_penalty(
             pred["Vm"],
             pred["Va"],
+            return_details=True,
         )
-        
-        return penalty, details
+
+        return wildfire_cost, details
     
     def objective(self, u: np.ndarray, return_details: bool = False) -> float:
         """
@@ -176,25 +177,27 @@ class DispatchOptimizationProblem:
         if not self.decision_spec.check_bounds(u)[0]:
             # Return large penalty for infeasible
             return 1e10
-        
-        # Baseline deviation cost
-        cost_dev = self.cost_baseline_deviation(u)
-        
-        # Load shedding cost
+
+        cost_gen = self.cost_generator_deviation(u)
         cost_shed = self.cost_load_shedding(u)
-        
-        # Overload penalty
-        penalty, details = self.penalty_overload(u)
-        
-        # Total objective
-        obj = self.alpha * cost_dev + self.beta * cost_shed + self.lambda_ * penalty
+        wildfire_cost, details = self.penalty_wildfire(u)
+
+        obj = (
+            self.lambda_gen * cost_gen
+            + self.lambda_shed * cost_shed
+            + self.lambda_wf * wildfire_cost
+        )
         
         if return_details:
             details_full = {
                 "objective": obj,
-                "cost_deviation": cost_dev,
+                "total_cost": obj,
+                "generator_deviation_cost": cost_gen,
+                "load_shedding_cost": cost_shed,
+                "wildfire_cost": wildfire_cost,
+                # Backward-compatible aliases for existing scripts.
+                "cost_deviation": cost_gen,
                 "cost_shedding": cost_shed,
-                "penalty_overload": penalty,
             }
             details_full.update(details)
             return obj, details_full
@@ -282,6 +285,8 @@ class DispatchOptimizationProblem:
         dict
             Optimization result with keys: success, u_opt, obj_opt, n_iter, etc.
         """
+        self.reset_history()
+
         # Initial point: baseline
         u0 = self.decision_spec.u_base.copy()
         
@@ -292,8 +297,9 @@ class DispatchOptimizationProblem:
         def callback(u_iter):
             obj, details = self.objective(u_iter, return_details=True)
             self.history["u"].append(u_iter.copy())
-            self.history["cost"].append(details["cost_deviation"])
-            self.history["penalty"].append(details["penalty_overload"])
+            self.history["generator_deviation"].append(details["generator_deviation_cost"])
+            self.history["load_shedding"].append(details["load_shedding_cost"])
+            self.history["wildfire"].append(details["wildfire_cost"])
             self.history["objective"].append(obj)
         
         # Solve
@@ -309,16 +315,33 @@ class DispatchOptimizationProblem:
             callback=callback,
         )
         
-        # Compute final metrics
         u_opt = result.x
-        obj_opt, details_opt = self.objective(u_opt, return_details=True)
+        cost_gen_opt = self.cost_generator_deviation(u_opt)
+        cost_shed_opt = self.cost_load_shedding(u_opt)
+        wildfire_opt, wildfire_details_opt = self.penalty_wildfire(u_opt)
+        obj_opt = (
+            self.lambda_gen * cost_gen_opt
+            + self.lambda_shed * cost_shed_opt
+            + self.lambda_wf * wildfire_opt
+        )
+        details_opt = {
+            "objective": obj_opt,
+            "total_cost": obj_opt,
+            "generator_deviation_cost": cost_gen_opt,
+            "load_shedding_cost": cost_shed_opt,
+            "wildfire_cost": wildfire_opt,
+            "cost_deviation": cost_gen_opt,
+            "cost_shedding": cost_shed_opt,
+        }
+        details_opt.update(wildfire_details_opt)
         
         return {
             "success": result.success,
             "u_opt": u_opt,
             "obj_opt": obj_opt,
-            "cost_opt": details_opt["cost_deviation"],
-            "penalty_opt": details_opt["penalty_overload"],
+            "cost_opt": cost_gen_opt,
+            "shedding_cost_opt": cost_shed_opt,
+            "wildfire_opt": wildfire_opt,
             "n_iter": result.nit,
             "message": result.message,
             "history": self.history,
@@ -345,39 +368,84 @@ class DispatchOptimizationProblem:
         u_base = self.decision_spec.u_base
         
         # Baseline metrics
-        obj_base, details_base = self.objective(u_base, return_details=True)
+        cost_base = self.cost_generator_deviation(u_base)
+        cost_shed_base = self.cost_load_shedding(u_base)
+        wildfire_base, wildfire_details_base = self.penalty_wildfire(u_base)
+        obj_base = (
+            self.lambda_gen * cost_base
+            + self.lambda_shed * cost_shed_base
+            + self.lambda_wf * wildfire_base
+        )
+        details_base = {
+            "objective": obj_base,
+            "total_cost": obj_base,
+            "generator_deviation_cost": cost_base,
+            "load_shedding_cost": cost_shed_base,
+            "wildfire_cost": wildfire_base,
+            "cost_deviation": cost_base,
+            "cost_shedding": cost_shed_base,
+        }
+        details_base.update(wildfire_details_base)
         pred_base = self.solver.predict_state(u_base)
         
-        # Optimized metrics
-        obj_opt, details_opt = self.objective(u_opt, return_details=True)
+        cost_opt = self.cost_generator_deviation(u_opt)
+        cost_shed_opt = self.cost_load_shedding(u_opt)
+        wildfire_opt, wildfire_details_opt = self.penalty_wildfire(u_opt)
+        obj_opt = (
+            self.lambda_gen * cost_opt
+            + self.lambda_shed * cost_shed_opt
+            + self.lambda_wf * wildfire_opt
+        )
+        details_opt = {
+            "objective": obj_opt,
+            "total_cost": obj_opt,
+            "generator_deviation_cost": cost_opt,
+            "load_shedding_cost": cost_shed_opt,
+            "wildfire_cost": wildfire_opt,
+            "cost_deviation": cost_opt,
+            "cost_shedding": cost_shed_opt,
+        }
+        details_opt.update(wildfire_details_opt)
         pred_opt = self.solver.predict_state(u_opt)
         
-        # Improvements
         obj_improvement = float(obj_base - obj_opt)
-        penalty_improvement = details_base["penalty_overload"] - details_opt["penalty_overload"]
+        wildfire_improvement = details_base["wildfire_cost"] - details_opt["wildfire_cost"]
         
         return {
             "baseline": {
                 "u": u_base,
                 "objective": obj_base,
-                "cost": details_base["cost_deviation"],
-                "penalty": details_base["penalty_overload"],
-                "n_overloaded": details_base["n_overloaded_lines"],
+                "generator_deviation_cost": details_base["generator_deviation_cost"],
+                "load_shedding_cost": details_base["load_shedding_cost"],
+                "wildfire_cost": details_base["wildfire_cost"],
+                "cost": details_base["generator_deviation_cost"],
+                "penalty": details_base["wildfire_cost"],
+                "n_active_risk_branches": details_base["n_active_risk_branches"],
                 "max_loading": details_base["max_loading"],
             },
             "optimized": {
                 "u": u_opt,
                 "objective": obj_opt,
-                "cost": details_opt["cost_deviation"],
-                "penalty": details_opt["penalty_overload"],
-                "n_overloaded": details_opt["n_overloaded_lines"],
+                "generator_deviation_cost": details_opt["generator_deviation_cost"],
+                "load_shedding_cost": details_opt["load_shedding_cost"],
+                "wildfire_cost": details_opt["wildfire_cost"],
+                "cost": details_opt["generator_deviation_cost"],
+                "penalty": details_opt["wildfire_cost"],
+                "n_active_risk_branches": details_opt["n_active_risk_branches"],
                 "max_loading": details_opt["max_loading"],
             },
             "improvement": {
                 "objective": obj_improvement,
-                "objective_pct": 100 * obj_improvement / abs(obj_base),
-                "penalty": penalty_improvement,
-                "penalty_pct": 100 * penalty_improvement / abs(details_base["penalty_overload"]),
+                "objective_pct": 100 * obj_improvement / abs(obj_base) if obj_base != 0 else 0.0,
+                "wildfire": wildfire_improvement,
+                "wildfire_pct": 100 * wildfire_improvement / abs(details_base["wildfire_cost"])
+                if details_base["wildfire_cost"] != 0
+                else 0.0,
+                # Backward-compatible aliases.
+                "penalty": wildfire_improvement,
+                "penalty_pct": 100 * wildfire_improvement / abs(details_base["wildfire_cost"])
+                if details_base["wildfire_cost"] != 0
+                else 0.0,
             },
             "predictions": {
                 "baseline": pred_base,
@@ -389,7 +457,8 @@ class DispatchOptimizationProblem:
         """Reset optimization history."""
         self.history = {
             "u": [],
-            "cost": [],
-            "penalty": [],
+            "generator_deviation": [],
+            "load_shedding": [],
+            "wildfire": [],
             "objective": [],
         }
