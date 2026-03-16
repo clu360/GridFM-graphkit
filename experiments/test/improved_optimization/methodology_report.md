@@ -22,29 +22,91 @@ The improved workflow adds a screening stage:
 
 Decision vector:
 
-$u = [\Delta P_g^{selected}, s^{targeted}]$
+$$
+u = \begin{bmatrix}
+\Delta P_g^{\mathrm{selected}} \\
+s^{\mathrm{targeted}}
+\end{bmatrix}
+$$
+
+Here, \(u\) is the optimization decision vector, \(\Delta P_g^{\mathrm{selected}}\) is the vector of active-power redispatch variables for the selected controllable generator buses, and \(s^{\mathrm{targeted}}\) is the vector of targeted load-shedding variables for the selected PQ load buses.
+
+Surrogate-constrained optimization problem:
+
+$$
+\begin{aligned}
+\min_{u, v} \quad & J(u, v) = \lambda_g C_{\mathrm{gen}}(u) + \lambda_s C_{\mathrm{shed}}(u) + \lambda_w C_{\mathrm{wf}}(v) \\
+\text{subject to} \quad & v = \rho(u)
+\end{aligned}
+$$
+
+Here, \(J(u, v)\) is the total optimization objective, \(v\) is the surrogate-predicted electrical state, \(\rho(\cdot)\) is the neural surrogate solver that maps decision variables to the predicted operating state, \(\lambda_g\) is the generator-redispatch weight, \(\lambda_s\) is the load-shedding weight, and \(\lambda_w\) is the wildfire-risk weight.
 
 Objective:
 
-$J(u) = \lambda_g C_gen(u) + \lambda_s C_shed(u) + \lambda_w C_wf(u)$
+$$
+J(u, v) = \lambda_g C_{\mathrm{gen}}(u) + \lambda_s C_{\mathrm{shed}}(u) + \lambda_w C_{\mathrm{wf}}(v)
+$$
+
+Here, the total objective is the weighted sum of generator movement cost, load-shedding cost, and wildfire penalty.
 
 Generator deviation cost:
 
-$C_gen(u) = \sum_g a_g (\Delta P_g)^2$
+$$
+C_{\mathrm{gen}}(u) = \sum_{g \in \mathcal{G}_c} a_g (\Delta P_g)^2
+$$
+
+Here, \(C_{\mathrm{gen}}(u)\) is the generator deviation cost, \(\mathcal{G}_c\) is the selected controllable generator set, \(a_g\) is the penalty coefficient for generator \(g\), and \(\Delta P_g\) is the active-power redispatch applied at generator \(g\).
 
 Load shedding cost:
 
-$C_shed(u) = \sum_i c_i s_i$
+$$
+C_{\mathrm{shed}}(u) = \sum_{i \in \mathcal{D}_c} c_i s_i
+$$
+
+Here, \(C_{\mathrm{shed}}(u)\) is the load-shedding cost, \(\mathcal{D}_c\) is the selected controllable load-bus set, \(c_i\) is the shedding penalty coefficient at load bus \(i\), and \(s_i \ge 0\) is the amount of active load shed at bus \(i\).
 
 Wildfire penalty:
 
-$C_wf(u) = \sum_{\ell \in L_r} w_\ell \phi(\rho_\ell(u))$
+$$
+C_{\mathrm{wf}}(v) = \sum_{\ell \in \mathcal{L}_r} w_\ell \, \phi\!\left(\rho_\ell(v)\right)
+$$
+
+Here, \(C_{\mathrm{wf}}(v)\) is the wildfire penalty, \(\mathcal{L}_r\) is the wildfire-sensitive line set, \(w_\ell\) is the risk weight for line \(\ell\), \(\rho_\ell(v)\) is the reconstructed loading ratio for line \(\ell\) under surrogate state \(v\), and \(\phi(\cdot)\) is the chosen smooth or thresholded line-risk penalty.
+
+Default softplus-squared line-risk penalty:
+
+$$
+\phi(\rho) = \operatorname{softplus}\!\left(\alpha(\rho - \tau)\right)^2
+$$
+
+Here, \(\rho\) is a line loading ratio, \(\tau\) is the wildfire loading threshold, and \(\alpha\) is the softplus sharpness parameter that controls how steeply the penalty turns on near the threshold.
 
 Finite-difference relief score:
 
-$Score_g = \sum_{\ell \in L_r} w_\ell max(0, -S_{g,\ell})$
+$$
+S_{g,\ell} \approx \frac{\rho_\ell(u + \epsilon e_g) - \rho_\ell(u)}{\epsilon}
+$$
 
-$Score_d = \sum_{\ell \in L_r} w_\ell max(0, -S_{d,\ell})$
+Here, \(S_{g,\ell}\) is the finite-difference sensitivity of risky-line loading \(\rho_\ell\) to a small perturbation in generator control \(g\), \(\epsilon\) is the perturbation size, and \(e_g\) is the unit vector associated with that control dimension.
+
+$$
+\mathrm{Score}_g = \sum_{\ell \in \mathcal{L}_r} w_\ell \max(0, -S_{g,\ell})
+$$
+
+Here, \(\mathrm{Score}_g\) is the aggregate relief score for generator \(g\); higher values indicate that increasing or decreasing that generator along its admissible direction more strongly reduces loading on risky lines.
+
+$$
+S_{d,\ell} \approx \frac{\rho_\ell(u + \epsilon e_d) - \rho_\ell(u)}{\epsilon}
+$$
+
+Here, \(S_{d,\ell}\) is the finite-difference sensitivity of risky-line loading to a small load-shedding perturbation at controllable load \(d\), and \(e_d\) is the unit vector for that shedding control.
+
+$$
+\mathrm{Score}_d = \sum_{\ell \in \mathcal{L}_r} w_\ell \max(0, -S_{d,\ell})
+$$
+
+Here, \(\mathrm{Score}_d\) is the aggregate relief score for load bus \(d\); higher values indicate that shedding at that bus is more effective at relieving the risky-line set.
 
 ## Decision-variable selection procedure
 
