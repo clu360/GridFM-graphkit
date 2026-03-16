@@ -1,0 +1,22 @@
+{
+  "model_name": "gps",
+  "success": true,
+  "message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+  "n_iter": 3,
+  "baseline_objective": 5850904.845002404,
+  "optimized_objective": 5836944.859409413,
+  "baseline_wildfire_cost": 585090.4845002404,
+  "optimized_wildfire_cost": 583660.5689302954,
+  "optimized_total_shed_mw": 6.783402129188596,
+  "selected_generator_buses": [],
+  "selected_load_buses": [
+    25,
+    18,
+    23,
+    17,
+    2
+  ],
+  "validation_all_passed": true,
+  "history_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gps_improved_20260316_130002\\objective_history.csv",
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gps_improved_20260316_130002"
+}

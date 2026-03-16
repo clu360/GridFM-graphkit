@@ -14,6 +14,40 @@ from gridfm_graphkit.datasets.powergrid_datamodule import LitGridDataModule
 from gridfm_graphkit.io.param_handler import NestedNamespace, load_model
 
 
+def _normalize_checkpoint_state_dict(state_dict: dict) -> dict:
+    if not state_dict:
+        return state_dict
+
+    keys = list(state_dict.keys())
+    if all(key.startswith("model.") for key in keys):
+        return {key.removeprefix("model."): value for key, value in state_dict.items()}
+
+    return state_dict
+
+
+def _infer_gps_model_overrides(state_dict: dict, config_dict: dict) -> dict:
+    state_dict = _normalize_checkpoint_state_dict(state_dict)
+    overrides = {}
+
+    encoder_weight = state_dict.get("encoder.0.weight")
+    decoder_weight = state_dict.get("decoder.2.weight")
+    edge_weight = state_dict.get("layers.0.conv.conv.lin.weight")
+
+    if encoder_weight is not None and decoder_weight is not None:
+        hidden_dim = int(decoder_weight.shape[1])
+        pe_dim = int(hidden_dim - encoder_weight.shape[0])
+        overrides["hidden_size"] = hidden_dim
+        overrides["pe_dim"] = pe_dim
+        overrides["input_dim"] = int(encoder_weight.shape[1])
+        overrides["output_dim"] = int(decoder_weight.shape[0])
+
+    if edge_weight is not None:
+        overrides["edge_dim"] = int(edge_weight.shape[1])
+
+    overrides["type"] = "GPSTransformer"
+    return overrides
+
+
 @dataclass
 class TestScenarioContext:
     repo_root: Path
@@ -54,6 +88,7 @@ def load_test_datamodule(
     repo_root: Optional[Path] = None,
 ) -> LitGridDataModule:
     repo_root = repo_root or get_repo_root()
+    torch.manual_seed(int(args.seed))
     datamodule = LitGridDataModule(
         args,
         data_dir=str(repo_root / "tests" / "data"),
@@ -62,7 +97,9 @@ def load_test_datamodule(
     return datamodule
 
 
-def load_first_test_batch(datamodule: LitGridDataModule):
+def load_first_test_batch(datamodule: LitGridDataModule, seed: Optional[int] = None):
+    if seed is not None:
+        torch.manual_seed(int(seed))
     return next(iter(datamodule.test_dataloader()[0]))
 
 
@@ -74,7 +111,7 @@ def load_single_test_scenario(
     repo_root = get_repo_root()
     config_dict, args = load_test_config(repo_root, config_name=config_name)
     datamodule = load_test_datamodule(args, repo_root=repo_root)
-    batch = load_first_test_batch(datamodule)
+    batch = load_first_test_batch(datamodule, seed=int(args.seed))
     scenario = extract_scenario_from_batch(
         batch,
         datamodule.node_normalizers[0],
@@ -108,6 +145,7 @@ def load_checkpointed_model(
         except TypeError:
             checkpoint = torch.load(checkpoint_path, map_location=device)
         state_dict = checkpoint["state_dict"] if isinstance(checkpoint, dict) and "state_dict" in checkpoint else checkpoint
+        state_dict = _normalize_checkpoint_state_dict(state_dict)
         model.load_state_dict(state_dict, strict=False)
     return model.to(device)
 
@@ -133,11 +171,24 @@ def load_gps_model(
     repo_root = repo_root or get_repo_root()
     gps_config = dict(config_dict)
     gps_config["model"] = dict(config_dict["model"])
-    gps_config["model"]["type"] = "GPSTransformer"
+    gps_checkpoint = get_gps_checkpoint_path(repo_root)
+    if gps_checkpoint.exists():
+        try:
+            checkpoint = torch.load(
+                gps_checkpoint,
+                map_location=device,
+                weights_only=False,
+            )
+        except TypeError:
+            checkpoint = torch.load(gps_checkpoint, map_location=device)
+        state_dict = checkpoint["state_dict"] if isinstance(checkpoint, dict) and "state_dict" in checkpoint else checkpoint
+        gps_config["model"].update(_infer_gps_model_overrides(state_dict, config_dict))
+    else:
+        gps_config["model"]["type"] = "GPSTransformer"
     args_gps = NestedNamespace(**gps_config)
     model = load_checkpointed_model(
         args_gps,
-        get_gps_checkpoint_path(repo_root),
+        gps_checkpoint,
         device=device,
     )
     return model, args_gps

@@ -1,0 +1,28 @@
+{
+  "model_name": "gps",
+  "success": true,
+  "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "n_iter": 3,
+  "baseline_objective": 6112572.724357759,
+  "optimized_objective": 6100904.061505817,
+  "baseline_wildfire_cost": 611257.2724357758,
+  "optimized_wildfire_cost": 610055.3632668165,
+  "optimized_total_shed_mw": 7.008576753055646,
+  "selected_generator_buses": [
+    1,
+    4,
+    7,
+    10,
+    12
+  ],
+  "selected_load_buses": [
+    25,
+    18,
+    23,
+    17,
+    2
+  ],
+  "validation_all_passed": true,
+  "history_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gps_improved_20260316_130254\\objective_history.csv",
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gps_improved_20260316_130254"
+}

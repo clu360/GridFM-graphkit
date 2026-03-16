@@ -1,0 +1,28 @@
+{
+  "model_name": "gnn",
+  "success": false,
+  "message": "ABNORMAL: ",
+  "n_iter": 0,
+  "baseline_objective": 15452436.168815361,
+  "optimized_objective": 15452436.168815361,
+  "baseline_wildfire_cost": 1545243.616881536,
+  "optimized_wildfire_cost": 1545243.616881536,
+  "optimized_total_shed_mw": 0.0,
+  "selected_generator_buses": [
+    1,
+    4,
+    7,
+    10,
+    12
+  ],
+  "selected_load_buses": [
+    2,
+    18,
+    16,
+    23,
+    25
+  ],
+  "validation_all_passed": true,
+  "history_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gnn_improved_20260316_130227\\objective_history.csv",
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gnn_improved_20260316_130227"
+}

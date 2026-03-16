@@ -1,0 +1,2 @@
+iteration,objective,generator_deviation_cost,load_shedding_cost,wildfire_cost,total_shed_mw,max_risky_line_loading,decision_norm
+0,15452436.168815361,0.0,0.0,1545243.616881536,0.0,12.580206180555457,0.0

@@ -1,0 +1,22 @@
+{
+  "model_name": "gnn",
+  "success": true,
+  "message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "n_iter": 2,
+  "baseline_objective": 15452021.387699107,
+  "optimized_objective": 15451948.03527969,
+  "baseline_wildfire_cost": 1545202.1387699107,
+  "optimized_wildfire_cost": 1545193.3365464988,
+  "optimized_total_shed_mw": 0.29339629399766476,
+  "selected_generator_buses": [],
+  "selected_load_buses": [
+    2,
+    18,
+    16,
+    23,
+    25
+  ],
+  "validation_all_passed": true,
+  "history_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gnn_improved_20260316_125940\\objective_history.csv",
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\improved_optimization\\results\\improved_runs\\gnn_improved_20260316_125940"
+}
