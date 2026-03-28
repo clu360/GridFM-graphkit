@@ -26,9 +26,10 @@ $$
 u = \begin{bmatrix}
 \Delta P_g^{\mathrm{selected}} \\
 s^{\mathrm{targeted}}
-\end{bmatrix}$$
+\end{bmatrix}
+$$
 
-Here, $u$ is the optimization decision vector, $9s$ is the vector of active-power redispatch variables for the selected controllable generator buses, and $s^{ightarrow{targeted}}$ is the vector of targeted load-shedding variables for the selected PQ load buses.
+Here, $u$ is the optimization decision vector, $\Delta P_g^{\mathrm{selected}}$ is the vector of active-power redispatch variables for the selected controllable generator buses, and $s^{\mathrm{targeted}}$ is the vector of targeted load-shedding variables for the selected PQ load buses.
 
 Surrogate-constrained optimization problem:
 
@@ -39,7 +40,7 @@ $$
 \end{aligned}
 $$
 
-Here, $J(u, v)$ is the total optimization objective, $v$ is the surrogate-predicted electrical state, $ho(\cdot)$ is the neural surrogate solver that maps decision variables to the predicted operating state, $\lambda_g$ is the generator-redispatch weight, $\lambda_s$ is the load-shedding weight, and $\lambda_w$ is the wildfire-risk weight.
+Here, $J(u, v)$ is the total optimization objective, $v$ is the surrogate-predicted electrical state, $\rho(\cdot)$ is the neural surrogate solver that maps decision variables to the predicted operating state, $\lambda_g$ is the generator-redispatch weight, $\lambda_s$ is the load-shedding weight, and $\lambda_w$ is the wildfire-risk weight.
 
 Objective:
 
@@ -55,7 +56,7 @@ $$
 C_{\mathrm{gen}}(u) = \sum_{g \in \mathcal{G}_c} a_g (\Delta P_g)^2
 $$
 
-Here, $C_{\mathrm{gen}}(u)$ is the generator deviation cost, \mathcal{G}_c$ is the selected controllable generator set, $a_g$ is the penalty coefficient for generator $g$, and \Delta P_g$ is the active-power redispatch applied at generator $g$.
+Here, $C_{\mathrm{gen}}(u)$ is the generator deviation cost, $\mathcal{G}_c$ is the selected controllable generator set, $a_g$ is the penalty coefficient for generator $g$, and $\Delta P_g$ is the active-power redispatch applied at generator $g$.
 
 Load shedding cost:
 
@@ -63,7 +64,7 @@ $$
 C_{\mathrm{shed}}(u) = \sum_{i \in \mathcal{D}_c} c_i s_i
 $$
 
-Here, $C_{\mathrm{shed}}(u)$ is the load-shedding cost, \mathcal{D}_c$ is the selected controllable load-bus set, $c_i$ is the shedding penalty coefficient at load bus $i$, and $s_i \ge 0$ is the amount of active load shed at bus $i$.
+Here, $C_{\mathrm{shed}}(u)$ is the load-shedding cost, $\mathcal{D}_c$ is the selected controllable load-bus set, $c_i$ is the shedding penalty coefficient at load bus $i$, and $s_i \ge 0$ is the amount of active load shed at bus $i$.
 
 Wildfire penalty:
 
@@ -71,7 +72,7 @@ $$
 C_{\mathrm{wf}}(v) = \sum_{\ell \in \mathcal{L}_r} w_\ell \phi\!\left(\rho_\ell(v)\right)
 $$
 
-Here, $C_{\mathrm{wf}}(v)$ is the wildfire penalty, \mathcal{L}_r$ is the wildfire-sensitive line set, $w_\ell$ is the risk weight for line \ell$, $\rho_\ell(v)$ is the reconstructed loading ratio for line \ell$ under surrogate state $v$, and $\phi(\cdot)$ is the chosen smooth or thresholded line-risk penalty.
+Here, $C_{\mathrm{wf}}(v)$ is the wildfire penalty, $\mathcal{L}_r$ is the wildfire-sensitive line set, $w_\ell$ is the risk weight for line $\ell$, $\rho_\ell(v)$ is the reconstructed loading ratio for line $\ell$ under surrogate state $v$, and $\phi(\cdot)$ is the chosen smooth or thresholded line-risk penalty.
 
 Default softplus-squared line-risk penalty:
 
@@ -201,7 +202,7 @@ The improved methodology is designed to answer whether targeted shedding can bec
 
 - `model_name`: gnn
 - `success`: False
-- `message`: ABNORMAL: 
+- `message`: ABNORMAL:
 - `n_iter`: 0
 - `baseline_objective`: 15452436.168815361
 - `optimized_objective`: 15452436.168815361
