@@ -1,4 +1,5 @@
 class Registry:
+    """Simple name-to-object registry with decorator-based registration."""
     def __init__(self, name: str):
         self._name = name
         self._registry = {}
@@ -44,3 +45,4 @@ LOSS_REGISTRY = Registry("loss")
 TASK_REGISTRY = Registry("task")
 TRANSFORM_REGISTRY = Registry("transform")
 PHYSICS_DECODER_REGISTRY = Registry("physics_decoder")
+DATASET_WRAPPER_REGISTRY = Registry("dataset_wrapper")
