@@ -36,7 +36,7 @@ optimizer:
   gtol: 1.0e-6
   eps: 1.0e-4
 output:
-  output_root: experiments/test/wildfire_initial_tests/results/connected_corridor/sweeps
+  output_root: experiments/test/wildfire_initial_tests/results/demand_weighted/connected_corridor/sweeps
   run_name: connected_corridor_stability_sweep
 sweep:
   seeds: [0, 1, 2, 3, 4]

@@ -27,6 +27,8 @@ def compute_first_pass_objective_components(
         impact=line_impact,
     )
     load_shedding = decision_vector.load_shedding(u)
+    equal_bus_load_shedding = decision_vector.equal_bus_load_shedding(u)
+    unserved_demand_mw = decision_vector.unserved_demand(u)
     gen_move = decision_vector.normalized_generator_movement(u)
     risk_scale = max(float(risk_normalizer), 1e-12) if normalize_terms else 1.0
     shedding_scale = max(float(load_shedding_normalizer), 1e-12) if normalize_terms else 1.0
@@ -39,6 +41,9 @@ def compute_first_pass_objective_components(
         "objective_total": float(objective),
         "wildfire_group_risk": float(risk_total),
         "load_shedding": float(load_shedding),
+        "load_shedding_metric": "demand_weighted_fraction",
+        "equal_bus_load_shedding": float(equal_bus_load_shedding),
+        "unserved_demand_mw": float(unserved_demand_mw),
         "normalized_wildfire_group_risk": float(normalized_risk),
         "normalized_load_shedding": float(normalized_load_shedding),
         "risk_objective_term": float(risk_objective_term),

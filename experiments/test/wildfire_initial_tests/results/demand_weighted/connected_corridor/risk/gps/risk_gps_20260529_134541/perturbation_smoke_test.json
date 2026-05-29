@@ -1,0 +1,13 @@
+{
+  "norm_delta_voltage": 0.0019126470831997574,
+  "norm_delta_angle": 6.188271224161931e-06,
+  "norm_delta_branch_loading": 0.0006827962264445465,
+  "max_abs_delta_loading": 0.0003460675197626273,
+  "nonzero_response": true,
+  "bounds_ok": true,
+  "bounds_message": "All bounds satisfied",
+  "prediction_has_nan": false,
+  "prediction_has_inf": false,
+  "perturbed_prediction_correct_shape": true,
+  "passed": true
+}

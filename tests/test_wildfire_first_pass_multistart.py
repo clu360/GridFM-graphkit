@@ -72,7 +72,7 @@ def test_grid_seed_candidates_include_best_one_variable_point(monkeypatch):
     config.objective.lambda_R = 0.999001
     config.objective.lambda_L = 0.000999
     config.objective.risk_normalizer = 5.0
-    config.objective.load_shedding_normalizer = 3.0
+    config.objective.load_shedding_normalizer = 1.0
 
     decision_vector = FirstPassDecisionVector(DummyScenario(), [0], [1])
     wildfire = WildfireScenario(

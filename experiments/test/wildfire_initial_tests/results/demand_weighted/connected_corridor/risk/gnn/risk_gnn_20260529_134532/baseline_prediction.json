@@ -1,0 +1,12 @@
+{
+  "model_type": "gnn",
+  "scenario_id": "IEEE-30-wildfire-first-pass",
+  "num_buses": 30,
+  "num_lines": 110,
+  "prediction_has_nan": false,
+  "prediction_has_inf": false,
+  "max_voltage": 30.775625228881836,
+  "min_voltage": -3.7307333946228027,
+  "max_loading_ratio": 12.582819874984358,
+  "state_extraction_passed": true
+}

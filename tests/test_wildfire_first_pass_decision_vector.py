@@ -36,10 +36,11 @@ def test_alpha_one_gives_zero_unserved_demand():
     assert spec.load_shedding(spec.u_base) == 0.0
 
 
-def test_load_shedding_is_unweighted_fraction_sum():
+def test_load_shedding_is_demand_weighted_fraction():
     spec = FirstPassDecisionVector(DummyScenario(), [0], [1, 2])
     u = spec.combine_decision_vector(np.array([0.0]), np.array([0.95, 0.90]))
-    assert np.isclose(spec.load_shedding(u), 0.15)
+    assert np.isclose(spec.equal_bus_load_shedding(u), 0.15)
+    assert np.isclose(spec.load_shedding(u), (10.0 / 60.0) * 0.05 + (20.0 / 60.0) * 0.10)
     assert np.isclose(spec.unserved_demand(u), 2.5)
 
 

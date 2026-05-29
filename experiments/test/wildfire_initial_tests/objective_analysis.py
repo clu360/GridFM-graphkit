@@ -188,7 +188,7 @@ def _prepare_single_evaluation(config_path: Path):
         risk_normalizer = float(max(base_risk, 1e-12))
     load_shedding_normalizer = config.objective.load_shedding_normalizer
     if config.objective.normalize_terms and load_shedding_normalizer <= 0.0:
-        load_shedding_normalizer = float(max(scenario.num_buses, 1e-12))
+        load_shedding_normalizer = 1.0
     return config, scenario, decision_vector, runner, wildfire, risk_normalizer, load_shedding_normalizer, base_risk
 
 
@@ -401,7 +401,7 @@ def run_line_impact_objective_sweep(
         risk_normalizer = float(max(frozen_risk, 1e-12))
     load_shedding_normalizer = config.objective.load_shedding_normalizer
     if config.objective.normalize_terms and load_shedding_normalizer <= 0.0:
-        load_shedding_normalizer = float(max(scenario.num_buses, 1e-12))
+        load_shedding_normalizer = 1.0
 
     frame = build_line_impact_objective_sweep(
         u,

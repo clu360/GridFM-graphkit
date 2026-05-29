@@ -36,6 +36,6 @@ optimizer:
   gtol: 1.0e-6
   eps: 1.0e-4
 output:
-  output_root: experiments/test/wildfire_initial_tests/results/connected_corridor/gnn
+  output_root: experiments/test/wildfire_initial_tests/results/demand_weighted/connected_corridor/gnn
   run_name: connected_corridor_gnn
 random_seed: 0

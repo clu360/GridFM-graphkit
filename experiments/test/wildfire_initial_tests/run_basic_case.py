@@ -115,7 +115,7 @@ def _risk_before_after_frame(before: pd.DataFrame, after: pd.DataFrame, key: str
 
 
 def write_summary_markdown(run_dir: Path, summary: dict) -> None:
-    path = REPO_ROOT / "experiments" / "test" / "wildfire_initial_tests" / "FIRST_PASS_SUMMARY.md"
+    path = run_dir / "run_summary.md"
     lines = [
         "# Wildfire First Pass Summary",
         "",
@@ -145,7 +145,7 @@ def write_summary_markdown(run_dir: Path, summary: dict) -> None:
         "",
         "The full formulation includes Pg, Qg, alpha, bus energization, and line energization. This first pass keeps Qg, y, and z fixed and tests whether the continuous reduced controls can lower grouped wildfire exposure.",
         "",
-        "The optimized scalar objective is `lambda_R * (R_group / R_baseline) + lambda_L * (L_shed / N_bus)`. Generator movement is recorded as a diagnostic, not used as a cost term.",
+        "The optimized scalar objective is `lambda_R * (R_group / R_baseline) + lambda_L * L_shed_weighted`, where `L_shed_weighted = sum_n (Pd_n / sum_m Pd_m) * (1 - alpha_n)`. Generator movement is recorded as a diagnostic, not used as a cost term.",
         "",
         "`R_group` uses `z_l * p_env_l * loading_l^2 * I_l(u)` summed over configured line groups. `z_l` is fixed at 1, and `I_l(u)` is the relative equal-weight served-load loss from a counterfactual one-line GridFM outage.",
         "",
@@ -287,7 +287,7 @@ def run_basic_case(config_path: Path) -> dict:
         if config.objective.risk_normalizer <= 0.0:
             config.objective.risk_normalizer = float(max(baseline_risk, 1e-12))
         if config.objective.load_shedding_normalizer <= 0.0:
-            config.objective.load_shedding_normalizer = float(max(scenario.num_buses, 1e-12))
+            config.objective.load_shedding_normalizer = 1.0
         write_json(
             run_dir / "objective_normalizers.json",
             {
@@ -295,7 +295,8 @@ def run_basic_case(config_path: Path) -> dict:
                 "risk_normalizer": config.objective.risk_normalizer,
                 "load_shedding_normalizer": config.objective.load_shedding_normalizer,
                 "risk_normalizer_source": "baseline_grouped_wildfire_risk",
-                "load_shedding_normalizer_source": "num_buses",
+                "load_shedding_normalizer_source": "demand_weighted_fraction_already_normalized",
+                "load_shedding_metric": "demand_weighted_fraction",
             },
         )
 
@@ -364,6 +365,7 @@ def run_basic_case(config_path: Path) -> dict:
         "objective_terms_normalized": bool(config.objective.normalize_terms),
         "risk_normalizer": float(config.objective.risk_normalizer),
         "load_shedding_normalizer": float(config.objective.load_shedding_normalizer),
+        "load_shedding_metric": "demand_weighted_fraction",
         "lambda_R": float(config.objective.lambda_R),
         "lambda_L": float(config.objective.lambda_L),
         "run_dir": str(run_dir),

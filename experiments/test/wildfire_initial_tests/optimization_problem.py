@@ -118,6 +118,8 @@ class FirstPassOptimizationProblem:
                     "objective_total": float(components["objective_total"]),
                     "wildfire_group_risk": float(components["wildfire_group_risk"]),
                     "load_shedding": float(components["load_shedding"]),
+                    "equal_bus_load_shedding": float(components.get("equal_bus_load_shedding", np.nan)),
+                    "unserved_demand_mw": float(components.get("unserved_demand_mw", np.nan)),
                     "normalized_wildfire_group_risk": float(components["normalized_wildfire_group_risk"]),
                     "normalized_load_shedding": float(components["normalized_load_shedding"]),
                     "risk_objective_term": float(components["risk_objective_term"]),

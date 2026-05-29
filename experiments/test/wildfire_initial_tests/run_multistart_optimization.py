@@ -104,7 +104,7 @@ def build_problem(config_path: Path):
         if config.objective.risk_normalizer <= 0.0:
             config.objective.risk_normalizer = float(max(baseline_risk, 1e-12))
         if config.objective.load_shedding_normalizer <= 0.0:
-            config.objective.load_shedding_normalizer = float(max(scenario.num_buses, 1e-12))
+            config.objective.load_shedding_normalizer = 1.0
 
     problem = FirstPassOptimizationProblem(scenario, decision_vector, runner, wildfire, config)
     return config, scenario, decision_vector, problem
@@ -128,6 +128,8 @@ def build_grid_seed_candidates(
             "objective_total": float(baseline["objective_total"]),
             "wildfire_group_risk": float(baseline["wildfire_group_risk"]),
             "load_shedding": float(baseline["load_shedding"]),
+            "equal_bus_load_shedding": float(baseline.get("equal_bus_load_shedding", np.nan)),
+            "unserved_demand_mw": float(baseline.get("unserved_demand_mw", np.nan)),
             "u": u_base.copy(),
         }
     )
@@ -150,6 +152,8 @@ def build_grid_seed_candidates(
                     "objective_total": float(components["objective_total"]),
                     "wildfire_group_risk": float(components["wildfire_group_risk"]),
                     "load_shedding": float(components["load_shedding"]),
+                    "equal_bus_load_shedding": float(components.get("equal_bus_load_shedding", np.nan)),
+                    "unserved_demand_mw": float(components.get("unserved_demand_mw", np.nan)),
                     "u": u,
                 }
             )
@@ -190,6 +194,8 @@ def _result_rows(result: dict, decision_vector: FirstPassDecisionVector) -> pd.D
                 "final_objective": float(item["final"]["objective_total"]),
                 "final_wildfire_group_risk": float(item["final"]["wildfire_group_risk"]),
                 "final_load_shedding": float(item["final"]["load_shedding"]),
+                "final_equal_bus_load_shedding": float(item["final"].get("equal_bus_load_shedding", np.nan)),
+                "final_unserved_demand_mw": float(item["final"].get("unserved_demand_mw", np.nan)),
                 "mean_alpha": float(np.mean(alpha)) if len(alpha) else 1.0,
                 "min_alpha": float(np.min(alpha)) if len(alpha) else 1.0,
                 "max_abs_delta_pg": float(np.max(np.abs(delta_pg))) if len(delta_pg) else 0.0,
@@ -242,12 +248,15 @@ def run_multistart_optimization(
         "best_final_objective": float(result["final"]["objective_total"]),
         "best_final_wildfire_group_risk": float(result["final"]["wildfire_group_risk"]),
         "best_final_load_shedding": float(result["final"]["load_shedding"]),
+        "best_final_equal_bus_load_shedding": float(result["final"].get("equal_bus_load_shedding", np.nan)),
+        "best_final_unserved_demand_mw": float(result["final"].get("unserved_demand_mw", np.nan)),
         "optimizer_success": bool(result["success"]),
         "optimizer_message": result["message"],
         "lambda_R": float(config.objective.lambda_R),
         "lambda_L": float(config.objective.lambda_L),
         "risk_normalizer": float(config.objective.risk_normalizer),
         "load_shedding_normalizer": float(config.objective.load_shedding_normalizer),
+        "load_shedding_metric": "demand_weighted_fraction",
         "selected_starts_csv": str(run_dir / "selected_starts.csv"),
         "multistart_results_csv": str(run_dir / "multistart_results.csv"),
         "best_objective_trace_csv": str(run_dir / "best_objective_trace.csv"),
@@ -266,7 +275,15 @@ def run_multistart_optimization(
 
 
 def _multistart_root() -> Path:
-    return REPO_ROOT / "experiments" / "test" / "wildfire_initial_tests" / "results" / "multistart"
+    return (
+        REPO_ROOT
+        / "experiments"
+        / "test"
+        / "wildfire_initial_tests"
+        / "results"
+        / "demand_weighted"
+        / "multistart"
+    )
 
 
 def run_multistart_tradeoff_sets(
@@ -322,6 +339,8 @@ def run_multistart_tradeoff_sets(
                     "best_final_objective": summary["best_final_objective"],
                     "best_final_wildfire_group_risk": summary["best_final_wildfire_group_risk"],
                     "best_final_load_shedding": summary["best_final_load_shedding"],
+                    "best_final_equal_bus_load_shedding": summary.get("best_final_equal_bus_load_shedding"),
+                    "best_final_unserved_demand_mw": summary.get("best_final_unserved_demand_mw"),
                     "optimizer_success": summary["optimizer_success"],
                     "optimizer_message": summary["optimizer_message"],
                     "num_starts": summary["num_starts"],
@@ -360,7 +379,7 @@ def main() -> None:
     parser.add_argument("--max-seeds", type=int, default=5)
     parser.add_argument("--output-root", type=Path, default=None)
     parser.add_argument("--tradeoff-sets", action="store_true", help="Run risk/balanced/shed for GNN and GPS.")
-    parser.add_argument("--clear", action="store_true", help="Delete existing results/multistart before tradeoff-set generation.")
+    parser.add_argument("--clear", action="store_true", help="Delete existing results/demand_weighted/multistart before tradeoff-set generation.")
     args = parser.parse_args()
     if args.tradeoff_sets:
         run_multistart_tradeoff_sets(

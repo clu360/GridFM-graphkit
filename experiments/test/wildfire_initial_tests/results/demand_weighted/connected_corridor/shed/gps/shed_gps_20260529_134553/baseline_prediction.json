@@ -1,0 +1,12 @@
+{
+  "model_type": "gps",
+  "scenario_id": "IEEE-30-wildfire-first-pass",
+  "num_buses": 30,
+  "num_lines": 110,
+  "prediction_has_nan": false,
+  "prediction_has_inf": false,
+  "max_voltage": 23.825319290161133,
+  "min_voltage": -0.4116949439048767,
+  "max_loading_ratio": 9.473406001267625,
+  "state_extraction_passed": true
+}

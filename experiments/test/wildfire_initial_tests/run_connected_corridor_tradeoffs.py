@@ -41,7 +41,15 @@ MODEL_CONFIGS = {
 
 
 def _connected_corridor_root() -> Path:
-    return REPO_ROOT / "experiments" / "test" / "wildfire_initial_tests" / "results" / "connected_corridor"
+    return (
+        REPO_ROOT
+        / "experiments"
+        / "test"
+        / "wildfire_initial_tests"
+        / "results"
+        / "demand_weighted"
+        / "connected_corridor"
+    )
 
 
 def run_tradeoff_sets(clear: bool = False) -> Path:

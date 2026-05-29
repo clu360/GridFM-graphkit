@@ -53,7 +53,7 @@ def test_objective_returns_finite_scalar_for_baseline():
     assert components["generator_movement_objective_weight"] == 0.0
 
 
-def test_objective_uses_load_shedding_not_mw_unserved_demand():
+def test_objective_uses_demand_weighted_load_shedding_fraction():
     spec = FirstPassDecisionVector(DummyScenario(), [0], [1])
     wildfire = WildfireScenario(
         name="test",
@@ -79,8 +79,11 @@ def test_objective_uses_load_shedding_not_mw_unserved_demand():
         lambda_L=1.0,
         normalize_terms=True,
         risk_normalizer=1.0,
-        load_shedding_normalizer=spec.scenario.num_buses,
+        load_shedding_normalizer=1.0,
     )
-    assert np.isclose(components["load_shedding"], 0.10)
-    assert np.isclose(components["normalized_load_shedding"], 0.10 / 3.0)
-    assert np.isclose(objective, 0.10 / 3.0)
+    expected = (10.0 / 30.0) * 0.10
+    assert np.isclose(components["load_shedding"], expected)
+    assert np.isclose(components["equal_bus_load_shedding"], 0.10)
+    assert np.isclose(components["unserved_demand_mw"], 1.0)
+    assert np.isclose(components["normalized_load_shedding"], expected)
+    assert np.isclose(objective, expected)

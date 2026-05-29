@@ -118,9 +118,21 @@ class FirstPassDecisionVector:
             weights = np.maximum(self.scenario.Pd_base, 0.0)
         return float(np.sum(weights * (1.0 - alpha)))
 
-    def load_shedding(self, u: np.ndarray) -> float:
+    def equal_bus_load_shedding(self, u: np.ndarray) -> float:
         alpha = self.full_alpha(u)
         return float(np.sum(1.0 - alpha))
+
+    def demand_weighted_load_shedding(self, u: np.ndarray) -> float:
+        demand = np.maximum(np.asarray(self.scenario.Pd_base, dtype=float), 0.0)
+        total_demand = float(np.sum(demand))
+        if total_demand <= 1e-12:
+            return 0.0
+        weights = demand / total_demand
+        alpha = self.full_alpha(u)
+        return float(np.sum(weights * (1.0 - alpha)))
+
+    def load_shedding(self, u: np.ndarray) -> float:
+        return self.demand_weighted_load_shedding(u)
 
     def normalized_generator_movement(self, u: np.ndarray) -> float:
         delta_pg, _ = self.split_decision_vector(u)

@@ -14,7 +14,8 @@ As of May 28, 2026, the active state is the connected-corridor first pass:
 
 - target workflow: `configs/connected_corridor_gnn.yaml` and
   `configs/connected_corridor_gps.yaml`
-- target result layout: `results/connected_corridor/...`
+- target result layout for demand-weighted runs:
+  `results/demand_weighted/connected_corridor/...`
 - high-risk corridor: the manually selected, connected line IDs `[23, 32, 26]`
 - visualization: `figures/ieee30_network_changes.png` plots the IEEE-30
   topology and highlights the synthetic high-risk corridor
@@ -22,8 +23,8 @@ As of May 28, 2026, the active state is the connected-corridor first pass:
 - wildfire risk now uses probability-times-consequence form with `z_l = 1`,
   synthetic `p_env_l`, relative loading squared, and a GridFM counterfactual
   line-outage consequence score
-- load shedding term: modeled as the unweighted sum of shed fractions,
-  `sum_n (1 - alpha_n)`, not as MW-weighted unserved demand
+- load shedding term: modeled as a demand-weighted shed fraction,
+  `sum_n (P_D,n / sum_m P_D,m) * (1 - alpha_n)`
 - selected-load alpha is relaxed to `[0.0, 1.0]`
 - connected-corridor outputs are generated as three tradeoff sets:
   `risk`, `balanced`, and `shed`
@@ -43,6 +44,20 @@ written consistently, and focused tests pass. The next research phase should
 evaluate how the optimization behavior changes when de-energization is included
 as an explicit decision/control pathway rather than only as a counterfactual
 line-outage consequence calculation.
+
+Later on May 29, 2026, the optimized load-shedding term was changed from an
+equal-bus shed-fraction sum divided by `N_bus` to a demand-weighted shed
+fraction:
+
+```text
+w_n = P_D,n / sum_m P_D,m
+L_shed_weighted = sum_n w_n * (1 - alpha_n)
+```
+
+This term is already normalized because the weights sum to 1 across positive
+baseline demand, so current generated runs use
+`load_shedding_normalizer = 1.0`. The previous equal-bus shedding sum and
+unserved MW are retained as diagnostics.
 
 ## Why This Folder Exists
 
@@ -137,7 +152,7 @@ Objective, aligned with the current reduced formulation:
 
 ```text
 J(u) = lambda_R * (R_group / R_baseline)
-     + lambda_L * (L_shed / N_bus)
+     + lambda_L * L_shed_weighted
 ```
 
 Generator redispatch remains available as a control variable. Its normalized
@@ -174,18 +189,21 @@ I_l(u) = max(0, S_current(u) - S_outage_l(u)) / max(S_current(u), eps)
 equal weight per bus, and zero-load buses counted as fully served. This replaced
 the previous constant `impact_l = 1.0` behavior on May 28, 2026.
 
-`L_shed` is currently the unweighted load-shedding fraction sum over the full
-bus vector:
+`L_shed_weighted` is currently the demand-weighted load-shedding fraction over
+the full bus vector:
 
 ```text
-L_shed = sum_n (1 - alpha_n)
+w_n = P_D,n / sum_m P_D,m
+L_shed_weighted = sum_n w_n * (1 - alpha_n)
 ```
 
 Non-selected buses have `alpha_n = 1`, so they contribute zero. This replaced
-the previous MW-weighted unserved-demand implementation on May 18, 2026 to
-match the reduced formulation more closely. The normalized load-shedding term
-uses `N_bus` as its denominator, written per run as
-`load_shedding_normalizer`.
+the equal-bus shed-fraction objective on May 29, 2026 so that shedding 50% of a
+large-demand bus is more expensive than shedding 50% of a small-demand bus. The
+term is already normalized by total baseline demand, so current generated runs
+write `load_shedding_normalizer = 1.0` and
+`load_shedding_metric = demand_weighted_fraction`. The old equal-bus sum and
+unserved MW remain diagnostic outputs.
 
 Current connected-corridor work uses three convex normalized objective tradeoff
 sets:
@@ -679,6 +697,119 @@ GPS also improves, risk-preferred GNN improves slightly, and both
 shed-preferred cases correctly stay at baseline because the objective strongly
 penalizes any load shedding.
 
+Later on May 29, 2026, after switching the optimized load-shedding cost to the
+demand-weighted fraction, the three connected-corridor tradeoff cases were
+regenerated for both GNN and GPS without multistart:
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_connected_corridor_tradeoffs.py
+```
+
+Latest demand-weighted baseline-started outputs:
+
+```text
+results/demand_weighted/connected_corridor/risk/gnn/risk_gnn_20260529_134532/
+results/demand_weighted/connected_corridor/risk/gps/risk_gps_20260529_134541/
+results/demand_weighted/connected_corridor/balanced/gnn/balanced_gnn_20260529_134543/
+results/demand_weighted/connected_corridor/balanced/gps/balanced_gps_20260529_134550/
+results/demand_weighted/connected_corridor/shed/gnn/shed_gnn_20260529_134552/
+results/demand_weighted/connected_corridor/shed/gps/shed_gps_20260529_134553/
+```
+
+Demand-weighted baseline-started summary:
+
+```text
+risk/gnn:
+  objective:  0.999001 -> 0.9989932074556757
+  group risk: 9.276730045998226 -> 9.276657378702414
+  min alpha:  0.9995908031440097
+
+risk/gps:
+  objective:  0.999001 -> 0.999001
+  group risk: 2.6937669151682497 -> 2.6937669151682497
+
+balanced/gnn:
+  objective:  0.5 -> 0.5
+  group risk: 9.276730045998226 -> 9.276730045998226
+  note: optimizer reported ABNORMAL and returned baseline
+
+balanced/gps:
+  objective:  0.5 -> 0.5
+  group risk: 2.6937669151682497 -> 2.6937669151682497
+
+shed/gnn:
+  objective:  0.000999 -> 0.000999
+  group risk: 9.276730045998226 -> 9.276730045998226
+
+shed/gps:
+  objective:  0.000999 -> 0.000999
+  group risk: 2.6937669151682497 -> 2.6937669151682497
+```
+
+The matching demand-weighted multistart set was also regenerated:
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_multistart_optimization.py --tradeoff-sets --num-seed-points 11 --max-seeds 5
+```
+
+Latest demand-weighted multistart outputs:
+
+```text
+results/demand_weighted/multistart/risk/gnn/multistart_gnn_20260529_134608/
+results/demand_weighted/multistart/risk/gps/multistart_gps_20260529_134657/
+results/demand_weighted/multistart/balanced/gnn/multistart_gnn_20260529_134755/
+results/demand_weighted/multistart/balanced/gps/multistart_gps_20260529_134825/
+results/demand_weighted/multistart/shed/gnn/multistart_gnn_20260529_134854/
+results/demand_weighted/multistart/shed/gps/multistart_gps_20260529_134901/
+```
+
+Demand-weighted multistart summary:
+
+```text
+risk/gnn:
+  objective:                  0.999001 -> 0.9953593075274626
+  group risk:                 9.24251512077115
+  demand-weighted shedding:   0.042918644954574224
+  equal-bus shedding:         1.0817346814920368
+  unserved demand:            6.847095500765371 MW
+
+risk/gps:
+  objective:                  0.999001 -> 0.8961469098945768
+  group risk:                 2.4163346027562054
+  demand-weighted shedding:   0.0335228777710078
+  equal-bus shedding:         1.0000237157820664
+  unserved demand:            5.348126572996836 MW
+
+balanced/gnn:
+  objective:                  0.5 -> 0.5
+  group risk:                 9.276730045998226
+  demand-weighted shedding:   0.0
+  note: optimizer reported ABNORMAL and returned baseline
+
+balanced/gps:
+  objective:                  0.5 -> 0.4652724237474569
+  group risk:                 2.4163717542193073
+  demand-weighted shedding:   0.03352152279186194
+  equal-bus shedding:         1.0
+  unserved demand:            5.347910404205322 MW
+
+shed/gnn:
+  objective:                  0.000999 -> 0.000999
+  group risk:                 9.276730045998226
+  demand-weighted shedding:   0.0
+
+shed/gps:
+  objective:                  0.000999 -> 0.000999
+  group risk:                 2.6937669151682497
+  demand-weighted shedding:   0.0
+```
+
+Interpretation: demand weighting makes the load penalty larger than the old
+`1/N_bus` equal-bus normalization for the same complete selected-bus shed, but
+the risk-preferred GPS and balanced GPS multistart cases still improve because
+the risk reduction is large enough to offset about 3.35% demand-weighted
+shedding. Shed-preferred cases still stay at baseline.
+
 Later, `ac_opf_experiment.py` was added as a deliberately isolated hard
 AC-OPF experiment. It follows the standard AC-OPF constraint categories from
 MATPOWER/PowerModels-style formulations: AC P/Q nodal balance equalities,
@@ -712,12 +843,13 @@ Each `run_basic_case.py` execution creates a timestamped run directory:
 results/<run_name>_<YYYYMMDD_HHMMSS>/
 ```
 
-For the connected-corridor workflow, model runs are organized as:
+For the current demand-weighted connected-corridor workflow, model runs are
+organized as:
 
 ```text
-results/connected_corridor/<tradeoff_set>/gnn/<run_name>_<timestamp>/
-results/connected_corridor/<tradeoff_set>/gps/<run_name>_<timestamp>/
-results/connected_corridor/sweeps/<sweep_name>_<timestamp>/
+results/demand_weighted/connected_corridor/<tradeoff_set>/gnn/<run_name>_<timestamp>/
+results/demand_weighted/connected_corridor/<tradeoff_set>/gps/<run_name>_<timestamp>/
+results/demand_weighted/connected_corridor/sweeps/<sweep_name>_<timestamp>/
 ```
 
 Core machine-readable outputs stay at the run-directory root as JSON and CSV
@@ -815,9 +947,10 @@ realized weighted term magnitudes.
 
 Remaining methodology note: if future work again compares realized objective
 terms across tradeoff sets, start from
-`results/connected_corridor/connected_corridor_tradeoff_summary.csv` and the
-child `objective_trace.csv` files, and remember that the current normalizers
-are `R_group / R_baseline` and `L_shed / N_bus`.
+`results/demand_weighted/connected_corridor/connected_corridor_tradeoff_summary.csv`
+and the child `objective_trace.csv` files, and remember that the current
+normalizers are `R_group / R_baseline` and the already normalized
+demand-weighted `L_shed_weighted`.
 
 - Implement a comparison baseline that de-energizes all lines above a wildfire
   risk threshold, representing a simple PSPS rule.
@@ -833,22 +966,23 @@ are `R_group / R_baseline` and `L_shed / N_bus`.
 - Add tests for threshold selection and reporting behavior before trusting the
   baseline results.
 
-Priority 2: revisit load-shedding equity/importance weights.
+Priority 2 status: demand-weighted load-shedding cost has been implemented.
 
-- Current `L_shed = sum_n (1 - alpha_n)` treats a 50% reduction at a 20 MW bus
-  the same as a 50% reduction at a 200 MW bus.
-- Consider a weighted load-shedding term, likely demand-weighted or
-  importance-weighted:
+- Completed: the optimized load-shedding term now uses demand weights:
 
 ```text
+w_n = P_D,n / sum_m P_D,m
 L_shed_weighted = sum_n w_n * (1 - alpha_n)
 ```
 
-- Preserve the current unweighted formulation as a named option if useful, so
-  comparisons remain reproducible.
-- If demand-weighted shedding is introduced, update normalizers, trace columns,
-  plots, validation summaries, and tests so it is clear which shedding metric is
-  optimized and which metrics are diagnostic.
+- Completed: current generated runs use `load_shedding_normalizer = 1.0`
+  because the demand weights sum to 1.
+- Completed: tests were updated so a large-load bus contributes more to the
+  objective than an equal fractional shed at a small-load bus.
+- Completed: traces and multistart summaries now include diagnostic
+  `equal_bus_load_shedding` and `unserved_demand_mw` where available.
+- Remaining: if a future comparison needs the old equal-bus objective, add it
+  as a named objective option rather than silently changing this metric back.
 
 Deferred but still relevant:
 

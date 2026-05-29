@@ -1,0 +1,2 @@
+group_name,line_ids_before,group_weight_before,raw_group_risk_before,weighted_group_risk_before,line_ids_after,group_weight_after,raw_group_risk_after,weighted_group_risk_after
+high_risk_corridor,"23,32,26",1.0,9.276730045998226,9.276730045998226,"23,32,26",1.0,9.276657378702414,9.276657378702414
