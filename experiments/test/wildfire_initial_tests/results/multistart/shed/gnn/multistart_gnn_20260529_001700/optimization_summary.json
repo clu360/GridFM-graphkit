@@ -1,0 +1,23 @@
+{
+  "analysis_type": "grid_seeded_multistart",
+  "config_path": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\configs\\generated_multistart_tradeoffs\\shed_gnn.yaml",
+  "model_type": "gnn",
+  "num_seed_points_per_variable": 11,
+  "num_starts": 5,
+  "best_start_idx": 0,
+  "baseline_objective": 0.000999,
+  "best_start_objective": 0.000999,
+  "best_final_objective": 0.000999,
+  "best_final_wildfire_group_risk": 9.276730045998226,
+  "best_final_load_shedding": 0.0,
+  "optimizer_success": true,
+  "optimizer_message": "CONVERGENCE: NORM OF PROJECTED GRADIENT <= PGTOL",
+  "lambda_R": 0.000999,
+  "lambda_L": 0.999001,
+  "risk_normalizer": 9.276730045998226,
+  "load_shedding_normalizer": 30.0,
+  "selected_starts_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\multistart\\shed\\gnn\\multistart_gnn_20260529_001700\\selected_starts.csv",
+  "multistart_results_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\multistart\\shed\\gnn\\multistart_gnn_20260529_001700\\multistart_results.csv",
+  "best_objective_trace_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\multistart\\shed\\gnn\\multistart_gnn_20260529_001700\\best_objective_trace.csv",
+  "objective_trace_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\multistart\\shed\\gnn\\multistart_gnn_20260529_001700\\objective_trace.csv"
+}

@@ -1,0 +1,25 @@
+{
+  "model_type": "gnn",
+  "scenario_id": "IEEE-30-wildfire-first-pass",
+  "selected_generator_buses": [
+    1,
+    10,
+    12
+  ],
+  "selected_load_buses": [
+    6,
+    20,
+    11,
+    29,
+    18
+  ],
+  "baseline_objective": 16906.27133905166,
+  "final_objective": 16906.221955896566,
+  "baseline_grouped_wildfire_risk": 1690.627133905166,
+  "final_grouped_wildfire_risk": 1690.6218770724422,
+  "optimizer_success": true,
+  "optimizer_message": "CONVERGENCE: RELATIVE REDUCTION OF F <= FACTR*EPSMCH",
+  "num_objective_evals": 468,
+  "objective_failure_count": 0,
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_first_pass\\results\\basic_gnn_20260515_140439"
+}

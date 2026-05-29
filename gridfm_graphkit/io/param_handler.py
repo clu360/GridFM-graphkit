@@ -16,6 +16,7 @@ from torch_geometric.transforms import Compose
 def _ensure_datasets_registered() -> None:
     import gridfm_graphkit.datasets  # noqa: F401
     import gridfm_graphkit.datasets.transforms  # noqa: F401
+    import gridfm_graphkit.datasets.task_transforms  # noqa: F401
 
 
 def _ensure_model_registered(model_type: str) -> None:

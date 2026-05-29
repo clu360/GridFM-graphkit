@@ -1,0 +1,35 @@
+{
+  "lambda_R": 0.999001,
+  "lambda_L": 0.000999,
+  "success": false,
+  "message": "Positive directional derivative for linesearch",
+  "num_iterations": 19,
+  "objective_baseline": 0.0,
+  "objective_final": 5.969245098214061e-17,
+  "risk_baseline": 0.0,
+  "risk_final": 0.0,
+  "load_shedding_final": 1.7925660955597778e-12,
+  "risk_normalizer": 1e-12,
+  "load_shedding_normalizer": 30.0,
+  "max_abs_power_balance_baseline_mva": 8822.724692739608,
+  "max_abs_power_balance_final_mva": 7767.498436261955,
+  "min_thermal_margin_baseline_mva": -2975.7661230927747,
+  "min_thermal_margin_final_mva": -2884.620085744322,
+  "max_loading_final": 29.84620085744322,
+  "generator_buses": [
+    0,
+    1,
+    4,
+    7,
+    10,
+    12
+  ],
+  "selected_load_buses": [
+    6,
+    20,
+    11,
+    29,
+    18
+  ],
+  "note": "Separate hard-constraint AC-OPF experiment over local ScenarioData. Uses AC P/Q balance, voltage/reference bounds, Pg/Qg/alpha bounds, and branch apparent-flow limits with configured proxy ratings."
+}

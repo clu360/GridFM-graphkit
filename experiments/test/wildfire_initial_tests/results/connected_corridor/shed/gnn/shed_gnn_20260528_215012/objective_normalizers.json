@@ -1,0 +1,7 @@
+{
+  "normalize_terms": true,
+  "risk_normalizer": 9.276730045998226,
+  "load_shedding_normalizer": 30.0,
+  "risk_normalizer_source": "baseline_grouped_wildfire_risk",
+  "load_shedding_normalizer_source": "num_buses"
+}

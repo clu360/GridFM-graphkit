@@ -1,0 +1,41 @@
+model:
+  model_type: gps
+  device: cpu
+scenario:
+  scenario_idx: 0
+  scenario_id: IEEE-30-wildfire-first-pass
+  base_config_name: gridFMv0.1_dummy.yaml
+decision:
+  selected_generator_buses: []
+  selected_load_buses: []
+  auto_select_generators: 3
+  auto_select_loads: 5
+  delta_pg_bound_mw: 5.0
+  alpha_min: 0.00
+  alpha_max: 1.00
+wildfire:
+  selection_method: manual_connected
+  selected_line_ids: [23, 32, 26]
+  num_high_risk_lines: 3
+  high_hazard: 1.0
+  default_hazard: 0.1
+  default_impact: 1.0
+  group_weight: 1.0
+  hazard_multiplier: 1.0
+  standard_rate_a_mva: 100.0
+objective:
+  lambda_R: 0.999001
+  lambda_L: 0.000999
+  normalize_terms: true
+  risk_normalizer: 0.0
+  load_shedding_normalizer: 0.0
+optimizer:
+  method: L-BFGS-B
+  maxiter: 80
+  ftol: 1.0e-9
+  gtol: 1.0e-6
+  eps: 1.0e-4
+output:
+  output_root: experiments/test/wildfire_initial_tests/results/connected_corridor/gps
+  run_name: connected_corridor_gps
+random_seed: 0

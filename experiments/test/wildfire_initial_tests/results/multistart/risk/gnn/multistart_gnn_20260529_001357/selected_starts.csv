@@ -1,0 +1,6 @@
+start_idx,seed_source,decision_label,decision_index,decision_value,objective_total,wildfire_group_risk,load_shedding
+0,one_variable_grid,alpha_5_bus11,5,0.0,0.9953966468056175,9.24295077382007,1.0
+1,one_variable_grid,alpha_5_bus11,5,0.1,0.9957386883458801,9.246157896279994,0.9
+2,one_variable_grid,alpha_5_bus11,5,0.2,0.9959994917019658,9.248610640411933,0.8
+3,one_variable_grid,alpha_5_bus11,5,0.30000000000000004,0.9962846039807123,9.251289117364193,0.7
+4,one_variable_grid,alpha_5_bus11,5,0.4,0.9966427075984664,9.25464539238439,0.6

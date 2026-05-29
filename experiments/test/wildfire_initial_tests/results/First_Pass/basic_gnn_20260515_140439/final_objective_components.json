@@ -1,0 +1,13 @@
+{
+  "objective_total": 16906.221955896566,
+  "wildfire_group_risk": 1690.6218770724422,
+  "unserved_demand": 0.031851721449414325,
+  "generator_movement": 0.0,
+  "generator_movement_objective_weight": 0.0,
+  "max_loading_ratio": 12.582799783366752,
+  "max_voltage": 30.775604248046875,
+  "min_voltage": -3.7307302951812744,
+  "num_nan": 0,
+  "num_inf": 0,
+  "message": "ok"
+}

@@ -1,0 +1,7 @@
+{
+  "references": [
+    "MATPOWER AC OPF: power balance equalities, branch flow inequalities, and variable bounds.",
+    "PowerModels AC OPF: complex-voltage power balance, generator bounds, voltage bounds, branch thermal limits."
+  ],
+  "isolation": "This directory is separable from connected_corridor GridFM results and can be deleted without changing the main first-pass workflow."
+}

@@ -1,0 +1,3 @@
+point,objective,grouped_wildfire_risk,normalized_wildfire_risk,load_shedding,normalized_load_shedding,max_abs_power_balance_mva,min_thermal_margin_mva,max_loading_ratio
+baseline,0.0,0.0,0.0,0.0,0.0,8822.724692739608,-2975.7661230927747,30.75766123092775
+final,0.0,0.0,0.0,0.0,0.0,7767.498435295142,-2884.6162178451195,29.846162178451195
