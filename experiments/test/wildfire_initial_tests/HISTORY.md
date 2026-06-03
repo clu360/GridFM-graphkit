@@ -837,6 +837,409 @@ about `-2884.6 MVA`. Treat these outputs as evidence that the local
 `ScenarioData` approximation is not yet a reliable hard AC-OPF model, not as a
 valid AC-OPF comparison result.
 
+## Stage B.1/B.2 Multi-Group Wildfire Risk Sensitivity
+
+On May 31, 2026, Stage B.1/B.2 was implemented as an extension of the fixed
+topology first-pass workflow. The manual connected corridor remains available
+through:
+
+```yaml
+wildfire:
+  selection_method: manual_connected
+```
+
+The new automatic mode is:
+
+```yaml
+wildfire:
+  selection_method: automatic_risk_components
+```
+
+Automatic ranking computes a baseline score for every candidate line:
+
+```text
+score_l = p_env * loading_l(base)^2 * I_l(base)
+```
+
+For Stage B.1/B.2, `p_env` is uniform before selection. The checked-in
+automatic configs set `risk_score.candidate_p_env = 1.0`, so the ranking does
+not reuse the old manual-corridor convention of `1.0` on selected lines and
+`0.1` elsewhere. This avoids circular selection because selected lines do not
+exist until after ranking.
+
+Top-fraction selection uses:
+
+```text
+num_selected_lines = ceil(num_lines * requested_top_fraction)
+realized_selected_fraction = num_selected_lines / num_lines
+```
+
+Selected lines are grouped by connected components into `G_1`, `G_2`, ... with
+equal group weights. The automatic code allows a single connected component and
+records whether the result collapsed to one group.
+
+New configs:
+
+```text
+configs/automatic_multigroup_gps.yaml
+configs/automatic_multigroup_gnn.yaml
+```
+
+New runner:
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_multi_group_threshold_sensitivity.py --top-fractions 0.10 0.125 0.15 0.175 0.20
+```
+
+The runner defaults to grid-seeded multistart for `gps` and `gnn`, over
+`risk`, `balanced`, and `shed`, with near-0/near-1 lambda cases:
+
+```text
+risk:     lambda_R = 0.999001, lambda_L = 0.000999
+balanced: lambda_R = 0.5,      lambda_L = 0.5
+shed:     lambda_R = 0.000999, lambda_L = 0.999001
+```
+
+New result root:
+
+```text
+results/multi_group/
+```
+
+Threshold folder names use:
+
+```text
+threshold_0p10
+threshold_0p125
+threshold_0p15
+threshold_0p175
+threshold_0p20
+```
+
+Each automatic run writes:
+
+```text
+automatic_line_risk_scores.csv
+automatic_wildfire_groups.json
+automatic_group_summary.csv
+```
+
+Multistart runs now also write the standard run artifacts needed for
+comparison and visualization: baseline/final objective components,
+baseline/risk-before-after CSVs, decision vectors, traces, normalizers,
+`optimization_summary.json`, `analysis_summary.json`,
+`figures/optimization_behavior.png`, and
+`figures/ieee30_network_changes.png`.
+
+The topology visualization now colors automatic high-risk lines by group and
+adds group legend entries while preserving selected generator/load bus
+highlighting. `visualization_summary.json` includes selection method,
+requested/realized top fraction, selected line IDs, group IDs, group line and
+bus IDs, collapsed-to-single-group status, and largest-group diagnostics.
+
+Verified smoke command:
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_multi_group_threshold_sensitivity.py --top-fractions 0.10 --models gps --tradeoff-cases risk --num-seed-points 3 --max-seeds 2
+```
+
+Latest smoke result:
+
+```text
+results/multi_group/threshold_0p10/risk/gps/multistart_gps_20260531_191421/
+```
+
+Smoke summary:
+
+```text
+requested_top_fraction: 0.10
+num_lines: 110
+num_selected_lines: 11
+realized_selected_fraction: 0.10
+num_groups: 5
+largest_group_num_lines: 5
+largest_group_fraction_of_selected_lines: 0.45454545454545453
+collapsed_to_single_group: false
+baseline_objective: 0.999001
+best_seed_objective: 0.8983104240958543
+best_objective: 0.898298444155839
+best_grouped_risk: 2.5433063515171694
+best_load_shedding: 0.03352434654418237
+optimizer_success: true
+```
+
+The full 30-run default Stage B.2 sweep has not yet been run in full because
+the verified smoke run took about 100 seconds for one reduced GPS/risk case
+with `--num-seed-points 3 --max-seeds 2`; the default
+`--num-seed-points 11 --max-seeds 5` sweep is materially heavier.
+
+Focused verification:
+
+```powershell
+pytest tests/test_wildfire_first_pass_scenario.py tests/test_wildfire_first_pass_risk.py tests/test_wildfire_first_pass_objective.py tests/test_wildfire_first_pass_basic_run.py tests/test_wildfire_first_pass_multistart.py tests/test_wildfire_first_pass_multi_group_runner.py -q
+```
+
+Result:
+
+```text
+18 passed, 3 external deprecation warnings
+```
+
+Stage B.3/B.4 remain deferred. Distinct seeded grouping and manual
+multi-region stress testing were intentionally not implemented and should only
+be considered after manual review of Stage B.1/B.2 results under
+`results/multi_group/`.
+
+Later on May 31, 2026, GPS-only Stage B.2 results were generated for
+20% and 30% thresholds using the default demand-weighted, automatic
+multi-group, grid-seeded multistart methodology:
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_multi_group_threshold_sensitivity.py --top-fractions 0.20 0.30 --models gps --tradeoff-cases risk balanced shed
+```
+
+The objective normalizers in these runs record:
+
+```text
+load_shedding_normalizer = 1.0
+load_shedding_metric = demand_weighted_fraction
+```
+
+Output directories:
+
+```text
+results/multi_group/threshold_0p20/risk/gps/multistart_gps_20260531_192631/
+results/multi_group/threshold_0p20/balanced/gps/multistart_gps_20260531_193233/
+results/multi_group/threshold_0p20/shed/gps/multistart_gps_20260531_193552/
+results/multi_group/threshold_0p30/risk/gps/multistart_gps_20260531_193631/
+results/multi_group/threshold_0p30/balanced/gps/multistart_gps_20260531_194657/
+results/multi_group/threshold_0p30/shed/gps/multistart_gps_20260531_195041/
+```
+
+Aggregate summary:
+
+```text
+results/multi_group/multi_group_threshold_sensitivity_summary.csv
+results/multi_group/multi_group_threshold_sensitivity_summary.json
+```
+
+GPS 20% summary:
+
+```text
+num_selected_lines: 22 / 110
+realized_selected_fraction: 0.20
+num_groups: 6
+largest_group_num_lines: 10
+largest_group_fraction_of_selected_lines: 0.45454545454545453
+collapsed_to_single_group: false
+risk objective:     0.999001 -> 0.8985520880723752
+balanced objective: 0.5      -> 0.4664756256271531
+shed objective:     0.000999 -> 0.000999
+```
+
+GPS 30% summary:
+
+```text
+num_selected_lines: 33 / 110
+realized_selected_fraction: 0.30
+num_groups: 5
+largest_group_num_lines: 24
+largest_group_fraction_of_selected_lines: 0.7272727272727273
+collapsed_to_single_group: false
+risk objective:     0.999001 -> 0.8985455799965569
+balanced objective: 0.5      -> 0.4664754236987482
+shed objective:     0.000999 -> 0.000999
+```
+
+## Stage C PSPS Threshold Baseline
+
+On May 31, 2026, Stage C was implemented as a deterministic PSPS-only
+baseline/comparator. It does not optimize `z_l` or `y_n`, does not add
+mixed-integer topology controls, and does not optimize continuous controls
+after PSPS. Stage D optimized de-energization remains deferred.
+
+Methodology:
+
+```text
+grouping_top_fraction = 0.30
+psps_top_fraction = 0.10
+lambda_R = 0.999001
+lambda_L = 0.000999
+evaluation_mode = psps_only
+```
+
+The grouping threshold builds the Stage B automatic multi-group scenario.
+Only those candidate high-risk lines are eligible for Stage C PSPS
+de-energization; all non-candidate lines keep `z_l = 1`.
+
+Stage C uses a fixed demand-weighted line consequence score:
+
+```text
+I_l = max(0, S_D_base - S_D_outage_l) / S_D_base
+S_D_base = sum_n P_D,n
+```
+
+This is computed once per line from the baseline one-line outage prediction.
+Stage C does not use the old dynamic equal-bus `I_l(u)` consequence in risk
+calculations.
+
+For each environmental case, case-specific `p_env_l` is assigned before PSPS
+ranking. The PSPS ranking score is:
+
+```text
+baseline_psps_risk_l = p_env_l * loading_l(base)^2 * I_l
+```
+
+The de-energization rule is:
+
+```text
+num_psps_lines = max(1, ceil(psps_top_fraction * num_candidate_lines))
+realized_psps_fraction = num_psps_lines / num_candidate_lines
+```
+
+Then candidate lines are sorted by descending `baseline_psps_risk_l` and
+ascending `line_id`; the top `num_psps_lines` get `z_l = 0`. A line with
+`z_l = 0` contributes zero wildfire risk.
+
+Implemented environmental cases:
+
+```text
+auto_env
+largest_group_high
+```
+
+`largest_group_high` identifies the largest automatic connected group by line
+count, then baseline group risk, then lower numeric group ID. It sets that
+group to `p_env = 1.0`; other groups receive seeded random group-level
+`p_env` values in `[0.6, 0.9]` with seed `30`.
+
+New files:
+
+```text
+experiments/test/wildfire_initial_tests/stage_c_psps.py
+experiments/test/wildfire_initial_tests/run_stage_c_psps_baseline.py
+tests/test_wildfire_stage_c_psps.py
+```
+
+The GridFM runner now supports `predict_with_line_outages(...)` for one or
+more removed scenario lines. For post-PSPS line loading, Stage C uses the
+PSPS topology GridFM bus prediction on the original line indexing and
+explicitly sets de-energized line loading to zero. This avoids a reduced-edge
+loading shape mismatch in the existing overload evaluator while preserving
+original line-ID auditability.
+
+The planned long Stage C folder names were shortened because Windows/OneDrive
+path length limits prevented writing required artifact filenames. Outputs are
+still under `results/stage_c_psps/`:
+
+```text
+results/stage_c_psps/t0p30/p0p10/r/gps/auto/run_20260531_205156/
+results/stage_c_psps/t0p30/p0p10/r/gps/lgh/run_20260531_205158/
+```
+
+Aggregate outputs:
+
+```text
+results/stage_c_psps/stage_c_psps_summary.csv
+results/stage_c_psps/stage_c_psps_summary.json
+```
+
+Command run:
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_stage_c_psps_baseline.py --grouping-top-fraction 0.30 --psps-top-fraction 0.10 --models gps --cases auto_env largest_group_high
+```
+
+GPS Stage C results:
+
+```text
+auto_env:
+  candidate lines:              33
+  PSPS lines:                   4
+  realized PSPS fraction:       0.12121212121212122
+  de-energized line IDs:        [23, 18, 27, 101]
+  baseline all-energized risk:  48.347018605732885
+  post-PSPS risk:               2.2689103960556243
+  risk reduction fraction:      0.9530703141271553
+  demand-weighted load shed:    0.5495700231022472
+  objective:                    0.999001 -> 0.047431823569736915
+  disconnected components:      1
+  affected bus IDs:             [4, 5, 6, 7, 27]
+
+largest_group_high:
+  candidate lines:              33
+  PSPS lines:                   4
+  realized PSPS fraction:       0.12121212121212122
+  largest/manual group:         G_1
+  de-energized line IDs:        [23, 18, 27, 101]
+  baseline all-energized risk:  48.105301041506934
+  post-PSPS risk:               2.172713688167144
+  risk reduction fraction:      0.9548342149175525
+  demand-weighted load shed:    0.5495700231022472
+  objective:                    0.999001 -> 0.045669684916229365
+  disconnected components:      1
+  affected bus IDs:             [4, 5, 6, 7, 27]
+```
+
+Each run writes:
+
+```text
+fixed_line_consequence_scores.csv
+psps_line_risk_scores.csv
+psps_deenergization_decisions.csv
+automatic_wildfire_groups.json
+automatic_group_summary.csv
+objective_trace.csv
+optimization_summary.json
+visualization_summary.json
+figures/optimization_behavior.png
+figures/ieee30_network_changes.png
+```
+
+`objective_trace.csv` has exactly two rows: baseline all-energized and
+post-PSPS threshold topology. The network visualization now overlays PSPS
+de-energized lines when the Stage C decision artifact is present.
+
+Focused verification:
+
+```powershell
+pytest tests/test_wildfire_first_pass_scenario.py tests/test_wildfire_first_pass_risk.py tests/test_wildfire_first_pass_objective.py tests/test_wildfire_first_pass_basic_run.py tests/test_wildfire_first_pass_multistart.py tests/test_wildfire_stage_c_psps.py -q
+```
+
+Result:
+
+```text
+23 passed, 3 external deprecation warnings
+```
+
+Later on May 31, 2026, the Stage C network visualization was cleaned up so
+PSPS de-energized lines are visually unambiguous. De-energized lines are now
+drawn last with a red dashed stroke, red X markers, and `OFF <line_id>` edge
+labels. The legend is placed below the lower-right side of the plot in two
+columns so it no longer blocks the lower-left network area. The current Stage C
+GPS figures were regenerated for:
+
+```text
+results/stage_c_psps/t0p30/p0p10/r/gps/auto/run_20260531_205156/
+results/stage_c_psps/t0p30/p0p10/r/gps/lgh/run_20260531_205158/
+```
+
+The `results/stage_c_psps/` directory was also cleaned to retain only the
+aggregate summary files and the two current near-lambda GPS runs with figures.
+Older failed path-length attempts and pre-near-lambda runs were removed.
+
+Verification:
+
+```powershell
+pytest tests/test_wildfire_stage_c_psps.py -q
+```
+
+Result:
+
+```text
+7 passed, 3 external deprecation warnings
+```
+
 Each `run_basic_case.py` execution creates a timestamped run directory:
 
 ```text
@@ -938,6 +1341,84 @@ Current research transition: the simplified fixed-topology/fixed-energization
 case is now polished enough for first-pass interpretation. The next major
 methodology step is to evaluate behavior with de-energization included, while
 keeping the existing simplified results as the baseline comparison.
+
+Stage D update, May 31, 2026:
+
+- Added `run_stage_d_deenergization.py` and Stage D helper logic for
+  `evaluation_mode = limited_enumerated_z_only`.
+- Stage D uses `grouping_top_fraction = 0.30`, computes the generated
+  candidate count dynamically, and enumerates all `z_l` subsets with 0, 1, or
+  2 de-energized candidate lines.
+- The current GPS run generated 33 candidate lines and 562 evaluated subsets
+  per environmental case.
+- Subset evaluations are shared across the three Stage D lambda cases:
+
+```text
+risk_leaning:    lambda_R = 0.8, lambda_L = 0.2
+balanced:        lambda_R = 0.5, lambda_L = 0.5
+service_leaning: lambda_R = 0.2, lambda_L = 0.8
+```
+
+- Stage D uses the fixed demand-weighted `I_l` from Stage C:
+
+```text
+risk_l = z_l * p_env_l * loading_l^2 * I_l
+```
+
+- `R_group_baseline` is the all-energized baseline for the same model,
+  environmental case, grouping threshold, fixed `I_l`, and candidate groups;
+  it is not lambda-dependent.
+- Stage C comparison is available for the GPS runs. The Stage C PSPS topology
+  is fixed, while its scalar objective is re-scored under each Stage D lambda
+  for apples-to-apples comparison.
+- Generated outputs:
+
+```text
+results/stage_d_deenergization/t0p30/gps/auto/risk/run_20260531_212125/
+results/stage_d_deenergization/t0p30/gps/auto/bal/run_20260531_212126/
+results/stage_d_deenergization/t0p30/gps/auto/svc/run_20260531_212128/
+results/stage_d_deenergization/t0p30/gps/lgh/risk/run_20260531_212136/
+results/stage_d_deenergization/t0p30/gps/lgh/bal/run_20260531_212138/
+results/stage_d_deenergization/t0p30/gps/lgh/svc/run_20260531_212139/
+results/stage_d_deenergization/stage_d_deenergization_summary.csv
+```
+
+- GPS best subsets:
+
+```text
+auto_env/risk_leaning:          [23, 27]
+auto_env/balanced:              [23, 27]
+auto_env/service_leaning:       []
+largest_group_high/risk_leaning:[23, 27]
+largest_group_high/balanced:    [23, 27]
+largest_group_high/service:     []
+```
+
+- `ieee30_network_changes.png` now recognizes
+  `optimized_deenergization_decisions.csv` and labels those lines as
+  Stage D optimized de-energized lines.
+- Deferred: full mixed-integer topology optimization, relaxed continuous
+  `z_l`, optimized `y_n`, AC feasibility enforcement, and continuous-control
+  optimization after selecting `z_l`.
+
+Latest Stage D verification:
+
+```powershell
+pytest tests/test_wildfire_first_pass_scenario.py tests/test_wildfire_first_pass_risk.py tests/test_wildfire_first_pass_objective.py tests/test_wildfire_first_pass_basic_run.py tests/test_wildfire_first_pass_multistart.py tests/test_wildfire_stage_c_psps.py tests/test_wildfire_stage_d_deenergization.py -q
+python experiments/test/wildfire_initial_tests/run_stage_d_deenergization.py --grouping-top-fraction 0.30 --models gps --cases auto_env largest_group_high --evaluation-mode limited_enumerated_z_only --max-deenergized-lines 2
+```
+
+Test result: 30 passed, with 3 external deprecation warnings.
+
+Immediate Stage B follow-up: run the full default multi-group threshold sweep
+when compute time is available, then manually inspect
+`results/multi_group/multi_group_threshold_sensitivity_summary.csv` and the
+child automatic group artifacts before deciding whether Stage B.3/B.4 are
+needed.
+
+```powershell
+python experiments/test/wildfire_initial_tests/run_multi_group_threshold_sensitivity.py --top-fractions 0.10 0.125 0.15 0.175 0.20
+```
 
 Priority 1: add a PSPS-style baseline with threshold de-energization.
 

@@ -1,0 +1,29 @@
+{
+  "num_runs": 6,
+  "num_successful_runs": 6,
+  "grouping_top_fraction": 0.3,
+  "evaluation_mode": "limited_enumerated_z_only",
+  "max_deenergized_lines": 2,
+  "lambda_cases": {
+    "risk_leaning": {
+      "lambda_R": 0.8,
+      "lambda_L": 0.2
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "service_leaning": {
+      "lambda_R": 0.2,
+      "lambda_L": 0.8
+    }
+  },
+  "models": [
+    "gps"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\stage_d_deenergization\\stage_d_deenergization_summary.csv"
+}

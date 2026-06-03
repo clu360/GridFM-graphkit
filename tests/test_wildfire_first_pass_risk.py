@@ -35,6 +35,31 @@ def test_risk_monotonicity_with_loading():
     assert high > low
 
 
+def test_multi_group_risk_aggregates_all_generated_groups():
+    scenario = WildfireScenario(
+        name="multi",
+        line_groups=[
+            WildfireLineGroup("G_1", [0, 2], group_weight=1.0),
+            WildfireLineGroup("G_2", [1], group_weight=2.0),
+        ],
+        hazard_by_line={0: 1.0, 1: 2.0, 2: 3.0},
+        impact_by_line={0: 0.5, 1: 0.25, 2: 1.0},
+        default_hazard=0.0,
+        default_impact=1.0,
+    )
+
+    total, line_df, group_df = compute_grouped_wildfire_risk(np.array([2.0, 3.0, 4.0]), scenario)
+
+    line_risks = {
+        int(row.line_id): float(row.risk)
+        for row in line_df.itertuples()
+    }
+    expected_g1 = line_risks[0] + line_risks[2]
+    expected_g2 = 2.0 * line_risks[1]
+    assert np.isclose(total, expected_g1 + expected_g2)
+    assert set(group_df["group_name"]) == {"G_1", "G_2"}
+
+
 class DummyCounterfactualScenario:
     num_buses = 3
     Pd_base = np.array([10.0, 20.0, 0.0])

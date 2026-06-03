@@ -46,6 +46,9 @@ class WildfireConfig:
     group_weight: float = 1.0
     hazard_multiplier: float = 1.0
     standard_rate_a_mva: float = 100.0
+    risk_score: Dict[str, Any] = field(default_factory=dict)
+    grouping: Dict[str, Any] = field(default_factory=dict)
+    diagnostics: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass

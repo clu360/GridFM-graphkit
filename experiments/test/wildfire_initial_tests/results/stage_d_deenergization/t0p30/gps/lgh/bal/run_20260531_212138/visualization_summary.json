@@ -1,0 +1,122 @@
+{
+  "stage": "D",
+  "model_type": "gps",
+  "environmental_risk_case": "largest_group_high",
+  "lambda_case": "balanced",
+  "lambda_R": 0.5,
+  "lambda_L": 0.5,
+  "grouping_top_fraction": 0.3,
+  "evaluation_mode": "limited_enumerated_z_only",
+  "max_deenergized_lines": 2,
+  "group_ids": [
+    "G_1",
+    "G_2",
+    "G_3",
+    "G_4",
+    "G_5"
+  ],
+  "group_line_ids": {
+    "G_1": [
+      2,
+      5,
+      6,
+      8,
+      10,
+      12,
+      16,
+      18,
+      19,
+      20,
+      22,
+      23,
+      25,
+      26,
+      27,
+      32,
+      33,
+      35,
+      36,
+      37,
+      38,
+      40,
+      97,
+      101
+    ],
+    "G_2": [
+      47,
+      50,
+      51
+    ],
+    "G_3": [
+      72,
+      74
+    ],
+    "G_4": [
+      77,
+      79
+    ],
+    "G_5": [
+      88,
+      91
+    ]
+  },
+  "largest_group_id": "G_1",
+  "candidate_line_ids": [
+    2,
+    5,
+    6,
+    8,
+    10,
+    12,
+    16,
+    18,
+    19,
+    20,
+    22,
+    23,
+    25,
+    26,
+    27,
+    32,
+    33,
+    35,
+    36,
+    37,
+    38,
+    40,
+    47,
+    50,
+    51,
+    72,
+    74,
+    77,
+    79,
+    88,
+    91,
+    97,
+    101
+  ],
+  "optimized_deenergized_line_ids": [
+    23,
+    27
+  ],
+  "num_optimized_deenergized_lines": 2,
+  "affected_bus_ids": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "disconnected_bus_ids": [],
+  "num_disconnected_components": 1,
+  "stage_c_comparison_available": true,
+  "stage_c_deenergized_line_ids": [
+    23,
+    18,
+    27,
+    101
+  ],
+  "optimization_behavior_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\stage_d_deenergization\\t0p30\\gps\\lgh\\bal\\run_20260531_212138\\figures\\optimization_behavior.png",
+  "topology_change_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\stage_d_deenergization\\t0p30\\gps\\lgh\\bal\\run_20260531_212138\\figures\\ieee30_network_changes.png",
+  "errors": []
+}

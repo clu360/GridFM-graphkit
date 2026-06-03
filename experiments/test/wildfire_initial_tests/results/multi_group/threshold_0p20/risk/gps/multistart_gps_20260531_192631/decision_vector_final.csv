@@ -1,0 +1,9 @@
+decision_type,decision_index,bus_idx,value,lower_bound,upper_bound
+delta_pg,0,1,0.0,-5.0,5.0
+delta_pg,1,10,0.0,-5.0,5.0
+delta_pg,2,12,0.0,-5.0,5.0
+alpha,3,6,0.9999981682991639,0.0,1.0
+alpha,4,20,0.9999867321679399,0.0,1.0
+alpha,5,11,1.0,0.0,1.0
+alpha,6,29,0.9999847354606641,0.0,1.0
+alpha,7,18,0.0,0.0,1.0

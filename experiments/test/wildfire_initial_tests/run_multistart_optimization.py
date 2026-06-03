@@ -20,6 +20,7 @@ from experiments.test.wildfire_initial_tests.decision_vector import (
 )
 from experiments.test.wildfire_initial_tests.gridfm_runner import GridFMRunner, load_gridfm_model
 from experiments.test.wildfire_initial_tests.optimization_problem import FirstPassOptimizationProblem
+from experiments.test.wildfire_initial_tests.plot_network_changes import plot_network_changes
 from experiments.test.wildfire_initial_tests.plot_optimization_behavior import plot_optimization_behavior
 from experiments.test.wildfire_initial_tests.reporting import write_dataframe, write_json
 from experiments.test.wildfire_initial_tests.run_connected_corridor_tradeoffs import MODEL_CONFIGS, TRADEOFF_SETS
@@ -28,10 +29,12 @@ from experiments.test.wildfire_initial_tests.state_extraction import extract_sta
 from experiments.test.wildfire_initial_tests.wildfire_risk import (
     compute_counterfactual_line_impacts,
     compute_grouped_wildfire_risk,
+    risk_summary_dict,
 )
-from experiments.test.wildfire_initial_tests.wildfire_scenario import (
-    build_synthetic_wildfire_scenario,
-    validate_connected_line_group,
+from experiments.test.wildfire_initial_tests.wildfire_setup import (
+    automatic_visualization_summary_fields,
+    build_wildfire_for_baseline,
+    write_automatic_group_artifacts,
 )
 
 
@@ -74,28 +77,15 @@ def build_problem(config_path: Path):
         baseline_prediction,
         standard_rate_a_mva=config.wildfire.standard_rate_a_mva,
     )
-    wildfire = build_synthetic_wildfire_scenario(
-        baseline_state["loading_ratio"],
-        selected_line_ids=config.wildfire.selected_line_ids,
-        selection_method=config.wildfire.selection_method,
-        num_high_risk_lines=config.wildfire.num_high_risk_lines,
-        high_hazard=config.wildfire.high_hazard,
-        default_hazard=config.wildfire.default_hazard,
-        default_impact=config.wildfire.default_impact,
-        group_weight=config.wildfire.group_weight,
-        hazard_multiplier=config.wildfire.hazard_multiplier,
-    )
-    if config.wildfire.selection_method == "manual_connected":
-        validate_connected_line_group(scenario.edge_index, wildfire.line_groups[0].line_ids)
-
-    baseline_line_impact = compute_counterfactual_line_impacts(
-        decision_vector.u_base,
+    wildfire, baseline_line_impact, automatic_artifacts = build_wildfire_for_baseline(
+        config,
         scenario,
         runner,
-        wildfire,
+        decision_vector,
         baseline_prediction,
+        baseline_state,
     )
-    baseline_risk, _, _ = compute_grouped_wildfire_risk(
+    baseline_risk, baseline_line_risk, baseline_group_risk = compute_grouped_wildfire_risk(
         baseline_state["loading_ratio"],
         wildfire,
         impact=baseline_line_impact,
@@ -107,7 +97,20 @@ def build_problem(config_path: Path):
             config.objective.load_shedding_normalizer = 1.0
 
     problem = FirstPassOptimizationProblem(scenario, decision_vector, runner, wildfire, config)
-    return config, scenario, decision_vector, problem
+    return (
+        config,
+        scenario,
+        decision_vector,
+        runner,
+        problem,
+        baseline_prediction,
+        baseline_state,
+        baseline_line_impact,
+        baseline_risk,
+        baseline_line_risk,
+        baseline_group_risk,
+        automatic_artifacts,
+    )
 
 
 def build_grid_seed_candidates(
@@ -205,6 +208,10 @@ def _result_rows(result: dict, decision_vector: FirstPassDecisionVector) -> pd.D
     return pd.DataFrame(rows)
 
 
+def _risk_before_after_frame(before: pd.DataFrame, after: pd.DataFrame, key: str) -> pd.DataFrame:
+    return before.merge(after, on=key, suffixes=("_before", "_after"))
+
+
 def run_multistart_optimization(
     config_path: str | Path,
     num_seed_points: int = 11,
@@ -212,7 +219,20 @@ def run_multistart_optimization(
     output_root: str | Path | None = None,
 ) -> Path:
     config_path = Path(config_path)
-    config, _scenario, decision_vector, problem = build_problem(config_path)
+    (
+        config,
+        scenario,
+        decision_vector,
+        runner,
+        problem,
+        _baseline_prediction,
+        _baseline_state,
+        _baseline_line_impact,
+        baseline_risk,
+        baseline_line_risk,
+        baseline_group_risk,
+        automatic_artifacts,
+    ) = build_problem(config_path)
     if output_root is None:
         output_root = (
             REPO_ROOT
@@ -226,15 +246,69 @@ def run_multistart_optimization(
     run_dir = output_root / f"multistart_{config.model.model_type.lower()}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
     run_dir.mkdir(parents=True, exist_ok=True)
     write_config_copy(config, run_dir / "config.yaml")
+    write_json(run_dir / "wildfire_scenario.json", problem.wildfire.to_dict())
+    write_dataframe(run_dir / "baseline_wildfire_risk.csv", baseline_line_risk)
+    write_json(
+        run_dir / "baseline_wildfire_risk_summary.json",
+        risk_summary_dict(baseline_risk, baseline_line_risk, baseline_group_risk),
+    )
+    automatic_metadata = write_automatic_group_artifacts(
+        run_dir,
+        automatic_artifacts,
+        baseline_risk,
+        config,
+    )
+    write_json(
+        run_dir / "objective_normalizers.json",
+        {
+            "normalize_terms": config.objective.normalize_terms,
+            "risk_normalizer": config.objective.risk_normalizer,
+            "load_shedding_normalizer": config.objective.load_shedding_normalizer,
+            "risk_normalizer_source": "baseline_grouped_wildfire_risk",
+            "load_shedding_normalizer_source": "demand_weighted_fraction_already_normalized",
+            "load_shedding_metric": "demand_weighted_fraction",
+        },
+    )
+    write_json(run_dir / "baseline_objective_components.json", problem.evaluate(decision_vector.u_base))
+    write_dataframe(run_dir / "decision_vector_initial.csv", decision_vector.metadata_frame(decision_vector.u_base))
 
     starts, seed_frame = build_grid_seed_candidates(problem, num_seed_points, max_seeds)
     write_dataframe(run_dir / "selected_starts.csv", seed_frame)
     result = problem.optimize_multistart(starts)
+    write_json(run_dir / "final_objective_components.json", result["final"])
     write_dataframe(run_dir / "multistart_results.csv", _result_rows(result, decision_vector))
     best_trace = result["trace"].to_frame()
     write_dataframe(run_dir / "best_objective_trace.csv", best_trace)
     write_dataframe(run_dir / "objective_trace.csv", best_trace)
     write_dataframe(run_dir / "best_decision_vector.csv", decision_vector.metadata_frame(result["u_final"]))
+    write_dataframe(run_dir / "decision_vector_final.csv", decision_vector.metadata_frame(result["u_final"]))
+
+    final_prediction = runner.predict(result["u_final"])
+    final_state = extract_state_quantities(
+        scenario,
+        final_prediction,
+        standard_rate_a_mva=config.wildfire.standard_rate_a_mva,
+    )
+    final_line_impact = compute_counterfactual_line_impacts(
+        result["u_final"],
+        scenario,
+        runner,
+        problem.wildfire,
+        final_prediction,
+    )
+    _final_risk, final_line_risk, final_group_risk = compute_grouped_wildfire_risk(
+        final_state["loading_ratio"],
+        problem.wildfire,
+        impact=final_line_impact,
+    )
+    write_dataframe(
+        run_dir / "risk_by_line_before_after.csv",
+        _risk_before_after_frame(baseline_line_risk, final_line_risk, "line_id"),
+    )
+    write_dataframe(
+        run_dir / "risk_by_group_before_after.csv",
+        _risk_before_after_frame(baseline_group_risk, final_group_risk, "group_name"),
+    )
 
     summary = {
         "analysis_type": "grid_seeded_multistart",
@@ -243,11 +317,17 @@ def run_multistart_optimization(
         "num_seed_points_per_variable": int(num_seed_points),
         "num_starts": int(result["num_starts"]),
         "best_start_idx": int(result["best_start_idx"]),
+        "best_start_index": int(result["best_start_idx"]),
         "baseline_objective": float(result["baseline"]["objective_total"]),
+        "baseline_grouped_risk": float(baseline_risk),
         "best_start_objective": float(result["start_objective"]),
+        "best_seed_objective": float(result["start_objective"]),
         "best_final_objective": float(result["final"]["objective_total"]),
+        "best_objective": float(result["final"]["objective_total"]),
         "best_final_wildfire_group_risk": float(result["final"]["wildfire_group_risk"]),
+        "best_grouped_risk": float(result["final"]["wildfire_group_risk"]),
         "best_final_load_shedding": float(result["final"]["load_shedding"]),
+        "best_load_shedding": float(result["final"]["load_shedding"]),
         "best_final_equal_bus_load_shedding": float(result["final"].get("equal_bus_load_shedding", np.nan)),
         "best_final_unserved_demand_mw": float(result["final"].get("unserved_demand_mw", np.nan)),
         "optimizer_success": bool(result["success"]),
@@ -261,13 +341,39 @@ def run_multistart_optimization(
         "multistart_results_csv": str(run_dir / "multistart_results.csv"),
         "best_objective_trace_csv": str(run_dir / "best_objective_trace.csv"),
         "objective_trace_csv": str(run_dir / "objective_trace.csv"),
+        "run_dir": str(run_dir),
+        "selection_method": config.wildfire.selection_method,
+        "requested_top_fraction": automatic_metadata.get("requested_top_fraction"),
+        "realized_selected_fraction": automatic_metadata.get("realized_selected_fraction"),
+        "num_selected_lines": automatic_metadata.get("num_selected_lines"),
+        "num_groups": automatic_metadata.get("num_groups"),
+        "collapsed_to_single_group": automatic_metadata.get("collapsed_to_single_group"),
+        "largest_group_num_lines": automatic_metadata.get("largest_group_num_lines"),
+        "largest_group_fraction_of_selected_lines": automatic_metadata.get(
+            "largest_group_fraction_of_selected_lines"
+        ),
     }
     write_json(run_dir / "optimization_summary.json", summary)
+    visualization_summary = {
+        "optimization_behavior_plot": None,
+        "topology_change_plot": None,
+        "errors": [],
+    }
+    if automatic_metadata:
+        visualization_summary.update(automatic_visualization_summary_fields(automatic_metadata))
     try:
-        summary["optimization_behavior_plot"] = str(plot_optimization_behavior(run_dir))
+        visualization_summary["optimization_behavior_plot"] = str(plot_optimization_behavior(run_dir))
     except Exception as exc:
-        summary["optimization_behavior_plot"] = "not available"
-        summary["optimization_behavior_error"] = str(exc)
+        visualization_summary["errors"].append(f"optimization_behavior: {exc}")
+    try:
+        visualization_summary["topology_change_plot"] = str(plot_network_changes(run_dir))
+    except Exception as exc:
+        visualization_summary["errors"].append(f"topology_change: {exc}")
+    summary["optimization_behavior_plot"] = visualization_summary["optimization_behavior_plot"] or "not available"
+    summary["topology_change_plot"] = visualization_summary["topology_change_plot"] or "not available"
+    summary["visualization_errors"] = visualization_summary["errors"]
+    write_json(run_dir / "visualization_summary.json", visualization_summary)
+    write_json(run_dir / "optimization_summary.json", summary)
     write_json(run_dir / "analysis_summary.json", summary)
     print(f"[OK] Multistart optimization written to {run_dir}")
     print(f"[OK] Objective: {summary['baseline_objective']:.6f} -> {summary['best_final_objective']:.6f}")

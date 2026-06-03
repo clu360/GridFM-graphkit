@@ -36,9 +36,10 @@ from experiments.test.wildfire_initial_tests.wildfire_risk import (
     compute_grouped_wildfire_risk,
     risk_summary_dict,
 )
-from experiments.test.wildfire_initial_tests.wildfire_scenario import (
-    build_synthetic_wildfire_scenario,
-    validate_connected_line_group,
+from experiments.test.wildfire_initial_tests.wildfire_setup import (
+    automatic_visualization_summary_fields,
+    build_wildfire_for_baseline,
+    write_automatic_group_artifacts,
 )
 
 
@@ -251,31 +252,25 @@ def run_basic_case(config_path: Path) -> dict:
     perturbation = _perturbation_smoke_test(decision_vector, runner, scenario, baseline_state, config)
     write_json(run_dir / "perturbation_smoke_test.json", perturbation)
 
-    wildfire = build_synthetic_wildfire_scenario(
-        baseline_state["loading_ratio"],
-        selected_line_ids=config.wildfire.selected_line_ids,
-        selection_method=config.wildfire.selection_method,
-        num_high_risk_lines=config.wildfire.num_high_risk_lines,
-        high_hazard=config.wildfire.high_hazard,
-        default_hazard=config.wildfire.default_hazard,
-        default_impact=config.wildfire.default_impact,
-        group_weight=config.wildfire.group_weight,
-        hazard_multiplier=config.wildfire.hazard_multiplier,
-    )
-    if config.wildfire.selection_method == "manual_connected":
-        validate_connected_line_group(scenario.edge_index, wildfire.line_groups[0].line_ids)
-    write_json(run_dir / "wildfire_scenario.json", wildfire.to_dict())
-    baseline_line_impact = compute_counterfactual_line_impacts(
-        decision_vector.u_base,
+    wildfire, baseline_line_impact, automatic_artifacts = build_wildfire_for_baseline(
+        config,
         scenario,
         runner,
-        wildfire,
+        decision_vector,
         baseline_prediction,
+        baseline_state,
     )
+    write_json(run_dir / "wildfire_scenario.json", wildfire.to_dict())
     baseline_risk, baseline_line_risk, baseline_group_risk = compute_grouped_wildfire_risk(
         baseline_state["loading_ratio"],
         wildfire,
         impact=baseline_line_impact,
+    )
+    automatic_metadata = write_automatic_group_artifacts(
+        run_dir,
+        automatic_artifacts,
+        baseline_risk,
+        config,
     )
     write_dataframe(run_dir / "baseline_wildfire_risk.csv", baseline_line_risk)
     write_json(
@@ -370,6 +365,20 @@ def run_basic_case(config_path: Path) -> dict:
         "lambda_L": float(config.objective.lambda_L),
         "run_dir": str(run_dir),
     }
+    optimization_summary.update(
+        {
+            "selection_method": config.wildfire.selection_method,
+            "requested_top_fraction": automatic_metadata.get("requested_top_fraction"),
+            "realized_selected_fraction": automatic_metadata.get("realized_selected_fraction"),
+            "num_selected_lines": automatic_metadata.get("num_selected_lines"),
+            "num_groups": automatic_metadata.get("num_groups"),
+            "collapsed_to_single_group": automatic_metadata.get("collapsed_to_single_group"),
+            "largest_group_num_lines": automatic_metadata.get("largest_group_num_lines"),
+            "largest_group_fraction_of_selected_lines": automatic_metadata.get(
+                "largest_group_fraction_of_selected_lines"
+            ),
+        }
+    )
     write_json(run_dir / "optimization_summary.json", optimization_summary)
 
     visualization_summary = {
@@ -377,6 +386,8 @@ def run_basic_case(config_path: Path) -> dict:
         "topology_change_plot": None,
         "errors": [],
     }
+    if automatic_metadata:
+        visualization_summary.update(automatic_visualization_summary_fields(automatic_metadata))
     try:
         visualization_summary["optimization_behavior_plot"] = str(plot_optimization_behavior(run_dir))
     except Exception as exc:

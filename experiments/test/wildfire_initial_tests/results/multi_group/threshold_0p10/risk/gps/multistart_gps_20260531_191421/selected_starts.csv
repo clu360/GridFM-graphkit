@@ -1,0 +1,3 @@
+start_idx,seed_source,decision_label,decision_index,decision_value,objective_total,wildfire_group_risk,load_shedding,equal_bus_load_shedding,unserved_demand_mw
+0,one_variable_grid,alpha_7_bus18,7,0.0,0.8983104240958543,2.5433402789590716,0.03352152279186194,1.0,5.347910404205322
+1,one_variable_grid,alpha_7_bus18,7,0.5,0.9720290493974032,2.7521112349912977,0.01676076139593097,0.5,2.673955202102661

@@ -1,0 +1,8 @@
+{
+  "normalize_terms": true,
+  "risk_normalizer": 2.8285257919088496,
+  "load_shedding_normalizer": 1.0,
+  "risk_normalizer_source": "baseline_grouped_wildfire_risk",
+  "load_shedding_normalizer_source": "demand_weighted_fraction_already_normalized",
+  "load_shedding_metric": "demand_weighted_fraction"
+}

@@ -1,0 +1,15 @@
+{
+  "num_runs": 2,
+  "num_successful_runs": 2,
+  "grouping_top_fraction": 0.3,
+  "psps_top_fraction": 0.1,
+  "models": [
+    "gps"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "evaluation_mode": "psps_only",
+  "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_initial_tests\\results\\stage_c_psps\\stage_c_psps_summary.csv"
+}

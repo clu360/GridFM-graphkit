@@ -39,18 +39,24 @@ class GridFMRunner:
 
     def predict_with_line_outage(self, u, line_id: int):
         """Run GridFM with one scenario edge removed for counterfactual impact."""
+        return self.predict_with_line_outages(u, [line_id])
+
+    def predict_with_line_outages(self, u, line_ids):
+        """Run GridFM with one or more scenario edges removed."""
         scenario = self.solver.scenario
-        line_id = int(line_id)
         num_edges = int(scenario.edge_index.shape[1])
-        if line_id < 0 or line_id >= num_edges:
-            raise ValueError(f"line_id={line_id} is invalid for {num_edges} edges.")
+        outage_ids = sorted({int(line_id) for line_id in line_ids})
+        for line_id in outage_ids:
+            if line_id < 0 or line_id >= num_edges:
+                raise ValueError(f"line_id={line_id} is invalid for {num_edges} edges.")
 
         original_edge_index = scenario.edge_index
         original_g = scenario.G
         original_b = scenario.B
         original_rate_a = scenario.rate_a
 
-        keep_mask = [idx for idx in range(num_edges) if idx != line_id]
+        outage_set = set(outage_ids)
+        keep_mask = [idx for idx in range(num_edges) if idx not in outage_set]
         try:
             scenario.edge_index = original_edge_index[:, keep_mask]
             scenario.G = original_g[keep_mask]
