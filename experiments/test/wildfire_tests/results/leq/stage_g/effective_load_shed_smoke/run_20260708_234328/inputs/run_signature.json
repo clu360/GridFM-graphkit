@@ -1,0 +1,19 @@
+{
+  "model": "gnn",
+  "scenario_ids": [
+    "S4"
+  ],
+  "lambda_values": [
+    0.5
+  ],
+  "rho_phys_values": [
+    2.0
+  ],
+  "stages": [
+    "stage_d_k2_exhaustive"
+  ],
+  "stage_d_limit": 1,
+  "stage_e_budget": 50,
+  "call_budget": 3,
+  "delta_qg_bound_mvar": 5.0
+}

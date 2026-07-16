@@ -1,0 +1,23 @@
+{
+  "objective_total": 0.9953593075274626,
+  "wildfire_group_risk": 9.24251512077115,
+  "load_shedding": 0.042918644954574224,
+  "load_shedding_metric": "demand_weighted_fraction",
+  "equal_bus_load_shedding": 1.0817346814920368,
+  "unserved_demand_mw": 6.847095500765371,
+  "normalized_wildfire_group_risk": 0.9963117472366424,
+  "normalized_load_shedding": 0.042918644954574224,
+  "risk_objective_term": 0.995316431801153,
+  "load_shedding_objective_term": 4.287572630961966e-05,
+  "risk_normalizer": 9.276730045998226,
+  "load_shedding_normalizer": 1.0,
+  "objective_terms_normalized": true,
+  "generator_movement": 0.0,
+  "generator_movement_objective_weight": 0.0,
+  "max_loading_ratio": 12.583915143526296,
+  "max_voltage": 30.77500343322754,
+  "min_voltage": -3.7353038787841797,
+  "num_nan": 0,
+  "num_inf": 0,
+  "message": "ok"
+}

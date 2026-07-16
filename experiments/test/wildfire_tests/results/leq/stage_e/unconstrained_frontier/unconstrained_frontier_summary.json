@@ -1,0 +1,48 @@
+{
+  "study": "unconstrained_frontier",
+  "num_runs": 42,
+  "num_successful_runs": 42,
+  "models": [
+    "gps"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "grouping_top_fraction": 0.3,
+  "lambda_R_values": [
+    0.0,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9,
+    0.95,
+    1.0
+  ],
+  "lambda_L_rule": "1 - lambda_R",
+  "evaluation_budget": 100,
+  "proxy_type": "env_loading_base",
+  "all_candidate_points": 4200,
+  "unique_candidate_points": 1009,
+  "pareto_frontier_points": 59,
+  "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\unconstrained_frontier\\unconstrained_frontier_summary.csv",
+  "all_candidate_points_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\unconstrained_frontier\\all_candidate_points.csv",
+  "unique_candidate_points_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\unconstrained_frontier\\unique_candidate_points.csv",
+  "pareto_frontier_points_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\unconstrained_frontier\\pareto_frontier_points.csv",
+  "frontier_scatter_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\unconstrained_frontier\\figures\\unconstrained_pareto_frontier_scatter.png",
+  "plot_error": ""
+}

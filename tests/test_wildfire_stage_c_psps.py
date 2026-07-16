@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from experiments.test.wildfire_initial_tests.stage_c_psps import (
+from experiments.test.wildfire_tests.stage_c_psps_baseline.stage_c_psps import (
     apply_environmental_case,
     compute_fixed_line_consequence_scores,
     compute_line_risk_with_z,
@@ -13,7 +13,7 @@ from experiments.test.wildfire_initial_tests.stage_c_psps import (
     psps_line_count,
     select_psps_lines,
 )
-from experiments.test.wildfire_initial_tests.wildfire_scenario import WildfireLineGroup, WildfireScenario
+from experiments.test.wildfire_tests.shared.wildfire_scenario import WildfireLineGroup, WildfireScenario
 
 
 class DummyScenario:
@@ -133,7 +133,7 @@ def test_post_psps_demand_weighted_load_shed():
 
 
 def test_stage_c_runner_summary_rows(monkeypatch, tmp_path):
-    from experiments.test.wildfire_initial_tests import run_stage_c_psps_baseline as runner
+    from experiments.test.wildfire_tests import run_stage_c_psps_baseline as runner
 
     def fake_root():
         return tmp_path / "stage_c_psps"
@@ -141,7 +141,16 @@ def test_stage_c_runner_summary_rows(monkeypatch, tmp_path):
     def fake_context(model_type, grouping_top_fraction):
         return {"model_type": model_type, "grouping_top_fraction": grouping_top_fraction}
 
-    def fake_case(model_context, case_name, output_root, grouping_top_fraction, psps_top_fraction):
+    def fake_case(
+        model_context,
+        case_name,
+        lambda_case,
+        lambda_R,
+        lambda_L,
+        output_root,
+        grouping_top_fraction,
+        psps_top_fraction,
+    ):
         run_dir = Path(output_root) / "fake_run"
         run_dir.mkdir(parents=True, exist_ok=True)
         return {
@@ -149,6 +158,9 @@ def test_stage_c_runner_summary_rows(monkeypatch, tmp_path):
             "environmental_risk_case": case_name,
             "grouping_top_fraction": grouping_top_fraction,
             "psps_top_fraction": psps_top_fraction,
+            "lambda_case": lambda_case,
+            "lambda_R": lambda_R,
+            "lambda_L": lambda_L,
             "realized_psps_fraction": 0.125,
             "evaluation_mode": "psps_only",
             "status": "ok",
@@ -170,7 +182,9 @@ def test_stage_c_runner_summary_rows(monkeypatch, tmp_path):
     with open(tmp_path / "stage_c_psps" / "stage_c_psps_summary.json", "r", encoding="utf-8") as f:
         summary = json.load(f)
 
-    assert len(frame) == 2
+    assert len(frame) == 6
     assert set(frame["environmental_risk_case"]) == {"auto_env", "largest_group_high"}
+    assert set(frame["lambda_case"]) == {"risk_leaning", "balanced", "service_leaning"}
+    assert np.allclose(frame["lambda_R"] + frame["lambda_L"], 1.0)
     assert set(frame["evaluation_mode"]) == {"psps_only"}
-    assert summary["num_successful_runs"] == 2
+    assert summary["num_successful_runs"] == 6

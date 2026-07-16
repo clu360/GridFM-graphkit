@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "num_best_rows": 60,
+  "num_projection_rows": 60,
+  "num_methodology_checks": 12,
+  "num_failed_checks": 0,
+  "stage_e_reference_run": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\tmp\\stage_h_dc_stage_e_reference\\full\\run_20260714_180039"
+}

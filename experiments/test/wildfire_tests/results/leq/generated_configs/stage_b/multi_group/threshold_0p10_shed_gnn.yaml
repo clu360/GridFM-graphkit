@@ -1,0 +1,87 @@
+model:
+  model_type: gnn
+  checkpoint_path: null
+  device: cpu
+scenario:
+  scenario_idx: 0
+  scenario_id: IEEE-30-wildfire-first-pass
+  base_config_name: gridFMv0.1_dummy.yaml
+decision:
+  selected_generator_buses: []
+  selected_load_buses: []
+  auto_select_generators: 3
+  auto_select_loads: 5
+  delta_pg_bound_mw: 5.0
+  alpha_min: 0.0
+  alpha_max: 1.0
+  random_init_scale: 0.01
+wildfire:
+  selection_method: automatic_risk_components
+  selected_line_ids: []
+  num_high_risk_lines: 3
+  high_hazard: 1.0
+  default_hazard: 1.0
+  default_impact: 1.0
+  group_weight: 1.0
+  hazard_multiplier: 1.0
+  standard_rate_a_mva: 100.0
+  risk_score:
+    formula: p_env_times_loading_squared_times_impact
+    threshold_method: top_fraction
+    top_fraction: 0.1
+    candidate_p_env: 1.0
+  grouping:
+    method: connected_components
+    allow_single_group: true
+    min_group_size: 1
+    group_weighting: equal
+  diagnostics:
+    warn_if_single_group: true
+    warn_if_largest_group_fraction_above: 0.8
+objective:
+  lambda_R: 0.000999
+  lambda_L: 0.999001
+  normalize_terms: true
+  risk_normalizer: 0.0
+  load_shedding_normalizer: 0.0
+  invalid_prediction_penalty: 1000000000000.0
+  strict: false
+  debug_save_evaluations: false
+optimizer:
+  method: L-BFGS-B
+  maxiter: 80
+  ftol: 1.0e-09
+  gtol: 1.0e-06
+  eps: 0.0001
+  disp: false
+output:
+  output_root: C:\Users\Caleb Lu\OneDrive\Documents\GT\Extracurriculars\Research\Grid
+    FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\results\leq\stage_b\multi_group\threshold_0p10\shed\gnn
+  run_name: multi_group_threshold_0p10_shed_gnn
+sweep:
+  seeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  model_types:
+  - gps
+  - gnn
+  lambda_R_values:
+  - 0.9
+  - 0.5
+  - 0.1
+  lambda_L_values:
+  - 0.1
+  - 0.5
+  - 0.9
+  hazard_multipliers:
+  - 1.0
+  - 2.0
+  - 5.0
+  - 10.0
+  initializations:
+  - baseline
+  - small_random
+random_seed: 0

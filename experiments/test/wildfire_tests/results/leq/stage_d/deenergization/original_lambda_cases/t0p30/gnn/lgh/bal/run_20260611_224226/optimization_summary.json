@@ -1,0 +1,73 @@
+{
+  "stage": "D",
+  "evaluation_mode": "limited_enumerated_z_only",
+  "max_deenergized_lines": 2,
+  "model_type": "gnn",
+  "environmental_risk_case": "largest_group_high",
+  "lambda_case": "balanced",
+  "lambda_R": 0.5,
+  "lambda_L": 0.5,
+  "grouping_top_fraction": 0.3,
+  "num_candidate_lines": 33,
+  "num_evaluated_subsets": 562,
+  "best_deenergized_line_ids": [
+    14,
+    23
+  ],
+  "best_num_deenergized_lines": 2,
+  "num_deenergized_lines": 2,
+  "deenergized_line_ids": [
+    14,
+    23
+  ],
+  "best_R_group": 19.22696995052091,
+  "best_R_norm": 0.15367243719659457,
+  "best_L_norm": 0.32638325158062115,
+  "best_objective": 0.24002784438860786,
+  "best_demand_weighted_load_shed": 0.32638325158062115,
+  "R_group": 19.22696995052091,
+  "R_norm": 0.15367243719659457,
+  "L_norm": 0.32638325158062115,
+  "objective": 0.24002784438860786,
+  "demand_weighted_load_shed": 0.32638325158062115,
+  "risk_reduction_fraction": 0.8463275628034055,
+  "num_groups": 2,
+  "largest_group_id": "G_1",
+  "largest_group_num_lines": 32,
+  "manual_high_risk_group_id": "G_1",
+  "num_disconnected_components": 1,
+  "affected_bus_ids": [
+    3,
+    5,
+    7
+  ],
+  "disconnected_bus_ids": [],
+  "baseline_R_group": 125.1165810946544,
+  "stage_c_comparison_available": true,
+  "stage_c_deenergized_line_ids": [
+    23,
+    30,
+    27,
+    18
+  ],
+  "stage_c_objective": 0.3461463124513515,
+  "stage_c_risk": 0.16083400200632314,
+  "stage_c_R_group": 20.12300045480194,
+  "stage_c_R_norm": 0.16083400200632314,
+  "stage_c_demand_weighted_load_shed": 0.5314586228963799,
+  "stage_d_deenergized_line_ids": [
+    14,
+    23
+  ],
+  "stage_d_objective": 0.24002784438860786,
+  "stage_d_risk": 0.15367243719659457,
+  "stage_d_R_group": 19.22696995052091,
+  "stage_d_R_norm": 0.15367243719659457,
+  "stage_d_demand_weighted_load_shed": 0.32638325158062115,
+  "objective_improvement_vs_stage_c": 0.10611846806274366,
+  "risk_change_vs_stage_c": -0.007161564809728571,
+  "load_shed_change_vs_stage_c": -0.20507537131575876,
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_d\\deenergization\\t0p30\\gnn\\lgh\\bal\\run_20260611_224226",
+  "status": "ok",
+  "error": ""
+}

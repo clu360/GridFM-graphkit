@@ -1,0 +1,4 @@
+group_id,line_ids,bus_ids,num_lines,baseline_group_risk,group_weight,largest_group_flag,requested_top_fraction,num_selected_lines,realized_selected_fraction
+G_1,"1,3,16,18,27","0,1,4,6",5,1.3598395934848961,1.0,True,0.1,11,0.1
+G_2,"23,26,30,32,100","5,7,27",5,10.089883235367532,1.0,False,0.1,11,0.1
+G_3,47,"11,12",1,0.025847283661026375,1.0,False,0.1,11,0.1

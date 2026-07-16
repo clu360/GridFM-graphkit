@@ -1,8 +1,8 @@
 import numpy as np
 
-from experiments.test.wildfire_initial_tests.decision_vector import FirstPassDecisionVector
-from experiments.test.wildfire_initial_tests.objective_analysis import build_line_impact_objective_sweep
-from experiments.test.wildfire_initial_tests.wildfire_scenario import WildfireLineGroup, WildfireScenario
+from experiments.test.wildfire_tests.shared.decision_vector import FirstPassDecisionVector
+from experiments.test.wildfire_tests.analysis.objective_analysis import build_line_impact_objective_sweep
+from experiments.test.wildfire_tests.shared.wildfire_scenario import WildfireLineGroup, WildfireScenario
 
 
 class DummyScenario:

@@ -1,0 +1,42 @@
+{
+  "model_type": "gnn",
+  "scenario_label": "threshold_0p30/psps_top_0p10",
+  "environmental_risk_case": "auto_env",
+  "lambda_case": "balanced",
+  "lambda_R": 0.5,
+  "lambda_L": 0.5,
+  "grouping_top_fraction": 0.3,
+  "psps_top_fraction": 0.1,
+  "realized_psps_fraction": 0.12121212121212122,
+  "num_candidate_lines": 33,
+  "num_psps_lines": 4,
+  "num_groups": 2,
+  "largest_group_id": null,
+  "largest_group_num_lines": 0,
+  "manual_high_risk_group_id": null,
+  "num_deenergized_lines": 4,
+  "deenergized_line_ids": [
+    23,
+    30,
+    27,
+    18
+  ],
+  "baseline_all_energized_risk": 125.14544227466244,
+  "post_psps_risk": 20.15184034257849,
+  "risk_reduction_fraction": 0.8389726387450026,
+  "demand_weighted_load_shed": 0.5314586228963799,
+  "load_shedding_metric": "demand_weighted_fraction_from_post_psps_prediction",
+  "fixed_consequence_metric": "baseline_demand_weighted_one_line_outage",
+  "num_disconnected_components": 1,
+  "affected_bus_ids": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "objective_value": 0.34624299207568865,
+  "evaluation_mode": "psps_only",
+  "optimizer_success": null,
+  "optimizer_message": "not_run_psps_only",
+  "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_c\\psps\\t0p30\\p0p10\\gnn\\auto\\bal\\run_20260611_224135"
+}

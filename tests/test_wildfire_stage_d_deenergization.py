@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from experiments.test.wildfire_initial_tests.stage_d_deenergization import (
+from experiments.test.wildfire_tests.stage_d_deenergization.stage_d_deenergization import (
     LAMBDA_CASES,
     disconnected_buses_from_reference,
     enumerate_deenergization_subsets,
@@ -40,10 +40,11 @@ def test_candidate_subset_count_and_enumeration_are_from_candidate_set():
 
 def test_lambda_cases_are_exact_stage_d_tradeoffs():
     assert LAMBDA_CASES == {
-        "risk_leaning": (0.8, 0.2),
+        "risk_leaning": (0.9, 0.1),
         "balanced": (0.5, 0.5),
-        "service_leaning": (0.2, 0.8),
+        "service_leaning": (0.1, 0.9),
     }
+    assert all(np.isclose(lambda_R + lambda_L, 1.0) for lambda_R, lambda_L in LAMBDA_CASES.values())
 
 
 def test_best_subset_tiebreak_prefers_lower_l_norm_then_fewer_lines():
@@ -83,7 +84,7 @@ def test_disconnected_bus_diagnostics_from_reference_component():
 
 
 def test_stage_d_runner_summary_rows_with_monkeypatched_runs(monkeypatch, tmp_path):
-    from experiments.test.wildfire_initial_tests import run_stage_d_deenergization as runner
+    from experiments.test.wildfire_tests import run_stage_d_deenergization as runner
 
     def fake_root():
         return tmp_path / "stage_d_deenergization"

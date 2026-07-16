@@ -1,0 +1,11 @@
+check_name,passed,severity,details
+explicit_targets_keep_high_p_env,True,hard,Explicit scenario targets must remain at p_env=1.0.
+ordinary_non_targets_keep_low_p_env,True,hard,Ordinary non-target physical lines must remain at p_env=0.05.
+only_non_target_outliers_reduced,True,hard,Only non-target GridFM-heavy-loading outlier lines may be reduced below the ordinary low value.
+candidate_lines_are_physical,True,hard,Topology candidates must use canonical physical line IDs.
+risk_candidates_exclude_self_loops,True,hard,Self-loop count among physical risk lines: 0.
+risk_candidates_exclude_directed_duplicates,True,hard,Each physical risk line must have one canonical branch ID.
+fixed_control_no_continuous_recourse,True,hard,This case study must remain fixed-control with no continuous recourse.
+rho_values_present,True,hard,Found 12 rho values; expected 12.
+rho_does_not_change_intrinsic_metrics,True,hard,Intrinsic metric drift examples: []
+rescored_table_records_objective_components,True,hard,Missing columns: []

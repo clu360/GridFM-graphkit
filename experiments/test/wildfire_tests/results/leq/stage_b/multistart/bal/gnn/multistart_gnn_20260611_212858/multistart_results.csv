@@ -1,0 +1,6 @@
+start_idx,success,message,n_iter,num_objective_evals,start_objective,final_objective,final_wildfire_group_risk,final_load_shedding,final_equal_bus_load_shedding,final_unserved_demand_mw,mean_alpha,min_alpha,max_abs_delta_pg,is_best
+0,False,ABNORMAL: ,0,144,0.5,0.5,9.276730045998226,0.0,0.0,0.0,1.0,1.0,0.0,True
+1,False,ABNORMAL: ,0,144,0.5,0.5,9.276730045998226,0.0,0.0,0.0,1.0,1.0,5.0,False
+2,False,ABNORMAL: ,0,144,0.5,0.5,9.276730045998226,0.0,0.0,0.0,1.0,1.0,4.0,False
+3,False,ABNORMAL: ,0,144,0.5,0.5,9.276730045998226,0.0,0.0,0.0,1.0,1.0,3.0,False
+4,False,ABNORMAL: ,0,144,0.5,0.5,9.276730045998226,0.0,0.0,0.0,1.0,1.0,2.0,False

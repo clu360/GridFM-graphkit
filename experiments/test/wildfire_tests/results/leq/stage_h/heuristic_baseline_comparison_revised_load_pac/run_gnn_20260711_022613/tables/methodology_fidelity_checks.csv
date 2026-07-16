@@ -1,0 +1,29 @@
+check_name,passed,severity,details
+baseline_loading_source,True,hard,stored_scenario_vm_va
+proxy_loading_source,True,hard,stored_scenario_vm_va
+R_base_s_source,True,hard,stored_scenario_vm_va
+post_topology_evaluation_source,True,hard,gridfm_inference_with_intervention_mask_and_clamp
+continuous_recourse_optimized,True,hard,Continuous recourse must be enabled.
+topology_proxy_excludes_pac,True,hard,Topology proxy must exclude PAC.
+L_shed_source_effective_alpha,True,hard,hybrid_commanded_and_gridfm_effective_alpha_with_source_less_island_correction
+candidate_lines_are_canonical_physical,True,hard,Candidate IDs must be canonical physical branches.
+line32_excluded_from_targets,True,hard,Line 32 must not be a target.
+target_p_env_high,True,hard,Targets must have p_env=1.
+non_target_margin_scores,True,hard,Non-target scores must stay below the margin cap.
+controlled_features_visible,True,hard,Controlled features must not be masked.
+controlled_values_clamped,True,hard,max_abs_error=9.47e-07; atol=1e-05
+load_provenance_sums_to_L_shed,True,hard,max_abs_error=9.99e-16
+load_shed_cmd_sums_to_L_shed_cmd,True,hard,max_abs_error=3.89e-16
+load_shed_gridfm_raw_sums_to_L_shed_gridfm_raw,True,hard,max_abs_error=6.11e-16
+load_shed_gridfm_effective_sums_to_L_shed_gridfm_effective,True,hard,max_abs_error=9.99e-16
+load_shed_hybrid_sums_to_L_shed_hybrid,True,hard,max_abs_error=9.99e-16
+source_less_island_loads_counted_unserved,True,hard,All source-less islanded buses must have alpha_effective=0.
+nonselected_connected_load_uses_gridfm_alpha_in_hybrid,True,hard,max_abs_error=0
+selected_connected_load_uses_commanded_alpha_in_hybrid,True,hard,max_abs_error=0
+risk_provenance_sums_to_R_raw,True,hard,max_abs_error=3.55e-15
+J_no_phys_formula,True,hard,max_abs_error=3.55e-15
+J_true_formula,True,hard,max_abs_error=2.27e-13
+pac_total_equals_operational_plus_ac_plus_model,True,hard,max_abs_error=1.14e-13
+branch_flow_consistency_unavailable_zero_weight,True,hard,GridFM has no independent branch-flow channel.
+true_risk_excludes_impact,True,hard,Impact must not be used in true risk.
+self_loops_excluded,True,hard,Candidate set must exclude self-loops.

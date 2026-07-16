@@ -1,0 +1,13 @@
+check_name,passed,severity,detail
+all_shutoffs_leq_2,True,hard,
+stage_d_absent,True,hard,
+stage_e_unconstrained_absent,True,hard,
+stage_i_a_present,True,hard,
+stage_i_b_present,True,hard,
+branch_tap_shift_audited,True,hard,"{'base_mva': 100.0, 'num_physical_branches': 40, 'num_dc_branches': 40, 'num_unmapped_branches': 0, 'unmapped_line_ids': '', 'num_nonunity_taps': 0, 'num_nonzero_phase_shifts': 0, 'dc_branch_model_used': 'trivial_tap_shift', 'branch_model_warning': ''}"
+dc_residuals_near_zero,True,hard,tol=0.0005; max_balance=1.13687e-13; max_angle_flow=1.78395e-09
+projection_rows_saved,True,hard,
+projection_backend_status_visible,True,hard,
+projection_distances_or_failures_logged,True,hard,finite_distances=31/60; solved_fraction=0.517
+shared_baseline_tables_saved,True,hard,
+full_mode_recorded,True,info,

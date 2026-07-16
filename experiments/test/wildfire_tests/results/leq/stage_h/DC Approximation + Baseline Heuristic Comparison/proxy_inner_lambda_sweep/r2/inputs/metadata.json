@@ -1,0 +1,37 @@
+{
+  "git_branch": "wildfire-experiments",
+  "git_commit": "c0932eb390f33994ca05230658c94a50cc4ce366",
+  "study": "stage_h_proxy_inner_lambda_sweep",
+  "scenario_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+  ],
+  "lambda_values": [
+    0.0,
+    0.2,
+    0.5,
+    0.8,
+    1.0
+  ],
+  "proxy_lambda_values": [
+    0.0,
+    0.2,
+    0.5,
+    0.8,
+    1.0
+  ],
+  "rho_values": [
+    0.0
+  ],
+  "stages": [
+    "stage_e_k2",
+    "stage_i_a_dc_k2"
+  ],
+  "topology_budget": 100,
+  "call_budget": 100,
+  "objective_for_comparison": "lambda_R * R_norm + (1 - lambda_R) * L_shed",
+  "physics_penalty_excluded_from_traditional_objective": true
+}

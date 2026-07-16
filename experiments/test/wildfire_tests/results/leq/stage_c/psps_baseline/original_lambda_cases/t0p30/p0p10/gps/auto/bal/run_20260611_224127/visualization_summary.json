@@ -1,0 +1,121 @@
+{
+  "optimization_behavior_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_c\\psps\\t0p30\\p0p10\\gps\\auto\\bal\\run_20260611_224127\\figures\\optimization_behavior.png",
+  "topology_change_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_c\\psps\\t0p30\\p0p10\\gps\\auto\\bal\\run_20260611_224127\\figures\\ieee30_network_changes.png",
+  "errors": [],
+  "scenario_label": "threshold_0p30/psps_top_0p10",
+  "grouping_top_fraction": 0.3,
+  "psps_top_fraction": 0.1,
+  "realized_psps_fraction": 0.12121212121212122,
+  "environmental_risk_case": "auto_env",
+  "group_ids": [
+    "G_1",
+    "G_2",
+    "G_3",
+    "G_4",
+    "G_5"
+  ],
+  "group_line_ids": {
+    "G_1": [
+      2,
+      5,
+      6,
+      8,
+      10,
+      12,
+      16,
+      18,
+      19,
+      20,
+      22,
+      23,
+      25,
+      26,
+      27,
+      32,
+      33,
+      35,
+      36,
+      37,
+      38,
+      40,
+      97,
+      101
+    ],
+    "G_2": [
+      47,
+      50,
+      51
+    ],
+    "G_3": [
+      72,
+      74
+    ],
+    "G_4": [
+      77,
+      79
+    ],
+    "G_5": [
+      88,
+      91
+    ]
+  },
+  "group_bus_ids": {
+    "G_1": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      16,
+      26,
+      27
+    ],
+    "G_2": [
+      11,
+      12,
+      15
+    ],
+    "G_3": [
+      18,
+      19
+    ],
+    "G_4": [
+      20,
+      21
+    ],
+    "G_5": [
+      23,
+      24,
+      25
+    ]
+  },
+  "largest_group_id": null,
+  "largest_group_line_ids": [],
+  "manual_high_risk_group_id": null,
+  "deenergized_line_ids": [
+    23,
+    18,
+    27,
+    101
+  ],
+  "deenergized_group_ids": [
+    "G_1"
+  ],
+  "num_deenergized_lines": 4,
+  "num_candidate_lines": 33,
+  "collapsed_to_single_group": false,
+  "num_disconnected_components": 1,
+  "affected_bus_ids": [
+    4,
+    5,
+    6,
+    7,
+    27
+  ]
+}

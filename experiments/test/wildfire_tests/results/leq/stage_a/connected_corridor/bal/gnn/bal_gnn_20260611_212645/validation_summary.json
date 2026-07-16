@@ -1,0 +1,34 @@
+{
+  "objective_reduced": false,
+  "wildfire_risk_reduced": false,
+  "mean_alpha": 1.0,
+  "min_alpha": 1.0,
+  "selected_mean_alpha": 1.0,
+  "selected_min_alpha": 1.0,
+  "mean_alpha_ok": true,
+  "bounds_ok": true,
+  "bounds_message": "All bounds satisfied",
+  "final_prediction_no_nan": true,
+  "optimizer_success": false,
+  "optimizer_message": "ABNORMAL: ",
+  "max_abs_delta_pg": 0.0,
+  "baseline_prediction": {
+    "prediction_has_nan": false,
+    "prediction_has_inf": false,
+    "state_extraction_passed": true,
+    "passed": true
+  },
+  "perturbation": {
+    "norm_delta_voltage": 0.00037772720763425735,
+    "norm_delta_angle": 3.5287761963881694e-06,
+    "norm_delta_branch_loading": 0.00013595599900589498,
+    "max_abs_delta_loading": 5.941650644203378e-05,
+    "nonzero_response": true,
+    "bounds_ok": true,
+    "bounds_message": "All bounds satisfied",
+    "prediction_has_nan": false,
+    "prediction_has_inf": false,
+    "perturbed_prediction_correct_shape": true,
+    "passed": true
+  }
+}

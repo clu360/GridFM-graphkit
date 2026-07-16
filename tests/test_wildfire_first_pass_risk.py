@@ -1,11 +1,11 @@
 import numpy as np
 
-from experiments.test.wildfire_initial_tests.wildfire_risk import (
+from experiments.test.wildfire_tests.shared.wildfire_risk import (
     compute_counterfactual_line_impacts,
     compute_grouped_wildfire_risk,
     compute_line_risk,
 )
-from experiments.test.wildfire_initial_tests.wildfire_scenario import WildfireLineGroup, WildfireScenario
+from experiments.test.wildfire_tests.shared.wildfire_scenario import WildfireLineGroup, WildfireScenario
 
 
 def test_zero_hazard_gives_zero_risk():

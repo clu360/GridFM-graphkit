@@ -1,6 +1,6 @@
 import numpy as np
 
-from experiments.test.wildfire_initial_tests.decision_vector import FirstPassDecisionVector
+from experiments.test.wildfire_tests.shared.decision_vector import FirstPassDecisionVector
 
 
 class DummyScenario:

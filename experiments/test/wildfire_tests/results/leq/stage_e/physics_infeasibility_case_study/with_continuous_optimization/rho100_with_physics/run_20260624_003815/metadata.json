@@ -1,0 +1,35 @@
+{
+    "git_branch":  "wildfire-experiments",
+    "git_commit":  "c0932eb390f33994ca05230658c94a50cc4ce366",
+    "study":  "physics_infeasibility_traditional_lambdas_with_continuous_optimization",
+    "case_name":  "auto_env",
+    "model":  "gnn",
+    "rho_phys":  100.0,
+    "lambda_R_values":  [
+                            0.8,
+                            0.5,
+                            0.2
+                        ],
+    "lambda_L_rule":  "1 - lambda_R",
+    "stages":  [
+                   "stage_c_risk_only",
+                   "stage_d_k2_exhaustive",
+                   "stage_e_k2",
+                   "stage_e_unconstrained"
+               ],
+    "call_budget_per_topology":  100,
+    "continuous_decision":  "[Delta_Pg, alpha] over 3 selected generator buses and 5 selected load buses",
+    "within_topology_selection":  "lowest valid J_true observed within the GridFM call budget",
+    "across_topology_selection":  "lowest retained within-topology J_true for each fixed stage, lambda, and rho_phys",
+    "true_objective":  "lambda_R * R_norm + lambda_L * L_shed_prediction_system_wide + rho_phys * PAC_total",
+    "load_shedding_metric":  "demand-weighted GridFM-predicted system-wide service loss",
+    "alpha_diagnostic":  "commanded selected-bus service versus GridFM-predicted selected-bus service",
+    "stage_d_limit":  null,
+    "stage_e_budget":  null,
+    "num_topology_optimizations":  2289,
+    "num_objective_calls":  227418,
+    "runtime_seconds":  2304.2046023999865,
+    "pareto_frontier_generated":  false,
+    "traditional_lambda_topology_search_plot_generated":  true,
+    "stage_specific_lambda_sweep_plots_generated":  false
+}

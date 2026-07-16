@@ -1,0 +1,68 @@
+{
+  "optimization_behavior_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\mg\\threshold_0p10\\risk\\gnn\\multistart_gnn_20260611_213414\\figures\\optimization_behavior.png",
+  "topology_change_plot": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\mg\\threshold_0p10\\risk\\gnn\\multistart_gnn_20260611_213414\\figures\\ieee30_network_changes.png",
+  "errors": [],
+  "selection_method": "automatic_risk_components",
+  "top_fraction": 0.1,
+  "requested_top_fraction": 0.1,
+  "realized_selected_fraction": 0.1,
+  "selected_high_risk_line_ids": [
+    23,
+    26,
+    27,
+    30,
+    18,
+    3,
+    32,
+    1,
+    100,
+    16,
+    47
+  ],
+  "num_selected_lines": 11,
+  "num_groups": 3,
+  "group_ids": [
+    "G_1",
+    "G_2",
+    "G_3"
+  ],
+  "group_line_ids": {
+    "G_1": [
+      1,
+      3,
+      16,
+      18,
+      27
+    ],
+    "G_2": [
+      23,
+      26,
+      30,
+      32,
+      100
+    ],
+    "G_3": [
+      47
+    ]
+  },
+  "group_bus_ids": {
+    "G_1": [
+      0,
+      1,
+      4,
+      6
+    ],
+    "G_2": [
+      5,
+      7,
+      27
+    ],
+    "G_3": [
+      11,
+      12
+    ]
+  },
+  "collapsed_to_single_group": false,
+  "largest_group_num_lines": 5,
+  "largest_group_fraction_of_selected_lines": 0.45454545454545453
+}

@@ -1,0 +1,30 @@
+{
+  "num_runs": 12,
+  "num_successful_runs": 12,
+  "grouping_top_fraction": 0.3,
+  "psps_top_fraction": 0.1,
+  "models": [
+    "gps",
+    "gnn"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "lambda_cases": {
+    "risk": {
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "shed": {
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001
+    }
+  },
+  "evaluation_mode": "psps_only",
+  "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_c\\psps\\stage_c_psps_summary.csv"
+}

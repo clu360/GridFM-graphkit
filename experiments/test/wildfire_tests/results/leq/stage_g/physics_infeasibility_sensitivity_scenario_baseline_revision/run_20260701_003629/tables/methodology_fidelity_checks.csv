@@ -1,0 +1,20 @@
+check_name,passed,severity,details
+baseline_loading_source_recorded,True,hard,Expected baseline_loading_source=stored_scenario_vm_va for all topology metric rows.
+R_base_s_source_recorded,True,hard,Expected R_base_s_source=stored_scenario_vm_va for all topology metric rows.
+proxy_loading_source_recorded,True,hard,Expected proxy_loading_source=stored_scenario_vm_va for all topology metric rows.
+post_topology_evaluation_source_recorded,True,hard,Expected post_topology_evaluation_source=gridfm_inference_fixed_controls for all topology metric rows.
+p_env_mode_recorded,True,hard,Expected p_env_mode=targets_high_non_targets_0p05 for all topology metric rows.
+fixed_control_no_continuous_recourse,True,hard,This study must remain fixed-control with no SciPy continuous recourse.
+rho_rescoring_reuses_metric_pool,True,hard,Each topology_pool_id should appear once per rho value.
+candidate_lines_are_physical,True,hard,Candidate line IDs must be canonical physical branch IDs.
+risk_candidates_exclude_self_loops,True,hard,Self-loop count among physical risk lines: 0.
+risk_candidates_exclude_directed_duplicates,True,hard,Physical risk lines must be unique canonical branches.
+target_lines_have_high_p_env,True,hard,Explicit scenario targets must use p_env=1.0.
+non_target_lines_have_low_p_env,True,hard,All non-target physical lines must use p_env=0.05.
+rank_calibrated_suppression_disabled,True,hard,No non-target should be suppressed below the ordinary low p_env value.
+scenario_baseline_max_loading_below_one,True,hard,Scenario-baseline max loading: 0.877465015024.
+scenario_baseline_no_branches_over_100pct,True,hard,Scenario-baseline branches > 100%: 0.
+line23_scenario_baseline_loading_expected,True,hard,Line 23 scenario-baseline loading: 0.524397336396.
+rho_does_not_change_intrinsic_metrics,True,hard,Intrinsic metric drift examples: []
+R_base_s_recomputes_from_scenario_baseline,True,hard,Scenario failures: []
+rescored_table_records_objective_components,True,hard,Missing columns: []

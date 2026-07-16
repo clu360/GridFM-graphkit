@@ -1,0 +1,38 @@
+{
+  "num_runs": 18,
+  "num_successful_runs": 18,
+  "top_fractions": [
+    0.1,
+    0.2,
+    0.3
+  ],
+  "models": [
+    "gps",
+    "gnn"
+  ],
+  "tradeoff_cases": [
+    "risk",
+    "balanced",
+    "shed"
+  ],
+  "num_seed_points_per_variable": 11,
+  "max_seeds": 5,
+  "tradeoff_sets": {
+    "risk": {
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999,
+      "description": "Legacy near-one weight on normalized wildfire risk."
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5,
+      "description": "Equal weights on normalized wildfire risk and load shedding."
+    },
+    "shed": {
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001,
+      "description": "Legacy near-one weight on normalized load-shedding penalty."
+    }
+  },
+  "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\mg\\multi_group_threshold_sensitivity_summary.csv"
+}

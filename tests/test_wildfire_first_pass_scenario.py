@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from experiments.test.wildfire_initial_tests.wildfire_setup import automatic_visualization_summary_fields
-from experiments.test.wildfire_initial_tests.wildfire_scenario import (
+from experiments.test.wildfire_tests.shared.wildfire_setup import automatic_visualization_summary_fields
+from experiments.test.wildfire_tests.shared.wildfire_scenario import (
     WildfireLineGroup,
     WildfireScenario,
     build_automatic_risk_component_scenario,

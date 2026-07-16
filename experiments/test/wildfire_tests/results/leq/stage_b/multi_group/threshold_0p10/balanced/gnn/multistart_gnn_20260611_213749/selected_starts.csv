@@ -1,0 +1,6 @@
+start_idx,seed_source,decision_label,decision_index,decision_value,objective_total,wildfire_group_risk,load_shedding,equal_bus_load_shedding,unserved_demand_mw
+0,baseline,baseline,-1,,0.5,11.475570112513454,0.0,0.0,0.0
+1,one_variable_grid,delta_pg_0_bus1,0,-5.0,0.5,11.475570112513454,0.0,0.0,0.0
+2,one_variable_grid,delta_pg_0_bus1,0,-4.0,0.5,11.475570112513454,0.0,0.0,0.0
+3,one_variable_grid,delta_pg_0_bus1,0,-3.0,0.5,11.475570112513454,0.0,0.0,0.0
+4,one_variable_grid,delta_pg_0_bus1,0,-2.0,0.5,11.475570112513454,0.0,0.0,0.0

@@ -1,0 +1,21 @@
+{
+  "git_branch": "wildfire-experiments",
+  "git_commit": "c0932eb390f33994ca05230658c94a50cc4ce366",
+  "rescore_run_dir": "experiments\\test\\wildfire_tests\\results\\leq\\stage_g\\physics_infeasibility_sensitivity\\run_20260630_020627",
+  "rho_phys_values": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    2.0,
+    5.0,
+    10.0,
+    20.0,
+    50.0,
+    100.0
+  ],
+  "rescore_method": "reuse_existing_topology_metric_pool",
+  "gridfm_or_gurobi_rerun": false
+}

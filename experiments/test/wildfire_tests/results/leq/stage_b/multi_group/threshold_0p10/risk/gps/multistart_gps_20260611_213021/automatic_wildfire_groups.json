@@ -1,0 +1,159 @@
+{
+  "selection_method": "automatic_risk_components",
+  "risk_score_formula": "p_env_times_loading_squared_times_impact",
+  "threshold_method": "top_fraction",
+  "requested_top_fraction": 0.1,
+  "top_fraction": 0.1,
+  "num_lines": 110,
+  "num_selected_lines": 11,
+  "realized_selected_fraction": 0.1,
+  "selected_high_risk_line_ids": [
+    23,
+    18,
+    51,
+    47,
+    36,
+    5,
+    27,
+    16,
+    79,
+    77,
+    6
+  ],
+  "num_groups": 5,
+  "group_ids": [
+    "G_1",
+    "G_2",
+    "G_3",
+    "G_4",
+    "G_5"
+  ],
+  "group_line_ids": {
+    "G_1": [
+      5,
+      6,
+      16,
+      18,
+      27
+    ],
+    "G_2": [
+      23
+    ],
+    "G_3": [
+      36
+    ],
+    "G_4": [
+      47,
+      51
+    ],
+    "G_5": [
+      77,
+      79
+    ]
+  },
+  "group_bus_ids": {
+    "G_1": [
+      1,
+      3,
+      4,
+      6
+    ],
+    "G_2": [
+      5,
+      7
+    ],
+    "G_3": [
+      8,
+      10
+    ],
+    "G_4": [
+      11,
+      12
+    ],
+    "G_5": [
+      20,
+      21
+    ]
+  },
+  "collapsed_to_single_group": false,
+  "largest_group_num_lines": 5,
+  "largest_group_fraction_of_selected_lines": 0.45454545454545453,
+  "candidate_p_env": 1.0,
+  "groups": [
+    {
+      "group_id": "G_1",
+      "line_ids": [
+        5,
+        6,
+        16,
+        18,
+        27
+      ],
+      "bus_ids": [
+        1,
+        3,
+        4,
+        6
+      ],
+      "num_lines": 5,
+      "baseline_group_risk": 0.08106145548798457,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_2",
+      "line_ids": [
+        23
+      ],
+      "bus_ids": [
+        5,
+        7
+      ],
+      "num_lines": 1,
+      "baseline_group_risk": 2.6926032831505853,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_3",
+      "line_ids": [
+        36
+      ],
+      "bus_ids": [
+        8,
+        10
+      ],
+      "num_lines": 1,
+      "baseline_group_risk": 0.008870930660107534,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_4",
+      "line_ids": [
+        47,
+        51
+      ],
+      "bus_ids": [
+        11,
+        12
+      ],
+      "num_lines": 2,
+      "baseline_group_risk": 0.038743867651461525,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_5",
+      "line_ids": [
+        77,
+        79
+      ],
+      "bus_ids": [
+        20,
+        21
+      ],
+      "num_lines": 2,
+      "baseline_group_risk": 0.007246254958710417,
+      "group_weight": 1.0
+    }
+  ],
+  "baseline_grouped_risk": 2.8285257919088496,
+  "diagnostic_warnings": []
+}

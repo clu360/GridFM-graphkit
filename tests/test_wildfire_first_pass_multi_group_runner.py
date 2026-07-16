@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from experiments.test.wildfire_initial_tests.run_multi_group_threshold_sensitivity import (
+from experiments.test.wildfire_tests.stage_b_multigroup.run_multi_group_threshold_sensitivity import (
     run_threshold_sensitivity,
     threshold_label,
 )
@@ -27,7 +27,7 @@ def test_threshold_sensitivity_writes_one_row_per_combination(monkeypatch, tmp_p
                     "largest_group_num_lines": 2,
                     "largest_group_fraction_of_selected_lines": 1.0,
                     "collapsed_to_single_group": True,
-                    "baseline_objective": 0.999001,
+                    "baseline_objective": 0.9,
                     "best_seed_objective": 0.9,
                     "best_start_index": 0,
                     "best_objective": 0.8,
@@ -42,14 +42,14 @@ def test_threshold_sensitivity_writes_one_row_per_combination(monkeypatch, tmp_p
         return run_dir
 
     monkeypatch.setattr(
-        "experiments.test.wildfire_initial_tests.run_multi_group_threshold_sensitivity.run_multistart_optimization",
+        "experiments.test.wildfire_tests.stage_b_multigroup.run_multi_group_threshold_sensitivity.run_multistart_optimization",
         fake_run_multistart,
     )
 
     summary_csv = run_threshold_sensitivity(
         top_fractions=[0.10, 0.125],
         models=["gps", "gnn"],
-        tradeoff_cases=["risk", "balanced", "shed"],
+        tradeoff_cases=["risk_leaning", "balanced", "service_leaning"],
         output_root=tmp_path / "multi_group",
         generated_config_root=tmp_path / "generated_configs",
     )
@@ -58,7 +58,7 @@ def test_threshold_sensitivity_writes_one_row_per_combination(monkeypatch, tmp_p
     assert len(summary) == 12
     assert set(summary["requested_top_fraction"]) == {0.10, 0.125}
     assert set(summary["model_type"]) == {"gps", "gnn"}
-    assert set(summary["tradeoff_case"]) == {"risk", "balanced", "shed"}
+    assert set(summary["tradeoff_case"]) == {"risk_leaning", "balanced", "service_leaning"}
     assert (summary["status"] == "ok").all()
     assert "realized_selected_fraction" in summary.columns
     assert "best_seed_objective" in summary.columns

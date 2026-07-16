@@ -1,0 +1,10 @@
+{
+  "status": "complete",
+  "completed_topology_rho_optimizations": 180,
+  "total_topology_rho_optimizations": 180,
+  "remaining_topology_rho_optimizations": 0,
+  "completion_fraction": 1.0,
+  "last_completed_result_id": 179,
+  "elapsed_seconds": 705.2790528999176,
+  "updated_unix_seconds": 1783751879.2487807
+}

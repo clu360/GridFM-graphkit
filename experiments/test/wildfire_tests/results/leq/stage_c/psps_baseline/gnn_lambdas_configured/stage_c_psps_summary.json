@@ -1,0 +1,29 @@
+{
+  "num_runs": 6,
+  "num_successful_runs": 6,
+  "grouping_top_fraction": 0.3,
+  "psps_top_fraction": 0.1,
+  "models": [
+    "gnn"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "lambda_cases": {
+    "risk_leaning": {
+      "lambda_R": 0.9,
+      "lambda_L": 0.1
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "service_leaning": {
+      "lambda_R": 0.1,
+      "lambda_L": 0.9
+    }
+  },
+  "evaluation_mode": "psps_only",
+  "summary_csv": "C:/Users/Caleb Lu/OneDrive/Documents/GT/Extracurriculars/Research/Grid FM/Experiments/GridFM-graphkit/experiments/test/wildfire_tests/results/leq\\stage_c\\psps_baseline\\gnn_lambdas_configured\\stage_c_psps_summary.csv"
+}

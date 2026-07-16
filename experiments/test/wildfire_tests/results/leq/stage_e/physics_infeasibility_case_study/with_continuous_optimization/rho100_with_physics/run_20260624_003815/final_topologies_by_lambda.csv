@@ -1,0 +1,4 @@
+lambda_R,lambda_L,rho_phys,stage_c_risk_only_final_topology,stage_d_k2_exhaustive_final_topology,stage_e_k2_final_topology,stage_e_unconstrained_final_topology
+0.8,0.1999999999999999,100.0,"23,26,30,100","23,27","23,27","23,27,30"
+0.5,0.5,100.0,"23,26,30,100","23,27","23,27","23,26"
+0.2,0.8,100.0,"23,26,30,100","23,27","23,38","23,38"

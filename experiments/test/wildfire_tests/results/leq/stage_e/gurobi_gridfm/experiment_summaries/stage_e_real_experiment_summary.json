@@ -1,0 +1,43 @@
+{
+  "stage_e_root": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm",
+  "output_root": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries",
+  "models": [
+    "gps"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "max_deenergized_lines": [
+    1,
+    2
+  ],
+  "lambda_cases": {
+    "risk_priority": {
+      "lambda_R": 0.8,
+      "lambda_L": 0.2
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "load_priority": {
+      "lambda_R": 0.2,
+      "lambda_L": 0.8
+    }
+  },
+  "revised_stage_d_objective": "lambda_R * sum_l(z_l * p_env_l * loading_l^2) / baseline + lambda_L * L_shed",
+  "stage_d_revised_candidate_files": [
+    "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\stage_d_revised_candidates_gps_auto_env_k1.csv",
+    "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\stage_d_revised_candidates_gps_auto_env_k2.csv",
+    "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\stage_d_revised_candidates_gps_largest_group_high_k1.csv",
+    "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\stage_d_revised_candidates_gps_largest_group_high_k2.csv"
+  ],
+  "summary_files": {
+    "stage_e_real_experiment_summary": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\stage_e_real_experiment_summary.csv",
+    "stage_e_vs_stage_d_comparison": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\stage_e_vs_stage_d_comparison.csv",
+    "proxy_vs_true_alignment": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\proxy_vs_true_alignment.csv",
+    "best_decisions_by_lambda": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\best_decisions_by_lambda.csv",
+    "runtime_and_call_count_summary": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\experiment_summaries\\runtime_and_call_count_summary.csv"
+  }
+}

@@ -1,9 +1,9 @@
 import numpy as np
 
-from experiments.test.wildfire_initial_tests.config import FirstPassConfig
-from experiments.test.wildfire_initial_tests.decision_vector import FirstPassDecisionVector
-from experiments.test.wildfire_initial_tests.optimization_problem import FirstPassOptimizationProblem
-from experiments.test.wildfire_initial_tests.wildfire_scenario import WildfireLineGroup, WildfireScenario
+from experiments.test.wildfire_tests.shared.config import FirstPassConfig
+from experiments.test.wildfire_tests.shared.decision_vector import FirstPassDecisionVector
+from experiments.test.wildfire_tests.shared.optimization_problem import FirstPassOptimizationProblem
+from experiments.test.wildfire_tests.shared.wildfire_scenario import WildfireLineGroup, WildfireScenario
 
 
 class DummyScenario:
@@ -49,7 +49,7 @@ class DummyRunner:
 
 
 def test_basic_problem_baseline_objective_is_finite(monkeypatch):
-    from experiments.test.wildfire_initial_tests import optimization_problem as op_mod
+    from experiments.test.wildfire_tests import optimization_problem as op_mod
 
     def fake_extract_state_quantities(_scenario, prediction, standard_rate_a_mva=100.0):
         return {

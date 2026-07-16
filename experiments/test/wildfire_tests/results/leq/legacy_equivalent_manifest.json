@@ -1,0 +1,187 @@
+{
+  "output_root": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq",
+  "purpose": "Legacy-equivalent refactored harness outputs for parity checks against wildfire_initial_tests/results.",
+  "legacy_near_extreme_lambda_cases": {
+    "risk": {
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "shed": {
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001
+    }
+  },
+  "legacy_stage_d_lambda_cases": {
+    "risk_leaning": {
+      "lambda_R": 0.8,
+      "lambda_L": 0.2
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "service_leaning": {
+      "lambda_R": 0.2,
+      "lambda_L": 0.8
+    }
+  },
+  "runs": [
+    {
+      "stage": "stage_a_connected_corridor",
+      "case": "risk",
+      "model_type": "gnn",
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\a\\cc\\risk\\gnn\\risk_gnn_20260611_212633",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_a_connected_corridor",
+      "case": "risk",
+      "model_type": "gps",
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\a\\cc\\risk\\gps\\risk_gps_20260611_212643",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_a_connected_corridor",
+      "case": "balanced",
+      "model_type": "gnn",
+      "lambda_R": 0.5,
+      "lambda_L": 0.5,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\a\\cc\\bal\\gnn\\bal_gnn_20260611_212645",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_a_connected_corridor",
+      "case": "balanced",
+      "model_type": "gps",
+      "lambda_R": 0.5,
+      "lambda_L": 0.5,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\a\\cc\\bal\\gps\\bal_gps_20260611_212651",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_a_connected_corridor",
+      "case": "shed",
+      "model_type": "gnn",
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\a\\cc\\svc\\gnn\\svc_gnn_20260611_212653",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_a_connected_corridor",
+      "case": "shed",
+      "model_type": "gps",
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\a\\cc\\svc\\gps\\svc_gps_20260611_212655",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multistart",
+      "case": "risk",
+      "model_type": "gnn",
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\ms\\risk\\gnn\\multistart_gnn_20260611_212657",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multistart",
+      "case": "risk",
+      "model_type": "gps",
+      "lambda_R": 0.999001,
+      "lambda_L": 0.000999,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\ms\\risk\\gps\\multistart_gps_20260611_212753",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multistart",
+      "case": "balanced",
+      "model_type": "gnn",
+      "lambda_R": 0.5,
+      "lambda_L": 0.5,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\ms\\bal\\gnn\\multistart_gnn_20260611_212858",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multistart",
+      "case": "balanced",
+      "model_type": "gps",
+      "lambda_R": 0.5,
+      "lambda_L": 0.5,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\ms\\bal\\gps\\multistart_gps_20260611_212931",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multistart",
+      "case": "shed",
+      "model_type": "gnn",
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\ms\\svc\\gnn\\multistart_gnn_20260611_213004",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multistart",
+      "case": "shed",
+      "model_type": "gps",
+      "lambda_R": 0.000999,
+      "lambda_L": 0.999001,
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\ms\\svc\\gps\\multistart_gps_20260611_213011",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_b_multi_group_threshold_sensitivity",
+      "case": "legacy_near_extreme",
+      "model_type": "gps,gnn",
+      "lambda_R": "",
+      "lambda_L": "",
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\mg",
+      "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\b\\mg\\multi_group_threshold_sensitivity_summary.csv",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_c_psps",
+      "case": "legacy_near_extreme",
+      "model_type": "gps,gnn",
+      "lambda_R": "",
+      "lambda_L": "",
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_c\\psps",
+      "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_c\\psps\\stage_c_psps_summary.csv",
+      "status": "ok",
+      "error": ""
+    },
+    {
+      "stage": "stage_d_deenergization",
+      "case": "legacy_stage_d",
+      "model_type": "gps",
+      "lambda_R": "",
+      "lambda_L": "",
+      "run_dir": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_d\\deenergization",
+      "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_d\\deenergization\\stage_d_deenergization_summary.csv",
+      "status": "ok",
+      "error": ""
+    }
+  ]
+}

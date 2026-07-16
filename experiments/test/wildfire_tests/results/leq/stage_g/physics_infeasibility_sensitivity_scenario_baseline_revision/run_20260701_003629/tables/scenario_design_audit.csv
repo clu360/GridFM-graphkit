@@ -1,0 +1,6 @@
+scenario_id,scenario_name,num_targets,missing_candidate_targets,weak_target_lines,weakest_target_rank_penv_loading2,weakest_target_rank_penv_loading2_impact,min_target_margin_vs_top_non_target,rho0_target_overlap,best_target_overlap,best_target_overlap_rho,rho0_line23_frequency,top_selected_lines,top_selected_non_target_lines,diagnosis
+S1,S1_low_impact_high_risk,3,,"18,32",36,36,0.020182114415063106,0.13333333333333333,0.13333333333333333,0.0,0.09523809523809519,"14,23,36,72,77","14,23,72,77",scenario_design_weakness
+S2,S2_high_consequence_non_bridge,1,,,1,1,7.143175657155683,0.8,1.0,0.5,0.9523809523809524,"7,10,14,23,77","7,10,14,77",mixed_or_acceptable
+S3,S3_redundant_g1_corridor,4,,"18,22",5,5,0.6117496961904612,0.11666666666666667,0.11666666666666667,0.0,0.6031746031746031,"7,14,23,72,77","14,23,72,77",scenario_design_weakness
+S4,S4_source_less_island_trap,1,,,1,1,5.688723531144468,0.8,0.9333333333333333,0.5,0.25396825396825395,"7,14,23,72,77","7,14,23,72",mixed_or_acceptable
+S5,S5_local_vs_distributed,7,,"18,32,47,88,91",37,37,0.020182114415063106,0.1904761904761904,0.219047619047619,2.0,0.07936507936507933,"14,23,36,72,77","14,23,72",scenario_design_weakness

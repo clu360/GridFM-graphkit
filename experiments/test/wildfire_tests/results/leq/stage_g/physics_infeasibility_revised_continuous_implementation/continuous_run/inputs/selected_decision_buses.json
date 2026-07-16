@@ -1,0 +1,14 @@
+{
+  "selected_generator_buses": [
+    1,
+    10,
+    12
+  ],
+  "selected_load_buses": [
+    6,
+    20,
+    11,
+    29,
+    18
+  ]
+}

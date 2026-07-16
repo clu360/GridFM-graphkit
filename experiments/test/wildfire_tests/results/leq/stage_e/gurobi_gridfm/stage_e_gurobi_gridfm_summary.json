@@ -1,0 +1,34 @@
+{
+  "num_runs": 12,
+  "num_successful_runs": 12,
+  "grouping_top_fraction": 0.3,
+  "evaluation_mode": "gurobi_master_gridfm_fixed_u",
+  "max_deenergized_lines": [
+    1,
+    2
+  ],
+  "evaluation_budget": 20,
+  "proxy_type": "env_loading_base",
+  "lambda_cases": {
+    "risk_priority": {
+      "lambda_R": 0.8,
+      "lambda_L": 0.2
+    },
+    "balanced": {
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    "load_priority": {
+      "lambda_R": 0.2,
+      "lambda_L": 0.8
+    }
+  },
+  "models": [
+    "gps"
+  ],
+  "cases": [
+    "auto_env",
+    "largest_group_high"
+  ],
+  "summary_csv": "C:\\Users\\Caleb Lu\\OneDrive\\Documents\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_e\\gurobi_gridfm\\stage_e_gurobi_gridfm_summary.csv"
+}

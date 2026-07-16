@@ -1,0 +1,123 @@
+{
+  "selection_method": "automatic_risk_components",
+  "risk_score_formula": "p_env_times_loading_squared_times_impact",
+  "threshold_method": "top_fraction",
+  "requested_top_fraction": 0.1,
+  "top_fraction": 0.1,
+  "num_lines": 110,
+  "num_selected_lines": 11,
+  "realized_selected_fraction": 0.1,
+  "selected_high_risk_line_ids": [
+    23,
+    26,
+    27,
+    30,
+    18,
+    3,
+    32,
+    1,
+    100,
+    16,
+    47
+  ],
+  "num_groups": 3,
+  "group_ids": [
+    "G_1",
+    "G_2",
+    "G_3"
+  ],
+  "group_line_ids": {
+    "G_1": [
+      1,
+      3,
+      16,
+      18,
+      27
+    ],
+    "G_2": [
+      23,
+      26,
+      30,
+      32,
+      100
+    ],
+    "G_3": [
+      47
+    ]
+  },
+  "group_bus_ids": {
+    "G_1": [
+      0,
+      1,
+      4,
+      6
+    ],
+    "G_2": [
+      5,
+      7,
+      27
+    ],
+    "G_3": [
+      11,
+      12
+    ]
+  },
+  "collapsed_to_single_group": false,
+  "largest_group_num_lines": 5,
+  "largest_group_fraction_of_selected_lines": 0.45454545454545453,
+  "candidate_p_env": 1.0,
+  "groups": [
+    {
+      "group_id": "G_1",
+      "line_ids": [
+        1,
+        3,
+        16,
+        18,
+        27
+      ],
+      "bus_ids": [
+        0,
+        1,
+        4,
+        6
+      ],
+      "num_lines": 5,
+      "baseline_group_risk": 1.3598395934848961,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_2",
+      "line_ids": [
+        23,
+        26,
+        30,
+        32,
+        100
+      ],
+      "bus_ids": [
+        5,
+        7,
+        27
+      ],
+      "num_lines": 5,
+      "baseline_group_risk": 10.089883235367532,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_3",
+      "line_ids": [
+        47
+      ],
+      "bus_ids": [
+        11,
+        12
+      ],
+      "num_lines": 1,
+      "baseline_group_risk": 0.025847283661026375,
+      "group_weight": 1.0
+    }
+  ],
+  "baseline_grouped_risk": 11.475570112513454,
+  "diagnostic_warnings": []
+}

@@ -1,0 +1,249 @@
+{
+  "selection_method": "automatic_risk_components",
+  "risk_score_formula": "p_env_times_loading_squared_times_impact",
+  "threshold_method": "top_fraction",
+  "requested_top_fraction": 0.3,
+  "top_fraction": 0.3,
+  "num_lines": 110,
+  "num_selected_lines": 33,
+  "realized_selected_fraction": 0.3,
+  "selected_high_risk_line_ids": [
+    23,
+    18,
+    51,
+    47,
+    36,
+    5,
+    27,
+    16,
+    79,
+    77,
+    6,
+    19,
+    32,
+    101,
+    40,
+    35,
+    2,
+    22,
+    38,
+    8,
+    72,
+    74,
+    25,
+    12,
+    26,
+    10,
+    20,
+    37,
+    88,
+    91,
+    97,
+    50,
+    33
+  ],
+  "num_groups": 5,
+  "group_ids": [
+    "G_1",
+    "G_2",
+    "G_3",
+    "G_4",
+    "G_5"
+  ],
+  "group_line_ids": {
+    "G_1": [
+      2,
+      5,
+      6,
+      8,
+      10,
+      12,
+      16,
+      18,
+      19,
+      20,
+      22,
+      23,
+      25,
+      26,
+      27,
+      32,
+      33,
+      35,
+      36,
+      37,
+      38,
+      40,
+      97,
+      101
+    ],
+    "G_2": [
+      47,
+      50,
+      51
+    ],
+    "G_3": [
+      72,
+      74
+    ],
+    "G_4": [
+      77,
+      79
+    ],
+    "G_5": [
+      88,
+      91
+    ]
+  },
+  "group_bus_ids": {
+    "G_1": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      16,
+      26,
+      27
+    ],
+    "G_2": [
+      11,
+      12,
+      15
+    ],
+    "G_3": [
+      18,
+      19
+    ],
+    "G_4": [
+      20,
+      21
+    ],
+    "G_5": [
+      23,
+      24,
+      25
+    ]
+  },
+  "collapsed_to_single_group": false,
+  "largest_group_num_lines": 24,
+  "largest_group_fraction_of_selected_lines": 0.7272727272727273,
+  "candidate_p_env": 1.0,
+  "groups": [
+    {
+      "group_id": "G_1",
+      "line_ids": [
+        2,
+        5,
+        6,
+        8,
+        10,
+        12,
+        16,
+        18,
+        19,
+        20,
+        22,
+        23,
+        25,
+        26,
+        27,
+        32,
+        33,
+        35,
+        36,
+        37,
+        38,
+        40,
+        97,
+        101
+      ],
+      "bus_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        16,
+        26,
+        27
+      ],
+      "num_lines": 24,
+      "baseline_group_risk": 2.7854486745167173,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_2",
+      "line_ids": [
+        47,
+        50,
+        51
+      ],
+      "bus_ids": [
+        11,
+        12,
+        15
+      ],
+      "num_lines": 3,
+      "baseline_group_risk": 0.03874394615078074,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_3",
+      "line_ids": [
+        72,
+        74
+      ],
+      "bus_ids": [
+        18,
+        19
+      ],
+      "num_lines": 2,
+      "baseline_group_risk": 5.398704593415015e-06,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_4",
+      "line_ids": [
+        77,
+        79
+      ],
+      "bus_ids": [
+        20,
+        21
+      ],
+      "num_lines": 2,
+      "baseline_group_risk": 0.007246254958710417,
+      "group_weight": 1.0
+    },
+    {
+      "group_id": "G_5",
+      "line_ids": [
+        88,
+        91
+      ],
+      "bus_ids": [
+        23,
+        24,
+        25
+      ],
+      "num_lines": 2,
+      "baseline_group_risk": 2.32625591865173e-07,
+      "group_weight": 1.0
+    }
+  ],
+  "baseline_grouped_risk": 117.17394541976515,
+  "diagnostic_warnings": []
+}

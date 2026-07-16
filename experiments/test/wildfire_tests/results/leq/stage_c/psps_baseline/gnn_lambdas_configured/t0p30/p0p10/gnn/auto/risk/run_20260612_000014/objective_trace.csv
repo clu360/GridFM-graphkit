@@ -1,0 +1,3 @@
+eval_idx,objective_total,wildfire_group_risk,load_shedding,normalized_wildfire_group_risk,normalized_load_shedding,risk_objective_term,load_shedding_objective_term,generator_movement,max_loading_ratio,mean_alpha,max_abs_delta_pg,message
+0,0.9,125.14544227466244,0.0,1.0,0.0,0.9,0.0,0.0,12.582819874984358,1.0,0.0,baseline_all_energized
+1,0.19807048741913566,20.15184034257849,0.5314586228963799,0.1610273612549974,0.5314586228963799,0.14492462512949766,0.053145862289637996,0.0,4.751697743684368,1.0,0.0,post_psps_threshold

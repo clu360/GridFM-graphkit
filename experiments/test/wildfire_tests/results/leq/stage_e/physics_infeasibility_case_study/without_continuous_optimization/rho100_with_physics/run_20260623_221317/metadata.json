@@ -1,0 +1,155 @@
+{
+  "git_branch": "wildfire-experiments",
+  "git_commit": "c0932eb390f33994ca05230658c94a50cc4ce366",
+  "model": "gnn",
+  "cases": [
+    "auto_env"
+  ],
+  "case_mapping": {
+    "auto_env": "auto_env",
+    "lfg": "largest_group_high"
+  },
+  "candidate_set": "t0p30",
+  "stage_c_psps_fraction": 0.1,
+  "stage_c_proposal": "risk_only_transmission_heuristic",
+  "stage_d_subsets": "k<=2 including no-shutoff",
+  "stage_d_limit": null,
+  "stage_e_constrained_k": 2,
+  "stage_e_k2_budget": 100,
+  "stage_e_unconstrained_budget": 100,
+  "recourse_maxiter": 10,
+  "continuous_recourse_optimized": false,
+  "rho_phys_values": [
+    100.0
+  ],
+  "lambda_step": 0.05,
+  "lambda_settings": [
+    {
+      "lambda_case": "lr0p00",
+      "lambda_R": 0.0,
+      "lambda_L": 1.0
+    },
+    {
+      "lambda_case": "lr0p05",
+      "lambda_R": 0.05,
+      "lambda_L": 0.95
+    },
+    {
+      "lambda_case": "lr0p10",
+      "lambda_R": 0.1,
+      "lambda_L": 0.9
+    },
+    {
+      "lambda_case": "lr0p15",
+      "lambda_R": 0.15,
+      "lambda_L": 0.85
+    },
+    {
+      "lambda_case": "lr0p20",
+      "lambda_R": 0.2,
+      "lambda_L": 0.8
+    },
+    {
+      "lambda_case": "lr0p25",
+      "lambda_R": 0.25,
+      "lambda_L": 0.75
+    },
+    {
+      "lambda_case": "lr0p30",
+      "lambda_R": 0.3,
+      "lambda_L": 0.7
+    },
+    {
+      "lambda_case": "lr0p35",
+      "lambda_R": 0.35,
+      "lambda_L": 0.65
+    },
+    {
+      "lambda_case": "lr0p40",
+      "lambda_R": 0.4,
+      "lambda_L": 0.6
+    },
+    {
+      "lambda_case": "lr0p45",
+      "lambda_R": 0.45,
+      "lambda_L": 0.55
+    },
+    {
+      "lambda_case": "lr0p50",
+      "lambda_R": 0.5,
+      "lambda_L": 0.5
+    },
+    {
+      "lambda_case": "lr0p55",
+      "lambda_R": 0.55,
+      "lambda_L": 0.44999999999999996
+    },
+    {
+      "lambda_case": "lr0p60",
+      "lambda_R": 0.6,
+      "lambda_L": 0.4
+    },
+    {
+      "lambda_case": "lr0p65",
+      "lambda_R": 0.65,
+      "lambda_L": 0.35
+    },
+    {
+      "lambda_case": "lr0p70",
+      "lambda_R": 0.7,
+      "lambda_L": 0.30000000000000004
+    },
+    {
+      "lambda_case": "lr0p75",
+      "lambda_R": 0.75,
+      "lambda_L": 0.25
+    },
+    {
+      "lambda_case": "lr0p80",
+      "lambda_R": 0.8,
+      "lambda_L": 0.19999999999999996
+    },
+    {
+      "lambda_case": "lr0p85",
+      "lambda_R": 0.85,
+      "lambda_L": 0.15000000000000002
+    },
+    {
+      "lambda_case": "lr0p90",
+      "lambda_R": 0.9,
+      "lambda_L": 0.09999999999999998
+    },
+    {
+      "lambda_case": "lr0p95",
+      "lambda_R": 0.95,
+      "lambda_L": 0.050000000000000044
+    },
+    {
+      "lambda_case": "lr1p00",
+      "lambda_R": 1.0,
+      "lambda_L": 0.0
+    }
+  ],
+  "traditional_lambda_R_values": [
+    0.8,
+    0.5,
+    0.2
+  ],
+  "final_wildfire_metric": "sum_l z_l * p_env_l * loading_l^2 / R_base",
+  "final_wildfire_metric_excludes": [
+    "I_l",
+    "c_l",
+    "impact",
+    "consequence"
+  ],
+  "load_shedding_metric": "demand-weighted GridFM-predicted service loss after applying each topology",
+  "load_shedding_formula": "sum_i Pd_base_i * (1 - clip(Pd_pred_i / Pd_base_i, 0, 1)) / sum_i Pd_base_i",
+  "pareto_frontier_objectives": [
+    "R_norm",
+    "L_shed"
+  ],
+  "pareto_frontier_scope": "computed independently for each stage within fixed case and rho_phys",
+  "pac_total_role": "objective penalty through rho_phys and diagnostic metadata; not a Pareto frontier axis",
+  "continuous_recourse": "disabled; fixed-control evaluation at clipped decision_vector.u_base",
+  "outputs_are_additive": true
+}

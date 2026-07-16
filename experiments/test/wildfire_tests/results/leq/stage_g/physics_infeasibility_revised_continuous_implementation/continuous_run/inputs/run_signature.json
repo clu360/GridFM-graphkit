@@ -1,0 +1,19 @@
+{
+  "model": "gnn",
+  "scenario_ids": null,
+  "lambda_values": [
+    0.0,
+    0.2,
+    0.5,
+    0.8,
+    1.0
+  ],
+  "rho_phys_values": [
+    0.0,
+    2.0
+  ],
+  "stage_d_limit": null,
+  "stage_e_budget": 50,
+  "call_budget": 100,
+  "delta_qg_bound_mvar": 5.0
+}

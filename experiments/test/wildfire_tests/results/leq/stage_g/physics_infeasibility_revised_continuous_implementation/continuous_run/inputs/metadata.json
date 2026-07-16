@@ -1,0 +1,44 @@
+{
+  "git_branch": "wildfire-experiments",
+  "git_commit": "c0932eb390f33994ca05230658c94a50cc4ce366",
+  "study": "physics_infeasibility_revised_continuous_implementation",
+  "model": "gnn",
+  "scenario_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+  ],
+  "lambda_values": [
+    0.0,
+    0.2,
+    0.5,
+    0.8,
+    1.0
+  ],
+  "rho_phys_values": [
+    0.0,
+    2.0
+  ],
+  "stage_d_limit": null,
+  "stage_e_budget_per_stage_lambda_scenario": 50,
+  "call_budget_per_topology": 100,
+  "continuous_decision_vector": "[Delta_Pg, Delta_Qg, alpha]",
+  "delta_qg_bound_mvar": 5.0,
+  "p_env_mode": "targets_high_non_targets_margin_0p25_without_line32",
+  "excluded_target_line_ids": [
+    32
+  ],
+  "baseline_loading_source": "stored_scenario_vm_va",
+  "post_topology_evaluation_source": "gridfm_inference_with_intervention_mask_and_clamp",
+  "L_shed_source": "commanded_alpha_clamped",
+  "true_risk_formula": "sum_l z_l * p_env_l * loading_l^2; impact_l excluded",
+  "topology_proxy_excludes_pac": true,
+  "num_topology_proposals": 9425,
+  "num_continuous_results": 18850,
+  "resumed_existing_run": true,
+  "progress_checkpoint": "rc_full\\run_20260701_233908\\inputs\\progress.json",
+  "checkpoint_tables_dir": "rc_full\\run_20260701_233908\\tables\\checkpoints",
+  "runtime_seconds": 82.42178940004669
+}
