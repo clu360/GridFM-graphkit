@@ -1,0 +1,10 @@
+Baseline commit unresolved.
+
+Current evidence does not uniquely identify the intended Stage G/H baseline
+commit for a formal implementation diff. Possible context:
+
+- Current commit: 831d76738d5a64f934430a8ebf1ac281e6bccd7f
+- Current commit message: Major Checkpoint with Overhaul of GridFm Formulation and Comparison with Prior Literature Methodologies
+
+Confidence in a separate baseline commit: low. Do not use a baseline diff for
+scientific review unless Caleb or repository evidence later identifies it.

@@ -1,0 +1,14 @@
+$ C:\Users\Caleb Lu\anaconda3\python.exe -c import json
+try:
+ import gurobipy as gp
+ print(json.dumps({'gurobipy_version': gp.gurobi.version(), 'available': True}))
+except Exception as e:
+ print(json.dumps({'available': False, 'error': str(e)}))
+
+[returncode] 0
+
+[stdout]
+{"gurobipy_version": [12, 0, 0], "available": true}
+
+
+[stderr]

@@ -1,0 +1,131 @@
+{
+  "run_label": "proxy_inner_lambda_sweep_r2",
+  "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_masking_clamping_audit.csv",
+  "copied": false,
+  "size_bytes": 75962810,
+  "sha256": "09363d22c4962aa9a3618bd1e84b17a73b151bd60cd61782ea03378715170387",
+  "row_count": 2250000,
+  "columns": [
+    "result_id",
+    "bus_id",
+    "feature",
+    "original_masked",
+    "effective_masked",
+    "is_controlled_feature",
+    "controlled_visible_to_gridfm"
+  ],
+  "dtypes": {
+    "result_id": "int64",
+    "bus_id": "int64",
+    "feature": "object",
+    "original_masked": "bool",
+    "effective_masked": "bool",
+    "is_controlled_feature": "bool",
+    "controlled_visible_to_gridfm": "bool"
+  },
+  "unique_values": {},
+  "missing_value_counts": {
+    "result_id": 0,
+    "bus_id": 0,
+    "feature": 0,
+    "original_masked": 0,
+    "effective_masked": 0,
+    "is_controlled_feature": 0,
+    "controlled_visible_to_gridfm": 0
+  },
+  "duplicate_key_count": 994444,
+  "first_five_rows": [
+    {
+      "result_id": 0,
+      "bus_id": 0,
+      "feature": "Pd",
+      "original_masked": false,
+      "effective_masked": false,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 0,
+      "bus_id": 0,
+      "feature": "Qd",
+      "original_masked": true,
+      "effective_masked": true,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 0,
+      "bus_id": 0,
+      "feature": "Pg",
+      "original_masked": true,
+      "effective_masked": true,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 0,
+      "bus_id": 0,
+      "feature": "Qg",
+      "original_masked": true,
+      "effective_masked": true,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 0,
+      "bus_id": 0,
+      "feature": "Vm",
+      "original_masked": false,
+      "effective_masked": false,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    }
+  ],
+  "last_five_rows": [
+    {
+      "result_id": 12499,
+      "bus_id": 29,
+      "feature": "Qd",
+      "original_masked": false,
+      "effective_masked": false,
+      "is_controlled_feature": true,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 12499,
+      "bus_id": 29,
+      "feature": "Pg",
+      "original_masked": false,
+      "effective_masked": false,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 12499,
+      "bus_id": 29,
+      "feature": "Qg",
+      "original_masked": true,
+      "effective_masked": true,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 12499,
+      "bus_id": 29,
+      "feature": "Vm",
+      "original_masked": false,
+      "effective_masked": false,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    },
+    {
+      "result_id": 12499,
+      "bus_id": 29,
+      "feature": "Va",
+      "original_masked": true,
+      "effective_masked": true,
+      "is_controlled_feature": false,
+      "controlled_visible_to_gridfm": true
+    }
+  ]
+}

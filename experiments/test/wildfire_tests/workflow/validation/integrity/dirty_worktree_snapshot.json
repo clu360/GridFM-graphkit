@@ -1,0 +1,84 @@
+{
+  "artifact_id": "DIRTY-TREE-0001",
+  "created_utc": "2026-07-30T03:32:04+00:00",
+  "execution_mode": "single_context_role_simulation",
+  "current_commit": "831d76738d5a64f934430a8ebf1ac281e6bccd7f",
+  "committed_tracked_file_count": 6265,
+  "dirty_entries": [
+    {
+      "status_code": "M",
+      "path": "experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md",
+      "classification": "tracked_modifications"
+    },
+    {
+      "status_code": "??",
+      "path": "6.0.0",
+      "classification": "ignored_or_local_only_files"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/plots/summary/",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/best_j_true_by_method_lambda_rho_metadata.json",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/best_j_true_by_method_lambda_rho_summary.csv",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_main_results.csv",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_metadata.json",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_summary_by_rho_lambda.csv",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_summary_overall.csv",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_continuous_objective_call_trace.csv",
+      "classification": "generated_result_artifacts"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/stage_i_dc_comparison/run_stage_e_load_shed_discrepancy_summary.py",
+      "classification": "untracked_source_or_docs"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/stage_i_dc_comparison/run_stage_h_best_j_true_lambda_summary.py",
+      "classification": "untracked_source_or_docs"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/",
+      "classification": "untracked_workflow_package_files"
+    },
+    {
+      "status_code": "??",
+      "path": "experiments/test/wildfire_tests/workflow/",
+      "classification": "untracked_workflow_files"
+    },
+    {
+      "status_code": "??",
+      "path": "tmp/",
+      "classification": "ignored_or_local_only_files"
+    }
+  ]
+}

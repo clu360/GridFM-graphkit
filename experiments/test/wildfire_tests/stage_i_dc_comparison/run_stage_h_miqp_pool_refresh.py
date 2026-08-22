@@ -101,7 +101,7 @@ def _mkdir(path: Path) -> None:
 
 def _savefig(fig, path: Path, **kwargs) -> None:
     _mkdir(path.parent)
-    staging = Path("tmp") / "stage_h_miqp_pool_plot_staging"
+    staging = Path("tmp") / "stage_i_miqp_pool_plot_staging"
     staging.mkdir(parents=True, exist_ok=True)
     handle = tempfile.NamedTemporaryFile(delete=False, suffix=Path(path).suffix or ".png", dir=str(staging))
     tmp_path = Path(handle.name)
@@ -642,8 +642,8 @@ def refresh_run(run_dir: Path, pool_solutions: int, pool_gap: float, time_limit_
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Refresh Stage H plots with Stage I-b MIQP solution-pool topologies.")
-    parser.add_argument("--run", action="append", dest="runs", help="Run subfolder under the Stage H comparison root.")
+    parser = argparse.ArgumentParser(description="Refresh Stage I plots with Stage I-b MIQP solution-pool topologies.")
+    parser.add_argument("--run", action="append", dest="runs", help="Run subfolder under the Stage I comparison root.")
     parser.add_argument("--pool-solutions", type=int, default=50)
     parser.add_argument("--pool-gap", type=float, default=1e9)
     parser.add_argument("--time-limit", type=float, default=600.0)

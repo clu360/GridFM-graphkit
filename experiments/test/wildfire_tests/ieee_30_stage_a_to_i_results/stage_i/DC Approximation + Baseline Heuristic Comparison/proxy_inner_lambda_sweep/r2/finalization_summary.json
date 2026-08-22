@@ -1,0 +1,11 @@
+{
+  "status": "complete",
+  "num_all_evaluated_rows": 22830,
+  "num_best_rows": 250,
+  "num_frontier_rows": 970,
+  "num_methodology_checks": 6,
+  "num_failed_checks": 0,
+  "num_plot_files": 90,
+  "stage_e_topology_generation": "proxy_topology_pool_expanded_across_inner_lambda",
+  "runtime_seconds": 22267.613882000092
+}

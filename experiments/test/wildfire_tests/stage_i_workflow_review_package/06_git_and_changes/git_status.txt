@@ -1,0 +1,40 @@
+$ git status
+
+[returncode] 0
+
+[stdout]
+On branch wildfire-experiments
+Your branch is up to date with 'origin/wildfire-experiments'.
+
+You are currently rebasing.
+  (all conflicts fixed: run "git rebase --continue")
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	6.0.0
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/plots/summary/
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/best_j_true_by_method_lambda_rho_metadata.json
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/best_j_true_by_method_lambda_rho_summary.csv
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_main_results.csv
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_metadata.json
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_summary_by_rho_lambda.csv
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/stage_e_k2_load_shed_discrepancy_summary_overall.csv
+	experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_continuous_objective_call_trace.csv
+	experiments/test/wildfire_tests/stage_i_dc_comparison/run_stage_e_load_shed_discrepancy_summary.py
+	experiments/test/wildfire_tests/stage_i_dc_comparison/run_stage_h_best_j_true_lambda_summary.py
+	experiments/test/wildfire_tests/stage_i_workflow_review_package/
+	experiments/test/wildfire_tests/stage_i_workflow_review_package_partial_20260729_225649/
+	experiments/test/wildfire_tests/stage_i_workflow_review_package_partial_20260729_225711/
+	experiments/test/wildfire_tests/stage_i_workflow_review_package_partial_20260729_225837/
+	experiments/test/wildfire_tests/stage_i_workflow_review_package_partial_20260729_225957/
+	tmp/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+
+[stderr]

@@ -22,6 +22,19 @@ scenarios exactly as before:
 S1, S2, S3, S4, S5
 ```
 
+Naming correction: the DC approximation + baseline heuristic + GridFM
+comparison belongs to Stage I. Early generated folders used
+`ieee_30_stage_a_to_i_results/stage_h/DC Approximation + Baseline Heuristic Comparison/` because
+of Stage H heuristic-comparison naming drift, but the canonical result root is:
+
+```text
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_i/
+  DC Approximation + Baseline Heuristic Comparison/
+```
+
+The Stage H result root remains reserved for the earlier heuristic-only
+comparison runs.
+
 Do not switch to fairer `p_env` construction in this first Stage I
 implementation. Fairer scenario construction remains a later extension after
 the locked `K <= 2` comparison is implemented and understood.
@@ -51,7 +64,7 @@ correction.
 Revised Stage H result anchor:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_revised_load_pac/run_gnn_20260711_022613/
 ```
 
@@ -459,14 +472,14 @@ tests/test_wildfire_stage_g_implementation.py
 Current Stage G reference path used by Stage H:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_g/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_g/
   physics_infeasibility_revised_continuous_implementation/continuous_run/
 ```
 
 Completed Stage H top-k heuristic comparison:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_topk/run_gnn_20260703_034242/
 ```
 
@@ -1651,13 +1664,14 @@ Expected MLD sub-study visuals:
    Stage E K2 MLD and Stage I-a MLD points where available.
 ```
 
-Recommended result layout:
+Recommended Stage I DC-comparison result layout:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
-  dc_approximation_th_ah_heuristics_comparison/
-    main_k2_lambda_sweep/
-    mld_literature_alignment/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_i/
+  DC Approximation + Baseline Heuristic Comparison/
+    main_results/
+    MLD/
+    proxy_inner_lambda_sweep/
 ```
 
 The MLD subfolder should carry its own metadata recording:
@@ -1799,14 +1813,14 @@ Be explicit in the writeup and code comments:
 The current GridFM checkpoint before DC MILP construction is:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_revised_load_pac/run_gnn_20260711_022613/
 ```
 
 The prior baseline used for before/after interpretation is:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_topk/run_gnn_20260703_034242/
 ```
 

@@ -1,2 +1,1 @@
-"""Stage I DC approximation and Stage H comparison utilities."""
-
+"""Stage I DC approximation and comparison utilities."""

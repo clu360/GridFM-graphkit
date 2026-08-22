@@ -1,0 +1,3 @@
+method_family,rank,th_k,shutoff_branch_ids,num_shutoffs,proxy_objective,r_proxy,l_proxy,alpha_strategy,topology_policy
+TH-GridSFM,1,1,473,1,,0.9853703221091291,,j8_budgeted_subset_scipy_no_full_coordinate_screen,score_TH=p_env*baseline_loading^2
+TH-GridSFM,2,2,285;473,2,,0.973134056319488,,j8_budgeted_subset_scipy_no_full_coordinate_screen,score_TH=p_env*baseline_loading^2

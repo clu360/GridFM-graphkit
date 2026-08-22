@@ -1,0 +1,29 @@
+{
+  "cache_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001",
+  "continuous_eval_budget": 20,
+  "final_root": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run",
+  "k_constraint": "<= 2",
+  "lambda_r": [
+    0.0,
+    0.2,
+    0.5,
+    0.8,
+    1.0
+  ],
+  "lambda_r_proxy": "coupled_to_lambda_r",
+  "large_artifacts": "mutated GridSFM candidate graphs remain only under cache_root",
+  "methods": [
+    "Guided-DC",
+    "Guided-GridSFM",
+    "TH-GridSFM-top1",
+    "TH-GridSFM-top2"
+  ],
+  "q": 5,
+  "run_id": "stage_j_complete_run_v001",
+  "scenarios": [
+    "J-S1",
+    "J-S2",
+    "J-S3"
+  ],
+  "topology_budget": 100
+}

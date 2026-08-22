@@ -64,7 +64,7 @@ def _mkdir(path: Path) -> None:
 
 def _savefig(fig, path: Path, **kwargs) -> None:
     _mkdir(path.parent)
-    staging = Path.cwd() / "tmp" / "stage_h_plot_staging"
+    staging = Path.cwd() / "tmp" / "stage_i_plot_staging"
     _mkdir(staging)
     handle = tempfile.NamedTemporaryFile(delete=False, suffix=Path(path).suffix or ".png", dir=str(staging))
     tmp_path = Path(handle.name)
@@ -335,7 +335,7 @@ def run_proxy_inner_lambda_sweep(
         inputs_dir / "metadata.json",
         {
             **git_metadata(),
-            "study": "stage_h_proxy_inner_lambda_sweep",
+            "study": "stage_i_proxy_inner_lambda_sweep",
             "scenario_ids": scenario_ids,
             "lambda_values": lambda_values,
             "proxy_lambda_values": proxy_lambda_values,
@@ -359,7 +359,7 @@ def run_proxy_inner_lambda_sweep(
         int(topology_budget),
     )
     stage_e_topology_pool = _expand_proxy_topology_pool(stage_e_proxy_pool, lambda_values)
-    checkpoint_root = Path("tmp") / "stage_h_proxy_inner_checkpoints" / run_dir.name
+    checkpoint_root = Path("tmp") / "stage_i_proxy_inner_checkpoints" / run_dir.name
     _mkdir(checkpoint_root)
     stage_e, stage_e_traces, stage_e_load, stage_e_risk, stage_e_controlled, stage_e_mask = _run_continuous_pool(
         context,
@@ -473,7 +473,7 @@ def run_proxy_inner_lambda_sweep(
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run Stage H proxy-lambda versus inner-lambda sweep.")
+    parser = argparse.ArgumentParser(description="Run Stage I proxy-lambda versus inner-lambda sweep.")
     parser.add_argument("--scenario-id", action="append", dest="scenario_ids")
     parser.add_argument("--lambda-r", action="append", type=float, dest="lambda_values")
     parser.add_argument("--proxy-lambda-r", action="append", type=float, dest="proxy_lambda_values")

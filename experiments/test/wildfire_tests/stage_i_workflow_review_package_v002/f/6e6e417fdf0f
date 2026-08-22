@@ -1,0 +1,25 @@
+# Implementation Audit Checklist
+
+- Plan-to-module traceability.
+- Source-to-test traceability.
+- Source-to-result traceability.
+- Duplicated evaluator logic.
+- Hidden fallback behavior.
+- Defaults that differ from documented locks.
+- Hard-coded paths.
+- Stale Stage D/E/G/H assumptions.
+- Topology-budget enforcement.
+- Shared denominator enforcement.
+- Solver-status preservation.
+- Projection-cache key correctness.
+- Output schema consistency.
+- Deterministic seeds.
+- Failure handling.
+- Checkpoint and resume behavior.
+- Code comments versus actual formulas.
+- Branch orientation consistency.
+- Use of `rateA`.
+- Numerical tolerances and Big-M derivation.
+- Angle reference and disconnected-island behavior.
+- BaseMVA and per-unit conversion.
+- Active versus apparent flow limitations.

@@ -1,0 +1,6 @@
+scenario_id,best_lambda_R_proxy,selection_rule,mean_nonzero_J,mean_nonzero_R,mean_nonzero_L,mean_nonzero_common_op
+S1,1.0,min mean J over lambda_R_inner > 0; tie by mean R_norm then mean L_shed,0.12765667370005343,0.2066461251776124,0.10572229284489461,0.0
+S2,0.5,min mean J over lambda_R_inner > 0; tie by mean R_norm then mean L_shed,0.15154760112923954,0.23996096377687887,0.11363070929600519,0.0
+S3,0.5,min mean J over lambda_R_inner > 0; tie by mean R_norm then mean L_shed,0.2182657293095559,0.3420158301144177,0.12222795863342488,0.0
+S4,0.0,min mean J over lambda_R_inner > 0; tie by mean R_norm then mean L_shed,0.1597080439804851,0.24109956650512354,0.11673446999712592,0.0
+S5,1.0,min mean J over lambda_R_inner > 0; tie by mean R_norm then mean L_shed,0.05621102343062043,0.08060420618712516,0.1020365172800933,0.0

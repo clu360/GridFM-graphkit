@@ -1,0 +1,113 @@
+method,warm_start_type,same_reference_a_instance,status,solver_runtime_seconds,wall_seconds,start_construction_seconds,end_to_end_seconds,iteration_count,start_payload,objective,stdout,stderr
+Guided-DC,cold_start,True,LOCALLY_SOLVED,6.6529998779296875,11.943906307220459,0.0,11.943906307220459,,none,461433.85776188713,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-DC,dc_partial_warm,True,LOCALLY_SOLVED,6.312000036239624,11.766050815582275,0.14448290003929287,11.910533715621568,,"Pg,theta",461433.857767197,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-DC,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.271999835968018,11.702775955200195,0.32462119997944683,12.027397155179642,,"Pg,theta",461433.857767196,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-DC,gt_warm,True,LOCALLY_SOLVED,6.4720001220703125,11.89531660079956,0.0,11.89531660079956,,"exact_Pg,Qg,V,theta",461433.8577671966,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-GridSFM,cold_start,True,LOCALLY_SOLVED,6.69599986076355,11.99061131477356,0.0,11.99061131477356,,none,449087.48116506846,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-GridSFM,dc_partial_warm,True,LOCALLY_SOLVED,6.293999910354614,11.744929075241089,0.05643450003117323,11.801363575272262,,"Pg,theta",449087.48116969405,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-GridSFM,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.238999843597412,11.688260793685913,0.3163041000952944,12.004564893781208,,"Pg,theta",449087.48116969166,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-GridSFM,gt_warm,True,LOCALLY_SOLVED,6.379999876022339,11.85271954536438,0.0,11.85271954536438,,"exact_Pg,Qg,V,theta",449087.4811696931,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top1,cold_start,True,LOCALLY_SOLVED,6.6570000648498535,11.939841747283936,0.0,11.939841747283936,,none,457414.55455211794,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top1,dc_partial_warm,True,LOCALLY_SOLVED,6.419000148773193,11.868865251541138,0.05539720004890114,11.924262451590039,,"Pg,theta",457414.5545570025,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top1,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.392999887466431,11.883766174316406,0.3252671000082046,12.20903327432461,,"Pg,theta",457414.55455699936,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top1,gt_warm,True,LOCALLY_SOLVED,6.41700005531311,11.988462924957275,0.0,11.988462924957275,,"exact_Pg,Qg,V,theta",457414.5545570027,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top2,cold_start,True,LOCALLY_SOLVED,6.638999938964844,11.92180609703064,0.0,11.92180609703064,,none,457668.7196369036,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top2,dc_partial_warm,True,LOCALLY_SOLVED,6.401000022888184,11.836747407913208,0.05564200005028397,11.892389407963492,,"Pg,theta",457668.719641795,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top2,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.21999979019165,11.637670040130615,0.31397649995051324,11.951646540081128,,"Pg,theta",457668.7196417937,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+TH-GridSFM-top2,gt_warm,True,LOCALLY_SOLVED,6.376999855041504,11.78770661354065,0.0,11.78770661354065,,"exact_Pg,Qg,V,theta",457668.7196417955,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",

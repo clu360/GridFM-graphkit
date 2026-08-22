@@ -710,7 +710,7 @@ def main() -> None:
     parser.add_argument("--max-deenergized-lines", nargs="+", type=int, default=[1, 2])
     parser.add_argument("--evaluation-budget", type=int, default=20)
     parser.add_argument("--proxy-type", choices=["env_loading_base", "env_only"], default=DEFAULT_PROXY_TYPE)
-    parser.add_argument("--clear", action="store_true", help="Delete existing results/leq/stage_e/gurobi_gridfm first.")
+    parser.add_argument("--clear", action="store_true", help="Delete existing ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm first.")
     args = parser.parse_args()
     run_stage_e_gurobi_gridfm(
         grouping_top_fraction=args.grouping_top_fraction,

@@ -1,0 +1,25 @@
+{
+  "package_version": "v002",
+  "created_utc": "2026-07-30T23:36:58+00:00",
+  "original_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package",
+  "package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package_v002",
+  "freeze_order": [
+    "finalize package contents",
+    "create and verify copied-file manifests",
+    "create external-artifact and missing-material indexes",
+    "create PACKAGE_FREEZE.json containing hashes of finalized integrity files",
+    "create PACKAGE_FREEZE_RECEIPT.json containing hash of PACKAGE_FREEZE.json"
+  ],
+  "copied_file_manifest_csv_sha256": "57bb94e09d8e7c9045c75f86a51d34a0eaa51e35b937e06c8f4abe6d88f9c789",
+  "copied_file_manifest_json_sha256": "ab8ee1a719ea8b0320b9c0f479182f48db466389d2919121b4f2d22a6a9277a8",
+  "external_artifact_index_csv_sha256": "64953e04cd9bb21e0d4169f3cef88ecca463d1d24e5b15955d03cb85fc460622",
+  "external_artifact_index_json_sha256": "5c85dc0d40b6b667c953c794321d217f00b6a7a6e92f0e8740fe544eba83a713",
+  "missing_materials_index_csv_sha256": "ef1193ab1e599db2887b9282927711cdb3328313543f9706126151348c036db2",
+  "missing_materials_index_json_sha256": "6cba1810687e75a9f08984449ddc3e9f853122f616ef02fc30dddd6d1b4578ee",
+  "reconciliation_report_sha256": "c4e8a85c6c4025f2d6e80ad2257c9a4072712831228d4a54ffec6a2183718f10",
+  "copied_file_count": 85,
+  "copied_file_verification_failures": [],
+  "external_artifact_count": 11,
+  "missing_material_count": 346,
+  "self_referential_hashing_avoided": true
+}

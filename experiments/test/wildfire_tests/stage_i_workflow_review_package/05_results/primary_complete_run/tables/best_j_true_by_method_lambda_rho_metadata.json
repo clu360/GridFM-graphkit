@@ -1,0 +1,22 @@
+{
+  "source_table": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\tables\\best_by_rho_scenario_lambda_stage.csv",
+  "summary_table": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\tables\\best_j_true_by_method_lambda_rho_summary.csv",
+  "plots": [
+    "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\plots\\summary\\best_j_true_by_method_lambda_rho.png",
+    "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\plots\\summary\\best_j_true_by_method_lambda_rho_no_stage_e.png",
+    "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\plots\\summary\\best_j_true_by_scenario_method_lambda_rho.png",
+    "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\plots\\summary\\best_j_true_by_scenario_method_lambda_rho_no_stage_e.png",
+    "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\plots\\summary\\average_objective_by_method_lambda_rho.png",
+    "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\results\\leq\\stage_h\\DC Approximation + Baseline Heuristic Comparison\\main_results\\r11\\plots\\summary\\average_objective_by_method_lambda_rho_no_stage_e.png"
+  ],
+  "metric": "J_true",
+  "n_best_rows": 300,
+  "stages": [
+    "stage_e_k2",
+    "stage_i_a_dc_k2",
+    "stage_i_b_dc_miqp_k2",
+    "th_top1",
+    "th_top2",
+    "ah_k2_budgeted"
+  ]
+}

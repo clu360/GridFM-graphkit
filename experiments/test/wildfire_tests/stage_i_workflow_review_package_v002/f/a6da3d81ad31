@@ -1,0 +1,10 @@
+$ git diff --name-only
+
+[returncode] 0
+
+[stdout]
+experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md
+
+
+[stderr]
+warning: in the working copy of 'experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md', LF will be replaced by CRLF the next time Git touches it

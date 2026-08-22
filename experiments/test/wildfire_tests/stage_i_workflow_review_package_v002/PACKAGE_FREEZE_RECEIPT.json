@@ -1,0 +1,7 @@
+{
+  "package_version": "v002",
+  "created_utc": "2026-07-30T23:36:59+00:00",
+  "package_freeze_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package_v002/PACKAGE_FREEZE.json",
+  "package_freeze_sha256": "582b4c8b91099b66acdf23287b35e822ff2c1b064d0bf13d0ca60d071b9a0737",
+  "note": "Receipt hashes PACKAGE_FREEZE.json separately to avoid self-referential hashing."
+}

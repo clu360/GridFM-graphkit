@@ -78,7 +78,7 @@ def generate(run_dir: Path) -> pd.DataFrame:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run", default=DEFAULT_RUN, help="Stage H run relative to the comparison root.")
+    parser.add_argument("--run", default=DEFAULT_RUN, help="Stage I run relative to the comparison root.")
     args = parser.parse_args()
     manifest = generate(RESULT_ROOT / args.run)
     print(manifest.to_string(index=False))

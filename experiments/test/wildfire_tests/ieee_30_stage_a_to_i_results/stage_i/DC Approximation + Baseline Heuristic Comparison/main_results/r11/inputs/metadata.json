@@ -1,0 +1,27 @@
+{
+  "git_branch": "wildfire-experiments",
+  "git_commit": "c0932eb390f33994ca05230658c94a50cc4ce366",
+  "study": "stage_h_dc_approximation_baseline_heuristic_comparison",
+  "scenario_ids": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5"
+  ],
+  "lambda_values": [
+    0.0,
+    0.2,
+    0.5,
+    0.8,
+    1.0
+  ],
+  "rho_phys_values": [
+    0.0,
+    2.0
+  ],
+  "topology_budget": 100,
+  "call_budget": 100,
+  "smoke": false,
+  "result_folder_label": "DC Approximation + Baseline Heuristic Comparison"
+}

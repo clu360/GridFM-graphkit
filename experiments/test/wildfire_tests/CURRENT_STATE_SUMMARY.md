@@ -1,5 +1,247 @@
 # Wildfire Current State Summary
 
+## Stage J Complete Run Closeout And Meeting Hold - August 19, 2026
+
+Stage J is complete through the retained GOC-500 primary comparison and its
+Reference A/B exact-AC audits. The current evidence root is:
+
+```text
+experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run/
+```
+
+The complete run covers `J-S1` through `J-S3`,
+`lambda_R=[0, 0.2, 0.5, 0.8, 1]`, `K<=2`, topology budget `100`,
+continuous budget `20` per topology, and the approved `q=5` selected-load
+alpha correction. The four compared finalist families are Guided-DC,
+Guided-GridSFM, TH-GridSFM-top1, and TH-GridSFM-top2. The package contains:
+
+```text
+3,030 topology objective rows
+60,600 candidate alpha evaluations
+60 method finalists
+60 Reference A fixed-z/fixed-alpha economic AC-OPF rows
+120 Reference B maximum-load-delivery / economic tie-break rows
+240 warm-start rows
+480 native-to-Reference-A state-fidelity rows
+```
+
+The current evidence-based finding from the guided-method comparison is that
+Guided-DC is stronger than Guided-GridSFM on the common wildfire-service
+decision surface in this completed `q=5`, `K<=2`, 100-topology-budget study:
+
+```text
+Guided-DC average native J_trade:      0.260473
+Guided-GridSFM average native J_trade: 0.333630
+
+Guided-DC average native R_norm:       0.603736
+Guided-GridSFM average native R_norm:  0.754192
+
+Guided-DC average native L_shed_total:      0.002963
+Guided-GridSFM average native L_shed_total: 0.007015
+```
+
+Reference A fixes each finalist's selected topology `z*` and load-service
+command `alpha*`, then solves exact economic AC-OPF. In Reference A, Guided-DC
+finalists solve slightly faster and have lower AC risk/load on average, while
+Guided-GridSFM finalists have lower average economic AC objective:
+
+```text
+Guided-DC average Reference A solver time:      6.6661 s
+Guided-GridSFM average Reference A solver time: 6.7369 s
+
+Guided-DC average Reference A R_norm:      0.674001
+Guided-GridSFM average Reference A R_norm: 0.680575
+
+Guided-DC average Reference A objective:      460634.43
+Guided-GridSFM average Reference A objective: 453440.84
+```
+
+Reference B fixes only the selected topology and asks how much load exact AC
+can recover under maximum-load-delivery redispatch. Guided-DC selected
+topologies recovered full load in all 15 guided finalist cases. Guided-GridSFM
+selected topologies recovered nearly all load but retained small residual MLD
+shedding in some cases:
+
+```text
+Guided-DC average Reference B served-load fraction:      1.000000
+Guided-GridSFM average Reference B served-load fraction: 0.998950
+
+Guided-DC minimum Reference B served-load fraction:      1.000000
+Guided-GridSFM minimum Reference B served-load fraction: 0.994752
+```
+
+The native-to-Reference-A state-distance summary also favors Guided-DC in the
+aggregated normalized metric:
+
+```text
+Guided-DC average native-state distance to Reference A:      0.022693
+Guided-GridSFM average native-state distance to Reference A: 0.207259
+```
+
+Warm starts provide modest exact-AC solver-time reductions for both guided
+finalist families. The relative savings are slightly larger for some
+Guided-GridSFM finalist instances, but raw Reference A solver times remain
+slightly lower for Guided-DC finalists. The clean interpretation is therefore:
+
+```text
+Guided-DC selected better wildfire-service decisions in this run and produced
+slightly easier exact-AC Reference A instances.
+
+Guided-GridSFM did not win the guided selector comparison here, but remains
+useful as an auditable frozen AC-OPF-surrogate state channel and produced lower
+average Reference A economic objective.
+```
+
+New visual summaries supporting this closeout are:
+
+```text
+figures/stage_j_guided_reference_a_discrepancy_distance.png
+figures/stage_j_guided_reference_b_mld.png
+figures/stage_j_guided_state_distance_heatmap.png
+figures/stage_j_guided_warm_start_study.png
+```
+
+No further implementation stage should be launched before the research meeting.
+The next step is to take this Stage J evidence package to the meeting, discuss
+the Guided-DC versus Guided-GridSFM result and interpretation, and decide
+future work only after that discussion.
+
+## Stage J GridSFM OPF-Surrogate Guardrail - August 17, 2026
+
+Stage J has shifted to `GridSFM GOC-500` as the next implementation stage. The
+current workflow case is:
+
+```text
+experiments/test/wildfire_tests/workflow/cases/
+  CASE-003-stage-j-gridsfm-goc500-implementation/
+```
+
+Current Stage J status:
+
+```text
+J0.5 bootstrap: complete
+J1-J5/J7 smoke gates: complete
+J7.5 full-alpha and screened-SciPy alpha smokes: complete
+J8 budgeted outer topology-loop smoke: complete for J-S1, lambda_R=0.8
+```
+
+The official GridSFM `predict()` API used in Stage J is an OPF-surrogate style
+interface. It receives commanded topology/load data and returns electrical
+recourse outputs:
+
+```text
+inputs:  z, Pd_cmd, Qd_cmd, generator limits/costs, voltage/branch limits
+outputs: theta, V, Pg, Qg, Pij, Qij, Pji, Qji, feasibility score
+```
+
+Unlike the older GridFM power-flow-style workflow, the official GridSFM API
+does **not** output a new `Pd_pred` or `Qd_pred` load-service state. Therefore,
+the old Stage G/I command-vs-predicted-demand model-consistency penalty is not
+active for the current GridSFM OPF-surrogate runs.
+
+Stage J still preserves the guardrail for future GridFM/GridSFM PF-vs-OPF
+comparisons:
+
+```text
+alpha_effective_i = 0        if load i is source-less under topology z
+alpha_effective_i = alpha_i  otherwise
+
+Pd_cmd_i = alpha_effective_i Pd_pre_i
+Qd_cmd_i = alpha_effective_i Qd_pre_i
+```
+
+Save both `alpha_requested` and `alpha_effective`. Source-less differences are
+topology-forced island shedding, not model mismatch. For OPF-surrogate models
+that do not output `Pd/Qd`, `PAC_model` remains present in schemas and result
+artifacts but is marked unavailable/zero for demand-command consistency. If a
+future PF-mode or alternate model output exposes `Pd_pred/Qd_pred`, then
+`PAC_model` should re-enable the Stage I-style check:
+
+```text
+PAC_model_load =
+mean(
+  normalized_mse(Pd_pred, alpha_effective Pd_pre),
+  normalized_mse(Qd_pred, alpha_effective Qd_pre)
+)
+```
+
+For current GridSFM J8 candidate selection, the meaningful physics-aware merit
+is therefore:
+
+```text
+J_total^SFM =
+  J_trade^SFM
+  + rho_phys * (w_op PAC_operational + w_AC PAC_AC)
+```
+
+with `PAC_model` retained but off/unavailable for the official OPF-surrogate
+API unless a valid independent model-consistency channel is added later.
+
+The workflow architecture has been followed for Stage J: the CASE-003 design,
+J0.5 bootstrap manifest/status, J2/J3 adapter status, J4 baseline/DC status,
+J5/J7 smoke status, J7.5 alpha-smoke status, and J8 budgeted topology smoke
+status are the active handoff files.
+After the August 17 guardrail update, `STAGE_J_PRIMARY_DESIGN.md` and
+`J7_5_V2_SCREENED_SCIPY_ALPHA_STATUS.md` explicitly document the OPF-model
+`PAC_model` behavior.
+
+The first J8 topology-loop smoke used:
+
+```text
+scenario: J-S1
+lambda_R = lambda_R_proxy = 0.8
+K <= 2
+topology_budget = 100
+continuous_eval_budget = 20 per topology
+q = 5 selected loads per topology
+full_coordinate_screen = false
+```
+
+Results are stored under:
+
+```text
+experiments/test/wildfire_tests/goc_500_results/j8s/s1_l08/
+```
+
+Both Guided-DC and Guided-GridSFM selected topology `276;473`, which includes
+the intended high-risk target branch `473`. Guided-DC finished in about
+`109.91` seconds with `J_trade = 0.2801653`, `R_norm = 0.3478828`, and
+`L_shed_total = 0.0092954`. Guided-GridSFM finished in about `826.31` seconds
+with `J_total = 0.3653721`, `J_trade = 0.3648472`, `R_norm = 0.4537538`,
+`L_shed_total = 0.0092208`, and `PAC_total = 0.00026246`.
+
+The final J8 run has full topology coverage:
+
+```text
+Guided-DC:      100 eligible topologies, 0 failed, 2000/2000 ok evaluations
+Guided-GridSFM: 100 eligible topologies, 0 failed, 2000/2000 model_output_penalized evaluations
+```
+
+An intermediary GridSFM run failed for most topologies because the sandbox
+context could not create missing GridSFM cycle-basis cache files. The final
+GridSFM run uses the external Stage J cache:
+
+```text
+C:\Users\Caleb Lu\.gridfm_stage_j\cache\xdg
+```
+
+The detailed handoff is:
+
+```text
+experiments/test/wildfire_tests/workflow/cases/
+  CASE-003-stage-j-gridsfm-goc500-implementation/
+  J8_BUDGETED_TOPOLOGY_SMOKE_STATUS.md
+```
+
+Compact J8 review figures have also been generated under:
+
+```text
+experiments/test/wildfire_tests/goc_500_results/j8s/s1_l08/figures/
+```
+
+The figures cover selection objective, `R_norm`/`L_shed_total`, Pareto scatter,
+target-hit behavior, GridSFM `PAC_total`/maximum loading, and runtime.
+
 ## Next Session Pickup - July 13, 2026
 
 The next work session should start from the methodology plan devised in the
@@ -41,6 +283,19 @@ The current Stage I comparison is locked to `K <= 2`. The main comparison
 includes Stage E `K2`, Stage I-a guided-search DC `K <= 2`, Stage I-b DC MIQP
 with `sum_{l in C} y_l <= 2`, and budget-compatible TH/AH `K <= 2` heuristic
 points.
+
+Result location correction: the DC approximation + baseline heuristic + GridFM
+comparison is Stage I, even though the first generated folders used a Stage H
+result root during naming drift. The canonical result root is now:
+
+```text
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_i/
+  DC Approximation + Baseline Heuristic Comparison/
+```
+
+The `stage_h` result root is reserved for the earlier heuristic-baseline
+comparison runs, such as `heuristic_baseline_comparison_topk` and
+`heuristic_baseline_comparison_revised_load_pac`.
 
 Do not include Stage E unconstrained or Stage I-b unconstrained/higher-K in the
 main Pareto/frontier comparison. Those are later topology-flexibility
@@ -240,13 +495,14 @@ target recall/precision, a small `L_shed` vs `R_norm` scatter, effective load
 shedding by method, GridFM-only physics/PAC sensitivity, common operational
 diagnostic, and finalist AC projection distance where available.
 
-Recommended Stage H result layout:
+Recommended Stage I DC-comparison result layout:
 
 ```text
-results/leq/stage_h/
-  dc_approximation_th_ah_heuristics_comparison/
-    main_k2_lambda_sweep/
-    mld_literature_alignment/
+ieee_30_stage_a_to_i_results/stage_i/
+  DC Approximation + Baseline Heuristic Comparison/
+    main_results/
+    MLD/
+    proxy_inner_lambda_sweep/
 ```
 
 ## Current Implemented Checkpoint - Revised GridFM Load/PAC Stage H
@@ -257,7 +513,7 @@ implemented, tested, and run through the Stage H comparison.
 Primary result folder:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_revised_load_pac/run_gnn_20260711_022613/
 ```
 
@@ -517,7 +773,7 @@ The Stage G revised continuous implementation checkpoint is complete. The
 canonical completed run is:
 
 ```text
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_233908
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_233908
 ```
 
 This checkpoint closes the implementation-revision arc that began with Stage G
@@ -635,8 +891,8 @@ Stage G result generation now has a MATPOWER-30 decision-quality runner that
 duplicates the Stage F physics-aware plots for both variants:
 
 ```text
-results/leq/stage_g/matpower_30/with_physics_infeasibility/rho100
-results/leq/stage_g/matpower_30/without_physics_infeasibility/rho0
+ieee_30_stage_a_to_i_results/stage_g/matpower_30/with_physics_infeasibility/rho100
+ieee_30_stage_a_to_i_results/stage_g/matpower_30/without_physics_infeasibility/rho0
 ```
 
 These reruns still use GridFM-predicted state for initialization and topology
@@ -686,7 +942,7 @@ those outlier lines are not intended wildfire targets.
 Completed Stage G physics-infeasibility sensitivity run:
 
 ```text
-results/leq/stage_g/physics_infeasibility_sensitivity/run_20260630_020627/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_sensitivity/run_20260630_020627/
 ```
 
 The run evaluated one fixed-control topology metric pool and rescored it across
@@ -762,7 +1018,7 @@ steering topology selection.
 A new Stage G scenario-baseline revision has now been implemented and run:
 
 ```text
-results/leq/stage_g/physics_infeasibility_sensitivity_scenario_baseline_revision/run_20260701_003629/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_sensitivity_scenario_baseline_revision/run_20260701_003629/
 ```
 
 This run corrects the baseline/proxy side of the fixed-control physics
@@ -856,7 +1112,7 @@ The scenario-baseline revision has now been regenerated with the target-margin
 scenario design:
 
 ```text
-results/leq/stage_g/physics_infeasibility_sensitivity_scenario_baseline_margin_revision/run_20260701_013324/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_sensitivity_scenario_baseline_margin_revision/run_20260701_013324/
 ```
 
 This margin run keeps the corrected scenario-baseline loading implementation,
@@ -921,7 +1177,7 @@ Stage G now has a revised continuous-recourse implementation path:
 ```text
 experiments/test/wildfire_tests/stage_g_implementation_revision/run_stage_g_revised_continuous_implementation.py
 
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/
 ```
 
 This runner extends the scenario-baseline margin revision with continuous
@@ -988,7 +1244,7 @@ Stage G implementation + revised continuous tests: 18 passed
 Partial Stage-D-only smoke validation completed:
 
 ```text
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_023730/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_023730/
 
 scenario_ids: S1
 lambda_R: [0, 0.5]
@@ -1009,7 +1265,7 @@ incomplete folder at `run_20260701_023702/`.
 Latest rho=0 full reduced launch status:
 
 ```text
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_034434/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_034434/
 ```
 
 This run used the intended `rho_phys=0` full reduced settings:
@@ -1151,7 +1407,7 @@ unimportant.
 Canonical evidence:
 
 ```text
-results/leq/stage_e/physics_infeasibility_case_study/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/
   without_continuous_optimization/
     rho0_no_physics/run_20260623_220854/
     rho100_with_physics/run_20260623_221317/
@@ -1339,7 +1595,7 @@ experiments/test/wildfire_tests/
 The old `experiments/test/wildfire_initial_tests/` package remains as a
 temporary compatibility shim while we decide whether to remove it. Legacy
 methodology-test outputs are archived under
-`wildfire_tests/methodology_testing_results/old/`.
+`wildfire_tests/methodology_testing_results/ieee_30_legacy_methodology_tests/`.
 
 Current folder roles:
 
@@ -1399,7 +1655,7 @@ experiments/test/wildfire_tests/stage_e_gurobi_implementation/
 Outputs are written under:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/
 ```
 
 Stage E uses Gurobi as a proxy master that proposes binary line de-energization
@@ -1445,7 +1701,7 @@ An additive unconstrained Stage E study also exists:
 
 ```text
 experiments/test/wildfire_tests/stage_e_gurobi_implementation/run_stage_e_gurobi_gridfm_unconstrained.py
-results/leq/stage_e/unconstrained/
+ieee_30_stage_a_to_i_results/stage_e/unconstrained/
 ```
 
 This removes the `sum_l y_l <= K` constraint and evaluates 100 unique
@@ -1468,7 +1724,7 @@ lgh load_priority:      [],               R_norm=1.000000, L_shed=0.000000, J=0.
 The unconstrained frontier sweep is stored under:
 
 ```text
-results/leq/stage_e/unconstrained_frontier/
+ieee_30_stage_a_to_i_results/stage_e/unconstrained_frontier/
 ```
 
 It sweeps `lambda_R = 0.00, 0.05, ..., 1.00`, sets
@@ -1479,20 +1735,20 @@ lambda-case runs, 4,200 total evaluated candidate rows, 1,009 unique
 topologies, and 59 nondominated frontier points. The requested scatterplot is:
 
 ```text
-results/leq/stage_e/unconstrained_frontier/figures/unconstrained_pareto_frontier_scatter.png
+ieee_30_stage_a_to_i_results/stage_e/unconstrained_frontier/figures/unconstrained_pareto_frontier_scatter.png
 ```
 
 Latest Stage E smoke output:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/t0p30/k1/gps/auto/bal/run_20260613_191953/
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/t0p30/k1/gps/auto/bal/run_20260613_191953/
 ```
 
 Latest real Stage E experiment:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/stage_e_gurobi_gridfm_summary.csv
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/stage_e_gurobi_gridfm_summary.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/
 ```
 
 Configuration:
@@ -2137,7 +2393,7 @@ formulation on the five decision-quality scenarios.
 Completed top-k run:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_topk/run_gnn_20260703_034242/
 ```
 
@@ -2202,14 +2458,14 @@ As of July 11, 2026, the active checkpoint is the revised Stage H run with
 hybrid load shedding and decomposed PAC accounting:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_revised_load_pac/run_gnn_20260711_022613/
 ```
 
 The old top-k Stage H run remains useful only as the prior baseline comparison:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_topk/run_gnn_20260703_034242/
 ```
 
@@ -2307,3 +2563,44 @@ correction, common post-evaluation metrics, and revised PAC diagnostics. The
 scenario redesign should make environmental probabilities less obvious so the
 heuristic, GridFM, and DC MILP comparison is not biased by target-margin
 construction.
+
+## August 17, 2026: Stage J GOC-500 Complete Run
+
+The Stage J GOC-500 primary comparison is complete and retained separately
+from the IEEE-30 Stage A-I results:
+
+```text
+experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run/
+```
+
+It compares Guided-DC, Guided-GridSFM, TH-GridSFM-top1, and TH-GridSFM-top2
+over J-S1 to J-S3 and `lambda_R=[0, 0.2, 0.5, 0.8, 1]`. Every setting uses
+`K<=2`, topology budget 100, continuous budget 20, coupled proxy/inner lambda,
+and the approved `q=5` selected-load Powell correction.
+
+Final artifact coverage:
+
+```text
+15 scenario/lambda settings
+3,030 topology outcomes
+60,600 continuous candidate evaluations
+60 finalists with Reference A
+120 Reference B rows (B1/B2)
+240 warm-start rows
+```
+
+The exact AC audits and warm starts are complete for every finalist. The primary
+result summary is `goc_500_results/stage_j/complete_run/COMPLETE_RUN_SUMMARY.md`.
+The workflow audit is
+`workflow/cases/CASE-003-stage-j-gridsfm-goc500-implementation/IMPLEMENTATION_AUDIT_STAGE_J_COMPLETE_RUN_v001.md`.
+
+Important current caveats:
+
+- The alpha correction is the approved `q=5` selected-load approximation, not
+  a full simultaneous optimization of every GOC-500 load-bus alpha.
+- GridSFM outputs are evaluated with frozen PAC but are not AC-feasibility
+  certificates. Use the separate exact AC Reference A/B and fidelity records.
+- 387 DC candidates were correctly rejected as infeasible, and 12 Gurobi
+  no-incumbent numerical events were logged; no such row was selected.
+- Full requested/effective alpha vectors and setting/topology provenance for
+  all AC-audit rows are now saved in the final result package.

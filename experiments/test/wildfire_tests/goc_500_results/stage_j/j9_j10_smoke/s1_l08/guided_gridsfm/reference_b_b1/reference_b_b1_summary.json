@@ -1,0 +1,8 @@
+{
+  "runtime_seconds": null,
+  "termination_status": "STAGE_J_SCRIPT_EXCEPTION",
+  "mode": "reference_b_b1",
+  "objective": null,
+  "message": "SystemError: opening file \"C:\\\\Users\\\\Caleb Lu\\\\OneDrive - Georgia Institute of Technology\\\\GT\\\\Extracurriculars\\\\Research\\\\Grid FM\\\\Experiments\\\\GridFM-graphkit\\\\experiments\\\\test\\\\wildfire_tests\\\\goc_500_results\\\\stage_j\\\\j9_j10_smoke\\\\s1_l08\\\\guided_gridsfm\\\\reference_b_b1\\\\reference_b_b1_branch_state.csv\": No such file or directory",
+  "iteration_count": null
+}

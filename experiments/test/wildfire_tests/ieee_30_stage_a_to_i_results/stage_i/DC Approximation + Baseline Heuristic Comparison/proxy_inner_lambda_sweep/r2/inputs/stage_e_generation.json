@@ -1,0 +1,32 @@
+{
+  "topology_generation_axis": "lambda_R_proxy",
+  "continuous_recourse_axis": "lambda_R",
+  "candidate_line_ids": [
+    2,
+    5,
+    6,
+    7,
+    10,
+    14,
+    18,
+    22,
+    23,
+    24,
+    25,
+    26,
+    32,
+    35,
+    36,
+    40,
+    47,
+    50,
+    72,
+    77,
+    88,
+    91,
+    97
+  ],
+  "num_proxy_topology_rows": 2500,
+  "num_expanded_recourse_rows": 12500,
+  "checkpoint_root": "tmp\\stage_h_proxy_inner_checkpoints\\r2"
+}

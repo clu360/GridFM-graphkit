@@ -1,0 +1,115 @@
+$ git diff
+
+[returncode] 0
+
+[stdout]
+diff --git a/experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md b/experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md
+index cff1b7f..9a245b3 100644
+--- a/experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md
++++ b/experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md
+@@ -634,6 +634,101 @@ Practical Windows/OneDrive path note:
+   from a deeper `workdir`, use `rg`, or copy a target result subfolder to a
+   short temporary path for inspection.
+ 
++## Stage E K2 load-shedding discrepancy tables
++
++Added a focused Stage E K2 GridFM load-shedding discrepancy summary for
++`main_results/r11`. This intentionally excludes DC approximation rows and
++TH/AH heuristic rows.
++
++Reason for exclusion:
++
++- DC rows have exact DC load-service accounting. Their `L_shed_cmd` and
++  `L_shed_hybrid` fields represent the same DC service quantity, while
++  `L_shed_gridfm_raw` and `L_shed_gridfm_effective` are not meaningful.
++- TH/AH rows are heuristic/baseline comparison points, not GridFM-optimized
++  continuous recourse rows. Including them in a command-vs-GridFM discrepancy
++  table would mix decision-generation semantics.
++- The table is meant to isolate the Stage E K2 GridFM issue: the difference
++  between commanded load shedding and GridFM-implied/hybrid load shedding after
++  the selected topology and recourse are evaluated.
++
++Generated tables:
++
++```text
++main_results/r11/tables/stage_e_k2_load_shed_discrepancy_main_results.csv
++main_results/r11/tables/stage_e_k2_load_shed_discrepancy_summary_by_rho_lambda.csv
++main_results/r11/tables/stage_e_k2_load_shed_discrepancy_summary_overall.csv
++main_results/r11/tables/stage_e_k2_load_shed_discrepancy_metadata.json
++```
++
++The primary clean visual mirrors the exact revised-load heuristic comparison
++methodology from:
++
++```text
++load_shed_cmd_gridfm_hybrid_by_method.png
++```
++
++but filters to Stage E K2 only:
++
++```text
++main_results/r11/plots/summary/load_shed_cmd_gridfm_hybrid_stage_e_k2_only.png
++```
++
++Overall summary across the 50 Stage E K2 selected rows:
++
++```text
++mean L_shed_cmd:              0.0671
++mean L_shed_gridfm_raw:       0.0603
++mean L_shed_gridfm_effective: 0.2619
++mean L_shed_hybrid:           0.2143
++
++mean(raw - cmd):              -0.0068
++mean(effective - cmd):         0.1948
++mean(hybrid - cmd):            0.1471
++max_abs(hybrid - cmd):         0.3820
++```
++
++Refresh command:
++
++```text
++python experiments/test/wildfire_tests/stage_i_dc_comparison/run_stage_e_load_shed_discrepancy_summary.py
++```
++
++## Best J_true lambda-sweep summary plots
++
++Added a Stage H r11 refresh script for the older heuristic-baseline style
++summary image showing mean best `J_true` by method, `lambda_R`, and `rho_phys`.
++The source table is:
++
++```text
++main_results/r11/tables/best_by_rho_scenario_lambda_stage.csv
++```
++
++Generated outputs:
++
++```text
++main_results/r11/tables/best_j_true_by_method_lambda_rho_summary.csv
++main_results/r11/tables/best_j_true_by_method_lambda_rho_metadata.json
++main_results/r11/plots/summary/average_objective_by_method_lambda_rho.png
++main_results/r11/plots/summary/average_objective_by_method_lambda_rho_no_stage_e.png
++main_results/r11/plots/summary/best_j_true_by_method_lambda_rho.png
++main_results/r11/plots/summary/best_j_true_by_method_lambda_rho_no_stage_e.png
++main_results/r11/plots/summary/best_j_true_by_scenario_method_lambda_rho.png
++main_results/r11/plots/summary/best_j_true_by_scenario_method_lambda_rho_no_stage_e.png
++```
++
++The `average_objective_by_method_lambda_rho.png` plot most closely matches the
++prior heuristic-baseline summary picture. The no-Stage-E versions are included
++because Stage E GridFM `rho=2` includes the GridFM physics penalty in `J_true`
++and therefore compresses the DC and heuristic methods near zero on the full
++scale.
++
++Refresh command:
++
++```text
++python experiments/test/wildfire_tests/stage_i_dc_comparison/run_stage_h_best_j_true_lambda_summary.py
++```
++
+ ## Reproduction commands
+ 
+ Use the Stage E reference run to avoid recomputing the 5,000 GridFM topology
+
+
+[stderr]
+warning: in the working copy of 'experiments/test/wildfire_tests/stage_i_dc_comparison/STAGE_H_DC_COMPARISON_PROGRESS.md', LF will be replaced by CRLF the next time Git touches it

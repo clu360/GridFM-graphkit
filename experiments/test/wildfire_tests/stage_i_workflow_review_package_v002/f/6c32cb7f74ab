@@ -1,0 +1,41 @@
+$ C:\Users\Caleb Lu\anaconda3\python.exe -m pytest tests/test_wildfire_stage_h_heuristic_comparison.py tests/test_wildfire_stage_g_revised_continuous.py -q
+
+[returncode] 1
+
+[stdout]
+................F.                                                       [100%]
+================================== FAILURES ===================================
+_____________ test_run_signature_records_lambda_zoom_stage_filter _____________
+
+    def test_run_signature_records_lambda_zoom_stage_filter():
+>       signature = _run_signature(
+            model_type="gnn",
+            scenario_ids=["S1", "S2", "S3", "S4", "S5"],
+            lambda_values=[0.85, 0.90, 0.95],
+            rho_values=[2.0],
+            stages=[STAGE_E_UNCONSTRAINED],
+            stage_d_limit=None,
+            stage_e_budget=50,
+            call_budget=100,
+            delta_qg_bound_mvar=5.0,
+        )
+E       TypeError: _run_signature() missing 1 required keyword-only argument: 'proxy_lambda_values'
+
+C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\tests\test_wildfire_stage_g_revised_continuous.py:300: TypeError
+============================== warnings summary ===============================
+C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch_geometric\llm\utils\backend_utils.py:26
+  C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch_geometric\llm\utils\backend_utils.py:26: DeprecationWarning: `torch_geometric.distributed` has been deprecated since 2.7.0 and will no longer be maintained. For distributed training, refer to our tutorials on distributed training at https://pytorch-geometric.readthedocs.io/en/latest/tutorial/distributed.html or cuGraph examples at https://github.com/rapidsai/cugraph-gnn/tree/main/python/cugraph-pyg/cugraph_pyg/examples
+    from torch_geometric.distributed import (
+
+C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\jit\_script.py:1480
+C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\jit\_script.py:1480
+  C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\jit\_script.py:1480: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_wildfire_stage_g_revised_continuous.py::test_run_signature_records_lambda_zoom_stage_filter
+1 failed, 17 passed, 3 warnings in 1.19s
+
+
+[stderr]

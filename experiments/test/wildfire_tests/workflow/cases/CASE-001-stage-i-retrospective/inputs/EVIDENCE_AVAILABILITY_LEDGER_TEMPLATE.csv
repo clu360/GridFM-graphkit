@@ -1,0 +1,2 @@
+evidence_id,evidence_label,path,source_package_or_index,pre_access_sha256,post_access_sha256,accessed_utc,accessed_by_role,used_by_artifact,notes
+EVID-0001,NOT_INSPECTED,,,,,,,,template row only; replace with versioned case-specific ledger during Phase 2 execution

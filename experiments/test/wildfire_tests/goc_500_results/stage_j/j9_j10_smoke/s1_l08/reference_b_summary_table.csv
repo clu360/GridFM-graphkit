@@ -1,0 +1,44 @@
+method,reference_b_stage,status,runtime_seconds,wall_seconds,l_shed_ac_mld,r_norm_ac_mld,j_trade_ac_mld,service_recovery,max_ac_loading,num_ac_loading_gt_1,stdout,stderr
+Guided-DC,B1_load_delivery,LOCALLY_SOLVED,7.315999984741211,12.919938564300537,0.0,0.3695087286455868,0.2956069829164695,0.009295392137370864,0.9769726352830936,0,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_b_b1_status LOCALLY_SOLVED",
+Guided-DC,B2_cost_tiebreak,LOCALLY_SOLVED,8.024999856948853,13.681243181228638,1.5626403282453794e-08,0.40922196923220405,0.32737757851104393,0.009295376510967582,1.0000000049913307,1,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_b_b2_status LOCALLY_SOLVED",
+Guided-GridSFM,B1_load_delivery,STAGE_J_SCRIPT_EXCEPTION,,13.161221265792847,,,,,,,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************","ERROR: LoadError: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_gridsfm\\reference_b_b1\\reference_b_b1_branch_state.csv"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#3#11""{Dict{String, Any}, Dict{String, Any}, Bool}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open(::Function, ::String, ::String)
+    @ Base .\io.jl:393
+  [9] export_solution(result::Dict{String, Any}, data::Dict{String, Any}, output_dir::String, prefix::String)
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:162
+ [10] solve_reference_b(builder::Function, prefix::String)
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:351
+ [11] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:377
+in expression starting at C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:373"

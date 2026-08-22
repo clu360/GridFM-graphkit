@@ -1,0 +1,14 @@
+{
+  "creation_time_utc": "2026-07-30T02:59:57.735979+00:00",
+  "current_commit": "831d76738d5a64f934430a8ebf1ac281e6bccd7f",
+  "dirty_working_tree": true,
+  "manifest_csv_sha256": "8f542d6f2fabc21c67810b9324c8e0013edaf992af3c9a4efdfcf121d5bb4489",
+  "manifest_json_sha256": "2edaf2906b449a5a5bb4bb256601a895b54166b31fca0190b9d0a029ced8c64c",
+  "primary_run": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11",
+  "companion_runs": [
+    "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/MLD/r5",
+    "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2"
+  ],
+  "package_status": "frozen_read_only_local_snapshot",
+  "note": "Freeze file is generated after manifest hash calculation and is not used to self-certify correctness."
+}

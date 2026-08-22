@@ -1,0 +1,7 @@
+check_name,passed,severity,detail
+only_stage_e_and_stage_i_a,True,hard,"stage_e_k2,stage_i_a_dc_k2"
+all_proxy_inner_combinations_present,True,hard,observed=250; expected=250
+rho_fixed,True,hard,[0.0]
+proxy_lambda_column_saved,True,hard,
+traditional_objective_saved,True,hard,
+plots_generated,True,hard,plot_count=90

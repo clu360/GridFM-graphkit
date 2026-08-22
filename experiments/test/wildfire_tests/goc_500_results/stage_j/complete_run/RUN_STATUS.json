@@ -1,0 +1,214 @@
+{
+  "config": {
+    "cache_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001",
+    "continuous_eval_budget": 20,
+    "final_root": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run",
+    "k_constraint": "<= 2",
+    "lambda_r": [
+      0.0,
+      0.2,
+      0.5,
+      0.8,
+      1.0
+    ],
+    "lambda_r_proxy": "coupled_to_lambda_r",
+    "large_artifacts": "mutated GridSFM candidate graphs remain only under cache_root",
+    "methods": [
+      "Guided-DC",
+      "Guided-GridSFM",
+      "TH-GridSFM-top1",
+      "TH-GridSFM-top2"
+    ],
+    "q": 5,
+    "run_id": "stage_j_complete_run_v001",
+    "scenarios": [
+      "J-S1",
+      "J-S2",
+      "J-S3"
+    ],
+    "topology_budget": 100
+  },
+  "settings": [
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p0",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p0\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.0,
+      "references_ok": true,
+      "scenario_id": "J-S1",
+      "setting_code": "s1_l0p0",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p2",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p2\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.2,
+      "references_ok": true,
+      "scenario_id": "J-S1",
+      "setting_code": "s1_l0p2",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p5",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p5\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.5,
+      "references_ok": true,
+      "scenario_id": "J-S1",
+      "setting_code": "s1_l0p5",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p8",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p8\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.8,
+      "references_ok": true,
+      "scenario_id": "J-S1",
+      "setting_code": "s1_l0p8",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l1p0",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l1p0\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 1.0,
+      "references_ok": true,
+      "scenario_id": "J-S1",
+      "setting_code": "s1_l1p0",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p0",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p0\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.0,
+      "references_ok": true,
+      "scenario_id": "J-S2",
+      "setting_code": "s2_l0p0",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p2",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p2\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.2,
+      "references_ok": true,
+      "scenario_id": "J-S2",
+      "setting_code": "s2_l0p2",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p5",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p5\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.5,
+      "references_ok": true,
+      "scenario_id": "J-S2",
+      "setting_code": "s2_l0p5",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p8",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p8\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.8,
+      "references_ok": true,
+      "scenario_id": "J-S2",
+      "setting_code": "s2_l0p8",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l1p0",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l1p0\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 1.0,
+      "references_ok": true,
+      "scenario_id": "J-S2",
+      "setting_code": "s2_l1p0",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p0",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p0\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.0,
+      "references_ok": true,
+      "scenario_id": "J-S3",
+      "setting_code": "s3_l0p0",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p2",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p2\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.2,
+      "references_ok": true,
+      "scenario_id": "J-S3",
+      "setting_code": "s3_l0p2",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p5",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p5\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.5,
+      "references_ok": true,
+      "scenario_id": "J-S3",
+      "setting_code": "s3_l0p5",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p8",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l0p8\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 0.8,
+      "references_ok": true,
+      "scenario_id": "J-S3",
+      "setting_code": "s3_l0p8",
+      "th_gridsfm_ok": true
+    },
+    {
+      "cache_setting_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l1p0",
+      "copied_lightweight_artifact_count": "reconstructed_from_cache",
+      "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s3_l1p0\\finalists.json",
+      "guided_dc_ok": true,
+      "guided_gridsfm_ok": true,
+      "lambda_r": 1.0,
+      "references_ok": true,
+      "scenario_id": "J-S3",
+      "setting_code": "s3_l1p0",
+      "th_gridsfm_ok": true
+    }
+  ],
+  "status": "COMPLETE"
+}

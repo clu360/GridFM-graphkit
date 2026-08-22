@@ -1,0 +1,26 @@
+$ C:\Users\Caleb Lu\anaconda3\python.exe -m pytest tests/test_wildfire_stage_i_dc_comparison.py -q
+
+[returncode] 0
+
+[stdout]
+...                                                                      [100%]
+============================== warnings summary ===============================
+C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch_geometric\llm\utils\backend_utils.py:26
+  C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch_geometric\llm\utils\backend_utils.py:26: DeprecationWarning: `torch_geometric.distributed` has been deprecated since 2.7.0 and will no longer be maintained. For distributed training, refer to our tutorials on distributed training at https://pytorch-geometric.readthedocs.io/en/latest/tutorial/distributed.html or cuGraph examples at https://github.com/rapidsai/cugraph-gnn/tree/main/python/cugraph-pyg/cugraph_pyg/examples
+    from torch_geometric.distributed import (
+
+C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\jit\_script.py:1480
+C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\jit\_script.py:1480
+  C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\jit\_script.py:1480: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+    warnings.warn(
+
+tests/test_wildfire_stage_i_dc_comparison.py::test_dc_network_uses_matpower_rate_a_and_tap_shift_audit
+tests/test_wildfire_stage_i_dc_comparison.py::test_common_operational_diagnostic_zero_for_empty_feasible_values
+  C:\Users\Caleb Lu\anaconda3\Lib\site-packages\torch\utils\data\dataloader.py:775: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+    super().__init__(loader)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+3 passed, 5 warnings in 3.58s
+
+
+[stderr]

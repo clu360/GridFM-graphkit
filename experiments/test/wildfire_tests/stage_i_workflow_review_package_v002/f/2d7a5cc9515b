@@ -1,0 +1,9 @@
+$ git rev-parse HEAD
+
+[returncode] 0
+
+[stdout]
+831d76738d5a64f934430a8ebf1ac281e6bccd7f
+
+
+[stderr]

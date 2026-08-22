@@ -85,7 +85,7 @@ python -m experiments.test.wildfire_tests.stage_e_gurobi_implementation.run_stag
 python -m experiments.test.wildfire_tests.analysis.ac_opf_experiment
 ```
 
-Stage E writes under `results/leq/stage_e/gurobi_gridfm/`. It keeps Stage D
+Stage E writes under `ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/`. It keeps Stage D
 enumeration intact for comparison. Gurobi is used only as a proxy topology
 candidate generator; GridFM evaluates the true post-topology state. The true
 wildfire exposure is `sum_l z_l * p_env_l * loading_l^2` over the selected
@@ -95,7 +95,7 @@ score `c_l`. `c_l` appears only in the proxy master load-consequence term.
 The first real Stage E experiment summary is under:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/
 ```
 
 Use the revised-objective comparison helper before comparing Stage E to Stage D:
@@ -108,12 +108,12 @@ This helper rebuilds Stage D enumeration and scores it with the Stage E
 exposure-only objective, leaving Stage D result folders untouched.
 
 The unconstrained Stage E runner writes under
-`results/leq/stage_e/unconstrained/`. It removes the `K` cardinality constraint,
+`ieee_30_stage_a_to_i_results/stage_e/unconstrained/`. It removes the `K` cardinality constraint,
 uses no-good cuts to evaluate unique proxy-ranked topologies, and is intended as
 a standalone Stage E study rather than a Stage D comparison.
 
 The unconstrained frontier runner writes under
-`results/leq/stage_e/unconstrained_frontier/`. It sweeps
+`ieee_30_stage_a_to_i_results/stage_e/unconstrained_frontier/`. It sweeps
 `lambda_R = 0.00..1.00` in increments of `0.05`, evaluates 100 unconstrained
 topologies per lambda/case, and writes the requested Pareto scatterplot at
 `figures/unconstrained_pareto_frontier_scatter.png`.

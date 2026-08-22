@@ -1,0 +1,37 @@
+method,scenario_id,topology_id,lambda_r,reference_a_status,reference_a_runtime_seconds,reference_a_wall_seconds,reference_a_objective,native_r_norm,reference_a_r_norm_ac,delta_r_norm_native_minus_ac,native_l_shed_total,reference_a_l_shed_total,native_j_trade,reference_a_j_true,delta_j_true_native_minus_ac,lambda_times_delta_r,max_ac_loading,num_ac_loading_gt_1,native_cost,native_message,julia_stdout,julia_stderr
+Guided-DC,J-S1,276;473,0.8,LOCALLY_SOLVED,7.037999868392944,12.941019296646118,449338.61383001285,0.3478827991801284,0.39369845204237036,-0.045815652862241985,0.009295392137370864,0.009295392137370864,0.2801653177715769,0.3168178400613705,-0.0366525222897936,-0.03665252228979359,1.0000000049955642,1,435174.12702530064,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",
+Guided-GridSFM,J-S1,276;473,0.8,STAGE_J_SCRIPT_EXCEPTION,,13.333168506622314,,0.45375377515493254,,,0.009220801093035826,0.009220801093035826,0.3648471803425532,,,,,,447944.87269002147,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************","ERROR: LoadError: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_gridsfm\\reference_a_cold\\reference_a_branch_state.csv"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#3#11""{Dict{String, Any}, Dict{String, Any}, Bool}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open(::Function, ::String, ::String)
+    @ Base .\io.jl:393
+  [9] export_solution(result::Dict{String, Any}, data::Dict{String, Any}, output_dir::String, prefix::String)
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:162
+ [10] solve_reference_a()
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:323
+ [11] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:375
+in expression starting at C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:373"

@@ -1,0 +1,211 @@
+setting_code,scenario_id,lambda_r,finalist_backend,finalist_topology_id,finalist_topology_rank,finalist_num_shutoffs,method,topology_id,reference_a_status,reference_a_runtime_seconds,reference_a_wall_seconds,reference_a_objective,native_r_norm,reference_a_r_norm_ac,delta_r_norm_native_minus_ac,native_l_shed_total,reference_a_l_shed_total,native_j_trade,reference_a_j_true,delta_j_true_native_minus_ac,lambda_times_delta_r,max_ac_loading,num_ac_loading_gt_1,native_cost,native_message,julia_stdout,julia_stderr,ac_projection_distance_nrmse,ac_projection_distance_nmae,available_metric_families,abs_delta_j_trade,abs_delta_r_norm,delta_l_shed_native_minus_ac,abs_delta_l_shed
+s1_l0p0,J-S1,0.0,dc,,1,0,Guided-DC,,LOCALLY_SOLVED,6.700999975204468,12.141963005065918,454945.9782868769,0.9576888655249532,1.0000000013744412,-0.0423111358494879,0.0,0.0,0.0,0.0,0.0,-0.0,1.000000004993702,1,440428.2348123738,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.0228439146991465,0.0084536366892334,3,0.0,0.0423111358494879,0.0,0.0
+s1_l0p0,J-S1,0.0,gridsfm,63;331,41,2,Guided-GridSFM,63;331,LOCALLY_SOLVED,6.83299994468689,12.2577223777771,460008.3599864192,0.9999571445129218,1.0102334056060631,-0.0102762610931415,0.0,0.0,0.0,0.0,0.0,-0.0,1.0000000049999411,2,453704.9796467078,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.3005823516029424,0.22227366572188645,7,0.0,0.0102762610931415,0.0,0.0
+s1_l0p2,J-S1,0.2,dc,465;473,8,2,Guided-DC,465;473,LOCALLY_SOLVED,6.663000106811523,12.052252054214478,461524.6394926597,0.3515328237250482,0.3933229769729252,-0.0417901532478769,0.0,0.0,0.0703065647450096,0.078664595394585,-0.0083580306495753,-0.0083580306495754,1.0000000049956783,1,446341.1505993639,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.021755479973842768,0.008258272226428767,3,0.0083580306495753,0.0417901532478769,0.0,0.0
+s1_l0p2,J-S1,0.2,gridsfm,331;473,6,2,Guided-GridSFM,331;473,LOCALLY_SOLVED,6.889999866485596,12.256269693374634,476511.349643207,0.4664867878707146,0.4015698830206058,0.0649169048501088,0.0,0.0,0.0932973575741429,0.0803139766041211,0.0129833809700217,0.0129833809700217,1.0000000049999929,2,453814.74274529575,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.343250844596052,0.25358509661358747,7,0.0129833809700217,0.0649169048501088,0.0,0.0
+s1_l0p5,J-S1,0.5,dc,465;473,8,2,Guided-DC,465;473,LOCALLY_SOLVED,6.647000074386597,12.042990684509276,461524.6394926597,0.3515328237250482,0.3933229769729252,-0.0417901532478769,0.0,0.0,0.1757664118625241,0.1966614884864626,-0.0208950766239384,-0.0208950766239384,1.0000000049956783,1,446341.1505993639,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.021755479973842768,0.008258272226428767,3,0.0208950766239384,0.0417901532478769,0.0,0.0
+s1_l0p5,J-S1,0.5,gridsfm,276;473,4,2,Guided-GridSFM,276;473,LOCALLY_SOLVED,6.708999872207642,12.08095121383667,449468.9650716501,0.4537992654274571,0.393885737753007,0.0599135276744501,0.0091502610420728,0.0091502610420728,0.2314747632347649,0.2015179993975399,0.029956763837225,0.029956763837225,1.0000000049955715,1,447994.0686529983,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.18283841863802724,0.0968595907145459,7,0.029956763837225,0.0599135276744501,0.0,0.0
+s1_l0p8,J-S1,0.8,dc,276;473,4,2,Guided-DC,276;473,LOCALLY_SOLVED,6.677000045776367,12.112983226776125,449338.61383001285,0.3478827991801284,0.3936984520423703,-0.0458156528622419,0.0092953921373708,0.0092953921373708,0.2801653177715769,0.3168178400613705,-0.0366525222897936,-0.0366525222897935,1.0000000049955642,1,435174.12702530064,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.023401363627562965,0.0084777351886729,3,0.0366525222897936,0.0458156528622419,0.0,0.0
+s1_l0p8,J-S1,0.8,gridsfm,276;473,4,2,Guided-GridSFM,276;473,LOCALLY_SOLVED,6.638000011444092,12.001765489578249,449405.590818967,0.4537537304790292,0.3937944747217073,0.0599592557573218,0.0092208010930358,0.0092208010930358,0.3648471446018306,0.3168797399959731,0.0479674046058575,0.0479674046058574,1.000000004995568,1,447944.8726900215,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.18334443626583605,0.09710616063530743,7,0.0479674046058575,0.0599592557573218,0.0,0.0
+s1_l1p0,J-S1,1.0,dc,276;473,4,2,Guided-DC,276;473,LOCALLY_SOLVED,6.696000099182129,12.08794903755188,449338.61383001285,0.3478827991801284,0.3936984520423703,-0.0458156528622419,0.0092953921373708,0.0092953921373708,0.3478827991801284,0.3936984520423703,-0.0458156528622419,-0.0458156528622419,1.0000000049955642,1,435174.12702530064,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.023401363627562965,0.0084777351886729,3,0.0458156528622419,0.0458156528622419,0.0,0.0
+s1_l1p0,J-S1,1.0,gridsfm,276;473,4,2,Guided-GridSFM,276;473,LOCALLY_SOLVED,7.062999963760376,12.425419092178345,458750.88580163306,0.4512249522651558,0.4283886447662654,0.0228363074988903,0.01161351295236,0.01161351295236,0.4512249522651558,0.4283886447662654,0.0228363074988903,0.0228363074988903,1.0000000049998836,2,446100.4825775363,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.28672141290359393,0.1970326326387366,7,0.0228363074988903,0.0228363074988903,0.0,0.0
+s2_l0p0,J-S2,0.0,dc,,1,0,Guided-DC,,LOCALLY_SOLVED,6.693000078201294,12.0997052192688,454945.9782868769,0.8964080193747187,1.0000000033330485,-0.1035919839583298,0.0,0.0,0.0,0.0,0.0,-0.0,1.000000004993702,1,440428.2348123738,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.0228439146991465,0.0084536366892334,3,0.0,0.1035919839583298,0.0,0.0
+s2_l0p0,J-S2,0.0,gridsfm,63;331,41,2,Guided-GridSFM,63;331,LOCALLY_SOLVED,6.781000137329102,12.1532883644104,460008.3599864192,1.1022574471606004,1.0250547994638832,0.0772026476967171,0.0,0.0,0.0,0.0,0.0,0.0,1.0000000049999411,2,453704.9796467078,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.3005823516029424,0.22227366572188645,7,0.0,0.0772026476967171,0.0,0.0
+s2_l0p2,J-S2,0.2,dc,290;345,9,2,Guided-DC,290;345,LOCALLY_SOLVED,6.6549999713897705,12.03359341621399,464826.845668826,0.8363497593555027,0.9548859045062634,-0.1185361451507607,0.0,0.0,0.1672699518711005,0.1909771809012527,-0.0237072290301521,-0.0237072290301521,1.0000000049990732,2,449999.69307419285,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.021512675577528267,0.008597479496842234,3,0.0237072290301521,0.1185361451507607,0.0,0.0
+s2_l0p2,J-S2,0.2,gridsfm,290;445,53,2,Guided-GridSFM,290;445,LOCALLY_SOLVED,6.641999959945679,12.035686254501345,453618.258959709,1.0668443705179356,0.9584710760972472,0.1083732944206884,0.0037750814107118,0.0037750814107118,0.2163889392321566,0.1947142803480189,0.0216746588841376,0.0216746588841376,1.0000000049940712,1,454646.96704707725,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.14192256664110395,0.07595574697577447,7,0.0216746588841376,0.1083732944206884,0.0,0.0
+s2_l0p5,J-S2,0.5,dc,290;345,9,2,Guided-DC,290;345,LOCALLY_SOLVED,6.650000095367432,11.95624041557312,461433.85776188713,0.832541962198872,0.9495679345561268,-0.1170259723572548,0.002859959803655,0.002859959803655,0.4177009610012635,0.4762139471798909,-0.0585129861786274,-0.0585129861786274,1.0000000049990008,2,446875.0452741597,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.022714883925180868,0.008684611864595902,3,0.0585129861786274,0.1170259723572548,0.0,0.0
+s2_l0p5,J-S2,0.5,gridsfm,290;445,53,2,Guided-GridSFM,290;445,LOCALLY_SOLVED,6.651000022888184,11.94680142402649,449087.48116506846,1.0558413433814862,0.952722861740106,0.1031184816413802,0.0091459989462984,0.0091459989462984,0.5324936711638923,0.4809344303432021,0.0515592408206901,0.0515592408206901,1.000000004993716,1,453524.1536867008,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.14294657301514868,0.07730860138606196,7,0.0515592408206901,0.1031184816413802,0.0,0.0
+s2_l0p8,J-S2,0.8,dc,290;345,9,2,Guided-DC,290;345,LOCALLY_SOLVED,6.6650002002716064,11.96865725517273,457695.4859115753,0.8304870933070141,0.9456989343058008,-0.1152118409987865,0.0061496516907021,0.0061496516907021,0.6656196049837517,0.757789077782781,-0.0921694727990293,-0.0921694727990292,1.0000000049988864,2,443396.9488726237,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.025271480153403098,0.009272098036587633,3,0.0921694727990293,0.1152118409987865,0.0,0.0
+s2_l0p8,J-S2,0.8,gridsfm,276;290,25,2,Guided-GridSFM,276;290,LOCALLY_SOLVED,6.641000032424927,11.94105625152588,443028.4995644452,1.0497985233135196,0.9512870571541984,0.0985114661593213,0.0149198663118266,0.0149198663118266,0.8428227919131811,0.764013618985724,0.0788091729274571,0.0788091729274571,1.0000000049926487,1,447039.5982853101,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.18318226629551135,0.09844708579060946,7,0.0788091729274571,0.0985114661593213,0.0,0.0
+s2_l1p0,J-S2,1.0,dc,290;345,9,2,Guided-DC,290;345,LOCALLY_SOLVED,6.662999868392944,12.224674940109251,456825.6927509519,0.8303984801535634,0.9450467990469588,-0.1146483188933953,0.0069324975228962,0.0069324975228962,0.8303984801535634,0.9450467990469588,-0.1146483188933953,-0.1146483188933953,1.000000004998879,2,442587.5508460258,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.027691792069912832,0.009629898002558599,3,0.1146483188933953,0.1146483188933953,0.0,0.0
+s2_l1p0,J-S2,1.0,gridsfm,290;445,53,2,Guided-GridSFM,290;445,LOCALLY_SOLVED,6.664000034332275,12.017605543136597,449086.2968816723,1.0558396520718016,0.9527222870044922,0.1031173650673094,0.0091474259395655,0.0091474259395655,1.0558396520718016,0.9527222870044922,0.1031173650673094,0.1031173650673094,1.000000004993716,1,453524.124990265,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.14295006851912156,0.07731142753265717,7,0.1031173650673094,0.1031173650673094,0.0,0.0
+s3_l0p0,J-S3,0.0,dc,,1,0,Guided-DC,,LOCALLY_SOLVED,6.741999864578247,12.11929988861084,454945.9782868769,0.9500100155534889,0.9999999971433868,-0.049989981589898,0.0,0.0,0.0,0.0,0.0,-0.0,1.000000004993702,1,440428.2348123738,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.0228439146991465,0.0084536366892334,3,0.0,0.049989981589898,0.0,0.0
+s3_l0p0,J-S3,0.0,gridsfm,63;331,41,2,Guided-GridSFM,63;331,LOCALLY_SOLVED,6.791999816894531,12.14370608329773,460008.3599864192,1.208490315881278,0.9547562176190694,0.2537340982622085,0.0,0.0,0.0,0.0,0.0,0.0,1.0000000049999411,2,453704.9796467078,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.3005823516029424,0.22227366572188645,7,0.0,0.2537340982622085,0.0,0.0
+s3_l0p2,J-S3,0.2,dc,285;345,3,2,Guided-DC,285;345,LOCALLY_SOLVED,6.647000074386597,11.985580921173096,470701.91818645695,0.3815234933827652,0.4358984022205625,-0.0543749088377972,0.0,0.0,0.076304698676553,0.0871796804441125,-0.0108749817675594,-0.0108749817675594,1.0000000049992277,2,455163.338744464,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.0208438357958682,0.008516871793883366,3,0.0108749817675594,0.0543749088377972,0.0,0.0
+s3_l0p2,J-S3,0.2,gridsfm,285;445,10,2,Guided-GridSFM,285;445,LOCALLY_SOLVED,6.651999950408936,12.000825643539429,457382.5836691372,0.5023424527267013,0.4460199868359806,0.0563224658907207,0.0,0.0,0.1004684905453402,0.0892039973671961,0.0112644931781441,0.0112644931781441,1.0000000049943172,1,455540.3536101937,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.15719080724122092,0.08582415601688217,7,0.0112644931781441,0.0563224658907207,0.0,0.0
+s3_l0p5,J-S3,0.5,dc,285;345,3,2,Guided-DC,285;345,LOCALLY_SOLVED,6.611000061035156,11.997310161590576,470701.8550517983,0.3815221071559372,0.4358980533544466,-0.0543759461985093,7.414240396240806e-07,7.414240396240806e-07,0.1907614242899884,0.2179493973892431,-0.0271879730992546,-0.0271879730992546,1.0000000049992277,2,455162.2893367634,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.020849071969172166,0.008518481328820134,3,0.0271879730992546,0.0543759461985093,0.0,0.0
+s3_l0p5,J-S3,0.5,gridsfm,285;290,2,2,Guided-GridSFM,285;290,LOCALLY_SOLVED,6.799000024795532,12.381865978240969,447570.2580530623,0.4842688572575451,0.4488352332914024,0.0354336239661426,0.0096402296497661,0.0096402296497661,0.2469545434536556,0.2292377314705843,0.0177168119830713,0.0177168119830713,1.000000004993145,1,466373.07235072536,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.14511132709523,0.07917108232261841,7,0.0177168119830713,0.0354336239661426,0.0,0.0
+s3_l0p8,J-S3,0.8,dc,285;345,3,2,Guided-DC,285;345,LOCALLY_SOLVED,6.639999866485596,12.02776265144348,470448.34431316965,0.3804292481005536,0.4347700972002285,-0.0543408490996749,0.0035684563842599,0.0035684563842599,0.3050570897572949,0.3485297690370348,-0.0434726792797399,-0.0434726792797399,1.0000000049992612,2,454736.26939864206,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.021197171276395237,0.008641133560861798,3,0.0434726792797399,0.0543408490996749,0.0,0.0
+s3_l0p8,J-S3,0.8,gridsfm,285;290,2,2,Guided-GridSFM,285;290,LOCALLY_SOLVED,6.6570000648498535,12.068034887313845,443865.3664507307,0.4809928883316601,0.4454577294565352,0.0355351588751248,0.0142730907758235,0.0142730907758235,0.3876489288204928,0.3592208017203929,0.0284281271000998,0.0284281271000998,1.0000000049926785,1,463087.8341985655,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.14877392789983343,0.08179790556718577,7,0.0284281271000998,0.0355351588751248,0.0,0.0
+s3_l1p0,J-S3,1.0,dc,285;345,3,2,Guided-DC,285;345,LOCALLY_SOLVED,6.641999959945679,12.172132968902588,470318.0756320008,0.3798564728655614,0.4342088341273592,-0.0543523612617977,0.0063465862247154,0.0063465862247154,0.3798564728655614,0.4342088341273592,-0.0543523612617977,-0.0543523612617977,1.0000000049992854,2,454472.1495196,Gurobi status 2,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.021475959958067403,0.008763719992929799,3,0.0543523612617977,0.0543523612617977,0.0,0.0
+s3_l1p0,J-S3,1.0,gridsfm,285;290,2,2,Guided-GridSFM,285;290,LOCALLY_SOLVED,6.641000032424927,12.05772829055786,443811.9296667601,0.4809817195136864,0.4454326944905586,0.0355490250231277,0.0143410073561874,0.0143410073561874,0.4809817195136864,0.4454326944905586,0.0355490250231277,0.0355490250231277,1.0000000049926707,1,463037.298492212,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,0.14889831150434724,0.08190104406400556,7,0.0355490250231277,0.0355490250231277,0.0,0.0

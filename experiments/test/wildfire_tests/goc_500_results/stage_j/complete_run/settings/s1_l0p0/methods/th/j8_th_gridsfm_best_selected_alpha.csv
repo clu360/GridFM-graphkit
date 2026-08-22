@@ -1,0 +1,11 @@
+method,topology_rank,topology_id,load_id,best_alpha_requested,selected_for_alpha_search
+TH-GridSFM-top1,1,473,276,1.0,True
+TH-GridSFM-top1,1,473,262,1.0,True
+TH-GridSFM-top1,1,473,202,1.0,True
+TH-GridSFM-top1,1,473,270,1.0,True
+TH-GridSFM-top1,1,473,60,1.0,True
+TH-GridSFM-top2,2,285;473,162,1.0,True
+TH-GridSFM-top2,2,285;473,165,1.0,True
+TH-GridSFM-top2,2,285;473,276,1.0,True
+TH-GridSFM-top2,2,285;473,262,1.0,True
+TH-GridSFM-top2,2,285;473,167,1.0,True

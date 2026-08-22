@@ -1,0 +1,8 @@
+{
+  "status": "complete",
+  "num_best_rows": 300,
+  "num_projection_rows": 300,
+  "num_methodology_checks": 12,
+  "num_failed_checks": 0,
+  "stage_e_reference_run": "tmp\\stage_h_dc_stage_e_reference\\full\\run_20260714_015005"
+}

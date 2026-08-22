@@ -1,0 +1,11 @@
+{
+  "base_mva": 100.0,
+  "num_physical_branches": 40,
+  "num_dc_branches": 40,
+  "num_unmapped_branches": 0,
+  "unmapped_line_ids": "",
+  "num_nonunity_taps": 0,
+  "num_nonzero_phase_shifts": 0,
+  "dc_branch_model_used": "trivial_tap_shift",
+  "branch_model_warning": ""
+}

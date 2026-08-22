@@ -1,0 +1,14 @@
+{
+  "gen_dispatch_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08_v002\\gdc\\rb1\\reference_b_b1_gen_dispatch.csv",
+  "mode": "reference_b_b1",
+  "objective": 177.72920841145307,
+  "runtime_seconds": 6.9750001430511475,
+  "load_service_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08_v002\\gdc\\rb1\\reference_b_b1_load_service.csv",
+  "termination_status": "LOCALLY_SOLVED",
+  "reference_b_pg_min_convention": "0<=Pg<=Pgmax",
+  "branch_state_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08_v002\\gdc\\rb1\\reference_b_b1_branch_state.csv",
+  "offline_branch_ids": "276;473",
+  "reference_b_shunt_policy": "fixed_shunts_no_z_shunt_variable",
+  "iteration_count": null,
+  "bus_state_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08_v002\\gdc\\rb1\\reference_b_b1_bus_state.csv"
+}

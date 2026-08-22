@@ -1,0 +1,137 @@
+{
+  "artifact_id": "CASE-003-J0.5-BOOTSTRAP-MANIFEST",
+  "artifact_version": "v001",
+  "created_local": "2026-08-12T22:58:28.1336018-04:00",
+  "execution_mode": "single_context_role_simulation",
+  "blind_context_enforced": false,
+  "reviewer_prior_outputs_visible": true,
+  "status": "BOOTSTRAP_PASS_WITH_NEXT_GATES",
+  "sha256_when_frozen": null,
+  "storage_policy": {
+    "external_stage_j_root": "C:/Users/Caleb Lu/.gridfm_stage_j",
+    "large_assets_outside_git": true,
+    "repo_write_boundary": "CASE-003 docs and Stage J scaffolding only"
+  },
+  "gridsfm_repository": {
+    "source": "https://github.com/microsoft/GridSFM.git",
+    "local_path": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM",
+    "commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+    "status": "CLONED_AND_READ",
+    "readme_inspected": [
+      "README.md",
+      "model/README.md",
+      "model/samples/README.md",
+      "model/examples/infer_samples.py",
+      "model/pyproject.toml"
+    ]
+  },
+  "gridsfm_python_environment": {
+    "local_path": "C:/Users/Caleb Lu/.gridfm_stage_j/envs/gridsfm",
+    "python_executable": "C:/Users/Caleb Lu/.gridfm_stage_j/envs/gridsfm/Scripts/python.exe",
+    "python_version": "3.12.11",
+    "install_command": "pip install -e \"C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM/model[test]\"",
+    "import_smoke_status": "PASS",
+    "versions": {
+      "torch": "2.8.0+cpu",
+      "torch_geometric": "2.8.0.post1",
+      "huggingface_hub": "0.36.2",
+      "gridsfm": "1.1.0"
+    },
+    "device": {
+      "cuda_available": false,
+      "device_count": 0,
+      "primary_device": "cpu"
+    }
+  },
+  "gridsfm_open_model": {
+    "model_repository": "microsoft/GridSFM_Open",
+    "model_repository_revision": "1b41299b80252adf1869d5c3b479a4a402c52591",
+    "last_modified_utc": "2026-05-27T01:51:52+00:00",
+    "checkpoint_filename": "gridsfm_open_v1.1.pt",
+    "checkpoint_path": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM/model/checkpoints/gridsfm_open_v1.1.pt",
+    "checkpoint_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+    "checkpoint_load_status": "PASS",
+    "loaded_model_class": "GridTransformerBackbone"
+  },
+  "goc500_data": {
+    "source": "official GridSFM repository shipped sample",
+    "source_case_name": "case500_goc.pyg.json",
+    "local_path": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM/model/samples/case500_goc.pyg.json",
+    "case_sha256": "66457EF63E2F496757094D06DE0EC3CAFB59561CE074094828041E549ED53E5C",
+    "raw_schema_status": "PASS",
+    "raw_counts": {
+      "bus": 500,
+      "load": 281,
+      "generator": 171,
+      "ac_line_edges": 536,
+      "transformer_edges": 192
+    },
+    "preprocessing_path": "gridsfm.load_pyg_json -> gridsfm.prepare_for_inference",
+    "preprocessing_status": "PASS",
+    "prepared_features": {
+      "bus_x_shape": [500, 16],
+      "has_branch_ac": true,
+      "has_branch_tr": true,
+      "has_cycle": true
+    }
+  },
+  "official_inference_smoke": {
+    "single_case_predict_status": "PASS",
+    "single_case": {
+      "case": "case500_goc.pyg.json",
+      "V_shape": [500],
+      "theta_shape": [500],
+      "Pg_shape": [171],
+      "Qg_shape": [171],
+      "Pij_shape": [728],
+      "flow_edge_types": ["ac_line", "transformer"],
+      "flow_edge_counts": [536, 192],
+      "feas": 0.9973402619361877
+    },
+    "official_example_script_status": "PASS",
+    "official_example_script": "model/examples/infer_samples.py",
+    "official_example_summary": {
+      "samples": 53,
+      "feasible_labels": 53,
+      "feas_accuracy": "53/53",
+      "mean_cost_mape_percent": 0.61,
+      "mean_v_mae": 0.0030,
+      "mean_theta_mae_rad": 0.0210,
+      "mean_pg_mae_pu": 0.0173,
+      "mean_qg_mae_pu": 0.0486,
+      "prep_seconds": 15.2,
+      "forward_seconds_cpu": 72.3
+    }
+  },
+  "exact_ac_solver_environment": {
+    "julia_source": "official portable Windows x64 LTS binary",
+    "julia_download_url": "https://julialang-s3.julialang.org/bin/winnt/x64/1.10/julia-1.10.11-win64.zip",
+    "julia_zip_sha256": "11BA52FD1384F82D09EA232EB1552B6694BB2083E6ADFE3AE2F9E1E663ED8CF8",
+    "julia_path": "C:/Users/Caleb Lu/.gridfm_stage_j/tools/julia-1.10.11/bin/julia.exe",
+    "julia_depot_path": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/julia_depot",
+    "versions": {
+      "julia": "1.10.11",
+      "JuMP": "1.31.1",
+      "Ipopt": "1.15.0",
+      "PowerModels": "0.21.6"
+    },
+    "jump_ipopt_smoke": {
+      "status": "PASS",
+      "termination_status": "LOCALLY_SOLVED",
+      "objective": 0.0
+    },
+    "powermodels_ac_opf_smoke": {
+      "status": "PASS",
+      "case": "PowerModels shipped test/data/matpower/case5.m",
+      "termination_status": "LOCALLY_SOLVED",
+      "objective": 18269.102722788884
+    }
+  },
+  "remaining_gates_before_full_experiment": [
+    "Build immutable GOC-500 canonical branch mapping between raw .pyg.json, GridSFM edge families, and Stage J physical IDs.",
+    "Implement raw topology/load mutation followed by official GridSFM preprocessing for candidate (z, alpha).",
+    "Implement fixed-(z, alpha) economic DC-OPF recourse for GOC-500.",
+    "Run intact economic AC-OPF baseline on the actual Stage J GOC-500 electrical scenario.",
+    "Calibrate and freeze rho_phys, w_op, w_AC, and w_model before S1-S3 comparisons."
+  ]
+}

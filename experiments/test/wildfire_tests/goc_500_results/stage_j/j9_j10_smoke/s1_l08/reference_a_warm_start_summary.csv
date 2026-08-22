@@ -1,0 +1,141 @@
+method,warm_start_type,same_reference_a_instance,status,solver_runtime_seconds,wall_seconds,start_construction_seconds,objective,stdout,stderr
+Guided-DC,cold_start,True,STAGE_J_SCRIPT_EXCEPTION,,13.375568866729736,0.0,,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************","ERROR: LoadError: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_dc\\warm_start\\cold_start\\reference_a_branch_state.csv"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#3#11""{Dict{String, Any}, Dict{String, Any}, Bool}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open(::Function, ::String, ::String)
+    @ Base .\io.jl:393
+  [9] export_solution(result::Dict{String, Any}, data::Dict{String, Any}, output_dir::String, prefix::String)
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:162
+ [10] solve_reference_a()
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:323
+ [11] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:375
+in expression starting at C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:373"
+Guided-DC,dc_partial_warm,True,missing,,12.935426235198975,,,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************","ERROR: LoadError: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_dc\\warm_start\\dc_partial_warm\\reference_a_summary.json"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#1#2""{Dict{String, Union{Nothing, String}}, Vector{String}}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open
+    @ .\io.jl:393 [inlined]
+  [9] write_json(path::String, payload::Dict{String, Union{Nothing, String}}, keys::Vector{String})
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:89
+ [10] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:392
+in expression starting at C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:373
+
+caused by: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_dc\\warm_start\\dc_partial_warm\\reference_a_branch_state.csv"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#3#11""{Dict{String, Any}, Dict{String, Any}, Bool}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open(::Function, ::String, ::String)
+    @ Base .\io.jl:393
+  [9] export_solution(result::Dict{String, Any}, data::Dict{String, Any}, output_dir::String, prefix::String)
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:162
+ [10] solve_reference_a()
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:323
+ [11] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:375"
+Guided-DC,gridsfm_partial_warm,True,missing,,13.057323694229126,,,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************","ERROR: LoadError: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_dc\\warm_start\\gridsfm_partial_warm\\reference_a_summary.json"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#1#2""{Dict{String, Union{Nothing, String}}, Vector{String}}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open
+    @ .\io.jl:393 [inlined]
+  [9] write_json(path::String, payload::Dict{String, Union{Nothing, String}}, keys::Vector{String})
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:89
+ [10] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:392
+in expression starting at C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:373
+
+caused by: SystemError: opening file ""C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\j9_j10_smoke\\s1_l08\\guided_dc\\warm_start\\gridsfm_partial_warm\\reference_a_branch_state.csv"": No such file or directory
+Stacktrace:
+  [1] systemerror(p::String, errno::Int32; extrainfo::Nothing)
+    @ Base .\error.jl:176
+  [2] systemerror
+    @ .\error.jl:175 [inlined]
+  [3] open(fname::String; lock::Bool, read::Nothing, write::Nothing, create::Nothing, truncate::Bool, append::Nothing)
+    @ Base .\iostream.jl:293
+  [4] open
+    @ .\iostream.jl:275 [inlined]
+  [5] open(fname::String, mode::String; lock::Bool)
+    @ Base .\iostream.jl:356
+  [6] open(fname::String, mode::String)
+    @ Base .\iostream.jl:355
+  [7] open(::var""#3#11""{Dict{String, Any}, Dict{String, Any}, Bool}, ::String, ::Vararg{String}; kwargs::@Kwargs{})
+    @ Base .\io.jl:394
+  [8] open(::Function, ::String, ::String)
+    @ Base .\io.jl:393
+  [9] export_solution(result::Dict{String, Any}, data::Dict{String, Any}, output_dir::String, prefix::String)
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:162
+ [10] solve_reference_a()
+    @ Main C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:323
+ [11] top-level scope
+    @ C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_j_gridsfm_goc500\stage_j_ac_reference.jl:375"
+Guided-DC,gt_warm,True,LOCALLY_SOLVED,6.39900016784668,12.20216965675354,0.0,449338.61383491434,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",

@@ -11,6 +11,326 @@ handoff.
 
 This file is the durable handoff for future Codex sessions. It should be read before changing the wildfire first-pass experiment.
 
+## August 19, 2026 - Stage J Complete Run Findings And Research Meeting Hold
+
+Stage J is complete through the GOC-500 primary comparison and exact-AC
+Reference A/B audits. The retained result package is:
+
+```text
+experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run/
+```
+
+The completed experiment covers `J-S1` through `J-S3`,
+`lambda_R=[0, 0.2, 0.5, 0.8, 1]`, `K<=2`, topology budget `100`, continuous
+budget `20` per topology, and the approved `q=5` selected-load alpha
+correction. It includes Guided-DC, Guided-GridSFM, TH-GridSFM-top1, and
+TH-GridSFM-top2, with all finalist Reference A/B and warm-start records
+present.
+
+The retained evidence comprises:
+
+```text
+3,030 topology objective rows
+60,600 candidate alpha evaluations
+60 method finalists
+60 Reference A fixed-z/fixed-alpha economic AC-OPF rows
+120 Reference B maximum-load-delivery / economic tie-break rows
+240 warm-start rows
+480 native-to-Reference-A state-fidelity rows
+```
+
+The central guided-method finding is that Guided-DC is stronger than
+Guided-GridSFM on the common wildfire-service decision surface in this
+completed `q=5`, `K<=2`, 100-topology-budget study:
+
+```text
+Guided-DC average native J_trade:      0.260473
+Guided-GridSFM average native J_trade: 0.333630
+
+Guided-DC average native R_norm:       0.603736
+Guided-GridSFM average native R_norm:  0.754192
+
+Guided-DC average native L_shed_total:      0.002963
+Guided-GridSFM average native L_shed_total: 0.007015
+```
+
+Reference A fixes each finalist's selected topology `z*` and load-service
+command `alpha*`, then solves exact economic AC-OPF. Reference A confirms that
+Guided-DC finalist instances solve slightly faster and have lower average AC
+`R_norm`, while Guided-GridSFM finalist instances have lower average economic
+AC objective:
+
+```text
+Guided-DC average Reference A solver time:      6.6661 s
+Guided-GridSFM average Reference A solver time: 6.7369 s
+
+Guided-DC average Reference A R_norm:      0.674001
+Guided-GridSFM average Reference A R_norm: 0.680575
+
+Guided-DC average Reference A objective:      460634.43
+Guided-GridSFM average Reference A objective: 453440.84
+```
+
+Reference B fixes only the selected topology and maximizes load delivery under
+exact AC redispatch. Guided-DC selected topologies recovered full load in all
+15 guided finalist cases. Guided-GridSFM selected topologies recovered nearly
+all load but had small residual MLD shedding in some cases:
+
+```text
+Guided-DC average Reference B served-load fraction:      1.000000
+Guided-GridSFM average Reference B served-load fraction: 0.998950
+
+Guided-DC minimum Reference B served-load fraction:      1.000000
+Guided-GridSFM minimum Reference B served-load fraction: 0.994752
+```
+
+The state-fidelity comparison also favors Guided-DC in the aggregated
+native-to-Reference-A normalized distance metric:
+
+```text
+Guided-DC average native-state distance to Reference A:      0.022693
+Guided-GridSFM average native-state distance to Reference A: 0.207259
+```
+
+Warm-start solves modestly reduce Reference A solver time for both guided
+finalist families. The relative savings are slightly larger for some
+Guided-GridSFM finalist instances, but raw exact-AC Reference A solve times
+remain slightly lower for Guided-DC finalists. This supports the interpretation
+that Guided-DC selected better wildfire-service decisions and slightly easier
+exact-AC instances in this run.
+
+The supporting figure set added to the complete-run package is:
+
+```text
+figures/stage_j_guided_reference_a_discrepancy_distance.png
+figures/stage_j_guided_reference_b_mld.png
+figures/stage_j_guided_state_distance_heatmap.png
+figures/stage_j_guided_warm_start_study.png
+```
+
+Interpretation boundary:
+
+```text
+Do not frame this as a blanket failure of GridSFM.
+```
+
+Guided-GridSFM did not outperform Guided-DC as the wildfire-service guided
+selector under the current `q=5`, `K<=2`, 100-topology-budget design. However,
+GridSFM remains useful as a frozen AC-OPF-surrogate state channel and gives a
+distinct economic-dispatch perspective, including lower average Reference A
+economic objective in this run.
+
+No next implementation stage is currently authorized. The next step is the
+research meeting. Bring the Stage J complete-run package, figures, Reference
+A/B interpretation, warm-start results, and Guided-DC versus Guided-GridSFM
+finding to that meeting before deciding any future work.
+
+## August 21, 2026 - Large Experiment Artifact Handling
+
+Future wildfire experiment runs should not commit large generated CSV traces
+or temporary checkpoint tables directly to Git. This includes objective-call
+traces, provenance tables, masking/clamping audits, rescored objective tables,
+and any `tmp/` run artifacts.
+
+Use compressed Parquet for retained large tabular artifacts instead of CSV.
+Parquet stores typed columnar data and compresses repeated numeric/categorical
+columns much more efficiently than row-oriented text CSV. The local conversion
+utility is:
+
+```powershell
+python experiments/test/wildfire_tests/convert_large_csvs_to_parquet.py --remove-csv
+```
+
+Before committing a completed experiment package, run the converter or an
+equivalent export path, keep compact summaries/configs/figures/manifests in
+Git, and keep full oversized traces in Parquet or external artifact storage
+with checksums. The repository ignore rules now exclude `tmp/` and the known
+large wildfire trace-table CSV names across the wildfire experiment tree.
+
+## August 17, 2026 - Stage J J8 Budgeted Topology Smoke
+
+The first J8 outer topology-loop smoke has completed for `J-S1` with:
+
+```text
+lambda_R = 0.8
+lambda_R_proxy = 0.8
+K <= 2
+topology_budget = 100
+continuous_eval_budget = 20 per topology
+q = 5 selected load buses per topology
+full_coordinate_screen = false
+```
+
+Both methods used the same 100-topology pool generated by the outer proxy. The
+current proxy is still the cheap Stage J connectivity/source-less score:
+
+```text
+w_l = p_env_l * baseline_loading_l^2
+R_proxy(y) = sum_l w_l (1 - y_l) / sum_l w_l
+L_proxy(y) = sum_l c_l y_l
+```
+
+The MLD/served-load one-off impact proxy is not active in this J8 smoke.
+
+Both Guided-DC and Guided-GridSFM selected topology `276;473`, containing the
+intended J-S1 high-risk target line `473`. Guided-DC evaluated 2,000 alpha
+candidates in about `109.91` seconds and returned:
+
+```text
+J_trade = 0.2801653
+R_norm = 0.3478828
+L_shed_total = 0.0092954
+max_loading ~= 1.0
+num_loading_gt_1 = 0
+```
+
+Guided-GridSFM evaluated the same 2,000 alpha candidates in about `826.31`
+seconds and returned:
+
+```text
+J_total = 0.3653721
+J_trade = 0.3648472
+R_norm = 0.4537538
+L_shed_total = 0.0092208
+PAC_total = 0.00026246
+max_loading = 1.3091901
+num_loading_gt_1 = 5
+evaluation_status = model_output_penalized
+```
+
+The final J8 run has full coverage:
+
+```text
+Guided-DC:      100 eligible topologies, 0 failed, 2000/2000 ok evaluations
+Guided-GridSFM: 100 eligible topologies, 0 failed,
+                2000/2000 model_output_penalized evaluations
+```
+
+An intermediary GridSFM run was partial because the sandbox execution context
+could not create missing official GridSFM cycle-basis cache files. The final
+run was executed in Caleb's normal user context and redirected GridSFM runtime
+cache outside git:
+
+```text
+C:\Users\Caleb Lu\.gridfm_stage_j\cache\xdg
+```
+
+The successful result root is intentionally short to avoid Windows/OneDrive
+path-length failures:
+
+```text
+experiments/test/wildfire_tests/goc_500_results/j8s/s1_l08/
+```
+
+The detailed status handoff is:
+
+```text
+experiments/test/wildfire_tests/workflow/cases/
+  CASE-003-stage-j-gridsfm-goc500-implementation/
+  J8_BUDGETED_TOPOLOGY_SMOKE_STATUS.md
+```
+
+## August 17, 2026 - Stage J GridSFM OPF-Surrogate Model-Consistency Guardrail
+
+Stage J is the current next-stage implementation focused on `GridSFM GOC-500`.
+The active workflow case is:
+
+```text
+experiments/test/wildfire_tests/workflow/cases/
+  CASE-003-stage-j-gridsfm-goc500-implementation/
+```
+
+Stage J has completed environment/bootstrap, adapter, baseline/DC, GridSFM
+smoke, J7.5 alpha-search smoke gates, and the first J8 budgeted topology-loop
+smoke.
+
+Important methodological distinction:
+
+The older Stage G/I GridFM workflow used a power-flow-style model that could
+predict load/generator channels inconsistent with commanded control values.
+That is why `PAC_model_consistency` included command-vs-predicted terms such as
+raw predicted `Pd/Qd` compared with commanded load service.
+
+The official GridSFM API currently used for Stage J is an OPF-surrogate style
+interface. It receives the commanded demand and topology and returns OPF-like
+electrical recourse outputs:
+
+```text
+inputs:  z, Pd_cmd, Qd_cmd, generator limits/costs, voltage/branch limits
+outputs: theta, V, Pg, Qg, Pij, Qij, Pji, Qji, feasibility score
+```
+
+It does not output `Pd_pred` or `Qd_pred`. Therefore, for current GridSFM OPF
+runs, the Stage I-style demand-command model-consistency check is retained in
+the code path but marked unavailable/off:
+
+```text
+PAC_model demand-command consistency = unavailable / zero
+```
+
+This is intentional for OPF-surrogate models, not a missing penalty. The
+guardrail remains in place for future PF-mode or alternate model comparisons.
+If a future GridFM/GridSFM mode exposes predicted `Pd/Qd`, then re-enable:
+
+```text
+PAC_model_load =
+mean(
+  normalized_mse(Pd_pred, alpha_effective Pd_pre),
+  normalized_mse(Qd_pred, alpha_effective Qd_pre)
+)
+```
+
+Stage J still hard-enforces the islanding clamp before any DC/GridSFM
+evaluation:
+
+```text
+alpha_effective_i = 0        if load i is source-less under topology z
+alpha_effective_i = alpha_i  otherwise
+
+Pd_cmd_i = alpha_effective_i Pd_pre_i
+Qd_cmd_i = alpha_effective_i Qd_pre_i
+```
+
+Save both `alpha_requested` and `alpha_effective`. A difference between them
+caused by source-less islanding is topology-forced island shedding, not a
+GridSFM model inconsistency. For current J8 GridSFM candidate selection, the
+active physics-aware term is:
+
+```text
+J_total^SFM =
+  J_trade^SFM
+  + rho_phys * (w_op PAC_operational + w_AC PAC_AC)
+```
+
+with `PAC_model` retained in schemas/artifacts for future PF-vs-OPF testing but
+off/unavailable for the official GridSFM OPF-surrogate API unless a valid
+independent consistency channel is added.
+
+Workflow files updated for this decision:
+
+```text
+STAGE_J_PRIMARY_DESIGN.md
+J7_5_V2_SCREENED_SCIPY_ALPHA_STATUS.md
+CURRENT_STATE_SUMMARY.md
+HISTORY.md
+```
+
+## July 31, 2026 - Stage I Result Root Naming Correction
+
+The DC approximation + baseline heuristic + GridFM comparison is a Stage I
+experiment. Its first generated result folders were placed under
+`ieee_30_stage_a_to_i_results/stage_h/` because of naming drift from the Stage H heuristic
+comparison lineage. The canonical result root has been corrected to:
+
+```text
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_i/
+  DC Approximation + Baseline Heuristic Comparison/
+```
+
+The older Stage H result root remains the home for the true Stage H heuristic
+comparison runs, including `heuristic_baseline_comparison_topk` and
+`heuristic_baseline_comparison_revised_load_pac`.
+
 ## July 13, 2026 - Session Closeout: Next Methodology Plan
 
 The next work session should pick up from the methodology plan devised in a
@@ -229,7 +549,7 @@ Full revised Stage H was run to a short temp path to avoid Windows/OneDrive
 path-length failures, then copied and finalized under:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_revised_load_pac/run_gnn_20260711_022613/
 ```
 
@@ -611,7 +931,7 @@ The Stage G revised continuous implementation checkpoint is complete. The
 completed canonical result folder is:
 
 ```text
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_233908
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_233908
 ```
 
 This closes the current implementation-revision arc:
@@ -752,7 +1072,7 @@ values or solving a separate AC power flow.
 
 For the Stage G MATPOWER-30 decision-quality reruns, the Stage F
 physics-aware result methodology and plot suite are duplicated under
-`results/leq/stage_g/matpower_30/` with two families:
+`ieee_30_stage_a_to_i_results/stage_g/matpower_30/` with two families:
 
 ```text
 with_physics_infeasibility/rho100
@@ -825,7 +1145,7 @@ physical line IDs, or intrinsic topology metrics.
 Stage G physics-infeasibility sensitivity run completed:
 
 ```text
-results/leq/stage_g/physics_infeasibility_sensitivity/run_20260630_020627/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_sensitivity/run_20260630_020627/
 ```
 
 Verification summary:
@@ -941,7 +1261,7 @@ diagnostic artifact-control sensitivity, not the corrected default.
 New result folder:
 
 ```text
-results/leq/stage_g/physics_infeasibility_sensitivity_scenario_baseline_revision/run_20260701_003629/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_sensitivity_scenario_baseline_revision/run_20260701_003629/
 ```
 
 Verification summary:
@@ -1020,7 +1340,7 @@ at `p_env=1.0`.
 New margin result folder:
 
 ```text
-results/leq/stage_g/physics_infeasibility_sensitivity_scenario_baseline_margin_revision/run_20260701_013324/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_sensitivity_scenario_baseline_margin_revision/run_20260701_013324/
 ```
 
 Verification summary:
@@ -1077,7 +1397,7 @@ next continuous-recourse checkpoint under:
 ```text
 experiments/test/wildfire_tests/stage_g_implementation_revision/run_stage_g_revised_continuous_implementation.py
 
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/
 ```
 
 The continuous decision vector is now `[Delta_Pg, Delta_Qg, alpha]`.
@@ -1139,7 +1459,7 @@ Stage-D-only smoke validation completed because Gurobi Stage E proposal
 generation cannot run under the sandbox username:
 
 ```text
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_023730/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_023730/
 
 scenario_ids: S1
 lambda_R: [0, 0.5]
@@ -1162,7 +1482,7 @@ with Stage D exhaustive, Stage E budgets `50/50`, all five scenarios, and
 table-writing phase. The latest folder is:
 
 ```text
-results/leq/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_034434/
+ieee_30_stage_a_to_i_results/stage_g/physics_infeasibility_revised_continuous_implementation/run_20260701_034434/
 ```
 
 That folder currently contains only:
@@ -1307,7 +1627,7 @@ After the corrective methodology is finalized:
 Canonical evidence:
 
 ```text
-results/leq/stage_e/physics_infeasibility_case_study/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/
   without_continuous_optimization/
     rho0_no_physics/run_20260623_220854/
     rho100_with_physics/run_20260623_221317/
@@ -1420,7 +1740,7 @@ local if future runs set `MPLCONFIGDIR` inside the workspace.
 The prior Stage F result folders under:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_f/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_f/
 ```
 
 had OneDrive placeholder/stale-file failures. Files such as
@@ -1432,7 +1752,7 @@ but could not be opened with `Get-Content`, `Import-Csv`, or `Test-Path`.
 The broken Stage F tree was isolated as:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_f_broken_onedrive_20260621_213958/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_f_broken_onedrive_20260621_213958/
 ```
 
 Fresh Stage F decision-quality results were regenerated from the licensed
@@ -1445,7 +1765,7 @@ python -m experiments.test.wildfire_tests.stage_f_decision_quality.run_stage_f_d
 Fresh output:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_f/decision_quality_analysis/run_20260621_214014/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_f/decision_quality_analysis/run_20260621_214014/
 ```
 
 The continuous topology pilot initially failed when writing
@@ -1464,7 +1784,7 @@ python -m experiments.test.wildfire_tests.stage_f_decision_quality.run_s1_risk_p
 Fresh output:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_f/continuous_topology_pilot/s1_risk_priority_k2/run_20260621_215238/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_f/continuous_topology_pilot/s1_risk_priority_k2/run_20260621_215238/
 ```
 
 Validation:
@@ -1591,7 +1911,7 @@ Added and corrected Stage F under:
 
 ```text
 experiments/test/wildfire_tests/stage_f_decision_quality/
-experiments/test/wildfire_tests/results/leq/stage_f/decision_quality_analysis/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_f/decision_quality_analysis/
 ```
 
 Stage F is the current decision-quality scenario phase. It compares Stage D
@@ -1627,7 +1947,7 @@ other line IDs.
 Corrected full run:
 
 ```text
-results/leq/stage_f/decision_quality_analysis/run_20260619_004038/
+ieee_30_stage_a_to_i_results/stage_f/decision_quality_analysis/run_20260619_004038/
 ```
 
 Validation for the corrected run:
@@ -1683,7 +2003,7 @@ Those terms remain allowed only in the Gurobi proxy proposal step.
 Full pilot run:
 
 ```text
-results/leq/stage_f/continuous_topology_pilot/s1_risk_priority_k2/run_20260619_011347/
+ieee_30_stage_a_to_i_results/stage_f/continuous_topology_pilot/s1_risk_priority_k2/run_20260619_011347/
 ```
 
 Primary pilot artifacts:
@@ -1771,7 +2091,7 @@ R_true = sum_{l in C} z_l * p_env_l * loading_l^2
 Outputs are isolated from the K-constrained Stage E runs:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_e/unconstrained/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_e/unconstrained/
 ```
 
 Run command used:
@@ -1841,7 +2161,7 @@ This was run outside the sandbox under the licensed Gurobi Windows user.
 Outputs:
 
 ```text
-results/leq/stage_e/unconstrained_frontier/
+ieee_30_stage_a_to_i_results/stage_e/unconstrained_frontier/
 ```
 
 Key artifacts:
@@ -1877,7 +2197,7 @@ Stage D limited enumeration remains intact and is still the comparison method.
 Stage E writes to the regenerated result surface:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_e/gurobi_gridfm/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/
 ```
 
 Stage E uses a Gurobi proxy master only as a topology candidate generator.
@@ -1988,8 +2308,8 @@ the sandbox under the licensed Windows user and completed successfully.
 Smoke output:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/stage_e_gurobi_gridfm_summary.csv
-results/leq/stage_e/gurobi_gridfm/t0p30/k1/gps/auto/bal/run_20260613_191953/
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/stage_e_gurobi_gridfm_summary.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/t0p30/k1/gps/auto/bal/run_20260613_191953/
 ```
 
 Smoke result summary:
@@ -2033,7 +2353,7 @@ It does not modify or overwrite Stage D outputs. It writes comparison artifacts
 under:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/
 ```
 
 Stage E smoke command:
@@ -2055,7 +2375,7 @@ python -m experiments.test.wildfire_tests.stage_e_gurobi_implementation.run_stag
 Full Stage E result:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/stage_e_gurobi_gridfm_summary.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/stage_e_gurobi_gridfm_summary.csv
 num_runs: 12
 num_successful_runs: 12
 ```
@@ -2069,12 +2389,12 @@ python -m experiments.test.wildfire_tests.analysis.run_stage_e_real_experiment_a
 Comparison outputs:
 
 ```text
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/stage_e_real_experiment_summary.csv
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/stage_e_real_experiment_summary.json
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/stage_e_vs_stage_d_comparison.csv
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/proxy_vs_true_alignment.csv
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/best_decisions_by_lambda.csv
-results/leq/stage_e/gurobi_gridfm/experiment_summaries/runtime_and_call_count_summary.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/stage_e_real_experiment_summary.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/stage_e_real_experiment_summary.json
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/stage_e_vs_stage_d_comparison.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/proxy_vs_true_alignment.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/best_decisions_by_lambda.csv
+ieee_30_stage_a_to_i_results/stage_e/gurobi_gridfm/experiment_summaries/runtime_and_call_count_summary.csv
 ```
 
 Key comparison result:
@@ -2178,7 +2498,7 @@ new harness rather than kept in the old folder.
 Current result organization:
 
 ```text
-experiments/test/wildfire_tests/results/leq/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/
   stage_a/connected_corridor/
   stage_b/multistart/
   stage_b/multi_group/
@@ -2201,8 +2521,8 @@ service_leaning: lambda_R = 0.1, lambda_L = 0.9
 Latest generated configured-lambda outputs:
 
 ```text
-results/leq/stage_c/psps_baseline/gnn_lambdas_configured/
-results/leq/stage_d/deenergization/gnn_lambdas_configured/
+ieee_30_stage_a_to_i_results/stage_c/psps_baseline/gnn_lambdas_configured/
+ieee_30_stage_a_to_i_results/stage_d/deenergization/gnn_lambdas_configured/
 ```
 
 Verification status for these configured-lambda outputs:
@@ -2243,7 +2563,7 @@ Stage A/B convergence interpretation:
   `0.8985455800` in:
 
 ```text
-results/leq/stage_b/multi_group/threshold_0p30/risk/gps/multistart_gps_20260611_220154/
+ieee_30_stage_a_to_i_results/stage_b/multi_group/threshold_0p30/risk/gps/multistart_gps_20260611_220154/
 ```
 
 Research direction after deliberation:
@@ -4150,7 +4470,7 @@ Implemented an additive physics-aware case-study workflow under the Stage E
 Gurobi implementation folder. The new output root is:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_e/physics_infeasibility_case_study/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/
 ```
 
 New implementation files:
@@ -4247,7 +4567,7 @@ generation was paused before completion.
 Deleted incomplete partial run directories under:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_e/physics_infeasibility_case_study/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/
 ```
 
 Implementation fixes made before the successful smoke:
@@ -4272,7 +4592,7 @@ $env:MPLCONFIGDIR=(Resolve-Path .\.mplconfig).Path
 Smoke output directory:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_e/physics_infeasibility_case_study/run_20260618_213145/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/run_20260618_213145/
 ```
 
 Smoke result status:
@@ -4384,7 +4704,7 @@ New files:
 Result root:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_f/decision_quality_analysis/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_f/decision_quality_analysis/
 ```
 
 Stage F behavior:
@@ -4472,8 +4792,8 @@ The following fixed-alpha physics-infeasibility result families were generated
 before the load-shedding correction and are now superseded:
 
 ```text
-results/leq/stage_e/physics_infeasibility_case_study/rho0_no_physics/run_20260623_114541/
-results/leq/stage_e/physics_infeasibility_case_study/rho100_with_physics/run_20260623_115025/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/rho0_no_physics/run_20260623_114541/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/rho100_with_physics/run_20260623_115025/
 ```
 
 These runs use `auto_env`, `gnn`, the `t0p30` candidate set, and a full lambda
@@ -4568,8 +4888,8 @@ families and the validation smoke outputs were cleared before the final run.
 Final result families:
 
 ```text
-results/leq/stage_e/physics_infeasibility_case_study/rho0_no_physics/run_20260623_220854/
-results/leq/stage_e/physics_infeasibility_case_study/rho100_with_physics/run_20260623_221317/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/rho0_no_physics/run_20260623_220854/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/rho100_with_physics/run_20260623_221317/
 ```
 
 Final command:
@@ -4678,7 +4998,7 @@ experiments/test/wildfire_tests/analysis/profile_stage_e_topology_continuous_opt
 Analysis result root:
 
 ```text
-results/leq/stage_e/analysis/topology_continuous_optimization_profile/
+ieee_30_stage_a_to_i_results/stage_e/analysis/topology_continuous_optimization_profile/
 ```
 
 The profiler fixes one constrained `K<=2` topology and records:
@@ -4699,7 +5019,7 @@ python -m experiments.test.wildfire_tests.analysis.profile_stage_e_topology_cont
 Profile output:
 
 ```text
-results/leq/stage_e/analysis/topology_continuous_optimization_profile/run_20260623_233144/
+ieee_30_stage_a_to_i_results/stage_e/analysis/topology_continuous_optimization_profile/run_20260623_233144/
 ```
 
 Measured result:
@@ -4774,7 +5094,7 @@ tests/test_wildfire_physics_continuous_traditional.py
 Canonical continuous result families:
 
 ```text
-results/leq/stage_e/physics_infeasibility_case_study/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/
   with_continuous_optimization/
     rho0_no_physics/run_20260624_000543/
     rho100_with_physics/run_20260624_003815/
@@ -4783,7 +5103,7 @@ results/leq/stage_e/physics_infeasibility_case_study/
 The fixed-control result families remain the comparison surface at:
 
 ```text
-results/leq/stage_e/physics_infeasibility_case_study/
+ieee_30_stage_a_to_i_results/stage_e/physics_infeasibility_case_study/
   without_continuous_optimization/
     rho0_no_physics/run_20260623_220854/
     rho100_with_physics/run_20260623_221317/
@@ -5031,7 +5351,7 @@ geographic regions.
 Final top-k run:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_topk/run_gnn_20260703_034242/
 ```
 
@@ -5153,14 +5473,14 @@ infeasibility accounting before moving to DC MILP construction.
 Final revised Stage H run retained for this checkpoint:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_revised_load_pac/run_gnn_20260711_022613/
 ```
 
 Prior comparison baseline retained for before/after interpretation:
 
 ```text
-experiments/test/wildfire_tests/results/leq/stage_h/
+experiments/test/wildfire_tests/ieee_30_stage_a_to_i_results/stage_h/
   heuristic_baseline_comparison_topk/run_gnn_20260703_034242/
 ```
 
@@ -5273,3 +5593,52 @@ The revised run confirms the methodological issue that motivated this session.
 The prior baseline understated effective load shedding and underrepresented
 physics infeasibility. The retained revised run is the current GridFM checkpoint
 to use before DC MILP construction and fairer scenario redesign.
+
+## August 17, 2026: Stage J GOC-500 Complete Comparison
+
+Completed the first full GOC-500 Stage J result package using the frozen
+GridSFM-Open economic-AC-OPF surrogate, Guided-DC economic recourse, and the
+transparent TH GridSFM heuristic.
+
+```text
+results root:
+experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run/
+```
+
+Locked experiment settings:
+
+```text
+scenarios: J-S1, J-S2, J-S3
+lambda_R = lambda_R_proxy: [0, 0.2, 0.5, 0.8, 1]
+K <= 2
+topology budget: 100
+continuous budget: 20 per topology
+q = 5 selected load buses for the bounded Powell correction
+```
+
+Every one of the 15 setting bundles completed Guided-DC, Guided-GridSFM,
+TH-GridSFM top-1/top-2, fixed-z/fixed-alpha economic AC-OPF (Reference A),
+fixed-z AC MLD plus economic tie-break (Reference B), and four warm starts.
+The retained aggregate evidence comprises 3,030 topology rows, 60,600 alpha
+evaluations, 60 finalists, 60 Reference A rows, 120 Reference B rows, and 240
+warm-start rows.
+
+Implementation refinements made during the full run:
+
+- the complete-run executor is resumable and rebuilds aggregate tables from all
+  completed cache settings rather than a partial rerun subset;
+- final evidence copying uses portable extended Windows paths and keeps full
+  requested/effective alpha vectors for every finalist;
+- aggregate AC audit rows include scenario, lambda, and finalist-topology
+  provenance;
+- J8 treats a valid run with rejected DC-infeasible candidates as
+  `PASS_WITH_INFEASIBLE_CANDIDATES` rather than a method-level failure;
+- a J-S3 source-less-load index check and failure-message JSON escaping defect
+  were repaired before rerunning only the affected exact AC reference bundles.
+
+The implementation audit recorded `PASS_WITH_LIMITATIONS`. The core limitation
+is that `q=5` is an approved selected-load approximation to the original full
+per-load alpha formulation. GridSFM `model_output_penalized` rows are valid
+surrogate evaluations with PAC, not AC-feasibility certification. The final
+package retains 387 DC-infeasible rejections and 12 Gurobi no-incumbent events;
+none was selected as a Guided-DC finalist.

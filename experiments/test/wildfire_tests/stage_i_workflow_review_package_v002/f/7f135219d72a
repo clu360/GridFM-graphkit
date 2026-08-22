@@ -1,0 +1,9 @@
+$ git branch --show-current
+
+[returncode] 0
+
+[stdout]
+wildfire-experiments
+
+
+[stderr]

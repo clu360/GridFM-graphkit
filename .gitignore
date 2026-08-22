@@ -30,9 +30,24 @@ to_del/
 b12b6627956a448588674ce7cbc08cb4/
 
 # Large generated wildfire experiment tables; keep local, do not push to GitHub.
+tmp/
 experiments/test/wildfire_tests/results/**/all_evaluated_proxy_inner_points.csv
 experiments/test/wildfire_tests/results/**/all_physics_aware_evaluations.csv
 experiments/test/wildfire_tests/results/**/continuous_objective_call_trace.csv
 experiments/test/wildfire_tests/results/**/masking_clamping_audit.csv
 experiments/test/wildfire_tests/results/**/rho_rescored_objectives.csv
 experiments/test/wildfire_tests/results/**/stage_e_load_shedding_provenance.csv
+experiments/test/wildfire_tests/**/all_evaluated_proxy_inner_points.csv
+experiments/test/wildfire_tests/**/all_physics_aware_evaluations.csv
+experiments/test/wildfire_tests/**/continuous_objective_call_trace.csv
+experiments/test/wildfire_tests/**/controlled_state_consistency.csv
+experiments/test/wildfire_tests/**/load_shedding_provenance.csv
+experiments/test/wildfire_tests/**/masking_clamping_audit.csv
+experiments/test/wildfire_tests/**/rho_rescored_objectives.csv
+experiments/test/wildfire_tests/**/stage_e_masking_clamping_audit.csv
+experiments/test/wildfire_tests/**/stage_e_continuous_objective_call_trace.csv
+experiments/test/wildfire_tests/**/stage_e_load_shedding_provenance.csv
+experiments/test/wildfire_tests/**/stage_e_wildfire_risk_provenance.csv
+experiments/test/wildfire_tests/**/stage_i_a_dc_recourse_results.csv
+experiments/test/wildfire_tests/**/topology_metric_pool.csv
+experiments/test/wildfire_tests/**/wildfire_risk_provenance.csv

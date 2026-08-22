@@ -50,7 +50,7 @@ from experiments.test.wildfire_tests.stage_i_dc_comparison.dc_formulation import
 )
 
 
-RESULT_ROOT = RESULTS_ROOT / "leq" / "stage_h" / "DC Approximation + Baseline Heuristic Comparison"
+RESULT_ROOT = RESULTS_ROOT / "leq" / "stage_i" / "DC Approximation + Baseline Heuristic Comparison"
 MAIN_RESULTS = RESULT_ROOT / "main_results"
 MLD_RESULTS = RESULT_ROOT / "MLD"
 DEFAULT_LAMBDAS = [0.0, 0.2, 0.5, 0.8, 1.0]
@@ -106,7 +106,7 @@ def _make_short_run_dir(output_root: Path) -> Path:
 
 def _savefig(fig, path: Path, **kwargs) -> None:
     _mkdir(Path(path).parent)
-    staging_dir = REPO_ROOT / "tmp" / "stage_h_plot_staging"
+    staging_dir = REPO_ROOT / "tmp" / "stage_i_plot_staging"
     _mkdir(staging_dir)
     suffix = Path(path).suffix or ".png"
     handle = tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir=str(staging_dir))
@@ -387,7 +387,7 @@ def run_stage_h_dc_comparison(
         inputs_dir / "metadata.json",
         {
             **git_metadata(),
-            "study": "stage_h_dc_approximation_baseline_heuristic_comparison",
+            "study": "stage_i_dc_approximation_baseline_heuristic_comparison",
             "scenario_ids": list(scenario_ids),
             "lambda_values": [float(v) for v in lambda_values],
             "proxy_lambda_values": None if proxy_lambda_values is None else [float(v) for v in proxy_lambda_values],
@@ -406,7 +406,7 @@ def run_stage_h_dc_comparison(
         stage_e_best = _load_stage_e_best(stage_e_run, scenario_ids, lambda_values, rho_values, proxy_lambda_values=proxy_lambda_values)
         write_json(inputs_dir / "stage_e_reference_run.json", {"path": str(stage_e_run), "source": "provided"})
     elif not skip_gridfm:
-        stage_e_root = REPO_ROOT / "tmp" / "stage_h_dc_stage_e_reference" / ("smoke" if smoke else "full")
+        stage_e_root = REPO_ROOT / "tmp" / "stage_i_dc_stage_e_reference" / ("smoke" if smoke else "full")
         stage_e_run = run_revised_continuous_implementation(
             models=["gnn"],
             scenario_ids=list(scenario_ids),
@@ -542,7 +542,7 @@ def run_mld_substudy(
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run Stage H DC approximation + baseline heuristic comparison.")
+    parser = argparse.ArgumentParser(description="Run Stage I DC approximation + baseline heuristic comparison.")
     parser.add_argument("--smoke", action="store_true")
     parser.add_argument("--skip-gridfm", action="store_true")
     parser.add_argument("--scenario-id", action="append", dest="scenario_ids")

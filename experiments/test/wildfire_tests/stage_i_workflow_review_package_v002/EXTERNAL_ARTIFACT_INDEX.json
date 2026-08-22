@@ -1,0 +1,90 @@
+[
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/all_evaluated_stage_h_points.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/main_results_r11__all_evaluated_stage_h_points.json",
+    "original_manifest_sha256": "75fe63ff4ecbb9d5669bcda25bb00be4edb405db4efc8e3f918e9ac0dbf9844d",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/main_results_r11__all_evaluated_stage_h_points.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/all_evaluated_stage_h_points_with_miqp_pool.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/main_results_r11__all_evaluated_stage_h_points_with_miqp_pool.json",
+    "original_manifest_sha256": "0054614b0f6d69804f45c4ae23a7f93d6c01271ba781550268a029f7103d4e88",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/main_results_r11__all_evaluated_stage_h_points_with_miqp_pool.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/main_results/r11/tables/dc_recourse_results.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/main_results_r11__dc_recourse_results.json",
+    "original_manifest_sha256": "1c26502c27a2f26d256aaeb13b7f30d15b46983c6aebbbc63153e5bfc551a50d",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/main_results_r11__dc_recourse_results.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/all_evaluated_proxy_inner_points.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__all_evaluated_proxy_inner_points.json",
+    "original_manifest_sha256": "d32943fd7a6cb10abb016da6226be686a1f11fafec8a49e501988e5ba50cf56d",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__all_evaluated_proxy_inner_points.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_continuous_objective_call_trace.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_continuous_objective_call_trace.json",
+    "original_manifest_sha256": "5e262c8ced8cf2a399119638b61cb3954cf540552598b1faa1d629276362791b",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_continuous_objective_call_trace.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_continuous_recourse_results.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_continuous_recourse_results.json",
+    "original_manifest_sha256": "4cba459a76fd407521c9077017707cf5d84b61a009e1ec8ea44df25195da763e",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_continuous_recourse_results.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_controlled_state_consistency.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_controlled_state_consistency.json",
+    "original_manifest_sha256": "602e237d2096f29dbed1263036fe01de23e04efa69645dedc49c6784dae87e37",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_controlled_state_consistency.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_load_shedding_provenance.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_load_shedding_provenance.json",
+    "original_manifest_sha256": "22d33327de7644f204c4bf9da696448bb914d37e21ed52b6611a11e5f662dc67",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_load_shedding_provenance.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_masking_clamping_audit.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_masking_clamping_audit.json",
+    "original_manifest_sha256": "09363d22c4962aa9a3618bd1e84b17a73b151bd60cd61782ea03378715170387",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_masking_clamping_audit.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_e_wildfire_risk_provenance.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_wildfire_risk_provenance.json",
+    "original_manifest_sha256": "c079fb564474fa2216f6f5b4fe5f8c97263a3ef24b90ae6f2bfb133e71fab5f4",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_e_wildfire_risk_provenance.json; full CSV not duplicated."
+  },
+  {
+    "original_path": "experiments/test/wildfire_tests/results/leq/stage_h/DC Approximation + Baseline Heuristic Comparison/proxy_inner_lambda_sweep/r2/tables/stage_i_a_dc_recourse_results.csv",
+    "summary_package_path": "",
+    "original_manifest_package_path": "experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_i_a_dc_recourse_results.json",
+    "original_manifest_sha256": "d84c6add5c62dbdb58c38c9267f2ba9d65bfcb138f1c889edb329a25e7b8f18c",
+    "status": "indexed_not_copied",
+    "notes": "Summary copied to experiments/test/wildfire_tests/stage_i_workflow_review_package/05_results/large_artifact_summaries/proxy_inner_lambda_sweep_r2__stage_i_a_dc_recourse_results.json; full CSV not duplicated."
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p2\\finalists.json",
+  "j8_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p2\\main",
+  "methods": [
+    "Guided-DC",
+    "Guided-GridSFM",
+    "TH-GridSFM-top1",
+    "TH-GridSFM-top2"
+  ],
+  "notes": [
+    "Iteration count is recorded as N/A because the current PowerModels/IPOPT wrapper does not expose a reliable structured iteration field.",
+    "Warm-start timings include solver-reported runtime, Julia subprocess wall time, and measured regenerated-start construction time; GridSFM construction is not yet split into preprocessing and inference subcomponents."
+  ],
+  "output_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s1_l0p2\\refs",
+  "reference_a_rows": 4,
+  "reference_b_requested": true,
+  "reference_b_rows": 8,
+  "reference_b_service_tolerance_pd_units": 1e-05,
+  "reference_b_service_verification_tolerance_pd_units": 1e-05,
+  "scope": "explicit finalist manifest",
+  "state_fidelity_rows": 32,
+  "status": "PASS_WITH_LIMITATIONS",
+  "warm_start_rows": 16
+}
