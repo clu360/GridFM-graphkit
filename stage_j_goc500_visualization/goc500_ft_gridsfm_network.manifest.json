@@ -1,0 +1,29 @@
+{
+  "branch_state_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\model_state\\gridsfm_finalist_branch_state.csv",
+  "bus_state_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\model_state\\gridsfm_finalist_bus_state.csv",
+  "case_json": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\samples\\case500_goc.pyg.json",
+  "checkpoint_label": "Fine-tuned GridSFM FullTop n=1000",
+  "lambda_r": "0.8",
+  "layout": "networkx.spring_layout",
+  "layout_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\goc500_ft_gridsfm_network.layout.csv",
+  "layout_seed": 42,
+  "max_predicted_loading": 1.2426103498847612,
+  "max_predicted_vm": 1.100000023841858,
+  "min_predicted_vm": 0.9735886454582214,
+  "num_branches": 728,
+  "num_buses": 500,
+  "num_predicted_loading_gt_1": 3,
+  "offline_branch_ids": [
+    276,
+    473
+  ],
+  "output_png": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\goc500_ft_gridsfm_network.png",
+  "scenario_id": "J-S1",
+  "selected_alpha": {
+    "156": 1.0,
+    "157": 0.00068369,
+    "158": 1.0,
+    "262": 1.0,
+    "276": 1.0
+  }
+}

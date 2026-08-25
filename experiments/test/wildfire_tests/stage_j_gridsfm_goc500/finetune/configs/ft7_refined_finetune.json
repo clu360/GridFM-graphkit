@@ -1,0 +1,41 @@
+{
+  "analysis_python": "C:/Users/Caleb Lu/anaconda3/python.exe",
+  "approval_path": "experiments/test/wildfire_tests/workflow/cases/CASE-003-stage-j-gridsfm-goc500-implementation/FT7_APPROVAL.json",
+  "artifact_id": "STAGE-J-GRIDSFM-FT7-REFINED-FINETUNE",
+  "expected_gridsfm_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+  "frozen_cache_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/stage_j/complete_run_v001",
+  "frozen_result_root": "experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run",
+  "gridsfm_python": "C:/Users/Caleb Lu/.gridfm_stage_j/envs/gridsfm/Scripts/python.exe",
+  "gridsfm_root": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM",
+  "m1_cache_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/stage_j/ft3_fulltop_ft_n1000_v002",
+  "m1_result_root": "experiments/test/wildfire_tests/goc_500_results/stage_j/fulltop_ft_n1000_complete_run",
+  "models": {
+    "m2": {
+      "cache_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/stage_j/ft7_refined_finetune/m2",
+      "checkpoint": "C:/Users/Caleb Lu/.gridfm_stage_j/checkpoints/stage_j_finetune/gridsfm_goc500_ft1000_plus_fulltop500.pt",
+      "expected_checkpoint_sha256": "08EDA70270F787DB42C48B751BECC9DA2062B0482550A5C2A761B4EBA0C94FF6",
+      "expected_model_variant": "fulltop_ft_n1000_then_fulltop_n500",
+      "run_id": "stage_j_ft7_m2_fulltop1500",
+      "training_manifest": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft6/m2/m2_manifest.json",
+      "working_result_root": "C:/Users/Caleb Lu/.gridfm_stage_j/results/stage_j/refined_finetune_study/model_runs/m2"
+    },
+    "m3": {
+      "cache_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/stage_j/ft7_refined_finetune/m3",
+      "checkpoint": "C:/Users/Caleb Lu/.gridfm_stage_j/checkpoints/stage_j_finetune/gridsfm_goc500_ft1000_plus_n1_500.pt",
+      "expected_checkpoint_sha256": "4EC89D36DE80081BE2FC26C14A1BC5A5369D7423B557D71B9DD4A254462F302D",
+      "expected_model_variant": "fulltop_ft_n1000_then_n1_n500",
+      "run_id": "stage_j_ft7_m3_fulltop1000_n1_500",
+      "training_manifest": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft6/m3/m3_manifest.json",
+      "working_result_root": "C:/Users/Caleb Lu/.gridfm_stage_j/results/stage_j/refined_finetune_study/model_runs/m3"
+    }
+  },
+  "publication_root": "experiments/test/wildfire_tests/goc_500_results/stage_j/refined_finetune_study",
+  "settings": {
+    "continuous_eval_budget": 20,
+    "lambdas": [0.0, 0.2, 0.5, 0.8, 1.0],
+    "q": 5,
+    "scenarios": ["J-S1", "J-S2", "J-S3"],
+    "topology_budget": 100
+  },
+  "working_root": "C:/Users/Caleb Lu/.gridfm_stage_j/results/stage_j/refined_finetune_study"
+}

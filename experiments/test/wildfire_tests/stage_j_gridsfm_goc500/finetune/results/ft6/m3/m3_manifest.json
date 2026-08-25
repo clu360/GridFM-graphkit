@@ -1,0 +1,415 @@
+{
+  "artifact_id": "STAGE-J-GRIDSFM-FT6-M3-N1-500",
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_ft1000_plus_n1_500.pt",
+  "checkpoint_sha256": "4EC89D36DE80081BE2FC26C14A1BC5A5369D7423B557D71B9DD4A254462F302D",
+  "checks": {
+    "both_validation_strata_recorded_each_epoch": true,
+    "checkpoint_saved": true,
+    "environment_and_private_sources_frozen": true,
+    "finite_training_loss_and_no_skipped_batches": true,
+    "fresh_optimizer_recorded": true,
+    "fresh_process_reload_passed": true,
+    "fresh_validation_metrics_finite": true,
+    "official_opfdata_training_path": true,
+    "parent_child_output_schemas_identical": true,
+    "parent_m1_path_and_sha_verified": true,
+    "preflight_passed": true,
+    "train_graph_count_500": true,
+    "updated_parameters_finite": true,
+    "weights_changed": true
+  },
+  "completed_utc": "2026-08-24T09:55:12.101555+00:00",
+  "config_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\configs\\ft6_m3_n1_500.json",
+  "config_sha256": "7C5F23DF8BB35F610CE26A741388D3B5470D49ED2195F0BB150BDF3DDFFA4C1F",
+  "environment_freeze": {
+    "environment": {
+      "cuda_available": false,
+      "device": "cpu",
+      "device_name": "CPU",
+      "dtype": "torch.float32",
+      "gridsfm_git_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+      "gridsfm_module": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\gridsfm\\__init__.py",
+      "gridsfm_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM",
+      "gridsfm_version": "1.1.0",
+      "platform": "win32",
+      "python_executable": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\envs\\gridsfm\\Scripts\\python.exe",
+      "python_version": "3.12.11 | packaged by conda-forge | (main, Jun  4 2025, 14:29:09) [MSC v.1943 64 bit (AMD64)]",
+      "torch_geometric_version": "2.8.0.post1",
+      "torch_version": "2.8.0+cpu"
+    },
+    "pip_freeze": [
+      "aiohappyeyeballs==2.7.1",
+      "aiohttp==3.14.3",
+      "aiosignal==1.4.0",
+      "attrs==26.1.0",
+      "certifi==2026.7.22",
+      "charset-normalizer==3.5.0",
+      "colorama==0.4.6",
+      "filelock==3.32.2",
+      "frozenlist==1.8.0",
+      "fsspec==2026.7.0",
+      "-e git+https://github.com/microsoft/GridSFM.git@1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6#egg=gridsfm&subdirectory=model",
+      "gurobipy==12.0.0",
+      "huggingface_hub==0.36.2",
+      "idna==3.18",
+      "iniconfig==2.3.0",
+      "Jinja2==3.1.6",
+      "MarkupSafe==3.0.3",
+      "mpmath==1.3.0",
+      "multidict==6.7.1",
+      "networkx==3.6.1",
+      "numpy==2.5.2",
+      "packaging==26.3",
+      "pluggy==1.6.0",
+      "propcache==0.5.2",
+      "psutil==7.2.2",
+      "Pygments==2.20.0",
+      "pyparsing==3.3.2",
+      "pytest==8.4.2",
+      "PyYAML==6.0.3",
+      "requests==2.34.2",
+      "scipy==1.18.0",
+      "setuptools==84.0.0",
+      "sympy==1.14.0",
+      "torch==2.8.0",
+      "torch-geometric==2.8.0.post1",
+      "tqdm==4.70.0",
+      "typing_extensions==4.16.0",
+      "urllib3==2.7.0",
+      "xxhash==4.0.0",
+      "yarl==1.24.5"
+    ],
+    "private_api_dependencies": [
+      "gridsfm.checkpoint._hash_state_dict",
+      "gridsfm.loss._predicted_flows"
+    ],
+    "source_sha256": {
+      "checkpoint.py": "C05AB84B1A221E5B9FD033CDAAA1194E9D2856865BA12A53FDAF79B709779039",
+      "finetune_opfdata.py": "7C01551BA89A540E526F170C19BA01830406225AF603B61947F30BC3DD0A4CE2",
+      "loss.py": "FE1B13BDC232B08629BDC7F5090308D6341C64BF88D439587BB3EF72A36C268B",
+      "opfdata_train.py": "DA8104E40A80FE6E223615658BB4BECE905A7C073CF9B922A636CDE05467B62E"
+    }
+  },
+  "fine_tuned_checkpoint": {
+    "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_ft1000_plus_n1_500.pt",
+    "sha256": "4EC89D36DE80081BE2FC26C14A1BC5A5369D7423B557D71B9DD4A254462F302D",
+    "size_bytes": 61007856
+  },
+  "fresh_reload_validation": {
+    "fulltop": {
+      "metrics": {
+        "V_mae": 0.0015179298299153646,
+        "brP_mae": 0.036245873989682514,
+        "brQ_mae": 0.025003508600893783,
+        "cost_mape": 0.0056331797391176225,
+        "feas_acc": 1.0,
+        "kcl_P_resid": 0.00024042545731862386,
+        "kcl_Q_resid": 0.0004846843433380127,
+        "loss": 0.04082048288051118,
+        "n_graphs": 375,
+        "pg_mae": 0.005138420766789546,
+        "qg_mae": 0.020054146036069993,
+        "thermal_frac_overload": 0.00030165912518853697,
+        "thermal_max_loading": 0.988867177327474,
+        "theta_mae": 0.007746011159261068
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1368,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 68.8145927998703
+    },
+    "n1": {
+      "metrics": {
+        "V_mae": 0.0020342518768310548,
+        "brP_mae": 0.03971953496638173,
+        "brQ_mae": 0.029406120047004353,
+        "cost_mape": 0.007403034453590711,
+        "feas_acc": 0.992,
+        "kcl_P_resid": 0.0002612003450393677,
+        "kcl_Q_resid": 0.0005642975184122722,
+        "loss": 0.0746160182071493,
+        "n_graphs": 375,
+        "pg_mae": 0.007230613283440401,
+        "qg_mae": 0.02456376402907984,
+        "thermal_frac_overload": 0.0007204060031150517,
+        "thermal_max_loading": 1.0005058352152507,
+        "theta_mae": 0.009409765441894532
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1364,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 69.23175040003844
+    }
+  },
+  "model_id": "m3",
+  "model_variant": "fulltop_ft_n1000_then_n1_n500",
+  "parameter_change": {
+    "all_updated_parameters_finite": true,
+    "at_least_one_tensor_changed": true,
+    "changed_parameter_tensor_fraction": 1.0,
+    "changed_parameter_tensors": 1221,
+    "floating_parameter_tensors": 1221,
+    "max_absolute_parameter_change": 0.0507243275642395,
+    "parameter_l2_change": 6.24025943153139
+  },
+  "parent_checkpoint": {
+    "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+    "sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD"
+  },
+  "parent_validation": {
+    "fulltop": {
+      "metrics": {
+        "V_mae": 0.0014941973368326822,
+        "brP_mae": 0.04081395632828702,
+        "brQ_mae": 0.022659524955001533,
+        "cost_mape": 0.007588306943575541,
+        "feas_acc": 1.0,
+        "kcl_P_resid": 0.0002647473570505778,
+        "kcl_Q_resid": 0.00046435651715596516,
+        "loss": 0.04135121595352254,
+        "n_graphs": 375,
+        "pg_mae": 0.005587739494576556,
+        "qg_mae": 0.018938725224247686,
+        "thermal_frac_overload": 0.0003338360985419809,
+        "thermal_max_loading": 0.9843119265238444,
+        "theta_mae": 0.00968039980061849
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1368,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 68.56120099988766
+    },
+    "n1": {
+      "metrics": {
+        "V_mae": 0.0021374369786580404,
+        "brP_mae": 0.04619904934219778,
+        "brQ_mae": 0.029651865457576036,
+        "cost_mape": 0.010790472110112508,
+        "feas_acc": 0.9733333333333334,
+        "kcl_P_resid": 0.00030163581466674804,
+        "kcl_Q_resid": 0.0006080088507334391,
+        "loss": 0.0958908201056592,
+        "n_graphs": 375,
+        "pg_mae": 0.008857052824766875,
+        "qg_mae": 0.025938957647946896,
+        "thermal_frac_overload": 0.0005916183377537017,
+        "thermal_max_loading": 0.996576052347819,
+        "theta_mae": 0.011221301625569662
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1364,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 68.77643309999257
+    }
+  },
+  "per_epoch_metrics_artifacts": {
+    "csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\results\\ft6\\m3\\m3_training_log.csv",
+    "json": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\results\\ft6\\m3\\m3_training_log.json"
+  },
+  "preflight_manifest": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\results\\ft6\\ft6_preflight_manifest.json",
+  "preflight_sha256": "5CF0F888698226515210C88BCB0C8013260761C70B77C2A7190656894CEED7E3",
+  "status": "FT6_P2B_M3_TRAINING_PASS",
+  "training": {
+    "api": "gridsfm.finetune_opfdata",
+    "batch_size": 8,
+    "epochs": 10,
+    "infeas_prob": 0.3,
+    "learning_rate": 0.0001,
+    "optimizer": "fresh AdamW",
+    "runtime_seconds": 4524.674026200082,
+    "seed": 42,
+    "train_spec": {
+      "count": 500,
+      "index_start": 0,
+      "split": "train",
+      "variant": "n1"
+    },
+    "validation_specs": [
+      {
+        "count": 375,
+        "index_start": 0,
+        "split": "val",
+        "variant": "fulltop"
+      },
+      {
+        "count": 375,
+        "index_start": 0,
+        "split": "val",
+        "variant": "n1"
+      }
+    ],
+    "weight_decay": 0.0001
+  }
+}

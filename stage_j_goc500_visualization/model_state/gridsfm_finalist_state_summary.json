@@ -1,0 +1,20 @@
+{
+  "branch_state_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\model_state\\gridsfm_finalist_branch_state.csv",
+  "bus_state_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\model_state\\gridsfm_finalist_bus_state.csv",
+  "evaluation_status": "model_output_penalized",
+  "gen_dispatch_csv": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\stage_j_goc500_visualization\\model_state\\gridsfm_finalist_gen_dispatch.csv",
+  "j_total": 0.33746174544859914,
+  "j_trade": 0.337209872342182,
+  "l_shed_total": 0.009290030632396907,
+  "lambda_r": 0.8,
+  "max_loading": 1.2426103498847612,
+  "message": "GridSFM candidate evaluated through official preprocessing/predict path.",
+  "num_loading_gt_1": 3,
+  "pac_total": 0.00012593655320854353,
+  "r_norm": 0.41918983276962823,
+  "scenario_id": "J-S1",
+  "topology_ids": [
+    276,
+    473
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "checkpoint_paths": {
+    "fine_tuned": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+    "frozen": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt"
+  },
+  "checkpoint_sha256": {
+    "fine_tuned": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+    "frozen": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831"
+  },
+  "phase": "COMPLETE",
+  "runtime_seconds": 1031.3577910999302,
+  "status": "FT2_EVALUATED_READY_FOR_REVIEW"
+}

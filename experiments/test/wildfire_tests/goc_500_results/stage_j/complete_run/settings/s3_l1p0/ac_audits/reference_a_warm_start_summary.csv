@@ -1,113 +1,141 @@
-method,warm_start_type,same_reference_a_instance,status,solver_runtime_seconds,wall_seconds,start_construction_seconds,end_to_end_seconds,iteration_count,start_payload,objective,stdout,stderr
-Guided-DC,cold_start,True,LOCALLY_SOLVED,6.651000022888184,12.035086631774902,0.0,12.035086631774902,,none,470318.07563200075,"******************************************************************************
+method,warm_start_type,same_reference_a_instance,status,solver_runtime_seconds,wall_seconds,start_construction_seconds,end_to_end_seconds,iteration_count,start_payload,objective,solver_start_source,start_bus_count,start_gen_count,start_vm_min,start_vm_max,start_va_abs_max,start_pg_midpoint_max_abs_error,start_qg_abs_max,stdout,stderr,model_selection,model_variant,checkpoint_path,checkpoint_sha256
+Guided-DC,cold_start,True,LOCALLY_SOLVED,7.921000003814697,14.791173696517944,0.0,14.791173696517944,,"V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0",470318.0756449222,explicit_generic_V1_theta0_Pg_midpoint_Qg0,500,224,1.0,1.0,0.0,0.0,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-DC,dc_partial_warm,True,LOCALLY_SOLVED,6.560999870300293,11.943998575210571,0.14343910000752658,12.087437675218098,,"Pg,theta",470318.0756373225,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-DC,dc_partial_warm,True,LOCALLY_SOLVED,7.2790000438690186,14.049471855163574,0.05768329999409616,14.10715515515767,,"Pg,theta",470318.0756373225,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.3947096058378852,3.5821149999883737,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-DC,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.523000001907349,11.900981426239014,0.3395621000090614,12.240543526248075,,"Pg,theta",470318.0756373237,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-DC,gridsfm_partial_warm,True,LOCALLY_SOLVED,7.58899998664856,14.186809539794922,0.44876640010625124,14.635575939901173,,"Pg,theta",470318.0756373227,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.6950438618659973,3.5821153414917006,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-DC,gt_warm,True,LOCALLY_SOLVED,6.572999954223633,11.95798945426941,0.0,11.95798945426941,,"exact_Pg,Qg,V,theta",470318.07563732576,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-DC,gridsfm_full_warm,True,LOCALLY_SOLVED,7.333000183105469,14.2550208568573,0.44876640010625124,14.703787256963551,,"Pg,Qg,V,theta",470318.0756373231,csv_start_values_over_explicit_generic,500,224,0.9706814289093018,1.100000023841858,0.6950438618659973,3.5821153414917006,3.3882412910461426,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-GridSFM,cold_start,True,LOCALLY_SOLVED,6.66700005531311,12.08529543876648,0.0,12.08529543876648,,none,443811.9296667601,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-DC,gt_warm,True,LOCALLY_SOLVED,7.689000129699707,14.240474700927734,0.0,14.240474700927734,,"exact_Pg,Qg,V,theta",470318.07563732576,csv_start_values_over_explicit_generic,500,224,0.9585897641805055,1.1000000109927301,0.43350473006587614,3.58211511645081,1.9557281844378127,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-GridSFM,dc_partial_warm,True,LOCALLY_SOLVED,6.555999994277954,11.97553014755249,0.05537090008147061,12.03090104763396,,"Pg,theta",443811.9296716196,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-GridSFM,cold_start,True,LOCALLY_SOLVED,7.2149999141693115,13.721526622772217,0.0,13.721526622772217,,"V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0",443811.9296785303,explicit_generic_V1_theta0_Pg_midpoint_Qg0,500,224,1.0,1.0,0.0,0.0,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-GridSFM,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.3999998569488525,11.9547598361969,0.3335136000532657,12.288273436250165,,"Pg,theta",443811.92967161955,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-GridSFM,dc_partial_warm,True,LOCALLY_SOLVED,7.023999929428101,13.862739562988281,0.05836409982293844,13.92110366281122,,"Pg,theta",443811.9296716196,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.5366288654988893,3.582114999998314,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-Guided-GridSFM,gt_warm,True,LOCALLY_SOLVED,6.547000169754028,11.952028512954712,0.0,11.952028512954712,,"exact_Pg,Qg,V,theta",443811.9296716181,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-GridSFM,gridsfm_partial_warm,True,LOCALLY_SOLVED,7.052000045776367,13.813849449157715,0.3757805998902768,14.189630049047992,,"Pg,theta",443811.9296716172,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.6890496611595154,3.5821153414917006,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top1,cold_start,True,LOCALLY_SOLVED,6.667999982833862,12.08186411857605,0.0,12.08186411857605,,none,455763.05675786966,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-GridSFM,gridsfm_full_warm,True,LOCALLY_SOLVED,7.2230000495910645,13.67922067642212,0.3757805998902768,14.055001276312396,,"Pg,Qg,V,theta",443811.92967161874,csv_start_values_over_explicit_generic,500,224,0.9739439487457275,1.100000023841858,0.6890496611595154,3.5821153414917006,2.1969847679138184,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top1,dc_partial_warm,True,LOCALLY_SOLVED,6.628999948501587,12.070210695266724,0.05647559999488294,12.126686295261607,,"Pg,theta",455763.0567628172,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+Guided-GridSFM,gt_warm,True,LOCALLY_SOLVED,7.477999925613403,13.95534896850586,0.0,13.95534896850586,,"exact_Pg,Qg,V,theta",443811.9296716181,csv_start_values_over_explicit_generic,500,224,0.9775072853794724,1.1000000109890973,0.6683232647984948,3.5821151164477776,1.9094906147488795,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top1,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.569000005722046,11.976493835449219,0.31480729999020696,12.291301135439426,,"Pg,theta",455763.0567628158,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top1,cold_start,True,LOCALLY_SOLVED,7.069000005722046,13.49376654624939,0.0,13.49376654624939,,"V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0",455763.05676981166,explicit_generic_V1_theta0_Pg_midpoint_Qg0,500,224,1.0,1.0,0.0,0.0,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top1,gt_warm,True,LOCALLY_SOLVED,6.573000192642212,11.976485252380371,0.0,11.976485252380371,,"exact_Pg,Qg,V,theta",455763.0567628155,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top1,dc_partial_warm,True,LOCALLY_SOLVED,7.081000089645386,13.539279222488403,0.05690250010229647,13.5961817225907,,"Pg,theta",455763.0567628172,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.545306814558362,3.582114999997218,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top2,cold_start,True,LOCALLY_SOLVED,6.7170000076293945,12.225291728973389,0.0,12.225291728973389,,none,457668.7196369036,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top1,gridsfm_partial_warm,True,LOCALLY_SOLVED,7.059999942779541,13.453487157821655,0.4060086999088526,13.859495857730508,,"Pg,theta",455763.056762815,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.7330724596977234,3.5821153414917006,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top2,dc_partial_warm,True,LOCALLY_SOLVED,6.347999811172485,11.894104480743408,0.05860770004801452,11.952712180791423,,"Pg,theta",457668.719641795,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top1,gridsfm_full_warm,True,LOCALLY_SOLVED,7.726999998092651,14.424054384231567,0.4060086999088526,14.83006308414042,,"Pg,Qg,V,theta",455763.0567628147,csv_start_values_over_explicit_generic,500,224,0.9750404357910156,1.100000023841858,0.7330724596977234,3.5821153414917006,2.0073914527893066,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top2,gridsfm_partial_warm,True,LOCALLY_SOLVED,6.5350000858306885,11.956773042678833,0.31861999991815537,12.275393042596988,,"Pg,theta",457668.7196417937,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top1,gt_warm,True,LOCALLY_SOLVED,7.752000093460083,15.029314041137695,0.0,15.029314041137695,,"exact_Pg,Qg,V,theta",455763.0567628155,csv_start_values_over_explicit_generic,500,224,0.9776770322569016,1.100000010991423,0.665047245554508,3.582115116449204,1.9113583885198349,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
-TH-GridSFM-top2,gt_warm,True,LOCALLY_SOLVED,6.509999990463257,11.937401056289673,0.0,11.937401056289673,,"exact_Pg,Qg,V,theta",457668.7196417955,"******************************************************************************
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top2,cold_start,True,LOCALLY_SOLVED,7.615000009536743,14.889699459075928,0.0,14.889699459075928,,"V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0",457668.7196487774,explicit_generic_V1_theta0_Pg_midpoint_Qg0,500,224,1.0,1.0,0.0,0.0,0.0,"******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-reference_a_status LOCALLY_SOLVED",
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top2,dc_partial_warm,True,LOCALLY_SOLVED,7.414999961853027,14.017736434936523,0.060466299997642636,14.078202734934166,,"Pg,theta",457668.719641795,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.5668593242738877,3.582114999999895,0.0,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top2,gridsfm_partial_warm,True,LOCALLY_SOLVED,7.329999923706055,13.865156412124634,0.3988318999763578,14.263988312100992,,"Pg,theta",457668.71964179433,csv_start_values_over_explicit_generic,500,224,1.0,1.0,0.7322054505348206,3.5821153414917006,0.0,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top2,gridsfm_full_warm,True,LOCALLY_SOLVED,7.116999864578247,13.865350723266602,0.3988318999763578,14.26418262324296,,"Pg,Qg,V,theta",457668.71964179515,csv_start_values_over_explicit_generic,500,224,0.9739606380462646,1.100000023841858,0.7322054505348206,3.5821153414917006,1.9755825996398926,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831
+TH-GridSFM-top2,gt_warm,True,LOCALLY_SOLVED,6.997999906539917,13.46487021446228,0.0,13.46487021446228,,"exact_Pg,Qg,V,theta",457668.7196417955,csv_start_values_over_explicit_generic,500,224,0.9775458389036924,1.100000010992904,0.6430424520824316,3.5821151164495806,1.9148091654957216,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,frozen,released_v1_1,C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM\model\checkpoints\gridsfm_open_v1.1.pt,F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831

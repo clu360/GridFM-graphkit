@@ -1,0 +1,22 @@
+{
+  "approval": "EXPLICIT",
+  "approved_scope": "FT7 refined fine-tuning Stage J OPS application",
+  "approved_utc_date": "2026-08-24",
+  "artifact_id": "STAGE-J-GRIDSFM-FT7-APPROVAL",
+  "comparison_methods": [
+    "Guided-DC",
+    "Guided-GridSFM released v1.1",
+    "Guided-GridSFM FullTop-1000",
+    "Guided-GridSFM sequential FullTop-1500",
+    "Guided-GridSFM FullTop-1000 + N-1-500"
+  ],
+  "conditions": [
+    "Preserve the existing Stage J OPS settings and workflow methodology.",
+    "Run only M2 and M3; reuse verified DC, M0, and M1 evidence.",
+    "Exclude TH from every new FT7 comparison and warm-start summary.",
+    "Derive risk/load Pareto fronts from all eligible evaluated candidates.",
+    "Use the corrected native-IPOPT seven-start crossed warm-start methodology.",
+    "Publish under goc_500_results/stage_j/refined_finetune_study."
+  ],
+  "source": "Caleb explicit approval in the active Codex session"
+}

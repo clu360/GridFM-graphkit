@@ -1,0 +1,19 @@
+{
+  "pass_checks": {
+    "checkpoint_saved": true,
+    "cycle_hodge_preparation_executed": true,
+    "finite_training_loss": true,
+    "fresh_process_reload_passed": true,
+    "frozen_ft0_predictions_differ": true,
+    "frozen_ft0_schema_identical": true,
+    "goc500_fulltop_train_samples_loaded": true,
+    "heldout_inference_passed": true,
+    "released_v1_1_loaded": true,
+    "stage_j_candidate_evaluated": true,
+    "stage_j_input_integrity": true,
+    "stage_j_methodology_unchanged": true,
+    "updated_parameters_finite": true,
+    "weights_changed": true
+  },
+  "status": "FT0_VALIDATED_READY_FOR_FT1"
+}

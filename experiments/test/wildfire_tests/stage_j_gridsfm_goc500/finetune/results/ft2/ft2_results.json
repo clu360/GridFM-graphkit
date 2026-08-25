@@ -1,0 +1,484 @@
+{
+  "fulltop": {
+    "comparison": {
+      "V_mae": {
+        "delta_fine_tuned_minus_frozen": -0.0007916832478841148,
+        "fine_tuned": 0.0015102961985270181,
+        "frozen": 0.002301979446411133,
+        "ratio_fine_tuned_over_frozen": 0.6560858746508893
+      },
+      "brP_mae": {
+        "delta_fine_tuned_minus_frozen": -0.034041777858667,
+        "fine_tuned": 0.04064456233527566,
+        "frozen": 0.07468634019394266,
+        "ratio_fine_tuned_over_frozen": 0.5442034276914814
+      },
+      "brQ_mae": {
+        "delta_fine_tuned_minus_frozen": -0.029463143380818624,
+        "fine_tuned": 0.02268987816167633,
+        "frozen": 0.05215302154249495,
+        "ratio_fine_tuned_over_frozen": 0.43506353976419804
+      },
+      "cost_mape": {
+        "delta_fine_tuned_minus_frozen": -0.0014218272964159652,
+        "fine_tuned": 0.007413356607158979,
+        "frozen": 0.008835183903574944,
+        "ratio_fine_tuned_over_frozen": 0.8390721334232039
+      },
+      "feas_acc": {
+        "delta_fine_tuned_minus_frozen": 0.0,
+        "fine_tuned": 1.0,
+        "frozen": 1.0,
+        "ratio_fine_tuned_over_frozen": 1.0
+      },
+      "kcl_P_resid": {
+        "delta_fine_tuned_minus_frozen": -0.0004017702751159668,
+        "fine_tuned": 0.00026431476402282713,
+        "frozen": 0.000666085039138794,
+        "ratio_fine_tuned_over_frozen": 0.3968183467452887
+      },
+      "kcl_Q_resid": {
+        "delta_fine_tuned_minus_frozen": -0.000897528115272522,
+        "fine_tuned": 0.0004669897680282593,
+        "frozen": 0.0013645178833007812,
+        "ratio_fine_tuned_over_frozen": 0.342237924283269
+      },
+      "loss": {
+        "delta_fine_tuned_minus_frozen": -0.05183306376033641,
+        "fine_tuned": 0.04151829514414706,
+        "frozen": 0.09335135890448347,
+        "ratio_fine_tuned_over_frozen": 0.4447529809033452
+      },
+      "n_graphs": {
+        "delta_fine_tuned_minus_frozen": 0.0,
+        "fine_tuned": 750,
+        "frozen": 750,
+        "ratio_fine_tuned_over_frozen": 1.0
+      },
+      "pg_mae": {
+        "delta_fine_tuned_minus_frozen": -0.003685849340338455,
+        "fine_tuned": 0.005497853808932834,
+        "frozen": 0.00918370314927129,
+        "ratio_fine_tuned_over_frozen": 0.5986532577949321
+      },
+      "qg_mae": {
+        "delta_fine_tuned_minus_frozen": -0.0300146862126698,
+        "fine_tuned": 0.018973219694914643,
+        "frozen": 0.04898790590758444,
+        "ratio_fine_tuned_over_frozen": 0.38730415892256287
+      },
+      "thermal_frac_overload": {
+        "delta_fine_tuned_minus_frozen": -0.0007078934137757667,
+        "fine_tuned": 0.0002634489693313223,
+        "frozen": 0.000971342383107089,
+        "ratio_fine_tuned_over_frozen": 0.27122153209109734
+      },
+      "thermal_max_loading": {
+        "delta_fine_tuned_minus_frozen": -0.03215901629130047,
+        "fine_tuned": 0.9835930906931559,
+        "frozen": 1.0157521069844564,
+        "ratio_fine_tuned_over_frozen": 0.9683397001392657
+      },
+      "theta_mae": {
+        "delta_fine_tuned_minus_frozen": -0.011005434773763019,
+        "fine_tuned": 0.009614470764160157,
+        "frozen": 0.020619905537923176,
+        "ratio_fine_tuned_over_frozen": 0.46627132924918924
+      }
+    },
+    "dataset": {
+      "case_name": "pglib_opf_case500_goc",
+      "indices": [
+        0,
+        749
+      ],
+      "n_graphs": 750,
+      "num_groups": 1,
+      "preparation_runtime_seconds": 0.0699394999537617,
+      "split": "test",
+      "variant": "fulltop"
+    },
+    "fine_tuned": {
+      "checkpoint": {
+        "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+        "sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+        "size_bytes": 61007770,
+        "source_manifest": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\results\\ft1\\ft1_manifest.json"
+      },
+      "metrics": {
+        "V_mae": 0.0015102961985270181,
+        "brP_mae": 0.04064456233527566,
+        "brQ_mae": 0.02268987816167633,
+        "cost_mape": 0.007413356607158979,
+        "feas_acc": 1.0,
+        "kcl_P_resid": 0.00026431476402282713,
+        "kcl_Q_resid": 0.0004669897680282593,
+        "loss": 0.04151829514414706,
+        "n_graphs": 750,
+        "pg_mae": 0.005497853808932834,
+        "qg_mae": 0.018973219694914643,
+        "thermal_frac_overload": 0.0002634489693313223,
+        "thermal_max_loading": 0.9835930906931559,
+        "theta_mae": 0.009614470764160157
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1368,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 138.43626710004173
+    },
+    "frozen": {
+      "checkpoint": {
+        "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt",
+        "sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+        "size_bytes": 61061952
+      },
+      "metrics": {
+        "V_mae": 0.002301979446411133,
+        "brP_mae": 0.07468634019394266,
+        "brQ_mae": 0.05215302154249495,
+        "cost_mape": 0.008835183903574944,
+        "feas_acc": 1.0,
+        "kcl_P_resid": 0.000666085039138794,
+        "kcl_Q_resid": 0.0013645178833007812,
+        "loss": 0.09335135890448347,
+        "n_graphs": 750,
+        "pg_mae": 0.00918370314927129,
+        "qg_mae": 0.04898790590758444,
+        "thermal_frac_overload": 0.000971342383107089,
+        "thermal_max_loading": 1.0157521069844564,
+        "theta_mae": 0.020619905537923176
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1368,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 136.60936309979297
+    }
+  },
+  "n1": {
+    "comparison": {
+      "V_mae": {
+        "delta_fine_tuned_minus_frozen": -0.0008038095397949218,
+        "fine_tuned": 0.0021863749821980794,
+        "frozen": 0.0029901845219930012,
+        "ratio_fine_tuned_over_frozen": 0.7311839674498847
+      },
+      "brP_mae": {
+        "delta_fine_tuned_minus_frozen": -0.03317606082446378,
+        "fine_tuned": 0.04393268881148285,
+        "frozen": 0.07710874963594663,
+        "ratio_fine_tuned_over_frozen": 0.5697497238497856
+      },
+      "brQ_mae": {
+        "delta_fine_tuned_minus_frozen": -0.029404721983049747,
+        "fine_tuned": 0.02919127908452978,
+        "frozen": 0.05859600106757953,
+        "ratio_fine_tuned_over_frozen": 0.49817869057076264
+      },
+      "cost_mape": {
+        "delta_fine_tuned_minus_frozen": -0.002865176960825921,
+        "fine_tuned": 0.008722545171777406,
+        "frozen": 0.011587722132603328,
+        "ratio_fine_tuned_over_frozen": 0.752740277335057
+      },
+      "feas_acc": {
+        "delta_fine_tuned_minus_frozen": -0.005333333333333412,
+        "fine_tuned": 0.9933333333333333,
+        "frozen": 0.9986666666666667,
+        "ratio_fine_tuned_over_frozen": 0.9946595460614152
+      },
+      "kcl_P_resid": {
+        "delta_fine_tuned_minus_frozen": -0.00038455403359731043,
+        "fine_tuned": 0.0002915210002263387,
+        "frozen": 0.0006760750338236491,
+        "ratio_fine_tuned_over_frozen": 0.43119622178265576
+      },
+      "kcl_Q_resid": {
+        "delta_fine_tuned_minus_frozen": -0.0009187100502649944,
+        "fine_tuned": 0.0005890386107762655,
+        "frozen": 0.0015077486610412599,
+        "ratio_fine_tuned_over_frozen": 0.3906742721757564
+      },
+      "loss": {
+        "delta_fine_tuned_minus_frozen": -0.05227710437425909,
+        "fine_tuned": 0.08531693277999441,
+        "frozen": 0.1375940371542535,
+        "ratio_fine_tuned_over_frozen": 0.6200627188832869
+      },
+      "n_graphs": {
+        "delta_fine_tuned_minus_frozen": 0.0,
+        "fine_tuned": 750,
+        "frozen": 750,
+        "ratio_fine_tuned_over_frozen": 1.0
+      },
+      "pg_mae": {
+        "delta_fine_tuned_minus_frozen": -0.0038519519850966034,
+        "fine_tuned": 0.007591223228112031,
+        "frozen": 0.011443175213208635,
+        "ratio_fine_tuned_over_frozen": 0.6633843392828268
+      },
+      "qg_mae": {
+        "delta_fine_tuned_minus_frozen": -0.02882962749061059,
+        "fine_tuned": 0.025751264283296015,
+        "frozen": 0.054580891773906605,
+        "ratio_fine_tuned_over_frozen": 0.47179999165214953
+      },
+      "thermal_frac_overload": {
+        "delta_fine_tuned_minus_frozen": -0.0007284860168920212,
+        "fine_tuned": 0.0004346767393609849,
+        "frozen": 0.001163162756253006,
+        "ratio_fine_tuned_over_frozen": 0.37370242214532867
+      },
+      "thermal_max_loading": {
+        "delta_fine_tuned_minus_frozen": -0.03132313219706229,
+        "fine_tuned": 0.9913714059193929,
+        "frozen": 1.0226945381164552,
+        "ratio_fine_tuned_over_frozen": 0.9693719570901869
+      },
+      "theta_mae": {
+        "delta_fine_tuned_minus_frozen": -0.010782686218261719,
+        "fine_tuned": 0.01035387201944987,
+        "frozen": 0.02113655823771159,
+        "ratio_fine_tuned_over_frozen": 0.4898561015944695
+      }
+    },
+    "dataset": {
+      "case_name": "pglib_opf_case500_goc",
+      "indices": [
+        0,
+        749
+      ],
+      "n_graphs": 750,
+      "num_groups": 1,
+      "preparation_runtime_seconds": 460.9083438999951,
+      "split": "test",
+      "variant": "n1"
+    },
+    "fine_tuned": {
+      "checkpoint": {
+        "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+        "sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+        "size_bytes": 61007770,
+        "source_manifest": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\results\\ft1\\ft1_manifest.json"
+      },
+      "metrics": {
+        "V_mae": 0.0021863749821980794,
+        "brP_mae": 0.04393268881148285,
+        "brQ_mae": 0.02919127908452978,
+        "cost_mape": 0.008722545171777406,
+        "feas_acc": 0.9933333333333333,
+        "kcl_P_resid": 0.0002915210002263387,
+        "kcl_Q_resid": 0.0005890386107762655,
+        "loss": 0.08531693277999441,
+        "n_graphs": 750,
+        "pg_mae": 0.007591223228112031,
+        "qg_mae": 0.025751264283296015,
+        "thermal_frac_overload": 0.0004346767393609849,
+        "thermal_max_loading": 0.9913714059193929,
+        "theta_mae": 0.01035387201944987
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1363,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 141.5003207998816
+    },
+    "frozen": {
+      "checkpoint": {
+        "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt",
+        "sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+        "size_bytes": 61061952
+      },
+      "metrics": {
+        "V_mae": 0.0029901845219930012,
+        "brP_mae": 0.07710874963594663,
+        "brQ_mae": 0.05859600106757953,
+        "cost_mape": 0.011587722132603328,
+        "feas_acc": 0.9986666666666667,
+        "kcl_P_resid": 0.0006760750338236491,
+        "kcl_Q_resid": 0.0015077486610412599,
+        "loss": 0.1375940371542535,
+        "n_graphs": 750,
+        "pg_mae": 0.011443175213208635,
+        "qg_mae": 0.054580891773906605,
+        "thermal_frac_overload": 0.001163162756253006,
+        "thermal_max_loading": 1.0226945381164552,
+        "theta_mae": 0.02113655823771159
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5821
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1363,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 145.4646298000589
+    }
+  }
+}

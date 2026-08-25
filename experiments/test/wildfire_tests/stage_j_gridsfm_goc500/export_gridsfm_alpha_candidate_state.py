@@ -43,6 +43,22 @@ def _line_ids(value: str) -> tuple[int, ...]:
     return tuple(sorted(int(part) for part in str(value).replace(",", ";").split(";") if part.strip()))
 
 
+def _best_alpha(summary: dict[str, object]) -> dict[int, float]:
+    raw = summary.get("best_alpha")
+    if raw is None:
+        best_topology = summary.get("best_topology")
+        if isinstance(best_topology, dict):
+            raw = best_topology.get("best_alpha_selected")
+    if isinstance(raw, str):
+        raw = json.loads(raw)
+    if not isinstance(raw, dict):
+        raise KeyError(
+            "alpha summary must contain best_alpha or "
+            "best_topology.best_alpha_selected"
+        )
+    return {int(k): float(v) for k, v in raw.items()}
+
+
 def _write_rows(path: Path, rows: list[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fields = list(rows[0].keys()) if rows else []
@@ -78,7 +94,11 @@ def main() -> int:
     raw_case = _load_json(model_root / "samples" / "case500_goc.pyg.json")
     identity = build_goc500_identity(raw_case)
     alpha_summary = _load_json(Path(args.alpha_summary_json).expanduser().resolve())
-    alpha_requested = {int(k): float(v) for k, v in alpha_summary["best_alpha"].items()}
+    selected_alpha = _best_alpha(alpha_summary)
+    alpha_requested = {
+        record.canonical_load_id: selected_alpha.get(record.canonical_load_id, 1.0)
+        for record in identity.loads
+    }
     freeze = _load_json(Path(args.pac_freeze_json).expanduser().resolve())
     frozen = freeze["frozen_weights"]
     weights = PacWeights(
@@ -152,6 +172,7 @@ def main() -> int:
         "j_total": None if obj is None else obj.j_total,
         "max_loading": max(result.flow_loading_by_line.values()) if result.flow_loading_by_line else None,
         "num_loading_gt_1": sum(1 for value in result.flow_loading_by_line.values() if value > 1.0),
+        "message": result.message,
         "branch_state_csv": str(output_dir / "gridsfm_finalist_branch_state.csv"),
         "bus_state_csv": str(output_dir / "gridsfm_finalist_bus_state.csv"),
         "gen_dispatch_csv": str(output_dir / "gridsfm_finalist_gen_dispatch.csv"),

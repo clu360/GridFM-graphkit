@@ -1,0 +1,132 @@
+{
+  "fulltop": {
+    "metrics": {
+      "V_mae": 0.0014941973368326822,
+      "brP_mae": 0.04081395632828702,
+      "brQ_mae": 0.022659524955001533,
+      "cost_mape": 0.007588306943575541,
+      "feas_acc": 1.0,
+      "kcl_P_resid": 0.0002647473570505778,
+      "kcl_Q_resid": 0.00046435651715596516,
+      "loss": 0.04135121595352254,
+      "n_graphs": 375,
+      "pg_mae": 0.005587739494576556,
+      "qg_mae": 0.018938725224247686,
+      "thermal_frac_overload": 0.0003338360985419809,
+      "thermal_max_loading": 0.9843119265238444,
+      "theta_mae": 0.00968039980061849
+    },
+    "output_signature": {
+      "Pij": {
+        "finite": true,
+        "shape": [
+          5824
+        ]
+      },
+      "Pji": {
+        "finite": true,
+        "shape": [
+          5824
+        ]
+      },
+      "Qij": {
+        "finite": true,
+        "shape": [
+          5824
+        ]
+      },
+      "Qji": {
+        "finite": true,
+        "shape": [
+          5824
+        ]
+      },
+      "bus.pred": {
+        "finite": true,
+        "shape": [
+          4000,
+          2
+        ]
+      },
+      "feas_logit": {
+        "finite": true,
+        "shape": [
+          8
+        ]
+      },
+      "generator.pred": {
+        "finite": true,
+        "shape": [
+          1368,
+          2
+        ]
+      }
+    },
+    "runtime_seconds": 68.88421709998511
+  },
+  "n1": {
+    "metrics": {
+      "V_mae": 0.0021374369786580404,
+      "brP_mae": 0.04619904934219778,
+      "brQ_mae": 0.029651865457576036,
+      "cost_mape": 0.010790472110112508,
+      "feas_acc": 0.9733333333333334,
+      "kcl_P_resid": 0.00030163581466674804,
+      "kcl_Q_resid": 0.0006080088507334391,
+      "loss": 0.0958908201056592,
+      "n_graphs": 375,
+      "pg_mae": 0.008857052824766875,
+      "qg_mae": 0.025938957647946896,
+      "thermal_frac_overload": 0.0005916183377537017,
+      "thermal_max_loading": 0.996576052347819,
+      "theta_mae": 0.011221301625569662
+    },
+    "output_signature": {
+      "Pij": {
+        "finite": true,
+        "shape": [
+          5820
+        ]
+      },
+      "Pji": {
+        "finite": true,
+        "shape": [
+          5820
+        ]
+      },
+      "Qij": {
+        "finite": true,
+        "shape": [
+          5820
+        ]
+      },
+      "Qji": {
+        "finite": true,
+        "shape": [
+          5820
+        ]
+      },
+      "bus.pred": {
+        "finite": true,
+        "shape": [
+          4000,
+          2
+        ]
+      },
+      "feas_logit": {
+        "finite": true,
+        "shape": [
+          8
+        ]
+      },
+      "generator.pred": {
+        "finite": true,
+        "shape": [
+          1364,
+          2
+        ]
+      }
+    },
+    "runtime_seconds": 70.9776149999816
+  }
+}

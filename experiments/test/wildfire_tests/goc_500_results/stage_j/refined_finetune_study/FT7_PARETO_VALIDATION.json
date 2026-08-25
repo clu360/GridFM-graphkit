@@ -1,0 +1,25 @@
+{
+  "eligible_rows": 149601,
+  "expected_groups": 15,
+  "frontier_rows": 603,
+  "group_counts": {
+    "J-S1|Guided-DC": 18,
+    "J-S1|Guided-GridSFM (FullTop+N-1)": 67,
+    "J-S1|Guided-GridSFM (FullTop-1000)": 28,
+    "J-S1|Guided-GridSFM (FullTop-1500)": 31,
+    "J-S1|Guided-GridSFM (released v1.1)": 40,
+    "J-S2|Guided-DC": 48,
+    "J-S2|Guided-GridSFM (FullTop+N-1)": 53,
+    "J-S2|Guided-GridSFM (FullTop-1000)": 24,
+    "J-S2|Guided-GridSFM (FullTop-1500)": 23,
+    "J-S2|Guided-GridSFM (released v1.1)": 48,
+    "J-S3|Guided-DC": 45,
+    "J-S3|Guided-GridSFM (FullTop+N-1)": 60,
+    "J-S3|Guided-GridSFM (FullTop-1000)": 29,
+    "J-S3|Guided-GridSFM (FullTop-1500)": 39,
+    "J-S3|Guided-GridSFM (released v1.1)": 50
+  },
+  "groups": 15,
+  "scope": "all eligible evaluated candidates pooled across lambda per scenario and model",
+  "status": "FT7_P3_ALL_CANDIDATE_PARETO_PASS"
+}

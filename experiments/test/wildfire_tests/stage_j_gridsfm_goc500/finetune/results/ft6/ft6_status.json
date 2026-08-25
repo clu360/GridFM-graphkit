@@ -1,0 +1,25 @@
+{
+  "checks": {
+    "all_graph_tensors_finite": true,
+    "all_graphs_unique_within_stratum": true,
+    "environment_commit_frozen": true,
+    "expected_dataset_counts": true,
+    "fulltop_parent_new_train_indices_disjoint": true,
+    "no_train_validation_test_graph_overlap": true,
+    "private_api_sources_frozen": true,
+    "processed_caches_local": true,
+    "protocol_configs_valid": true,
+    "sibling_parent_path_identical": true,
+    "sibling_parent_sha_identical": true
+  },
+  "downstream_checks": {
+    "m2_training": "FT6_P2A_M2_TRAINING_PASS",
+    "m3_training": "FT6_P2B_M3_TRAINING_PASS",
+    "sealed_evaluation": "FT6_P3_FOUR_MODEL_EVALUATION_PASS",
+    "review_artifacts": "FT6_REVIEW_ARTIFACTS_PASS"
+  },
+  "m2_checkpoint_sha256": "08EDA70270F787DB42C48B751BECC9DA2062B0482550A5C2A761B4EBA0C94FF6",
+  "m3_checkpoint_sha256": "4EC89D36DE80081BE2FC26C14A1BC5A5369D7423B557D71B9DD4A254462F302D",
+  "phase": "EXTERNAL_REVIEW_GATE",
+  "status": "FT6_COMPLETE_AWAITING_CALEB_FT7_APPROVAL"
+}

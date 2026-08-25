@@ -1,0 +1,35 @@
+{
+  "artifact_id": "STAGE-J-GRIDSFM-FT6-M2-FULLTOP-500",
+  "batch_size": 8,
+  "case_name": "pglib_opf_case500_goc",
+  "checkpoint_dir": "C:/Users/Caleb Lu/.gridfm_stage_j/checkpoints/stage_j_finetune",
+  "checkpoint_name": "gridsfm_goc500_ft1000_plus_fulltop500.pt",
+  "device": "auto",
+  "epochs": 10,
+  "expected_gridsfm_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+  "expected_parent_sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+  "expected_source_sha256": {
+    "checkpoint.py": "C05AB84B1A221E5B9FD033CDAAA1194E9D2856865BA12A53FDAF79B709779039",
+    "finetune_opfdata.py": "7C01551BA89A540E526F170C19BA01830406225AF603B61947F30BC3DD0A4CE2",
+    "loss.py": "FE1B13BDC232B08629BDC7F5090308D6341C64BF88D439587BB3EF72A36C268B",
+    "opfdata_train.py": "DA8104E40A80FE6E223615658BB4BECE905A7C073CF9B922A636CDE05467B62E"
+  },
+  "gridsfm_root": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM",
+  "infeas_prob": 0.3,
+  "learning_rate": 0.0001,
+  "model_id": "m2",
+  "model_variant": "fulltop_ft_n1000_then_fulltop_n500",
+  "num_groups": 1,
+  "num_workers": 0,
+  "opfdata_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/opfdata",
+  "output_dir": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft6/m2",
+  "parent_checkpoint": "C:/Users/Caleb Lu/.gridfm_stage_j/checkpoints/stage_j_finetune/gridsfm_goc500_fulltop_ft_n1000.pt",
+  "preflight_manifest": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft6/ft6_preflight_manifest.json",
+  "seed": 42,
+  "train": {"variant": "fulltop", "split": "train", "index_start": 1000, "count": 500},
+  "validation": [
+    {"variant": "fulltop", "split": "val", "index_start": 0, "count": 375},
+    {"variant": "n1", "split": "val", "index_start": 0, "count": 375}
+  ],
+  "weight_decay": 0.0001
+}

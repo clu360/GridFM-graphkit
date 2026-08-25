@@ -1,0 +1,22 @@
+{
+  "finalists": [
+    {
+      "artifact_stub": "gsfm",
+      "backend": "gridsfm",
+      "best_topology": {
+        "best_alpha_selected": "{\"102\": 1.0, \"184\": 1.0, \"33\": 1.0, \"39\": 1.0, \"46\": 1.0}",
+        "j_trade": 0.0,
+        "l_shed_total": 0.0,
+        "r_norm": 0.9602967961131893,
+        "topology_id": "65;185"
+      },
+      "lambda_r": 0.0,
+      "method": "Guided-GridSFM",
+      "model_selection": "ft",
+      "model_variant": "fulltop_ft_n1000"
+    }
+  ],
+  "model_selection": "ft",
+  "model_variant": "fulltop_ft_n1000",
+  "purpose": "FT3 J9/J10 checkpoint-propagation smoke only"
+}

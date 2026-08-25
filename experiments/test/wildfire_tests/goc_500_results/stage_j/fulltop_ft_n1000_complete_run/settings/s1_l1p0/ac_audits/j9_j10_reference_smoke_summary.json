@@ -1,0 +1,27 @@
+{
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+  "checkpoint_sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+  "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l1p0\\finalists.json",
+  "j8_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l1p0\\main",
+  "methods": [
+    "Guided-GridSFM",
+    "TH-GridSFM-top1",
+    "TH-GridSFM-top2"
+  ],
+  "model_selection": "ft",
+  "model_variant": "fulltop_ft_n1000",
+  "notes": [
+    "Iteration count is recorded as N/A because the current PowerModels/IPOPT wrapper does not expose a reliable structured iteration field.",
+    "Warm-start timings include solver-reported runtime, Julia subprocess wall time, and measured regenerated-start construction time; GridSFM construction is not yet split into preprocessing and inference subcomponents."
+  ],
+  "output_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l1p0\\refs",
+  "reference_a_rows": 3,
+  "reference_b_requested": true,
+  "reference_b_rows": 6,
+  "reference_b_service_tolerance_pd_units": 1e-05,
+  "reference_b_service_verification_tolerance_pd_units": 1e-05,
+  "scope": "explicit finalist manifest",
+  "state_fidelity_rows": 24,
+  "status": "PASS_WITH_LIMITATIONS",
+  "warm_start_rows": 12
+}

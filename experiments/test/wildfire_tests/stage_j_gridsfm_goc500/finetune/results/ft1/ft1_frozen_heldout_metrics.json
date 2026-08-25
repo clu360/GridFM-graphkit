@@ -1,0 +1,65 @@
+{
+  "metrics": {
+    "V_mae": 0.0022884283676147463,
+    "brP_mae": 0.07481802922052735,
+    "brQ_mae": 0.0520601860265027,
+    "cost_mape": 0.008845856924851736,
+    "feas_acc": 1.0,
+    "kcl_P_resid": 0.0006670038172403971,
+    "kcl_Q_resid": 0.0013619837341308594,
+    "loss": 0.09301126811732637,
+    "n_graphs": 750,
+    "pg_mae": 0.009227574331718578,
+    "qg_mae": 0.048862314384118394,
+    "thermal_frac_overload": 0.000987430869783811,
+    "thermal_max_loading": 1.015342336654663,
+    "theta_mae": 0.020721764119466145
+  },
+  "output_signature": {
+    "Pij": {
+      "finite": true,
+      "shape": [
+        5824
+      ]
+    },
+    "Pji": {
+      "finite": true,
+      "shape": [
+        5824
+      ]
+    },
+    "Qij": {
+      "finite": true,
+      "shape": [
+        5824
+      ]
+    },
+    "Qji": {
+      "finite": true,
+      "shape": [
+        5824
+      ]
+    },
+    "bus.pred": {
+      "finite": true,
+      "shape": [
+        4000,
+        2
+      ]
+    },
+    "feas_logit": {
+      "finite": true,
+      "shape": [
+        8
+      ]
+    },
+    "generator.pred": {
+      "finite": true,
+      "shape": [
+        1368,
+        2
+      ]
+    }
+  },
+  "runtime_seconds": 163.55230450001545
+}

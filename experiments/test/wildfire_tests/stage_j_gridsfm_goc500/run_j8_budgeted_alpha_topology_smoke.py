@@ -30,6 +30,7 @@ from stage_j_gridsfm_goc500.goc500_adapter import GOC500Identity, build_goc500_i
 from stage_j_gridsfm_goc500.gridsfm_evaluator import evaluate_gridsfm_candidate
 from stage_j_gridsfm_goc500.load_service import compute_load_shedding
 from stage_j_gridsfm_goc500.metrics import compute_j_trade
+from stage_j_gridsfm_goc500.model_selection import MODEL_SELECTIONS, resolve_model_selection
 from stage_j_gridsfm_goc500.outer_proxy import ProxyTopology, solve_proxy_topology_pool
 from stage_j_gridsfm_goc500.scenario_builder import load_baseline_loading_csv
 from stage_j_gridsfm_goc500.schemas import EvaluationStatus, PacWeights
@@ -528,6 +529,8 @@ def main() -> int:
     parser.add_argument("--method", choices=["guided-dc", "guided-gridsfm", "th-gridsfm"], required=True)
     parser.add_argument("--gridsfm-root", required=True)
     parser.add_argument("--checkpoint", default=None)
+    parser.add_argument("--expected-checkpoint-sha256", default=None)
+    parser.add_argument("--model-selection", choices=MODEL_SELECTIONS, default=None)
     parser.add_argument("--input-dir", required=True)
     parser.add_argument("--baseline-loading-csv", required=True)
     parser.add_argument("--pac-freeze-json", default=None)
@@ -547,6 +550,18 @@ def main() -> int:
     if args.xdg_cache_home:
         os.environ["XDG_CACHE_HOME"] = str(Path(args.xdg_cache_home).expanduser().resolve())
     gridsfm_root = Path(args.gridsfm_root).expanduser().resolve()
+    default_selection = "dc" if args.method == "guided-dc" else "frozen"
+    selected = args.model_selection or default_selection
+    if args.method == "guided-dc" and selected != "dc":
+        parser.error("guided-dc requires --model-selection dc")
+    if args.method != "guided-dc" and selected == "dc":
+        parser.error("GridSFM-backed methods require --model-selection frozen or ft")
+    model_selection = resolve_model_selection(
+        selected,
+        gridsfm_root=gridsfm_root,
+        checkpoint=Path(args.checkpoint) if args.checkpoint else None,
+        expected_sha256=args.expected_checkpoint_sha256,
+    )
     input_dir = Path(args.input_dir).expanduser().resolve()
     output_dir = Path(args.output_dir).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -597,8 +612,6 @@ def main() -> int:
             raise ValueError("--pac-freeze-json is required for GridSFM-backed methods")
         from gridsfm import load_model
 
-        model_root = gridsfm_root / "model"
-        checkpoint = Path(args.checkpoint).expanduser().resolve() if args.checkpoint else model_root / "checkpoints" / "gridsfm_open_v1.1.pt"
         frozen = _load_json(Path(args.pac_freeze_json).expanduser().resolve())["frozen_weights"]
         weights = PacWeights(
             rho_phys=float(frozen["rho_phys"]),
@@ -606,7 +619,7 @@ def main() -> int:
             w_ac=float(frozen["w_ac"]),
             w_model=float(frozen["w_model"]),
         )
-        model = load_model(str(checkpoint), device="cpu")
+        model = load_model(str(model_selection.checkpoint_path), device="cpu")
 
     load_ids = [load.canonical_load_id for load in identity.loads]
     summary_rows: list[dict[str, object]] = []
@@ -701,6 +714,11 @@ def main() -> int:
                 }
             )
 
+    model_metadata = model_selection.as_dict()
+    for rows in (summary_rows, trace_rows, alpha_rows):
+        for row in rows:
+            row.update(model_metadata)
+
     best_row = min(
         (row for row in summary_rows if row.get("best_found") is True and row.get("search_objective") != ""),
         key=lambda row: float(row["search_objective"]),
@@ -731,6 +749,7 @@ def main() -> int:
     payload = {
         "status": run_status,
         "method": args.method,
+        **model_metadata,
         "scenario_id": args.scenario_id,
         "target_branch_ids": scenario["target_branch_ids"],
         "lambda_r": args.lambda_r,

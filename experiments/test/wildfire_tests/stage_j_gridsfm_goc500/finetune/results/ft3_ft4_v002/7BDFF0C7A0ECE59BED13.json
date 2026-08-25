@@ -1,0 +1,276 @@
+{
+  "records": [
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p0\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s1_l0p0",
+      "sha256": "D307FCE4A49D8C55AC899033BA800EE8F606E9EE44C7DFDB9CD71FD5578048C1",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p0\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p0\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s1_l0p0",
+      "sha256": "49E2DC553D86A43A38460EEA1098D4EA1F38468C8AF40C20CDD30C4287EB0518",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p0\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p2\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s1_l0p2",
+      "sha256": "26051F1EAA9B24F80030F51F775E7DA2B50EAA859BC94EDDADE5ED6E2B253DF0",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p2\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p2\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s1_l0p2",
+      "sha256": "49E2DC553D86A43A38460EEA1098D4EA1F38468C8AF40C20CDD30C4287EB0518",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p2\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p5\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s1_l0p5",
+      "sha256": "950E28B360FC11CAAF7C0D1A01C44E21F53B8953188E727CC52A481839E9BD87",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p5\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p5\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s1_l0p5",
+      "sha256": "49E2DC553D86A43A38460EEA1098D4EA1F38468C8AF40C20CDD30C4287EB0518",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p5\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p8\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s1_l0p8",
+      "sha256": "2A7188DBBE9EB695537DEC57B061D4D3EE7A0BC1DE5591E121CFE482F2646E73",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p8\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l0p8\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s1_l0p8",
+      "sha256": "49E2DC553D86A43A38460EEA1098D4EA1F38468C8AF40C20CDD30C4287EB0518",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l0p8\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l1p0\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s1_l1p0",
+      "sha256": "FBD4DBCA5AE153FAC812E974A5C5B647C250188AD16F1C10F5194B91F6AF4346",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l1p0\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s1_l1p0\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s1_l1p0",
+      "sha256": "49E2DC553D86A43A38460EEA1098D4EA1F38468C8AF40C20CDD30C4287EB0518",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s1_l1p0\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p0\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s2_l0p0",
+      "sha256": "05470B34F151D773E69F3A7821D0209047C62320F62F8973B190A92EE2048771",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p0\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p0\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s2_l0p0",
+      "sha256": "B637C1DDA876E2014EDF10679CF862A57F986AC6082B6427DB085CBF14B8FCB4",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p0\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p2\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s2_l0p2",
+      "sha256": "0E91122E1C594F2AF662B1C38689D30DD43FFC845C28D1E59D12671C0B75641E",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p2\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p2\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s2_l0p2",
+      "sha256": "B637C1DDA876E2014EDF10679CF862A57F986AC6082B6427DB085CBF14B8FCB4",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p2\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p5\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s2_l0p5",
+      "sha256": "9B4AF0D30682BED93B37D79E359CA8D00EC50499DADCED78E93CA1932F75276C",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p5\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p5\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s2_l0p5",
+      "sha256": "B637C1DDA876E2014EDF10679CF862A57F986AC6082B6427DB085CBF14B8FCB4",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p5\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p8\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s2_l0p8",
+      "sha256": "B383B84CA3CEC84C6863150946DD7879F0FB27C1805310C299A3431D75397723",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p8\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l0p8\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s2_l0p8",
+      "sha256": "B637C1DDA876E2014EDF10679CF862A57F986AC6082B6427DB085CBF14B8FCB4",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l0p8\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l1p0\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s2_l1p0",
+      "sha256": "15C9AE52B70F89259AE2F168E712E84103A1C44951974221EC19D635E47477E0",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l1p0\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s2_l1p0\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s2_l1p0",
+      "sha256": "B637C1DDA876E2014EDF10679CF862A57F986AC6082B6427DB085CBF14B8FCB4",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s2_l1p0\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p0\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s3_l0p0",
+      "sha256": "FF0E0791E5FFD29163C38267B37F530F308F28FDBB333423980394F66C287F23",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p0\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p0\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s3_l0p0",
+      "sha256": "6F8AF0BAF984FD729F5DC862D287EFA6231EF8E769F864D7C00752945A7B0334",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p0\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p2\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s3_l0p2",
+      "sha256": "0DCDD40CCECF0791D9C6D478E8D9D8A276F20E2C00894B59DE38E9B05A2D7BF4",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p2\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p2\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s3_l0p2",
+      "sha256": "6F8AF0BAF984FD729F5DC862D287EFA6231EF8E769F864D7C00752945A7B0334",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p2\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p5\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s3_l0p5",
+      "sha256": "23C8BCF057041668D43E7D65232901A3C56154E51757DA3E78235E6E02EC532F",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p5\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p5\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s3_l0p5",
+      "sha256": "6F8AF0BAF984FD729F5DC862D287EFA6231EF8E769F864D7C00752945A7B0334",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p5\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p8\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s3_l0p8",
+      "sha256": "EB8F7A55D8A5B78242E53300703FBED8C2235CF65FCD59C6EB9FDFA516C48348",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p8\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l0p8\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s3_l0p8",
+      "sha256": "6F8AF0BAF984FD729F5DC862D287EFA6231EF8E769F864D7C00752945A7B0334",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l0p8\\pools\\th.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l1p0\\pools\\guided.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "guided.csv",
+      "row_count": 100,
+      "setting_code": "s3_l1p0",
+      "sha256": "FE1211EBB5E12B39B75D7A8F55EBEA5C8D26208807E4F691C7928C7BC7C20C71",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l1p0\\pools\\guided.csv"
+    },
+    {
+      "destination_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\ft3_fulltop_ft_n1000_v002\\s3_l1p0\\pools\\th.csv",
+      "ordered_byte_identical": true,
+      "pool_name": "th.csv",
+      "row_count": 2,
+      "setting_code": "s3_l1p0",
+      "sha256": "6F8AF0BAF984FD729F5DC862D287EFA6231EF8E769F864D7C00752945A7B0334",
+      "source_path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run\\settings\\s3_l1p0\\pools\\th.csv"
+    }
+  ],
+  "source_root": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run",
+  "status": "PASS"
+}

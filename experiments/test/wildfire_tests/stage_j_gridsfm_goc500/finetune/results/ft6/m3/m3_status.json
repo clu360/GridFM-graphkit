@@ -1,0 +1,24 @@
+{
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_ft1000_plus_n1_500.pt",
+  "checkpoint_sha256": "4EC89D36DE80081BE2FC26C14A1BC5A5369D7423B557D71B9DD4A254462F302D",
+  "checks": {
+    "both_validation_strata_recorded_each_epoch": true,
+    "checkpoint_saved": true,
+    "environment_and_private_sources_frozen": true,
+    "finite_training_loss_and_no_skipped_batches": true,
+    "fresh_optimizer_recorded": true,
+    "fresh_process_reload_passed": true,
+    "fresh_validation_metrics_finite": true,
+    "official_opfdata_training_path": true,
+    "parent_child_output_schemas_identical": true,
+    "parent_m1_path_and_sha_verified": true,
+    "preflight_passed": true,
+    "train_graph_count_500": true,
+    "updated_parameters_finite": true,
+    "weights_changed": true
+  },
+  "model_id": "m3",
+  "phase": "COMPLETE",
+  "runtime_seconds": 4524.674026200082,
+  "status": "FT6_P2B_M3_TRAINING_PASS"
+}

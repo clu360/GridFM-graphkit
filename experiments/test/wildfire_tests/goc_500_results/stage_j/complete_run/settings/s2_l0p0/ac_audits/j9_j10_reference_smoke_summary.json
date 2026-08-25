@@ -1,4 +1,6 @@
 {
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt",
+  "checkpoint_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
   "finalists_manifest": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p0\\finalists.json",
   "j8_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p0\\main",
   "methods": [
@@ -7,9 +9,12 @@
     "TH-GridSFM-top1",
     "TH-GridSFM-top2"
   ],
+  "model_selection": "frozen",
+  "model_variant": "released_v1_1",
   "notes": [
     "Iteration count is recorded as N/A because the current PowerModels/IPOPT wrapper does not expose a reliable structured iteration field.",
-    "Warm-start timings include solver-reported runtime, Julia subprocess wall time, and measured regenerated-start construction time; GridSFM construction is not yet split into preprocessing and inference subcomponents."
+    "Warm-start timings include solver-reported runtime, Julia subprocess wall time, and measured regenerated-start construction time; GridSFM construction is not yet split into preprocessing and inference subcomponents.",
+    "Cold starts explicitly set V=1, theta=0, Pg=(Pmin+Pmax)/2, and Qg=0 before PowerModels model construction."
   ],
   "output_dir": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\stage_j\\complete_run_v001\\s2_l0p0\\refs",
   "reference_a_rows": 4,
@@ -20,5 +25,13 @@
   "scope": "explicit finalist manifest",
   "state_fidelity_rows": 32,
   "status": "PASS_WITH_LIMITATIONS",
-  "warm_start_rows": 16
+  "warm_start_rows": 20,
+  "warm_start_types": [
+    "cold_start",
+    "dc_partial_warm",
+    "gridsfm_partial_warm",
+    "gridsfm_full_warm",
+    "gt_warm"
+  ],
+  "warm_starts_only": true
 }

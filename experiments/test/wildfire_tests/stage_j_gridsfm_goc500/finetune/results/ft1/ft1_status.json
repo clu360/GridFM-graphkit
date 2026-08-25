@@ -1,0 +1,20 @@
+{
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+  "checkpoint_sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+  "pass_checks": {
+    "checkpoint_saved": true,
+    "cycle_hodge_preparation_executed": true,
+    "environment_commit_frozen": true,
+    "finite_training_loss": true,
+    "fresh_process_reload_passed": true,
+    "frozen_finetuned_schema_identical": true,
+    "goc500_fulltop_train_samples_loaded": true,
+    "heldout_inference_passed": true,
+    "private_api_sources_frozen": true,
+    "released_v1_1_loaded": true,
+    "updated_parameters_finite": true,
+    "validation_metrics_recorded_each_epoch": true,
+    "weights_changed": true
+  },
+  "status": "FT1_TRAINED_READY_FOR_FT2"
+}

@@ -1,0 +1,16 @@
+{
+  "analysis_python": "C:/Users/Caleb Lu/anaconda3/python.exe",
+  "artifact_id": "STAGE-J-GRIDSFM-FT3-FT4-FULLTOP-1000",
+  "cache_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/stage_j/ft3_fulltop_ft_n1000_v002",
+  "checkpoint": "C:/Users/Caleb Lu/.gridfm_stage_j/checkpoints/stage_j_finetune/gridsfm_goc500_fulltop_ft_n1000.pt",
+  "expected_checkpoint_sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+  "expected_gridsfm_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+  "final_root": "C:/Users/Caleb Lu/.gridfm_stage_j/results/stage_j/fulltop_ft_n1000_complete_run",
+  "ft1_manifest": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft1/ft1_manifest.json",
+  "frozen_result_root": "experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run",
+  "gridsfm_root": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM",
+  "model_selection": "ft",
+  "model_variant": "fulltop_ft_n1000",
+  "publication_root": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft3_ft4_v002",
+  "run_id": "stage_j_ft3_fulltop_ft_n1000_v002"
+}

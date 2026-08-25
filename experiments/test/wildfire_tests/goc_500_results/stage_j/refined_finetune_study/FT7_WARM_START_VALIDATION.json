@@ -1,0 +1,1265 @@
+{
+  "cell_counts": {
+    "dc|cold_start": 15,
+    "dc|dc_partial_warm": 15,
+    "dc|gridsfm_m0_full_warm": 15,
+    "dc|gridsfm_m1_full_warm": 15,
+    "dc|gridsfm_m2_full_warm": 15,
+    "dc|gridsfm_m3_full_warm": 15,
+    "dc|gt_warm": 15,
+    "m0|cold_start": 15,
+    "m0|dc_partial_warm": 15,
+    "m0|gridsfm_m0_full_warm": 15,
+    "m0|gridsfm_m1_full_warm": 15,
+    "m0|gridsfm_m2_full_warm": 15,
+    "m0|gridsfm_m3_full_warm": 15,
+    "m0|gt_warm": 15,
+    "m1|cold_start": 15,
+    "m1|dc_partial_warm": 15,
+    "m1|gridsfm_m0_full_warm": 15,
+    "m1|gridsfm_m1_full_warm": 15,
+    "m1|gridsfm_m2_full_warm": 15,
+    "m1|gridsfm_m3_full_warm": 15,
+    "m1|gt_warm": 15,
+    "m2|cold_start": 15,
+    "m2|dc_partial_warm": 15,
+    "m2|gridsfm_m0_full_warm": 15,
+    "m2|gridsfm_m1_full_warm": 15,
+    "m2|gridsfm_m2_full_warm": 15,
+    "m2|gridsfm_m3_full_warm": 15,
+    "m2|gt_warm": 15,
+    "m3|cold_start": 15,
+    "m3|dc_partial_warm": 15,
+    "m3|gridsfm_m0_full_warm": 15,
+    "m3|gridsfm_m1_full_warm": 15,
+    "m3|gridsfm_m2_full_warm": 15,
+    "m3|gridsfm_m3_full_warm": 15,
+    "m3|gt_warm": 15
+  },
+  "checks": {
+    "all_35_cells_have_15_rows": true,
+    "all_checkpoint_provenance": true,
+    "all_solves_successful": true,
+    "cold_policy": true,
+    "five_families": true,
+    "full_state_payload": true,
+    "native_ipopt_metric": true,
+    "objective_spread_within_tolerance": true,
+    "rows_525": true,
+    "same_reference_instance": true,
+    "seven_starts": true,
+    "unique_keys_525": true
+  },
+  "cold_start_policy": "V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0",
+  "execution_records": [
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.2457172870636,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.40553855895996,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 37.45940971374512,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.653024196624756,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.24369549751282,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.12558317184448,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 37.46442246437073,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.96801567077637,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.87696075439453,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.403146505355835,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 35.34271502494812,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.326406478881836,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.79952907562256,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.98715281486511,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 35.22260618209839,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 32.099833965301514,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 32.68865180015564,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.28151988983154,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 35.13225555419922,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.60116362571716,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.45474195480347,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.41346979141235,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 35.236255407333374,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.677478313446045,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.07324719429016,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.70056438446045,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.947025299072266,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 33.839585065841675,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.92203092575073,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "frozen",
+      "returncode": 0,
+      "runtime_seconds": 34.41885733604431,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 18.662633419036865,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.374067068099976,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.51165246963501,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.565600395202637,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 19.99514937400818,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.542842626571655,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.462963342666626,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.46393060684204,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.4128201007843,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.391218423843384,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 19.829466104507446,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.35224938392639,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.6349356174469,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.356313943862915,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.483497858047485,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.433770895004272,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.301259994506836,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.445817232131958,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.638265371322632,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.490752696990967,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.48465609550476,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.49354600906372,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.366443872451782,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.33878493309021,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.323840856552124,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.57144570350647,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.370121002197266,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 19.90699315071106,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 20.395265102386475,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m1",
+      "returncode": 0,
+      "runtime_seconds": 19.49766445159912,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 23.93487572669983,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.122685194015503,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.60945701599121,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 21.673877239227295,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.435232639312744,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.6650869846344,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 25.112959384918213,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.41528606414795,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.671672105789185,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 27.323292016983032,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.374964475631714,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.56852078437805,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 22.788041830062866,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.28199815750122,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.67981719970703,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 21.57429265975952,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.042852640151978,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.667299509048462,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 21.79837918281555,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.235366582870483,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.626019954681396,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 21.98503589630127,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.06923794746399,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.62176203727722,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.73207426071167,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.01295518875122,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.678372859954834,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.262475728988647,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.67142105102539,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.57166576385498,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.232865571975708,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.69435977935791,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.62506127357483,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 19.028637647628784,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.746014833450317,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.605338096618652,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.863740921020508,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.756138801574707,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.639891862869263,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.832617044448853,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.71190071105957,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.656373500823975,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.954726219177246,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.734538078308105,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m2",
+      "returncode": 0,
+      "runtime_seconds": 18.661898851394653,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m3"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 18.673166751861572,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.424211025238037,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 23.293158531188965,
+      "setting_code": "s1_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 18.86304807662964,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.547640323638916,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 25.26094079017639,
+      "setting_code": "s1_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 18.9924099445343,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.593018293380737,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 25.849366903305054,
+      "setting_code": "s1_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 18.75759482383728,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.15348172187805,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 24.471050024032593,
+      "setting_code": "s1_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 18.7789306640625,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.777581214904785,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 24.305748462677002,
+      "setting_code": "s1_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 18.856091022491455,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.43329405784607,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 25.1551570892334,
+      "setting_code": "s2_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 19.331571102142334,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.239035844802856,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 24.88070774078369,
+      "setting_code": "s2_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.479902029037476,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.37360906600952,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 24.291285276412964,
+      "setting_code": "s2_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.335148096084595,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.295249700546265,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.94049096107483,
+      "setting_code": "s2_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.637906074523926,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.46778893470764,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.57919955253601,
+      "setting_code": "s2_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.72011709213257,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.69728660583496,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.554266214370728,
+      "setting_code": "s3_l0p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.779221296310425,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.79842233657837,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.543295860290527,
+      "setting_code": "s3_l0p2",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.901464462280273,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 24.944689989089966,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.58999276161194,
+      "setting_code": "s3_l0p5",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 21.88677406311035,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 24.347256898880005,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 19.97778606414795,
+      "setting_code": "s3_l0p8",
+      "status": "PASS",
+      "warm_id": "m2"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.12356686592102,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m0"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 22.819941520690918,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m1"
+    },
+    {
+      "package": "m3",
+      "returncode": 0,
+      "runtime_seconds": 19.936993837356567,
+      "setting_code": "s3_l1p0",
+      "status": "PASS",
+      "warm_id": "m2"
+    }
+  ],
+  "max_objective_spread": 8.406233973801136e-06,
+  "new_crossed_solver_rows": 180,
+  "new_crossed_task_groups": 150,
+  "new_m2_m3_base_rows": 120,
+  "objective_spread_tolerance": 0.001,
+  "primary_metric": "ipopt_solve_time_seconds",
+  "reused_ft5_rows": 225,
+  "rows": 525,
+  "status": "FT7_P4_WARM_START_PASS"
+}

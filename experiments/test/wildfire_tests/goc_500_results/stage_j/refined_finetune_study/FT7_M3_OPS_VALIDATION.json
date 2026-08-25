@@ -1,0 +1,38 @@
+{
+  "artifact_counts": {
+    "expected": {
+      "candidate_evaluations_all.csv": 30000,
+      "method_finalists_all.csv": 15,
+      "reference_a_all.csv": 15,
+      "reference_b_all.csv": 30,
+      "state_fidelity_all.csv": 120,
+      "topology_objectives_all.csv": 1500,
+      "warm_start_all.csv": 75
+    },
+    "observed": {
+      "candidate_evaluations_all.csv": 30000,
+      "method_finalists_all.csv": 15,
+      "reference_a_all.csv": 15,
+      "reference_b_all.csv": 30,
+      "state_fidelity_all.csv": 120,
+      "topology_objectives_all.csv": 1500,
+      "warm_start_all.csv": 75
+    },
+    "status": "PASS"
+  },
+  "checks": {
+    "artifact_counts_pass": true,
+    "candidate_provenance": true,
+    "candidate_rows_30000": true,
+    "checkpoint_sha256": true,
+    "guided_only": true,
+    "model_variant": true,
+    "only_guided_method": true,
+    "run_complete": true,
+    "settings_15": true,
+    "th_not_executed": true
+  },
+  "model_id": "m3",
+  "root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\results\\stage_j\\refined_finetune_study\\model_runs\\m3",
+  "status": "FT7_P1B_M3_OPS_PASS"
+}

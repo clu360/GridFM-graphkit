@@ -1,0 +1,21 @@
+{
+  "checks": {
+    "all_25_combinations_have_15_rows": true,
+    "all_ipopt_times_nonnegative": true,
+    "all_solves_successful": true,
+    "objective_spread_within_tolerance": true,
+    "objectives_match_prior_canonical": true,
+    "outer_time_not_less_than_ipopt_time": true,
+    "row_count_375": true,
+    "unique_keys_375": true
+  },
+  "ipopt_metric_source": "PowerModels result['solve_time'] backed by MOI.SolveTimeSec",
+  "max_objective_delta_vs_prior": 5.820766091346741e-11,
+  "max_objective_spread_across_starts": 8.406233973801136e-06,
+  "objective_tolerance": 0.001,
+  "primary_metric": "ipopt_solve_time_seconds",
+  "rows": 375,
+  "runtime_seconds": 1328.5699796676636,
+  "status": "PASS",
+  "workers": 4
+}

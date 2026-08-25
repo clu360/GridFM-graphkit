@@ -11,6 +11,62 @@ handoff.
 
 This file is the durable handoff for future Codex sessions. It should be read before changing the wildfire first-pass experiment.
 
+## August 22, 2026 - FT3/FT4 Cross-Model Figure Correction
+
+Corrected all 13 fine-tuned Stage J figures to show the controlled comparison
+requested by the experiment design. The original FT3/FT4 figures were generated
+from the FT-only package, so the nine search figures could only show fine-tuned
+Guided-GridSFM and fine-tuned TH, while the exact-reference figures could only
+show methods available in that package. This was a visualization assembly
+problem, not an execution or model-result problem.
+
+No model was rerun. The correction joins the existing completed frozen/DC
+package with the completed fine-tuned package and plots:
+
+```text
+Guided-DC
+Guided-GridSFM (frozen)
+Guided-GridSFM (fine-tuned)
+TH-GridSFM-top1
+TH-GridSFM-top2
+```
+
+The TH rows deliberately come from the established frozen run; only the guided
+GridSFM rows come from FT3. Six merged `compare_*.csv` tables encode provenance
+with `comparison_variant={dc,frozen,ft,th_frozen}`. FT4 validation now fails if
+any comparison table omits a method/variant or introduces the FT-TH rerun into
+the retained TH baseline. Both the external authoritative package and the
+repository duplicate pass the updated validation.
+
+## August 21, 2026 - Stage J GridSFM FT0 Smoke Validated
+
+Implemented and completed FT0 for the separate Stage J GridSFM fine-tuning
+extension. This is a controlled model-weight intervention and does not alter
+the completed Stage J methodology. The official released v1.1 checkpoint was
+fine-tuned through Microsoft/GridSFM's OPFData pipeline on ten GOC-500 FullTop
+train graphs, then saved externally, reloaded in a fresh process, evaluated on
+ten FullTop test graphs, and applied to one identical saved Stage J two-outage
+candidate.
+
+Final status is `FT0_VALIDATED_READY_FOR_FT1`. All parameter, finite-loss,
+fresh-reload, output-schema, prediction-difference, Stage J evaluation, and
+`D_input=0` gates passed. The FT0 checkpoint remains outside Git at:
+
+```text
+C:\Users\Caleb Lu\.gridfm_stage_j\checkpoints\stage_j_finetune\gridsfm_goc500_fulltop_ft0_n10.pt
+SHA-256: CF72E0F6036D1E37FB5A298EB3DB5E69A6524F48BC7B0B8B5CD34E758DDFE4A2
+```
+
+The first OPFData use downloaded and processed a complete 15,000-graph shard
+before applying the ten-graph cap. Approximately 13.05 GB of raw data and 1.35
+GB of processed data remain in the external cache. Do not place these files or
+future checkpoints in Git.
+
+FT0 held-out metrics moved in mixed directions and must not be interpreted as
+model-quality evidence. FT1 through FT5 remain unexecuted until FT0 review.
+See `FT0_GRIDSFM_FINETUNE_SMOKE_STATUS.md` for the complete implementation and
+methodology audit.
+
 ## August 19, 2026 - Stage J Complete Run Findings And Research Meeting Hold
 
 Stage J is complete through the GOC-500 primary comparison and exact-AC
@@ -5642,3 +5698,286 @@ per-load alpha formulation. GridSFM `model_output_penalized` rows are valid
 surrogate evaluations with PAC, not AC-feasibility certification. The final
 package retains 387 DC-infeasible rejections and 12 Gurobi no-incumbent events;
 none was selected as a Guided-DC finalist.
+
+## August 22, 2026: GridSFM FT1 Training And FT2 Held-Out Evaluation
+
+Completed the next two controlled steps of the Stage J GridSFM fine-tuning
+extension while leaving the completed Stage J experiment unchanged.
+
+FT1 used the released GridSFM v1.1 checkpoint, FullTop GOC-500 train indices
+0 through 999, `SyntheticMixedDataset(infeas_prob=0.3)`, batch size 8, ten
+epochs, learning rate `1e-4`, weight decay `1e-4`, and seed 42. Every epoch
+recorded official held-out metrics on all 750 FullTop validation graphs. No
+training batch was skipped. The run took 9,082.9 seconds, changed all 1,221
+floating parameter tensors, and passed a fresh-process reload.
+
+```text
+FT1 checkpoint:
+C:\Users\Caleb Lu\.gridfm_stage_j\checkpoints\stage_j_finetune\
+  gridsfm_goc500_fulltop_ft_n1000.pt
+
+SHA-256:
+A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD
+```
+
+FT2 downloaded and processed one official 15,000-graph GOC-500 N-1 OPFData
+group. It then used official `gridsfm.eval_pass` to compare released v1.1 and
+FT1 on the same ordered FullTop test indices 0 through 749 and N-1 test indices
+0 through 749. Both splits were inference-only and excluded from FT1.
+
+Headline relative changes from released v1.1 to FT1:
+
+```text
+                 FullTop test   N-1 test
+loss               -55.525%     -37.994%
+cost MAPE          -16.093%     -24.726%
+Pg MAE             -40.135%     -33.662%
+Qg MAE             -61.270%     -52.820%
+V MAE              -34.391%     -26.882%
+theta MAE          -53.373%     -51.014%
+branch P MAE       -45.580%     -43.025%
+branch Q MAE       -56.494%     -50.182%
+```
+
+FT1 improved KCL and thermal metrics on both variants. FullTop feasibility
+accuracy remained 1.0. N-1 feasibility accuracy declined from `0.998667` to
+`0.993333`, or one miss versus five, and is retained as the immediate model
+behavior divergence. FT2 therefore closed as
+`FT2_EVALUATED_READY_FOR_REVIEW`, not as an unconditional replacement claim.
+
+The pinned GridSFM commit, package environment, private API source hashes, and
+direct checkpoint paths/hashes are retained in the FT1 and FT2 manifests. FT3
+Stage J application remains a separate gate. A future FullTop+N-1 model may be
+trained only with these two FT2 test splits kept sealed.
+
+## August 22, 2026: GridSFM FT3/FT4 Stage J Application
+
+Completed the linked FT3/FT4 experiment using only the FT1
+`fulltop_ft_n1000` checkpoint. The frozen v1.1 and Guided-DC packages were
+retained as existing comparison evidence and were not rerun. FT3 reused all 30
+ordered Guided/TH topology pools byte-for-byte across 15 scenario/lambda
+settings, then generated exact Reference A/B, state-fidelity, and four-way
+warm-start evidence for 45 new FT finalists.
+
+Validated aggregate counts were 1,530 topology rows, 30,600 candidate
+evaluations, 45 finalists, 45 Reference A rows, 90 Reference B rows, 180
+warm-start rows, and 360 state-fidelity rows. FT4 reproduced 13 nonempty figures
+and four derived visual tables. All core rows identified the FT model variant
+and checkpoint provenance, and all validation checks passed.
+
+The authoritative CSV working package is retained outside OneDrive at
+`C:\Users\Caleb Lu\.gridfm_stage_j\results\stage_j\
+fulltop_ft_n1000_complete_run`. The Git checkpoint is
+`stage_j_gridsfm_goc500/finetune/results/ft3_ft4_v002`. Its publication process
+converts CSV to Parquet only after validation, retains all other evidence, and
+records source/output paths, hashes, sizes, formats, and row counts in
+`PUBLICATION_MANIFEST.json`. The verified publication contains 380 artifacts,
+299 Parquet tables, 102,907 table rows, no CSV files, and no hash failures. It
+reduced 94.4 MB of working artifacts to 14.0 MB.
+
+Implementation observations retained for future runs:
+
+- protect long experiment caches with an exclusive single-writer lock;
+- keep authoritative working results outside OneDrive and publish validated
+  compact artifacts into Git afterward;
+- use short deterministic path IDs plus a manifest for deep Windows result
+  trees that would exceed path limits;
+- derive plot method panels from methods present so FT-only packages do not
+  render blank historical-comparator panels;
+- preserve the pinned `gurobipy==12.0.0` dependency required by J9's unchanged
+  DC partial warm-start construction.
+
+Cross-model scientific interpretation is deferred to FT5, which will join the
+FT package to the existing released-v1.1 and Guided-DC packages using scenario,
+lambda, opportunity-set, method-family, and provenance keys.
+
+## August 22, 2026: FT5 Warm-Start Work Paused With Resume Contract
+
+Added explicit audited cold initialization (`V=1`, `theta=0`, midpoint `Pg`,
+zero `Qg`) and full-state GridSFM initialization (`Pg`, `Qg`, `V`, `theta`) to
+the exact Reference A warm-start workflow. The fine-tuned package augmentation
+completed for all 15 settings. The matching frozen augmentation was stopped at
+the user's ten-minute boundary with four settings complete and no workers left
+running.
+
+The final study is explicitly a 5 finalist-family by 5 start-policy crossed
+comparison. Frozen and fine-tuned GridSFM starts will be evaluated separately
+against every retained finalist and displayed on one common runtime axis. The
+complete resumable execution and validation checklist is retained in
+`FT5_CROSSED_WARM_START_HANDOFF.md` in the Stage J workflow case.
+
+## August 23, 2026: FT5 Crossed Warm-Start Comparison Complete
+
+Resumed the frozen full-state augmentation offline, completed all 15 settings,
+and added a checkpoint-specific full-warm append mode. The final crossed design
+applied cold, DC partial, frozen GridSFM full, fine-tuned GridSFM full, and exact
+starts to each of five retained finalist families without changing topology,
+alpha, or Reference A formulation.
+
+All 375 exact solves converged, every family/start cell contains 15 settings,
+and maximum within-instance objective spread was `8.406234e-06` against the
+`1e-3` gate. The final plot uses one common solver-runtime y-axis and separates
+both GridSFM checkpoints. Fine-tuned initialization improved the fine-tuned
+Guided finalist relative to frozen initialization, but frozen initialization
+was faster for the other four families. DC partial initialization was the most
+consistent simple improvement over cold.
+
+The authoritative interpretation, paired values, provenance contract, and
+limitations are recorded in `FT5_CROSSED_WARM_START_STATUS.md`. The raw working
+package remains outside OneDrive and the Git publication continues to convert
+validated CSV evidence to Parquet.
+
+The post-FT5 publication contains 392 artifacts and 308 Parquet tables. It
+retains 200,305 table rows in 22.7 MB versus 187.8 MB of source evidence. The
+canonical 375-row warm-start Parquet passed read-back comparison against the
+working CSV.
+
+## August 24, 2026: FT5 Runtime Metric Corrected To Native IPOPT Solve Time
+
+Reran all 375 crossed warm-start Reference A solves with unchanged fixed
+topologies, alpha decisions, initialization payloads, formulation, and solver
+options. The Julia reference wrapper now records InfrastructureModels'
+`result["solve_time"]`, sourced from `JuMP.solve_time` / `MOI.SolveTimeSec`, in
+addition to the broader elapsed PowerModels call. This isolates IPOPT after
+model construction and initial-value loading. GridSFM inference and start
+construction remain outside the primary timing boundary.
+
+All solves succeeded. Every one of the 25 finalist/start cells contains 15
+settings, maximum within-instance objective spread remained `8.406234e-06`,
+and maximum objective delta from the prior run was `5.820766e-11`. The FT4 and
+timing-specific validations passed.
+
+The corrected aggregate median IPOPT times are cold `5.045` s, DC `4.740` s,
+frozen GridSFM `4.872` s, fine-tuned GridSFM `4.882` s, and exact primal
+`4.872` s. DC beat cold in 71/75 cases. Frozen and fine-tuned GridSFM each beat
+cold in 69/75 cases. Fine-tuned beat frozen 40/75 times, with a marginal
+`0.005` s median advantage. The prior conclusion that fine-tuned initialization
+was broadly slower is superseded because it reflected PowerModels construction
+and result overhead rather than native IPOPT solve time.
+
+The existing common-axis warm-start figure now uses native IPOPT timing. A
+second figure reports aggregate mean, median, interquartile spread, and paired
+wins/losses. Exact remains a primal-only reference and does not restore IPOPT
+dual variables or barrier state.
+
+## August 24, 2026: FullTop FT Native Pareto Figures Expanded To All Candidates
+
+Replaced the three risk/load plots based on one retained alpha per topology
+with empirical Pareto frontiers derived from all eligible candidate-level
+evidence. For each scenario and method, all five lambda-directed searches are
+pooled because lambda controls discovery while the native `R_norm` and
+`L_shed_total` coordinates remain candidate properties. Duplicate coordinates
+are removed before minimizing both metrics and retaining nondominated points.
+
+The source comparison contains 90,201 eligible finite evaluations. The final
+derived table has 343 points over all 15 combinations of J-S1/J-S2/J-S3 and
+the five methods. Guided fronts contain 18 to 50 points; TH fronts are often
+singletons because their smaller evaluated pools are dominated. Those cases
+are plotted as markers rather than artificial curves. The FT4 validator now
+checks row count, complete group coverage, eligible statuses, metadata, and
+per-group frontier-size consistency. No optimization, inference, or exact AC
+solve was repeated.
+
+## August 24, 2026: Sequential Fine-Tuning Ablation Split Into Two Gates
+
+Frozen the concluding Stage J fine-tuning extension as FT6 and FT7. FT6 uses
+the existing FullTop-1000 checkpoint as the byte-identical parent for two
+sibling continuation models: 500 additional FullTop train cases and 500 N-1
+train cases. Both branches use disjoint OPFData train and validation splits,
+record FullTop and N-1 validation metrics every epoch, and join released v1.1
+and FullTop-1000 in a four-model evaluation over one sealed test manifest with
+375 FullTop and 375 N-1 cases.
+
+FT6 terminates at a mandatory external review checkpoint. FT7 may not execute
+until Caleb explicitly approves the two new checkpoint hashes and their FT6
+results. The approved FT7 design reuses existing Guided-DC, released GridSFM,
+and FullTop-1000 evidence, runs only the two new checkpoints, and produces
+five-method OPS figures. TH remains intact in prior packages but is excluded
+from all new follow-up figures and warm-start summaries. The revised crossed
+warm-start contract contains five non-TH finalist families and seven starts for
+525 fixed-instance Reference A rows. The complete manifests, internal
+checkpoints, stop rules, runtime estimate, and two external gates are recorded
+in `FT6_FT7_PLAN.md`.
+
+## August 24, 2026: FT6 Sequential Fine-Tuning Ablation Complete
+
+Completed the externally gated FT6 Part I study without changing the GridSFM
+architecture, OPFData schema, AC-state generation, model loss, optimizer loop,
+or official evaluation definitions. The preflight fingerprinted 2,500 selected
+FullTop/N-1 training, validation, and test records and confirmed finite tensors,
+within-stratum uniqueness, local-cache availability, and no graph-hash overlap
+across train, validation, and sealed test uses.
+
+M2 and M3 each branched directly from the existing FullTop-1000 checkpoint SHA
+`A1378FDA...E119AD`. M2 trained on 500 additional FullTop cases and saved SHA
+`08EDA702...A0C94FF6`; M3 trained on 500 N-1 cases and saved SHA
+`4EC89D36...462F302D`. Both ten-epoch runs used a fresh official AdamW
+optimizer, completed 630/630 batches with no skips, recorded separate 375-case
+FullTop and N-1 validation metrics every epoch, changed all 1,221 floating
+parameter tensors, and passed finite-weight, output-schema, checkpoint, and
+fresh-process reload checks. The measured epoch-cycle runtimes were 76.2
+minutes for M2 and 75.4 minutes for M3.
+
+The sealed 375-FullTop plus 375-N-1 evaluation reran released v1.1, M1, M2, and
+M3 through official `eval_pass` and passed in 19.0 minutes. M2 broadly improved
+over M1 on every reported lower-is-better test metric. M3 produced the strongest
+N-1 loss (`0.056797`), cost MAPE (`0.006347`), and feasibility accuracy
+(`1.000`), but relative to M2 traded away several FullTop, reactive-flow,
+Q-KCL, and thermal-overload measures. The retained interpretation is explicit
+N-1 distribution adaptation with measurable tradeoffs, not unconditional
+superiority.
+
+N-1 training is supported by the pinned GridSFM `OPFDataAdapterDataset` and
+official fine-tuning API. It is recorded as a direct supported extension, not
+as a reproduction of the white paper's FullTop-only fine-tuning experiment.
+The complete result packet is `FT6_SEQUENTIAL_FINETUNE_STATUS.md`; the terminal
+state is `FT6_COMPLETE_AWAITING_CALEB_FT7_APPROVAL`. No FT7 OPS work has begun.
+
+## August 24, 2026: FT7 Refined Fine-Tuning Study Complete
+
+Recorded Caleb's explicit approval and ran only M2/M3 through the unchanged
+Stage J Guided-GridSFM OPS workflow. Both 15-setting packages passed counts,
+checkpoint provenance, exact Reference A/B, and no-TH validation. Existing DC,
+released M0, and FullTop-1000 M1 evidence was reused rather than rerun.
+
+The five-method aggregate contains 150,000 candidate evaluations. Updated
+risk/load figures pool all 149,601 eligible finite candidates across lambda per
+scenario/model and retain 603 recomputed nondominated points. The 14 final
+figures use explicit DC/M0/M1/M2/M3 labels and common axes where applicable.
+
+Completed the five-finalist by seven-start crossed warm study with 525 rows.
+All solves succeeded, all four GridSFM starts supplied full AC state, every
+checkpoint SHA passed, and maximum objective spread was `8.406234e-06`. Native
+IPOPT timing showed DC as the most consistent improvement over cold. M0/M1
+were near cold in median; M2/M3 were slower despite stronger native/exact state
+quality, so fine-tuning does not imply solver speedup.
+
+M2 was strongest among GridSFM variants on the FullTop-oriented OPS diagnostic;
+M3 improved over released M0 and generally M1, while retaining the FT6 N-1
+specialization result. This is distribution-specific adaptation with tradeoffs.
+
+Published `goc_500_results/stage_j/refined_finetune_study` with 18 Parquet
+tables, 14 figures, zero CSVs, zero checkpoints, and a 12.97 MB largest file.
+Parquet read-back, copy hashes, source hashes, row counts, approval, preflight,
+disk, OPS, warm-start, and summary evidence are in the publication manifest.
+
+## August 24, 2026: FT7 Controlled IPOPT Iteration Rerun
+
+Superseded the mixed-batch FT7 warm-start timing aggregate with one controlled
+rerun of all 525 fixed-instance solves. The seven starts were rotated across
+execution positions; every start occupied each position 10 or 11 times. The
+rerun completed in 32.6 minutes with four workers and passed all solve,
+uniqueness, objective, timing-field, order-balance, and iteration-count gates.
+
+Every initialization produced a positive IPOPT barrier-iteration count. Median
+iterations were 33 for cold, 30 for DC, and 31 for M0, M1, M2, M3, and exact
+primal. Mean IPOPT times were 5.221 seconds for cold, 5.151 for DC, 5.160 for
+M0, 5.108 for M1, 5.104 for M2, 5.159 for M3, and 5.216 for exact. The prior
+multi-second M2/M3 slowdown is superseded as a mixed-batch artifact. M1 and M2
+are effectively tied by time, and all GridSFM checkpoints show modest median
+iteration reductions without a strong checkpoint speed ordering.
+
+The refreshed publication contains 48 files: 20 Parquet tables, 15 PNG
+figures, 12 JSON records, and one Markdown summary. It includes a dedicated
+iteration figure, iteration summary and paired tables, and the controlled-run
+validation record. No CSVs or checkpoints are published.

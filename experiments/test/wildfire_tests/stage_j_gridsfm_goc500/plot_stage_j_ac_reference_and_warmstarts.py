@@ -114,8 +114,8 @@ def _read_core(root: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd
     return reference_a, reference_b, fidelity, warm
 
 
-def _state_distance_summary(fidelity: pd.DataFrame) -> pd.DataFrame:
-    rows = fidelity[fidelity["method"].isin(METHODS)].copy()
+def _state_distance_summary(fidelity: pd.DataFrame, methods: list[str]) -> pd.DataFrame:
+    rows = fidelity[fidelity["method"].isin(methods)].copy()
     rows = rows[rows["metric_family"].isin(["Pg", "Qg", "V", "Pij", "Qij", "Pji", "Qji"])]
     summary = (
         rows.groupby(["scenario_id", "lambda_r", "method"], dropna=False)
@@ -129,8 +129,13 @@ def _state_distance_summary(fidelity: pd.DataFrame) -> pd.DataFrame:
     return summary
 
 
-def _plot_reference_a(reference_a: pd.DataFrame, state_distance: pd.DataFrame, figures: Path) -> pd.DataFrame:
-    rows = reference_a[reference_a["method"].isin(METHODS)].copy()
+def _plot_reference_a(
+    reference_a: pd.DataFrame,
+    state_distance: pd.DataFrame,
+    figures: Path,
+    methods: list[str],
+) -> pd.DataFrame:
+    rows = reference_a[reference_a["method"].isin(methods)].copy()
     rows = rows.merge(state_distance, on=["scenario_id", "lambda_r", "method"], how="left")
     rows["abs_delta_j_trade"] = rows["delta_j_true_native_minus_ac"].abs()
     rows["abs_delta_r_norm"] = rows["delta_r_norm_native_minus_ac"].abs()
@@ -139,7 +144,7 @@ def _plot_reference_a(reference_a: pd.DataFrame, state_distance: pd.DataFrame, f
 
     fig, axes = plt.subplots(2, 2, figsize=(12.6, 8.4))
     axes = axes.ravel()
-    for method in METHODS:
+    for method in methods:
         method_rows = rows[rows["method"] == method]
         for scenario, scenario_rows in method_rows.groupby("scenario_id"):
             marker = SCENARIO_MARKERS.get(scenario, "o")
@@ -191,14 +196,14 @@ def _plot_reference_a(reference_a: pd.DataFrame, state_distance: pd.DataFrame, f
     return rows
 
 
-def _plot_reference_b(reference_b: pd.DataFrame, figures: Path) -> pd.DataFrame:
-    rows = reference_b[reference_b["method"].isin(METHODS)].copy()
+def _plot_reference_b(reference_b: pd.DataFrame, figures: Path, methods: list[str]) -> pd.DataFrame:
+    rows = reference_b[reference_b["method"].isin(methods)].copy()
     rows["served_fraction_ac_mld"] = 1.0 - rows["l_shed_ac_mld"]
     b1 = rows[rows["reference_b_stage"] == "B1_load_delivery"].copy()
     b2 = rows[rows["reference_b_stage"] == "B2_cost_tiebreak"].copy()
 
     fig, axes = plt.subplots(1, 3, figsize=(14.4, 4.4))
-    for method in METHODS:
+    for method in methods:
         for scenario, scenario_rows in b1[b1["method"] == method].groupby("scenario_id"):
             axes[0].plot(
                 scenario_rows["lambda_r"],
@@ -239,8 +244,8 @@ def _plot_reference_b(reference_b: pd.DataFrame, figures: Path) -> pd.DataFrame:
     return rows
 
 
-def _plot_state_distance_heatmap(fidelity: pd.DataFrame, figures: Path) -> pd.DataFrame:
-    rows = fidelity[fidelity["method"].isin(METHODS)].copy()
+def _plot_state_distance_heatmap(fidelity: pd.DataFrame, figures: Path, methods: list[str]) -> pd.DataFrame:
+    rows = fidelity[fidelity["method"].isin(methods)].copy()
     rows = rows[rows["metric_family"].isin(["Pg", "Qg", "V", "Pij", "Qij", "Pji", "Qji"])]
     summary = (
         rows.groupby(["method", "metric_family"], dropna=False)
@@ -248,7 +253,7 @@ def _plot_state_distance_heatmap(fidelity: pd.DataFrame, figures: Path) -> pd.Da
         .reset_index()
     )
     pivot = summary.pivot(index="method", columns="metric_family", values="mean_nrmse")
-    pivot = pivot.reindex(index=METHODS, columns=["Pg", "Qg", "V", "Pij", "Qij", "Pji", "Qji"])
+    pivot = pivot.reindex(index=methods, columns=["Pg", "Qg", "V", "Pij", "Qij", "Pji", "Qji"])
 
     fig, ax = plt.subplots(figsize=(9.8, 3.2))
     image = ax.imshow(pivot.to_numpy(dtype=float), aspect="auto", cmap="magma")
@@ -268,8 +273,8 @@ def _plot_state_distance_heatmap(fidelity: pd.DataFrame, figures: Path) -> pd.Da
     return summary
 
 
-def _plot_warm_start(warm: pd.DataFrame, figures: Path) -> pd.DataFrame:
-    rows = warm[warm["method"].isin(METHODS)].copy()
+def _plot_warm_start(warm: pd.DataFrame, figures: Path, methods: list[str]) -> pd.DataFrame:
+    rows = warm[warm["method"].isin(methods)].copy()
     key_cols = ["setting_code", "scenario_id", "lambda_r", "method", "finalist_backend", "finalist_topology_id"]
     cold = (
         rows[rows["warm_start_type"] == "cold_start"][key_cols + ["solver_runtime_seconds", "end_to_end_seconds"]]
@@ -282,9 +287,10 @@ def _plot_warm_start(warm: pd.DataFrame, figures: Path) -> pd.DataFrame:
     rows["end_to_end_speedup_vs_cold"] = rows["cold_end_to_end_seconds"] / rows["end_to_end_seconds"]
     rows["warm_start_label"] = rows["warm_start_type"].map(WARM_START_LABELS).fillna(rows["warm_start_type"])
 
-    fig, axes = plt.subplots(1, 3, figsize=(14.6, 4.6))
+    fig, axes = plt.subplots(1, len(methods) + 1, figsize=(5.0 * (len(methods) + 1), 4.6))
+    axes = list(axes) if hasattr(axes, "__len__") else [axes]
     positions = range(len(WARM_START_ORDER))
-    for axis, method in zip(axes[:2], METHODS):
+    for axis, method in zip(axes[:-1], methods):
         method_rows = rows[rows["method"] == method]
         data = [
             method_rows[method_rows["warm_start_type"] == warm_type]["solver_runtime_seconds"].dropna()
@@ -310,12 +316,17 @@ def _plot_warm_start(warm: pd.DataFrame, figures: Path) -> pd.DataFrame:
 
     non_cold = rows[rows["warm_start_type"] != "cold_start"].copy()
     labels = [WARM_START_LABELS[w] for w in WARM_START_ORDER if w != "cold_start"]
-    x_offsets = {"Guided-DC": -0.16, "Guided-GridSFM": 0.16}
-    for method in METHODS:
+    if len(methods) == 1:
+        x_offsets = {methods[0]: 0.0}
+    else:
+        spacing = 0.32 / max(len(methods) - 1, 1)
+        x_offsets = {method: -0.16 + index * spacing for index, method in enumerate(methods)}
+    comparison_axis = axes[-1]
+    for method in methods:
         method_rows = non_cold[non_cold["method"] == method]
         for idx, warm_type in enumerate([w for w in WARM_START_ORDER if w != "cold_start"]):
             values = method_rows[method_rows["warm_start_type"] == warm_type]["solver_seconds_saved_vs_cold"].dropna()
-            axes[2].scatter(
+            comparison_axis.scatter(
                 [idx + x_offsets[method]] * len(values),
                 values,
                 s=28,
@@ -324,17 +335,17 @@ def _plot_warm_start(warm: pd.DataFrame, figures: Path) -> pd.DataFrame:
                 label=method if idx == 0 else None,
             )
             if not values.empty:
-                axes[2].plot(
+                comparison_axis.plot(
                     [idx + x_offsets[method] - 0.08, idx + x_offsets[method] + 0.08],
                     [values.median(), values.median()],
                     color="black",
                     linewidth=1.2,
                 )
-    axes[2].axhline(0.0, color="black", linewidth=1.0, linestyle="--", alpha=0.7)
-    axes[2].set_xticks(range(len(labels)))
-    axes[2].set_xticklabels(labels, rotation=18)
-    _style(axes[2], "Solver Seconds Saved Relative To Respective Cold Start", "", "cold runtime - warm runtime")
-    axes[2].legend(frameon=False, fontsize=9)
+    comparison_axis.axhline(0.0, color="black", linewidth=1.0, linestyle="--", alpha=0.7)
+    comparison_axis.set_xticks(range(len(labels)))
+    comparison_axis.set_xticklabels(labels, rotation=18)
+    _style(comparison_axis, "Solver Seconds Saved Relative To Respective Cold Start", "", "cold runtime - warm runtime")
+    comparison_axis.legend(frameon=False, fontsize=9)
     fig.suptitle("Stage J Warm-Start Study For Reference A AC-OPF", y=1.02, fontsize=13, weight="bold")
     fig.tight_layout()
     _save(fig, figures / "stage_j_guided_warm_start_study.png")
@@ -355,12 +366,16 @@ def main() -> None:
     summary_dir.mkdir(parents=True, exist_ok=True)
 
     reference_a, reference_b, fidelity, warm = _read_core(root)
-    state_distance = _state_distance_summary(fidelity)
+    available_methods = set(reference_a["method"].dropna())
+    methods = [method for method in METHODS if method in available_methods]
+    if not methods:
+        raise ValueError(f"No supported guided methods found; expected one of {METHODS}")
+    state_distance = _state_distance_summary(fidelity, methods)
 
-    reference_a_summary = _plot_reference_a(reference_a, state_distance, figures)
-    reference_b_summary = _plot_reference_b(reference_b, figures)
-    fidelity_summary = _plot_state_distance_heatmap(fidelity, figures)
-    warm_summary = _plot_warm_start(warm, figures)
+    reference_a_summary = _plot_reference_a(reference_a, state_distance, figures, methods)
+    reference_b_summary = _plot_reference_b(reference_b, figures, methods)
+    fidelity_summary = _plot_state_distance_heatmap(fidelity, figures, methods)
+    warm_summary = _plot_warm_start(warm, figures, methods)
 
     reference_a_summary.to_csv(summary_dir / "guided_reference_a_discrepancy_distance.csv", index=False)
     reference_b_summary.to_csv(summary_dir / "guided_reference_b_mld.csv", index=False)

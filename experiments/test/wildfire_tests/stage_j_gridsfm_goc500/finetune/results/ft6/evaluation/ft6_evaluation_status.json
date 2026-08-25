@@ -1,0 +1,17 @@
+{
+  "checks": {
+    "environment_and_private_sources_frozen": true,
+    "four_checkpoint_hashes_verified": true,
+    "official_combined_750_complete": true,
+    "official_metrics_finite": true,
+    "output_schemas_identical": true,
+    "preflight_passed": true,
+    "same_ordered_test_manifest": true,
+    "sealed_fulltop_375_complete": true,
+    "sealed_n1_375_complete": true,
+    "test_data_excluded_from_training_and_validation": true
+  },
+  "phase": "COMPLETE",
+  "runtime_seconds": 1140.1985319999512,
+  "status": "FT6_P3_FOUR_MODEL_EVALUATION_PASS"
+}

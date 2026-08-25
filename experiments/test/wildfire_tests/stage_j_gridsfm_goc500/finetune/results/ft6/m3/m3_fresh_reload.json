@@ -1,0 +1,138 @@
+{
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_ft1000_plus_n1_500.pt",
+  "checkpoint_sha256": "4EC89D36DE80081BE2FC26C14A1BC5A5369D7423B557D71B9DD4A254462F302D",
+  "process_id": 16360,
+  "status": "PASS",
+  "validation": {
+    "fulltop": {
+      "metrics": {
+        "V_mae": 0.0015179298299153646,
+        "brP_mae": 0.036245873989682514,
+        "brQ_mae": 0.025003508600893783,
+        "cost_mape": 0.0056331797391176225,
+        "feas_acc": 1.0,
+        "kcl_P_resid": 0.00024042545731862386,
+        "kcl_Q_resid": 0.0004846843433380127,
+        "loss": 0.04082048288051118,
+        "n_graphs": 375,
+        "pg_mae": 0.005138420766789546,
+        "qg_mae": 0.020054146036069993,
+        "thermal_frac_overload": 0.00030165912518853697,
+        "thermal_max_loading": 0.988867177327474,
+        "theta_mae": 0.007746011159261068
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5824
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1368,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 68.8145927998703
+    },
+    "n1": {
+      "metrics": {
+        "V_mae": 0.0020342518768310548,
+        "brP_mae": 0.03971953496638173,
+        "brQ_mae": 0.029406120047004353,
+        "cost_mape": 0.007403034453590711,
+        "feas_acc": 0.992,
+        "kcl_P_resid": 0.0002612003450393677,
+        "kcl_Q_resid": 0.0005642975184122722,
+        "loss": 0.0746160182071493,
+        "n_graphs": 375,
+        "pg_mae": 0.007230613283440401,
+        "qg_mae": 0.02456376402907984,
+        "thermal_frac_overload": 0.0007204060031150517,
+        "thermal_max_loading": 1.0005058352152507,
+        "theta_mae": 0.009409765441894532
+      },
+      "output_signature": {
+        "Pij": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Pji": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Qij": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "Qji": {
+          "finite": true,
+          "shape": [
+            5820
+          ]
+        },
+        "bus.pred": {
+          "finite": true,
+          "shape": [
+            4000,
+            2
+          ]
+        },
+        "feas_logit": {
+          "finite": true,
+          "shape": [
+            8
+          ]
+        },
+        "generator.pred": {
+          "finite": true,
+          "shape": [
+            1364,
+            2
+          ]
+        }
+      },
+      "runtime_seconds": 69.23175040003844
+    }
+  }
+}

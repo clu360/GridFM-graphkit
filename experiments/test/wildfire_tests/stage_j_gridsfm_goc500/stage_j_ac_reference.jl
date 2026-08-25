@@ -131,9 +131,21 @@ function apply_reference_b_generator_bounds!(data)
     end
 end
 
+function apply_generic_start_values!(data)
+    for (_, bus) in data["bus"]
+        bus["vm_start"] = 1.0
+        bus["va_start"] = 0.0
+    end
+    for (_, gen) in data["gen"]
+        gen["pg_start"] = (Float64(gen["pmin"]) + Float64(gen["pmax"])) / 2.0
+        gen["qg_start"] = 0.0
+    end
+end
+
 function apply_start_values!(data, start_dir)
+    apply_generic_start_values!(data)
     if strip(start_dir) == "" || !isdir(start_dir)
-        return "none"
+        return "explicit_generic_V1_theta0_Pg_midpoint_Qg0"
     end
     bus_rows = parse_state_csv(joinpath(start_dir, "bus_start.csv"))
     gen_rows = parse_state_csv(joinpath(start_dir, "gen_start.csv"))
@@ -157,7 +169,27 @@ function apply_start_values!(data, start_dir)
             end
         end
     end
-    return "csv_start_values"
+    return "csv_start_values_over_explicit_generic"
+end
+
+function start_value_audit(data)
+    vm_values = [Float64(bus["vm_start"]) for (_, bus) in data["bus"]]
+    va_values = [Float64(bus["va_start"]) for (_, bus) in data["bus"]]
+    pg_values = [Float64(gen["pg_start"]) for (_, gen) in data["gen"]]
+    qg_values = [Float64(gen["qg_start"]) for (_, gen) in data["gen"]]
+    pg_midpoint_errors = [
+        abs(Float64(gen["pg_start"]) - (Float64(gen["pmin"]) + Float64(gen["pmax"])) / 2.0)
+        for (_, gen) in data["gen"]
+    ]
+    return Dict(
+        "start_bus_count" => length(vm_values),
+        "start_gen_count" => length(pg_values),
+        "start_vm_min" => minimum(vm_values),
+        "start_vm_max" => maximum(vm_values),
+        "start_va_abs_max" => maximum(abs.(va_values)),
+        "start_pg_midpoint_max_abs_error" => maximum(pg_midpoint_errors),
+        "start_qg_abs_max" => maximum(abs.(qg_values)),
+    )
 end
 
 function export_solution(result, data, output_dir, prefix)
@@ -324,18 +356,36 @@ function solve_reference_a()
     missing_load_ids = apply_fixed_alpha!(data, alpha)
     apply_topology!(data, offline_branch_ids)
     start_source = apply_start_values!(data, start_dir)
+    start_audit = start_value_audit(data)
     solver = optimizer_with_attributes(Ipopt.Optimizer, "print_level" => 0, "max_iter" => 10000, "mu_init" => 1.0, "warm_start_bound_push" => 1.0)
+    # Keep the instantiated model so solver-native iteration statistics remain
+    # available after the otherwise identical PowerModels AC-OPF solve.
+    pm = PowerModels.instantiate_model(data, PowerModels.ACPPowerModel, PowerModels.build_opf)
     t0 = time()
-    result = PowerModels.solve_ac_opf(data, solver)
+    result = PowerModels.optimize_model!(pm; optimizer=solver)
     runtime = time() - t0
+    ipopt_solve_time = haskey(result, "solve_time") ? Float64(result["solve_time"]) : nothing
+    iteration_count = try
+        Int(JuMP.barrier_iterations(pm.model))
+    catch
+        nothing
+    end
+    model_and_result_overhead = ipopt_solve_time === nothing ? nothing : max(0.0, runtime - ipopt_solve_time)
     branch_csv, bus_csv, gen_csv, load_csv = export_solution(result, data, output_dir, "reference_a")
     summary = Dict(
         "mode" => "reference_a_fixed_z_alpha_economic_ac_opf",
         "termination_status" => string(result["termination_status"]),
         "objective" => haskey(result, "objective") ? result["objective"] : nothing,
         "runtime_seconds" => runtime,
-        "iteration_count" => nothing,
+        "ipopt_solve_time_seconds" => ipopt_solve_time,
+        "power_models_total_seconds" => runtime,
+        "model_and_result_overhead_seconds" => model_and_result_overhead,
+        "iteration_count" => iteration_count,
         "start_source" => start_source,
+        "generic_vm_start" => 1.0,
+        "generic_va_start" => 0.0,
+        "generic_pg_start_rule" => "(pmin+pmax)/2",
+        "generic_qg_start" => 0.0,
         "missing_alpha_load_count" => length(missing_load_ids),
         "offline_branch_ids" => offline_branch_ids_arg,
         "branch_state_csv" => branch_csv,
@@ -343,6 +393,7 @@ function solve_reference_a()
         "gen_dispatch_csv" => gen_csv,
         "load_service_csv" => load_csv,
     )
+    merge!(summary, start_audit)
     write_json(joinpath(output_dir, "reference_a_summary.json"), summary, collect(keys(summary)))
     println("reference_a_status ", summary["termination_status"])
 end

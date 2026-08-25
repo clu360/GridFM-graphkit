@@ -1,0 +1,99 @@
+{
+  "artifact_id": "STAGE-J-GRIDSFM-FT0-SMOKE",
+  "base_checkpoint": {
+    "filename": "gridsfm_open_v1.1.pt",
+    "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt",
+    "sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+    "version": "v1.1"
+  },
+  "dataset": {
+    "case_name": "pglib_opf_case500_goc",
+    "heldout_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "heldout_split": "test",
+    "opfdata_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\cache\\opfdata",
+    "train_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "train_split": "train",
+    "variant": "fulltop"
+  },
+  "environment": {
+    "cuda_available": false,
+    "device": "cpu",
+    "device_name": "CPU",
+    "dtype": "torch.float32",
+    "gridsfm_git_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+    "gridsfm_module": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\gridsfm\\__init__.py",
+    "gridsfm_root": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM",
+    "gridsfm_version": "1.1.0",
+    "platform": "win32",
+    "python_executable": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\envs\\gridsfm\\Scripts\\python.exe",
+    "python_version": "3.12.11 | packaged by conda-forge | (main, Jun  4 2025, 14:29:09) [MSC v.1943 64 bit (AMD64)]",
+    "torch_geometric_version": "2.8.0.post1",
+    "torch_version": "2.8.0+cpu"
+  },
+  "fine_tuned_checkpoint": {
+    "created_utc": "2026-08-22T02:40:06.060182+00:00",
+    "filename": "gridsfm_goc500_fulltop_ft0_n10.pt",
+    "path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft0_n10.pt",
+    "sha256": "CF72E0F6036D1E37FB5A298EB3DB5E69A6524F48BC7B0B8B5CD34E758DDFE4A2",
+    "size_bytes": 61003599
+  },
+  "implementation_notes": [
+    "Official GridSFM exposes no public checkpoint exporter; FT0 uses the documented minimal release format and gridsfm.checkpoint._hash_state_dict.",
+    "Official OPFData flow reconstruction is private; output finiteness uses gridsfm.loss._predicted_flows, matching eval_pass internals.",
+    "No GridSFM architecture, loss, preprocessing, or optimizer loop is duplicated."
+  ],
+  "pass_checks": {
+    "checkpoint_saved": true,
+    "cycle_hodge_preparation_executed": true,
+    "finite_training_loss": true,
+    "fresh_process_reload_passed": true,
+    "frozen_ft0_predictions_differ": true,
+    "frozen_ft0_schema_identical": true,
+    "goc500_fulltop_train_samples_loaded": true,
+    "heldout_inference_passed": true,
+    "released_v1_1_loaded": true,
+    "stage_j_candidate_evaluated": true,
+    "stage_j_input_integrity": true,
+    "stage_j_methodology_unchanged": true,
+    "updated_parameters_finite": true,
+    "weights_changed": true
+  },
+  "preprocessing": {
+    "cycle_basis": "gridsfm.cycle_basis.CycleBasisCache + prepare_for_grid_transformer_",
+    "hodge_pe": "gridsfm.pe_features.LaplacianFactorizationCache + attach_pe_features_",
+    "transform_location": "SyntheticMixedDataset for train; OPFDataAdapterDataset for held-out"
+  },
+  "status": "FT0_VALIDATED_READY_FOR_FT1",
+  "training": {
+    "batch_size": 2,
+    "epochs": 2,
+    "infeas_prob": 0.3,
+    "learning_rate": 0.0001,
+    "peak_cuda_memory_bytes": null,
+    "runtime_seconds": 23.688526099780574,
+    "seed": 42,
+    "weight_decay": 0.0001
+  }
+}

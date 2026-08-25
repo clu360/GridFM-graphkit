@@ -1,0 +1,9 @@
+{
+  "all_updated_parameters_finite": true,
+  "at_least_one_tensor_changed": true,
+  "changed_parameter_tensor_fraction": 1.0,
+  "changed_parameter_tensors": 1221,
+  "floating_parameter_tensors": 1221,
+  "max_absolute_parameter_change": 0.0507243275642395,
+  "parameter_l2_change": 6.24025943153139
+}

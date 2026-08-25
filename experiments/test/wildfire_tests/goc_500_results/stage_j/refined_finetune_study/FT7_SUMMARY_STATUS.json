@@ -1,0 +1,19 @@
+{
+  "core_validation": "FT7_P2_EXACT_AND_CORE_PASS",
+  "figure_count": 15,
+  "methods": [
+    "Guided-DC",
+    "Guided-GridSFM (released v1.1)",
+    "Guided-GridSFM (FullTop-1000)",
+    "Guided-GridSFM (FullTop-1500)",
+    "Guided-GridSFM (FullTop+N-1)"
+  ],
+  "pareto_frontier_rows": 603,
+  "pareto_validation": "FT7_P3_ALL_CANDIDATE_PARETO_PASS",
+  "reference_summary_tables": 3,
+  "status": "FT7_P4_SUMMARY_PASS",
+  "th_included": false,
+  "warm_start_figures": 3,
+  "warm_start_rows": 525,
+  "warm_start_source": "controlled_iteration_rerun"
+}

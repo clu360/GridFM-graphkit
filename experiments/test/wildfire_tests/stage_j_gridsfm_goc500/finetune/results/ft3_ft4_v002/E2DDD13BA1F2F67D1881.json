@@ -1,0 +1,21 @@
+{
+  "expected": {
+    "candidate_evaluations_all.csv": 30600,
+    "method_finalists_all.csv": 45,
+    "reference_a_all.csv": 45,
+    "reference_b_all.csv": 90,
+    "state_fidelity_all.csv": 360,
+    "topology_objectives_all.csv": 1530,
+    "warm_start_all.csv": 225
+  },
+  "observed": {
+    "candidate_evaluations_all.csv": 30600,
+    "method_finalists_all.csv": 45,
+    "reference_a_all.csv": 45,
+    "reference_b_all.csv": 90,
+    "state_fidelity_all.csv": 360,
+    "topology_objectives_all.csv": 1530,
+    "warm_start_all.csv": 225
+  },
+  "status": "PASS"
+}

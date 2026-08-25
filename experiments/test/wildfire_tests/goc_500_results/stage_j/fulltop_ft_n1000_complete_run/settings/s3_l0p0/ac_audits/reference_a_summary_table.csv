@@ -1,0 +1,22 @@
+method,scenario_id,topology_id,lambda_r,reference_a_status,reference_a_runtime_seconds,reference_a_wall_seconds,reference_a_objective,native_r_norm,reference_a_r_norm_ac,delta_r_norm_native_minus_ac,native_l_shed_total,reference_a_l_shed_total,native_j_trade,reference_a_j_true,delta_j_true_native_minus_ac,lambda_times_delta_r,max_ac_loading,num_ac_loading_gt_1,native_cost,native_message,julia_stdout,julia_stderr,model_selection,model_variant,checkpoint_path,checkpoint_sha256
+Guided-GridSFM,J-S3,65;185,0.0,LOCALLY_SOLVED,6.889000177383423,12.356177806854248,455054.98683441756,1.0965946175861419,1.0081431289428038,0.08845148864333807,0.0,0.0,0.0,0.0,0.0,0.0,1.0000000049936988,1,459400.18892094115,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,ft,fulltop_ft_n1000,C:\Users\Caleb Lu\.gridfm_stage_j\checkpoints\stage_j_finetune\gridsfm_goc500_fulltop_ft_n1000.pt,A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD
+TH-GridSFM-top1,J-S3,285,0.0,LOCALLY_SOLVED,6.513000011444092,12.095764875411987,449542.7166345506,0.47819176542859837,0.4590836927509173,0.019108072677681054,0.007800458398454948,0.007800458398454948,0.007800458398454948,0.007800458398454948,0.0,0.0,1.0000000049923112,2,463500.3251877383,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,ft,fulltop_ft_n1000,C:\Users\Caleb Lu\.gridfm_stage_j\checkpoints\stage_j_finetune\gridsfm_goc500_fulltop_ft_n1000.pt,A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD
+TH-GridSFM-top2,J-S3,285;473,0.0,LOCALLY_SOLVED,6.601999998092651,12.052298307418823,457668.7196369036,0.49760695714047665,0.46237830558775594,0.0352286515527207,0.0,0.0,0.0,0.0,0.0,0.0,1.0000000049945876,2,468574.9903561118,GridSFM candidate evaluated through official preprocessing/predict path.,"******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+reference_a_status LOCALLY_SOLVED",,ft,fulltop_ft_n1000,C:\Users\Caleb Lu\.gridfm_stage_j\checkpoints\stage_j_finetune\gridsfm_goc500_fulltop_ft_n1000.pt,A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD

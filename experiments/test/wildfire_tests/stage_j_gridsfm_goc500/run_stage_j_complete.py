@@ -18,8 +18,13 @@ import time
 from pathlib import Path
 from typing import Any, Iterable
 
-
 WILDFIRE_TESTS_ROOT = Path(__file__).resolve().parents[1]
+if str(WILDFIRE_TESTS_ROOT) not in sys.path:
+    sys.path.insert(0, str(WILDFIRE_TESTS_ROOT))
+
+from stage_j_gridsfm_goc500.model_selection import resolve_model_selection, sha256_file
+
+
 J8_RUNNER = Path(__file__).with_name("run_j8_budgeted_alpha_topology_smoke.py")
 J9_RUNNER = Path(__file__).with_name("run_j9_j10_reference_smoke.py")
 
@@ -75,7 +80,13 @@ def _summary_path(main_dir: Path, method: str) -> Path:
     return main_dir / method / f"j8_{method.replace('-', '_')}_summary.json"
 
 
-def _j8_complete(main_dir: Path, method: str) -> bool:
+def _j8_complete(
+    main_dir: Path,
+    method: str,
+    *,
+    expected_model_selection: str | None = None,
+    expected_checkpoint_sha256: str | None = None,
+) -> bool:
     path = _summary_path(main_dir, method)
     if not path.exists():
         return False
@@ -83,23 +94,39 @@ def _j8_complete(main_dir: Path, method: str) -> bool:
     # PARTIAL_FAIL is accepted only for legacy pre-v001 J8 outputs where
     # valid finalists coexist with deliberately rejected DC-infeasible
     # candidates. New outputs use the explicit PASS_WITH... status.
-    return payload.get("status") in {
+    complete = payload.get("status") in {
         "PASS",
         "PASS_WITH_INFEASIBLE_CANDIDATES",
         "PARTIAL_FAIL",
     } and bool(payload.get("best_topology"))
+    if expected_model_selection is not None:
+        complete = complete and payload.get("model_selection") == expected_model_selection
+    if expected_checkpoint_sha256 is not None:
+        complete = complete and payload.get("checkpoint_sha256") == expected_checkpoint_sha256
+    return complete
 
 
-def _reference_complete(ref_dir: Path, expected_methods: int) -> bool:
+def _reference_complete(
+    ref_dir: Path,
+    expected_methods: int,
+    *,
+    expected_model_selection: str | None = None,
+    expected_checkpoint_sha256: str | None = None,
+) -> bool:
     status_path = ref_dir / "j9_j10_reference_smoke_summary.json"
     if not status_path.exists():
         return False
     status = _read_json(status_path)
-    return (
+    complete = (
         status.get("reference_a_rows") == expected_methods
-        and status.get("warm_start_rows") == 4 * expected_methods
+        and status.get("warm_start_rows") == 5 * expected_methods
         and status.get("reference_b_rows") == 2 * expected_methods
     )
+    if expected_model_selection is not None:
+        complete = complete and status.get("model_selection") == expected_model_selection
+    if expected_checkpoint_sha256 is not None:
+        complete = complete and status.get("checkpoint_sha256") == expected_checkpoint_sha256
+    return complete
 
 
 def _run(command: list[str], *, env: dict[str, str], cwd: Path, log_path: Path, timeout_seconds: int) -> bool:
@@ -204,45 +231,59 @@ def _copy_lightweight_setting(cache_setting: Path, final_setting: Path) -> list[
     return copied
 
 
-def _build_finalists(main_dir: Path, setting_dir: Path) -> Path:
-    guided_dc = _read_json(_summary_path(main_dir, "guided-dc"))
+def _build_finalists(
+    main_dir: Path,
+    setting_dir: Path,
+    *,
+    model_selection: str,
+    model_variant: str,
+    include_th: bool = True,
+) -> Path:
     guided_gridsfm = _read_json(_summary_path(main_dir, "guided-gridsfm"))
-    th_rows = _read_csv(main_dir / "th-gridsfm" / "j8_th_gridsfm_topology_summary.csv")
     finalists: list[dict[str, object]] = [
-        {
-            "method": "Guided-DC",
-            "backend": "dc",
-            "artifact_stub": "gdc",
-            "lambda_r": guided_dc["lambda_r"],
-            "best_topology": guided_dc["best_topology"],
-        },
         {
             "method": "Guided-GridSFM",
             "backend": "gridsfm",
             "artifact_stub": "gsfm",
             "lambda_r": guided_gridsfm["lambda_r"],
+            "model_selection": model_selection,
+            "model_variant": model_variant,
             "best_topology": guided_gridsfm["best_topology"],
         },
     ]
-    for row in th_rows:
-        if str(row.get("best_found", "")).lower() != "true":
-            raise RuntimeError(f"TH finalist missing an eligible alpha result: {row}")
-        top_k = int(row["num_shutoffs"])
-        finalists.append(
-            {
-                "method": f"TH-GridSFM-top{top_k}",
-                "backend": "gridsfm",
-                "artifact_stub": f"th{top_k}",
-                "lambda_r": float(row["lambda_r"]),
-                "best_topology": row,
-            }
-        )
+    if include_th:
+        th_rows = _read_csv(main_dir / "th-gridsfm" / "j8_th_gridsfm_topology_summary.csv")
+        for row in th_rows:
+            if str(row.get("best_found", "")).lower() != "true":
+                raise RuntimeError(f"TH finalist missing an eligible alpha result: {row}")
+            top_k = int(row["num_shutoffs"])
+            finalists.append(
+                {
+                    "method": f"TH-GridSFM-top{top_k}",
+                    "backend": "gridsfm",
+                    "artifact_stub": f"th{top_k}",
+                    "lambda_r": float(row["lambda_r"]),
+                    "model_selection": model_selection,
+                    "model_variant": model_variant,
+                    "best_topology": row,
+                }
+            )
     path = setting_dir / "finalists.json"
-    _write_json(path, {"finalists": finalists})
+    _write_json(path, {
+        "model_selection": model_selection,
+        "model_variant": model_variant,
+        "finalists": finalists,
+    })
     return path
 
 
-def _cached_setting_records(cache_root: Path) -> list[dict[str, object]]:
+def _cached_setting_records(
+    cache_root: Path,
+    *,
+    model_selection: str,
+    checkpoint_sha256: str,
+    include_th: bool = True,
+) -> list[dict[str, object]]:
     """Reconstruct all completed-setting status from the external cache.
 
     A targeted reference rerun must never replace the main-run aggregates with
@@ -254,7 +295,7 @@ def _cached_setting_records(cache_root: Path) -> list[dict[str, object]]:
         if not setting_dir.is_dir():
             continue
         main_dir = setting_dir / "main"
-        guided_path = _summary_path(main_dir, "guided-dc")
+        guided_path = _summary_path(main_dir, "guided-gridsfm")
         if not guided_path.exists():
             continue
         guided = _read_json(guided_path)
@@ -263,10 +304,26 @@ def _cached_setting_records(cache_root: Path) -> list[dict[str, object]]:
                 "setting_code": setting_dir.name,
                 "scenario_id": guided.get("scenario_id", ""),
                 "lambda_r": guided.get("lambda_r", ""),
-                "guided_dc_ok": _j8_complete(main_dir, "guided-dc"),
-                "guided_gridsfm_ok": _j8_complete(main_dir, "guided-gridsfm"),
-                "th_gridsfm_ok": _j8_complete(main_dir, "th-gridsfm"),
-                "references_ok": _reference_complete(setting_dir / "refs", expected_methods=4),
+                "model_selection": model_selection,
+                "model_variant": guided.get("model_variant", ""),
+                "checkpoint_sha256": checkpoint_sha256,
+                "guided_gridsfm_ok": _j8_complete(
+                    main_dir, "guided-gridsfm",
+                    expected_model_selection=model_selection,
+                    expected_checkpoint_sha256=checkpoint_sha256,
+                ),
+                "th_gridsfm_ok": (
+                    _j8_complete(
+                        main_dir, "th-gridsfm",
+                        expected_model_selection=model_selection,
+                        expected_checkpoint_sha256=checkpoint_sha256,
+                    ) if include_th else None
+                ),
+                "references_ok": _reference_complete(
+                    setting_dir / "refs", expected_methods=3 if include_th else 1,
+                    expected_model_selection=model_selection,
+                    expected_checkpoint_sha256=checkpoint_sha256,
+                ),
                 "finalists_manifest": str(setting_dir / "finalists.json") if (setting_dir / "finalists.json").exists() else "",
                 "copied_lightweight_artifact_count": "reconstructed_from_cache",
                 "cache_setting_dir": str(setting_dir),
@@ -275,7 +332,13 @@ def _cached_setting_records(cache_root: Path) -> list[dict[str, object]]:
     return sorted(records, key=lambda row: (str(row["scenario_id"]), float(row["lambda_r"])))
 
 
-def _collect_aggregate(cache_root: Path, final_root: Path, setting_records: Iterable[dict[str, object]]) -> None:
+def _collect_aggregate(
+    cache_root: Path,
+    final_root: Path,
+    setting_records: Iterable[dict[str, object]],
+    *,
+    include_th: bool = True,
+) -> None:
     topology_rows: list[dict[str, object]] = []
     trace_rows: list[dict[str, object]] = []
     finalists: list[dict[str, object]] = []
@@ -288,7 +351,8 @@ def _collect_aggregate(cache_root: Path, final_root: Path, setting_records: Iter
     for record in setting_records:
         setting_dir = cache_root / str(record["setting_code"])
         main_dir = setting_dir / "main"
-        for method in ("guided-dc", "guided-gridsfm", "th-gridsfm"):
+        methods = ("guided-gridsfm", "th-gridsfm") if include_th else ("guided-gridsfm",)
+        for method in methods:
             method_dir = main_dir / method
             summary_csv = method_dir / f"j8_{method.replace('-', '_')}_topology_summary.csv"
             trace_csv = method_dir / f"j8_{method.replace('-', '_')}_alpha_trace.csv"
@@ -306,6 +370,8 @@ def _collect_aggregate(cache_root: Path, final_root: Path, setting_records: Iter
                     "scenario_id": record["scenario_id"],
                     "lambda_r": record["lambda_r"],
                     "finalist_backend": finalist.get("backend"),
+                    "model_selection": finalist.get("model_selection"),
+                    "model_variant": finalist.get("model_variant"),
                     "finalist_topology_id": best_topology.get("topology_id", ""),
                     "finalist_topology_rank": best_topology.get("topology_rank", ""),
                     "finalist_num_shutoffs": best_topology.get("num_shutoffs", ""),
@@ -316,6 +382,8 @@ def _collect_aggregate(cache_root: Path, final_root: Path, setting_records: Iter
                         "backend": finalist.get("backend"),
                         "artifact_stub": finalist.get("artifact_stub"),
                         "lambda_r": finalist.get("lambda_r"),
+                        "model_selection": finalist.get("model_selection"),
+                        "model_variant": finalist.get("model_variant"),
                         **dict(finalist.get("best_topology", {})),
                     }
                 )
@@ -343,11 +411,97 @@ def _collect_aggregate(cache_root: Path, final_root: Path, setting_records: Iter
         _write_csv(core / filename, rows)
 
 
+def _git_commit(root: Path) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=root, check=True,
+        capture_output=True, text=True,
+    )
+    return result.stdout.strip()
+
+
+def _prepare_topology_pool(
+    *,
+    source_root: Path,
+    setting_code: str,
+    pool_name: str,
+    destination: Path,
+) -> dict[str, object]:
+    source = source_root / "settings" / setting_code / "pools" / pool_name
+    if not source.is_file():
+        raise FileNotFoundError(f"frozen topology pool is missing: {source}")
+    source_hash = sha256_file(source)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.exists():
+        destination_hash = sha256_file(destination)
+        if destination_hash != source_hash:
+            raise RuntimeError(
+                f"cached topology pool differs from frozen source: {destination}"
+            )
+    else:
+        shutil.copyfile(source, destination)
+        destination_hash = sha256_file(destination)
+    if destination_hash != source_hash:
+        raise RuntimeError(f"topology pool copy verification failed: {destination}")
+    return {
+        "setting_code": setting_code,
+        "pool_name": pool_name,
+        "source_path": str(source.resolve()),
+        "destination_path": str(destination.resolve()),
+        "sha256": source_hash,
+        "row_count": len(_read_csv(source)),
+        "ordered_byte_identical": True,
+    }
+
+
+def _validate_ft_result_counts(
+    final_root: Path,
+    *,
+    n_settings: int,
+    continuous_eval_budget: int,
+    topology_budget: int = 100,
+    include_th: bool = True,
+) -> dict[str, object]:
+    core = final_root / "core_results"
+    methods_per_setting = 3 if include_th else 1
+    topologies_per_setting = topology_budget + 2 if include_th else topology_budget
+    expected = {
+        "topology_objectives_all.csv": topologies_per_setting * n_settings,
+        "candidate_evaluations_all.csv": topologies_per_setting * continuous_eval_budget * n_settings,
+        "method_finalists_all.csv": methods_per_setting * n_settings,
+        "reference_a_all.csv": methods_per_setting * n_settings,
+        "reference_b_all.csv": 2 * methods_per_setting * n_settings,
+        "warm_start_all.csv": 5 * methods_per_setting * n_settings,
+        "state_fidelity_all.csv": 8 * methods_per_setting * n_settings,
+    }
+    observed = {
+        filename: len(_read_csv(core / filename)) if (core / filename).is_file() else -1
+        for filename in expected
+    }
+    return {
+        "status": "PASS" if observed == expected else "FAIL",
+        "expected": expected,
+        "observed": observed,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
+    parser.add_argument("--run-id", default="stage_j_complete_run_v001")
     parser.add_argument("--cache-root", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\cache\stage_j\complete_run_v001")
     parser.add_argument("--final-root", default="experiments/test/wildfire_tests/goc_500_results/stage_j/complete_run")
     parser.add_argument("--gridsfm-root", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM")
+    parser.add_argument("--model-selection", choices=["frozen", "ft"], default="frozen")
+    parser.add_argument(
+        "--guided-only", action="store_true",
+        help="Run only Guided-GridSFM; historical Guided+TH execution remains the default.",
+    )
+    parser.add_argument("--gridsfm-checkpoint", default=None)
+    parser.add_argument("--expected-checkpoint-sha256", default=None)
+    parser.add_argument(
+        "--pool-source-root",
+        default=None,
+        help="Completed frozen result package supplying ordered guided.csv and th.csv pools.",
+    )
     parser.add_argument("--input-dir", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\cache\stage_j\inputs\case500_goc_e0")
     parser.add_argument("--baseline-loading-csv", default=None)
     parser.add_argument("--pac-freeze-json", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\cache\stage_j\pac_calibration\v001\PAC_WEIGHT_FREEZE.json")
@@ -370,12 +524,22 @@ def main() -> int:
     final_root = Path(args.final_root).expanduser().resolve()
     input_dir = Path(args.input_dir).expanduser().resolve()
     gridsfm_root = Path(args.gridsfm_root).expanduser().resolve()
+    model_selection = resolve_model_selection(
+        args.model_selection,
+        gridsfm_root=gridsfm_root,
+        checkpoint=Path(args.gridsfm_checkpoint) if args.gridsfm_checkpoint else None,
+        expected_sha256=args.expected_checkpoint_sha256,
+    )
+    pool_source_root = Path(args.pool_source_root).expanduser().resolve() if args.pool_source_root else None
+    if pool_source_root is None:
+        parser.error("--pool-source-root is required for paired Stage J execution")
     final_root.mkdir(parents=True, exist_ok=True)
     cache_root.mkdir(parents=True, exist_ok=True)
     baseline_loading_csv = Path(args.baseline_loading_csv).expanduser().resolve() if args.baseline_loading_csv else Path(_read_json(input_dir / "stage_j_input_manifest.json")["baseline_loading_csv"]).resolve()
 
     config = {
-        "run_id": "stage_j_complete_run_v001",
+        "run_id": args.run_id,
+        **model_selection.as_dict(),
         "scenarios": args.scenarios,
         "lambda_r": args.lambdas,
         "lambda_r_proxy": "coupled_to_lambda_r",
@@ -383,15 +547,41 @@ def main() -> int:
         "topology_budget": args.topology_budget,
         "continuous_eval_budget": args.continuous_eval_budget,
         "q": args.q,
-        "methods": ["Guided-DC", "Guided-GridSFM", "TH-GridSFM-top1", "TH-GridSFM-top2"],
+        "methods": (
+            ["Guided-GridSFM"] if args.guided_only
+            else ["Guided-GridSFM", "TH-GridSFM-top1", "TH-GridSFM-top2"]
+        ),
+        "guided_only": args.guided_only,
+        "comparison_evidence": {
+            "dc_and_frozen_result_root": str(pool_source_root),
+            "execution_policy": "existing evidence referenced; only selected GridSFM variant is executed",
+        },
         "cache_root": str(cache_root),
         "final_root": str(final_root),
         "large_artifacts": "mutated GridSFM candidate graphs remain only under cache_root",
     }
     _write_json(final_root / "RUN_CONFIG.json", config)
+    provenance = {
+        **model_selection.as_dict(),
+        "python_executable": sys.executable,
+        "python_version": sys.version,
+        "stage_j_git_commit": _git_commit(WILDFIRE_TESTS_ROOT.parents[2]),
+        "gridsfm_git_commit": _git_commit(gridsfm_root),
+        "gridsfm_root": str(gridsfm_root),
+        "pool_source_root": str(pool_source_root),
+        "pool_source_run_config_sha256": sha256_file(pool_source_root / "RUN_CONFIG.json"),
+        "pac_freeze_path": str(Path(args.pac_freeze_json).expanduser().resolve()),
+        "pac_freeze_sha256": sha256_file(Path(args.pac_freeze_json).expanduser().resolve()),
+        "pip_freeze": subprocess.run(
+            [sys.executable, "-m", "pip", "freeze"], check=True,
+            capture_output=True, text=True,
+        ).stdout.splitlines(),
+    }
+    _write_json(final_root / "PROVENANCE_MANIFEST.json", provenance)
     env = dict(os.environ)
     env["XDG_CACHE_HOME"] = str(Path(args.xdg_cache_home).expanduser().resolve())
     setting_records: list[dict[str, object]] = []
+    pool_records: list[dict[str, object]] = []
 
     for scenario_id in args.scenarios:
         for lambda_r in args.lambdas:
@@ -402,18 +592,44 @@ def main() -> int:
             logs = setting_dir / "logs"
             main_dir.mkdir(parents=True, exist_ok=True)
             pool_dir.mkdir(parents=True, exist_ok=True)
+            pool_names = ("guided.csv",) if args.guided_only else ("guided.csv", "th.csv")
+            for pool_name in pool_names:
+                pool_records.append(
+                    _prepare_topology_pool(
+                        source_root=pool_source_root,
+                        setting_code=code,
+                        pool_name=pool_name,
+                        destination=pool_dir / pool_name,
+                    )
+                )
+            _write_json(final_root / "TOPOLOGY_POOL_MANIFEST.json", {
+                "status": "PASS",
+                "source_root": str(pool_source_root),
+                "records": pool_records,
+            })
             j8_ok: dict[str, bool] = {}
-            for method in ("guided-dc", "guided-gridsfm", "th-gridsfm"):
+            execution_methods = (
+                ("guided-gridsfm",) if args.guided_only
+                else ("guided-gridsfm", "th-gridsfm")
+            )
+            for method in execution_methods:
                 method_dir = main_dir / method
                 pool_name = "th.csv" if method == "th-gridsfm" else "guided.csv"
-                if _j8_complete(main_dir, method) and not args.force:
+                if _j8_complete(
+                    main_dir, method,
+                    expected_model_selection=model_selection.model_selection,
+                    expected_checkpoint_sha256=model_selection.checkpoint_sha256,
+                ) and not args.force:
                     j8_ok[method] = True
                     continue
                 command = [
                     sys.executable,
                     str(J8_RUNNER),
                     "--method", method,
+                    "--model-selection", model_selection.model_selection,
                     "--gridsfm-root", str(gridsfm_root),
+                    "--checkpoint", str(model_selection.checkpoint_path),
+                    "--expected-checkpoint-sha256", str(model_selection.checkpoint_sha256),
                     "--input-dir", str(input_dir),
                     "--baseline-loading-csv", str(baseline_loading_csv),
                     "--scenario-id", scenario_id,
@@ -430,14 +646,27 @@ def main() -> int:
                 if method != "guided-dc":
                     command.extend(["--pac-freeze-json", str(Path(args.pac_freeze_json).expanduser().resolve())])
                 j8_ok[method] = _run(command, env=env, cwd=WILDFIRE_TESTS_ROOT.parent, log_path=logs / f"{method}.json", timeout_seconds=args.j8_timeout_seconds)
-                j8_ok[method] = j8_ok[method] and _j8_complete(main_dir, method)
+                j8_ok[method] = j8_ok[method] and _j8_complete(
+                    main_dir, method,
+                    expected_model_selection=model_selection.model_selection,
+                    expected_checkpoint_sha256=model_selection.checkpoint_sha256,
+                )
 
             finalists_manifest = None
             refs_ok = args.skip_references
             if all(j8_ok.values()):
-                finalists_manifest = _build_finalists(main_dir, setting_dir)
+                finalists_manifest = _build_finalists(
+                    main_dir, setting_dir,
+                    model_selection=model_selection.model_selection,
+                    model_variant=model_selection.model_variant,
+                    include_th=not args.guided_only,
+                )
                 ref_dir = setting_dir / "refs"
-                if _reference_complete(ref_dir, expected_methods=4) and not args.force:
+                if _reference_complete(
+                    ref_dir, expected_methods=1 if args.guided_only else 3,
+                    expected_model_selection=model_selection.model_selection,
+                    expected_checkpoint_sha256=model_selection.checkpoint_sha256,
+                ) and not args.force:
                     refs_ok = True
                 elif not args.skip_references:
                     command = [
@@ -447,6 +676,9 @@ def main() -> int:
                         "--finalists-manifest", str(finalists_manifest),
                         "--input-dir", str(input_dir),
                         "--gridsfm-root", str(gridsfm_root),
+                        "--model-selection", model_selection.model_selection,
+                        "--checkpoint", str(model_selection.checkpoint_path),
+                        "--expected-checkpoint-sha256", str(model_selection.checkpoint_sha256),
                         "--case-path", str(Path(args.case_path).expanduser().resolve()),
                         "--julia-exe", str(Path(args.julia_exe).expanduser().resolve()),
                         "--julia-depot-path", str(Path(args.julia_depot_path).expanduser().resolve()),
@@ -456,8 +688,12 @@ def main() -> int:
                         "--timeout-seconds", str(args.reference_timeout_seconds),
                         "--output-dir", str(ref_dir),
                     ]
-                    refs_ok = _run(command, env=env, cwd=WILDFIRE_TESTS_ROOT.parent, log_path=logs / "references.json", timeout_seconds=4 * 7 * args.reference_timeout_seconds)
-                    refs_ok = refs_ok and _reference_complete(ref_dir, expected_methods=4)
+                    refs_ok = _run(command, env=env, cwd=WILDFIRE_TESTS_ROOT.parent, log_path=logs / "references.json", timeout_seconds=3 * 7 * args.reference_timeout_seconds)
+                    refs_ok = refs_ok and _reference_complete(
+                        ref_dir, expected_methods=1 if args.guided_only else 3,
+                        expected_model_selection=model_selection.model_selection,
+                        expected_checkpoint_sha256=model_selection.checkpoint_sha256,
+                    )
 
             copied = _copy_lightweight_setting(setting_dir, final_root / "settings" / code)
             setting_records.append(
@@ -465,9 +701,11 @@ def main() -> int:
                     "setting_code": code,
                     "scenario_id": scenario_id,
                     "lambda_r": lambda_r,
-                    "guided_dc_ok": j8_ok.get("guided-dc", False),
+                    "model_selection": model_selection.model_selection,
+                    "model_variant": model_selection.model_variant,
+                    "checkpoint_sha256": model_selection.checkpoint_sha256,
                     "guided_gridsfm_ok": j8_ok.get("guided-gridsfm", False),
-                    "th_gridsfm_ok": j8_ok.get("th-gridsfm", False),
+                    "th_gridsfm_ok": j8_ok.get("th-gridsfm") if not args.guided_only else None,
                     "references_ok": refs_ok,
                     "finalists_manifest": "" if finalists_manifest is None else str(finalists_manifest),
                     "copied_lightweight_artifact_count": len(copied),
@@ -476,22 +714,59 @@ def main() -> int:
             )
             _write_json(
                 final_root / "RUN_STATUS.json",
-                {"status": "IN_PROGRESS", "config": config, "settings": _cached_setting_records(cache_root)},
+                {
+                    "status": "IN_PROGRESS", "config": config,
+                    "settings": _cached_setting_records(
+                        cache_root,
+                        model_selection=model_selection.model_selection,
+                        checkpoint_sha256=str(model_selection.checkpoint_sha256),
+                        include_th=not args.guided_only,
+                    ),
+                },
             )
+            print(json.dumps({
+                "status": "SETTING_COMPLETE" if refs_ok else "SETTING_FAILED",
+                "setting_code": code,
+                "scenario_id": scenario_id,
+                "lambda_r": lambda_r,
+                "model_variant": model_selection.model_variant,
+                "guided_gridsfm_ok": j8_ok.get("guided-gridsfm", False),
+                "th_executed": not args.guided_only,
+                "references_ok": refs_ok,
+            }, sort_keys=True), flush=True)
 
-    all_setting_records = _cached_setting_records(cache_root)
-    _collect_aggregate(cache_root, final_root, all_setting_records)
+    all_setting_records = _cached_setting_records(
+        cache_root,
+        model_selection=model_selection.model_selection,
+        checkpoint_sha256=str(model_selection.checkpoint_sha256),
+        include_th=not args.guided_only,
+    )
+    _collect_aggregate(
+        cache_root, final_root, all_setting_records, include_th=not args.guided_only
+    )
     _write_csv(final_root / "core_results" / "setting_status.csv", all_setting_records)
     complete = all(
-        bool(record["guided_dc_ok"])
-        and bool(record["guided_gridsfm_ok"])
-        and bool(record["th_gridsfm_ok"])
+        bool(record["guided_gridsfm_ok"])
+        and (args.guided_only or bool(record["th_gridsfm_ok"]))
         and bool(record["references_ok"])
         for record in all_setting_records
+    ) and len(all_setting_records) == len(args.scenarios) * len(args.lambdas)
+    count_validation = _validate_ft_result_counts(
+        final_root,
+        n_settings=len(args.scenarios) * len(args.lambdas),
+        continuous_eval_budget=args.continuous_eval_budget,
+        topology_budget=args.topology_budget,
+        include_th=not args.guided_only,
     )
+    complete = complete and count_validation["status"] == "PASS"
+    _write_json(final_root / "ARTIFACT_COUNT_VALIDATION.json", count_validation)
     _write_json(
         final_root / "RUN_STATUS.json",
-        {"status": "COMPLETE" if complete else "PARTIAL_OR_FAILED", "config": config, "settings": all_setting_records},
+        {
+            "status": "COMPLETE" if complete else "PARTIAL_OR_FAILED",
+            "config": config, "settings": all_setting_records,
+            "artifact_count_validation": count_validation,
+        },
     )
     print(json.dumps({"status": "COMPLETE" if complete else "PARTIAL_OR_FAILED", "settings": len(all_setting_records), "final_root": str(final_root)}, indent=2))
     return 0 if complete else 1

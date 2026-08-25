@@ -25,6 +25,7 @@ from stage_j_gridsfm_goc500.goc500_adapter import build_goc500_identity, source_
 from stage_j_gridsfm_goc500.gridsfm_evaluator import evaluate_gridsfm_candidate
 from stage_j_gridsfm_goc500.load_service import compute_alpha_effective, compute_load_shedding
 from stage_j_gridsfm_goc500.metrics import compute_ac_loading_two_ended, compute_j_trade
+from stage_j_gridsfm_goc500.model_selection import resolve_model_selection
 from stage_j_gridsfm_goc500.scenario_builder import load_baseline_loading_csv
 from stage_j_gridsfm_goc500.schemas import EvaluationStatus, PacWeights
 
@@ -145,13 +146,35 @@ def _load_finalist_inputs(root: Path, manifest_path: Path | None) -> list[dict[s
             raise ValueError(f"finalist {method!r} is missing best_topology")
         lambda_r = float(entry["lambda_r"])
         payload = {"lambda_r": lambda_r, "best_topology": best}
-        loaded.append({"method": method, "backend": backend, "artifact_stub": artifact_stub, "payload": payload})
+        loaded.append({
+            "method": method,
+            "backend": backend,
+            "artifact_stub": artifact_stub,
+            "payload": payload,
+            "finalist_model_selection": entry.get(
+                "model_selection", best.get("model_selection", "")
+            ),
+            "finalist_model_variant": entry.get(
+                "model_variant", best.get("model_variant", "")
+            ),
+            "finalist_checkpoint_path": best.get("checkpoint_path", ""),
+            "finalist_checkpoint_sha256": best.get("checkpoint_sha256", ""),
+        })
         seen_stubs.add(artifact_stub)
     return loaded
 
 
-def _write_alpha(path: Path, values: Mapping[int, float], column: str = "alpha") -> None:
-    rows = [{"load_id": int(load_id), column: float(values[load_id])} for load_id in sorted(values)]
+def _write_alpha(
+    path: Path,
+    values: Mapping[int, float],
+    column: str = "alpha",
+    metadata: Mapping[str, object] | None = None,
+) -> None:
+    metadata = metadata or {}
+    rows = [
+        {"load_id": int(load_id), column: float(values[load_id]), **metadata}
+        for load_id in sorted(values)
+    ]
     _write_rows(path, rows)
 
 
@@ -421,6 +444,9 @@ def main() -> int:
     parser.add_argument("--j8-root", default="experiments/test/wildfire_tests/goc_500_results/stage_j/j8s/s1_l08")
     parser.add_argument("--input-dir", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\cache\stage_j\inputs\case500_goc_e0")
     parser.add_argument("--gridsfm-root", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\repos\GridSFM")
+    parser.add_argument("--checkpoint", default=None)
+    parser.add_argument("--expected-checkpoint-sha256", default=None)
+    parser.add_argument("--model-selection", choices=["frozen", "ft"], default="frozen")
     parser.add_argument("--case-path", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\repos\pglib-opf\pglib_opf_case500_goc.m")
     parser.add_argument("--julia-exe", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\tools\julia-1.10.11\bin\julia.exe")
     parser.add_argument("--julia-depot-path", default=r"C:\Users\Caleb Lu\.gridfm_stage_j\cache\julia_depot")
@@ -433,6 +459,33 @@ def main() -> int:
         help="Optional JSON list of explicit finalists, including TH-GridSFM rows.",
     )
     parser.add_argument("--run-reference-b", action="store_true")
+    parser.add_argument(
+        "--warm-starts-only",
+        action="store_true",
+        help="Rebuild all warm-start variants from an existing successful Reference A result.",
+    )
+    parser.add_argument(
+        "--full-gridsfm-only",
+        action="store_true",
+        help=(
+            "Evaluate only the selected checkpoint's full Pg/Qg/V/theta start and write "
+            "a checkpoint-specific additive table."
+        ),
+    )
+    parser.add_argument(
+        "--warm-start-id",
+        choices=["frozen", "m0", "m1", "m2", "m3"],
+        help=(
+            "Checkpoint-specific identifier for additive full-start artifacts. "
+            "Defaults to frozen or ft for backward compatibility."
+        ),
+    )
+    parser.add_argument(
+        "--method-filter",
+        action="append",
+        default=[],
+        help="Restrict --full-gridsfm-only to an exact finalist method name; repeat as needed.",
+    )
     parser.add_argument(
         "--reference-b-service-tolerance-pd-units",
         type=float,
@@ -449,11 +502,27 @@ def main() -> int:
     args = parser.parse_args()
     if args.reference_b_service_tolerance_pd_units <= 0.0 or args.reference_b_service_verification_tolerance_pd_units <= 0.0:
         parser.error("Reference B service tolerances must be positive")
+    if args.warm_starts_only and args.run_reference_b:
+        parser.error("--warm-starts-only cannot be combined with --run-reference-b")
+    if args.full_gridsfm_only and (args.warm_starts_only or args.run_reference_b):
+        parser.error("--full-gridsfm-only cannot be combined with other reference modes")
+    if args.method_filter and not args.full_gridsfm_only:
+        parser.error("--method-filter requires --full-gridsfm-only")
+    if args.warm_start_id and not args.full_gridsfm_only:
+        parser.error("--warm-start-id requires --full-gridsfm-only")
 
     root = Path(args.j8_root).resolve()
     input_dir = Path(args.input_dir).expanduser().resolve()
     output_dir = Path(args.output_dir).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    model_selection = resolve_model_selection(
+        args.model_selection,
+        gridsfm_root=Path(args.gridsfm_root).expanduser().resolve(),
+        checkpoint=Path(args.checkpoint) if args.checkpoint else None,
+        expected_sha256=args.expected_checkpoint_sha256,
+    )
+    model_metadata = model_selection.as_dict()
 
     raw_case = _read_json(Path(args.gridsfm_root) / "model" / "samples" / "case500_goc.pyg.json")
     gridsfm_model_root = Path(args.gridsfm_root) / "model"
@@ -479,11 +548,17 @@ def main() -> int:
 
     from gridsfm import load_model
 
-    checkpoint = Path(args.gridsfm_root) / "model" / "checkpoints" / "gridsfm_open_v1.1.pt"
-    model = load_model(str(checkpoint), device="cpu")
+    model = load_model(str(model_selection.checkpoint_path), device="cpu")
 
     finalists_manifest = Path(args.finalists_manifest).expanduser().resolve() if args.finalists_manifest else None
     method_inputs = _load_finalist_inputs(root, finalists_manifest)
+    if args.method_filter:
+        requested_methods = set(args.method_filter)
+        method_inputs = [row for row in method_inputs if row["method"] in requested_methods]
+        observed_methods = {str(row["method"]) for row in method_inputs}
+        missing_methods = requested_methods - observed_methods
+        if missing_methods:
+            raise ValueError(f"requested finalist methods are absent: {sorted(missing_methods)}")
     summary_rows: list[dict[str, object]] = []
     fidelity_rows: list[dict[str, object]] = []
     warm_rows: list[dict[str, object]] = []
@@ -505,10 +580,122 @@ def main() -> int:
         alpha_requested = _alpha_from_best(identity, best)
         source_less = source_less_load_ids(identity, offline)
         alpha_effective = compute_alpha_effective([load.canonical_load_id for load in identity.loads], alpha_requested, source_less)
+
+        if args.full_gridsfm_only:
+            warm_id = args.warm_start_id or (
+                "frozen" if model_selection.model_selection == "frozen" else "ft"
+            )
+            warm_type = f"gridsfm_{warm_id}_full_warm"
+            crossed_dir = method_dir / "crossed_warm" / str(model_selection.model_variant)
+            crossed_dir.mkdir(parents=True, exist_ok=True)
+            crossed_alpha = crossed_dir / "alpha_effective_full.csv"
+            _write_alpha(crossed_alpha, alpha_effective, "alpha", model_metadata)
+
+            reference_a_dir = method_dir / "ra"
+            ref_a_summary_path = reference_a_dir / "reference_a_summary.json"
+            ref_a_summary = _read_json(ref_a_summary_path) if ref_a_summary_path.is_file() else {}
+            reference_a_ok = (
+                str(ref_a_summary.get("termination_status")) in {"LOCALLY_SOLVED", "OPTIMAL"}
+                and (reference_a_dir / "reference_a_gen_dispatch.csv").is_file()
+                and (reference_a_dir / "reference_a_bus_state.csv").is_file()
+            )
+            if not reference_a_ok:
+                raise RuntimeError(
+                    f"full-GridSFM-only mode requires successful Reference A artifacts: {reference_a_dir}"
+                )
+
+            gridsfm_start_t0 = time.perf_counter()
+            g_state, _ = _make_native_gridsfm(
+                raw_case,
+                identity,
+                model,
+                offline,
+                alpha_requested,
+                p_env,
+                r_base,
+                float(payload["lambda_r"]),
+                weights,
+                crossed_dir / "native_gridsfm_eval",
+                gen_ids,
+            )
+            missing_full_families = [
+                family for family in ("pg", "qg", "v", "theta") if not g_state.get(family)
+            ]
+            if missing_full_families:
+                raise RuntimeError(
+                    f"GridSFM full warm start is missing state families: {missing_full_families}"
+                )
+            start_dir = crossed_dir / "state"
+            start_dir.mkdir(exist_ok=True)
+            _write_native_state(start_dir, g_state)
+            gridsfm_start_seconds = time.perf_counter() - gridsfm_start_t0
+
+            solve_dir = crossed_dir / "solve"
+            ok_w, out_w, err_w, wall_w = _run_julia(
+                julia_exe=Path(args.julia_exe),
+                julia_depot_path=Path(args.julia_depot_path),
+                script=script,
+                mode="reference_a",
+                case_path=Path(args.case_path),
+                alpha_csv=crossed_alpha,
+                offline_branch_ids=offline,
+                source_less_load_ids_=source_less,
+                output_dir=solve_dir,
+                start_dir=start_dir,
+                timeout_seconds=args.timeout_seconds,
+            )
+            warm_summary_path = solve_dir / "reference_a_summary.json"
+            warm_summary = _read_json(warm_summary_path) if warm_summary_path.is_file() else {}
+            finalist_selection = str(finalist.get("finalist_model_selection") or "")
+            if not finalist_selection:
+                finalist_selection = "dc" if backend == "dc" else "frozen"
+            finalist_variant = str(finalist.get("finalist_model_variant") or "")
+            if not finalist_variant:
+                finalist_variant = "guided_dc" if finalist_selection == "dc" else "released_v1_1"
+            warm_rows.append(
+                {
+                    "method": method,
+                    "warm_start_type": warm_type,
+                    "same_reference_a_instance": True,
+                    "status": warm_summary.get("termination_status", "missing"),
+                    "solver_runtime_seconds": warm_summary.get("ipopt_solve_time_seconds"),
+                    "wall_seconds": wall_w,
+                    "start_construction_seconds": gridsfm_start_seconds,
+                    "end_to_end_seconds": wall_w + gridsfm_start_seconds,
+                    "iteration_count": warm_summary.get("iteration_count"),
+                    "start_payload": "Pg,Qg,V,theta",
+                    "objective": warm_summary.get("objective"),
+                    "solver_start_source": warm_summary.get("start_source"),
+                    "start_bus_count": warm_summary.get("start_bus_count"),
+                    "start_gen_count": warm_summary.get("start_gen_count"),
+                    "start_vm_min": warm_summary.get("start_vm_min"),
+                    "start_vm_max": warm_summary.get("start_vm_max"),
+                    "start_va_abs_max": warm_summary.get("start_va_abs_max"),
+                    "start_pg_midpoint_max_abs_error": warm_summary.get(
+                        "start_pg_midpoint_max_abs_error"
+                    ),
+                    "start_qg_abs_max": warm_summary.get("start_qg_abs_max"),
+                    "finalist_model_selection": finalist_selection,
+                    "finalist_model_variant": finalist_variant,
+                    "finalist_checkpoint_path": finalist.get("finalist_checkpoint_path", ""),
+                    "finalist_checkpoint_sha256": finalist.get(
+                        "finalist_checkpoint_sha256", ""
+                    ),
+                    "warm_start_model_selection": model_selection.model_selection,
+                    "warm_start_model_variant": model_selection.model_variant,
+                    "warm_start_checkpoint_path": model_selection.checkpoint_path,
+                    "warm_start_checkpoint_sha256": model_selection.checkpoint_sha256,
+                    "stdout": out_w.strip(),
+                    "stderr": err_w.strip(),
+                    "subprocess_success": ok_w,
+                }
+            )
+            continue
+
         alpha_requested_csv = method_dir / "alpha_requested_full.csv"
         alpha_effective_csv = method_dir / "alpha_effective_full.csv"
-        _write_alpha(alpha_requested_csv, alpha_requested, "alpha_requested")
-        _write_alpha(alpha_effective_csv, alpha_effective, "alpha")
+        _write_alpha(alpha_requested_csv, alpha_requested, "alpha_requested", model_metadata)
+        _write_alpha(alpha_effective_csv, alpha_effective, "alpha", model_metadata)
 
         if backend == "dc":
             native_state, native_cost, native_message = _make_native_dc(raw_case, identity, offline, alpha_requested, gen_ids)
@@ -533,26 +720,39 @@ def main() -> int:
         _write_native_state(native_dir, native_state)
 
         reference_a_dir = method_dir / "ra"
-        ok, stdout, stderr, wall = _run_julia(
-            julia_exe=Path(args.julia_exe),
-            julia_depot_path=Path(args.julia_depot_path),
-            script=script,
-            mode="reference_a",
-            case_path=Path(args.case_path),
-            alpha_csv=alpha_effective_csv,
-            offline_branch_ids=offline,
-            source_less_load_ids_=source_less,
-            output_dir=reference_a_dir,
-            timeout_seconds=args.timeout_seconds,
-        )
-        ref_a_summary = _read_json(reference_a_dir / "reference_a_summary.json") if (reference_a_dir / "reference_a_summary.json").exists() else {}
+        if args.warm_starts_only:
+            ref_a_summary_path = reference_a_dir / "reference_a_summary.json"
+            ref_a_summary = _read_json(ref_a_summary_path) if ref_a_summary_path.is_file() else {}
+            ok = (
+                str(ref_a_summary.get("termination_status")) in {"LOCALLY_SOLVED", "OPTIMAL"}
+                and (reference_a_dir / "reference_a_gen_dispatch.csv").is_file()
+                and (reference_a_dir / "reference_a_bus_state.csv").is_file()
+            )
+            if not ok:
+                raise RuntimeError(f"warm-start-only mode requires successful Reference A artifacts: {reference_a_dir}")
+            stdout, stderr, wall = "", "", 0.0
+        else:
+            ok, stdout, stderr, wall = _run_julia(
+                julia_exe=Path(args.julia_exe),
+                julia_depot_path=Path(args.julia_depot_path),
+                script=script,
+                mode="reference_a",
+                case_path=Path(args.case_path),
+                alpha_csv=alpha_effective_csv,
+                offline_branch_ids=offline,
+                source_less_load_ids_=source_less,
+                output_dir=reference_a_dir,
+                timeout_seconds=args.timeout_seconds,
+            )
+            ref_a_summary = _read_json(reference_a_dir / "reference_a_summary.json") if (reference_a_dir / "reference_a_summary.json").exists() else {}
         r_norm_ac, max_ac_loading, num_ac_over = _risk_from_ac_branch_csv(reference_a_dir / "reference_a_branch_state.csv", p_env, r_base)
         l_shed_native = float(best["l_shed_total"])
         j_true_a = compute_j_trade(float(payload["lambda_r"]), r_norm_ac, l_shed_native) if r_norm_ac is not None else None
         delta_r = float(best["r_norm"]) - r_norm_ac if r_norm_ac is not None else None
         delta_j = float(best["j_trade"]) - j_true_a if j_true_a is not None else None
-        summary_rows.append(
-            {
+        if not args.warm_starts_only:
+            summary_rows.append(
+                {
                 "method": method,
                 "scenario_id": args.scenario_id,
                 "topology_id": _line_key(offline),
@@ -576,10 +776,11 @@ def main() -> int:
                 "native_message": native_message,
                 "julia_stdout": stdout.strip(),
                 "julia_stderr": stderr.strip(),
-            }
-        )
+                }
+            )
         if ok and str(ref_a_summary.get("termination_status")) in {"LOCALLY_SOLVED", "OPTIMAL"}:
-            fidelity_rows.extend(_collect_state_metrics(method, native_state, reference_a_dir, raw_case))
+            if not args.warm_starts_only:
+                fidelity_rows.extend(_collect_state_metrics(method, native_state, reference_a_dir, raw_case))
 
             gt_start_dir = method_dir / "wgt"
             gt_start_dir.mkdir(exist_ok=True)
@@ -607,11 +808,23 @@ def main() -> int:
                 method_dir / "wge",
                 gen_ids,
             )
-            (method_dir / "wgs").mkdir(exist_ok=True)
-            _write_gen_start(method_dir / "wgs" / "gen_start.csv", g_state.get("pg", {}))
-            _write_bus_start(method_dir / "wgs" / "bus_start.csv", g_state.get("theta", {}))
+            gridsfm_partial_dir = method_dir / "wgs"
+            gridsfm_partial_dir.mkdir(exist_ok=True)
+            _write_gen_start(gridsfm_partial_dir / "gen_start.csv", g_state.get("pg", {}))
+            _write_bus_start(gridsfm_partial_dir / "bus_start.csv", g_state.get("theta", {}))
+            gridsfm_full_dir = method_dir / "wgf"
+            gridsfm_full_dir.mkdir(exist_ok=True)
+            missing_full_families = [
+                family for family in ("pg", "qg", "v", "theta") if not g_state.get(family)
+            ]
+            if missing_full_families:
+                raise RuntimeError(
+                    f"GridSFM full warm start is missing state families: {missing_full_families}"
+                )
+            _write_native_state(gridsfm_full_dir, g_state)
             gridsfm_start_seconds = time.perf_counter() - gridsfm_start_t0
-            warm_specs.insert(2, ("gridsfm_partial_warm", "gsfm", method_dir / "wgs", gridsfm_start_seconds))
+            warm_specs.insert(2, ("gridsfm_partial_warm", "gsfm", gridsfm_partial_dir, gridsfm_start_seconds))
+            warm_specs.insert(3, ("gridsfm_full_warm", "gsfm_full", gridsfm_full_dir, gridsfm_start_seconds))
             for warm_type, warm_stub, start_dir, prep_time in warm_specs:
                 wdir = method_dir / "ws" / warm_stub
                 ok_w, out_w, err_w, wall_w = _run_julia(
@@ -634,19 +847,37 @@ def main() -> int:
                         "warm_start_type": warm_type,
                         "same_reference_a_instance": True,
                         "status": warm_summary.get("termination_status", "missing"),
-                        "solver_runtime_seconds": warm_summary.get("runtime_seconds"),
+                        "solver_runtime_seconds": warm_summary.get("ipopt_solve_time_seconds"),
                         "wall_seconds": wall_w,
                         "start_construction_seconds": prep_time,
                         "end_to_end_seconds": wall_w + prep_time,
                         "iteration_count": warm_summary.get("iteration_count"),
-                        "start_payload": "Pg,theta" if warm_type in {"dc_partial_warm", "gridsfm_partial_warm"} else ("exact_Pg,Qg,V,theta" if warm_type == "gt_warm" else "none"),
+                        "start_payload": (
+                            "Pg,theta"
+                            if warm_type in {"dc_partial_warm", "gridsfm_partial_warm"}
+                            else "Pg,Qg,V,theta"
+                            if warm_type == "gridsfm_full_warm"
+                            else "exact_Pg,Qg,V,theta"
+                            if warm_type == "gt_warm"
+                            else "V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0"
+                        ),
                         "objective": warm_summary.get("objective"),
+                        "solver_start_source": warm_summary.get("start_source"),
+                        "start_bus_count": warm_summary.get("start_bus_count"),
+                        "start_gen_count": warm_summary.get("start_gen_count"),
+                        "start_vm_min": warm_summary.get("start_vm_min"),
+                        "start_vm_max": warm_summary.get("start_vm_max"),
+                        "start_va_abs_max": warm_summary.get("start_va_abs_max"),
+                        "start_pg_midpoint_max_abs_error": warm_summary.get(
+                            "start_pg_midpoint_max_abs_error"
+                        ),
+                        "start_qg_abs_max": warm_summary.get("start_qg_abs_max"),
                         "stdout": out_w.strip(),
                         "stderr": err_w.strip(),
                     }
                 )
 
-        if args.run_reference_b:
+        if args.run_reference_b and not args.warm_starts_only:
             b1_dir = method_dir / "rb1"
             ok_b1, out_b1, err_b1, wall_b1 = _run_julia(
                 julia_exe=Path(args.julia_exe),
@@ -738,27 +969,71 @@ def main() -> int:
                     }
                 )
 
-    _write_rows(output_dir / "reference_a_summary_table.csv", summary_rows)
-    _write_rows(output_dir / "reference_a_state_fidelity_metrics.csv", fidelity_rows)
+    for rows in (summary_rows, fidelity_rows, warm_rows, ref_b_rows):
+        for row in rows:
+            row.update(model_metadata)
+
+    if args.full_gridsfm_only:
+        selection = str(model_selection.model_selection)
+        warm_id = args.warm_start_id or ("frozen" if selection == "frozen" else "ft")
+        table_path = output_dir / f"reference_a_crossed_full_warm_{warm_id}.csv"
+        _write_rows(table_path, warm_rows)
+        successful = all(
+            row.get("status") in {"LOCALLY_SOLVED", "OPTIMAL"}
+            and row.get("subprocess_success") is True
+            and row.get("start_payload") == "Pg,Qg,V,theta"
+            for row in warm_rows
+        )
+        status = {
+            "status": "PASS" if warm_rows and successful else "FAIL",
+            **model_metadata,
+            "scope": "checkpoint-specific full GridSFM warm starts",
+            "j8_root": str(root),
+            "output_dir": str(output_dir),
+            "methods": [str(finalist["method"]) for finalist in method_inputs],
+            "finalists_manifest": "" if finalists_manifest is None else str(finalists_manifest),
+            "warm_start_rows": len(warm_rows),
+            "warm_start_type": f"gridsfm_{warm_id}_full_warm",
+            "same_reference_a_instance": True,
+            "start_payload": "Pg,Qg,V,theta",
+            "result_table": str(table_path),
+        }
+        _write_json(output_dir / f"crossed_full_warm_{warm_id}_summary.json", status)
+        print(json.dumps(status, indent=2, sort_keys=True))
+        return 0 if status["status"] == "PASS" else 1
+
+    previous_status_path = output_dir / "j9_j10_reference_smoke_summary.json"
+    previous_status = _read_json(previous_status_path) if args.warm_starts_only and previous_status_path.is_file() else {}
+    if not args.warm_starts_only:
+        _write_rows(output_dir / "reference_a_summary_table.csv", summary_rows)
+        _write_rows(output_dir / "reference_a_state_fidelity_metrics.csv", fidelity_rows)
     _write_rows(output_dir / "reference_a_warm_start_summary.csv", warm_rows)
-    _write_rows(output_dir / "reference_b_summary_table.csv", ref_b_rows)
+    if not args.warm_starts_only:
+        _write_rows(output_dir / "reference_b_summary_table.csv", ref_b_rows)
     status = {
         "status": "PASS_WITH_LIMITATIONS",
+        **model_metadata,
         "scope": "explicit finalist manifest" if finalists_manifest else "guided finalists only",
         "j8_root": str(root),
         "output_dir": str(output_dir),
         "methods": [str(finalist["method"]) for finalist in method_inputs],
         "finalists_manifest": "" if finalists_manifest is None else str(finalists_manifest),
-        "reference_a_rows": len(summary_rows),
-        "state_fidelity_rows": len(fidelity_rows),
+        "reference_a_rows": previous_status.get("reference_a_rows", len(summary_rows)),
+        "state_fidelity_rows": previous_status.get("state_fidelity_rows", len(fidelity_rows)),
         "warm_start_rows": len(warm_rows),
-        "reference_b_rows": len(ref_b_rows),
-        "reference_b_requested": bool(args.run_reference_b),
+        "reference_b_rows": previous_status.get("reference_b_rows", len(ref_b_rows)),
+        "reference_b_requested": previous_status.get("reference_b_requested", bool(args.run_reference_b)),
+        "warm_starts_only": bool(args.warm_starts_only),
+        "warm_start_types": [
+            "cold_start", "dc_partial_warm", "gridsfm_partial_warm",
+            "gridsfm_full_warm", "gt_warm",
+        ],
         "reference_b_service_tolerance_pd_units": args.reference_b_service_tolerance_pd_units,
         "reference_b_service_verification_tolerance_pd_units": args.reference_b_service_verification_tolerance_pd_units,
         "notes": [
             "Iteration count is recorded as N/A because the current PowerModels/IPOPT wrapper does not expose a reliable structured iteration field.",
             "Warm-start timings include solver-reported runtime, Julia subprocess wall time, and measured regenerated-start construction time; GridSFM construction is not yet split into preprocessing and inference subcomponents.",
+            "Cold starts explicitly set V=1, theta=0, Pg=(Pmin+Pmax)/2, and Qg=0 before PowerModels model construction.",
         ],
     }
     _write_json(output_dir / "j9_j10_reference_smoke_summary.json", status)

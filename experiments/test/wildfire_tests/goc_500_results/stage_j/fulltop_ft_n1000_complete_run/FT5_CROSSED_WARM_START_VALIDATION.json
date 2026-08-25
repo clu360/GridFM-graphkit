@@ -1,0 +1,372 @@
+{
+  "checks": {
+    "all_25_combinations_have_15_settings": true,
+    "all_exact_solves_successful": true,
+    "all_same_reference_a_instance": true,
+    "cold_policy_audited": true,
+    "five_families": true,
+    "five_start_types": true,
+    "frozen_checkpoint_provenance": true,
+    "ft_checkpoint_provenance": true,
+    "full_starts_supply_all_state_families": true,
+    "objective_spread_within_tolerance": true,
+    "row_count_375": true,
+    "unique_primary_keys_375": true
+  },
+  "cold_start_policy": "V=1,theta=0,Pg=(Pmin+Pmax)/2,Qg=0",
+  "combination_counts": {
+    "Guided-DC|cold_start": 15,
+    "Guided-DC|dc_partial_warm": 15,
+    "Guided-DC|gridsfm_frozen_full_warm": 15,
+    "Guided-DC|gridsfm_ft_full_warm": 15,
+    "Guided-DC|gt_warm": 15,
+    "Guided-GridSFM (fine-tuned)|cold_start": 15,
+    "Guided-GridSFM (fine-tuned)|dc_partial_warm": 15,
+    "Guided-GridSFM (fine-tuned)|gridsfm_frozen_full_warm": 15,
+    "Guided-GridSFM (fine-tuned)|gridsfm_ft_full_warm": 15,
+    "Guided-GridSFM (fine-tuned)|gt_warm": 15,
+    "Guided-GridSFM (frozen)|cold_start": 15,
+    "Guided-GridSFM (frozen)|dc_partial_warm": 15,
+    "Guided-GridSFM (frozen)|gridsfm_frozen_full_warm": 15,
+    "Guided-GridSFM (frozen)|gridsfm_ft_full_warm": 15,
+    "Guided-GridSFM (frozen)|gt_warm": 15,
+    "TH-GridSFM-top1|cold_start": 15,
+    "TH-GridSFM-top1|dc_partial_warm": 15,
+    "TH-GridSFM-top1|gridsfm_frozen_full_warm": 15,
+    "TH-GridSFM-top1|gridsfm_ft_full_warm": 15,
+    "TH-GridSFM-top1|gt_warm": 15,
+    "TH-GridSFM-top2|cold_start": 15,
+    "TH-GridSFM-top2|dc_partial_warm": 15,
+    "TH-GridSFM-top2|gridsfm_frozen_full_warm": 15,
+    "TH-GridSFM-top2|gridsfm_ft_full_warm": 15,
+    "TH-GridSFM-top2|gt_warm": 15
+  },
+  "execution_records": [
+    {
+      "runtime_seconds": 0.0,
+      "setting_code": "s1_l0p0",
+      "source_package": "frozen",
+      "status": "SKIPPED_COMPLETE",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 79.01917505264282,
+      "setting_code": "s1_l0p2",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p2\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p2\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p2\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p2\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 79.01418733596802,
+      "setting_code": "s1_l0p5",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p5\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p5\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p5\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p5\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 76.73929810523987,
+      "setting_code": "s1_l0p8",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p8\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p8\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p8\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l0p8\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 79.01119470596313,
+      "setting_code": "s1_l1p0",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l1p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l1p0\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l1p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s1_l1p0\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 81.68663835525513,
+      "setting_code": "s2_l0p0",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p0\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p0\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 80.6639940738678,
+      "setting_code": "s2_l0p2",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p2\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p2\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p2\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p2\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 81.82389187812805,
+      "setting_code": "s2_l0p5",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p5\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p5\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p5\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p5\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 82.68488359451294,
+      "setting_code": "s2_l0p8",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p8\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p8\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p8\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l0p8\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 83.5301661491394,
+      "setting_code": "s2_l1p0",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l1p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l1p0\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l1p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s2_l1p0\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 85.45264935493469,
+      "setting_code": "s3_l0p0",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p0\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p0\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 84.27479934692383,
+      "setting_code": "s3_l0p2",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p2\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p2\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p2\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p2\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 83.41979312896729,
+      "setting_code": "s3_l0p5",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p5\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p5\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p5\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p5\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 67.3733320236206,
+      "setting_code": "s3_l0p8",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p8\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p8\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p8\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l0p8\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 65.70468068122864,
+      "setting_code": "s3_l1p0",
+      "source_package": "frozen",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\checkpoints\\\\stage_j_finetune\\\\gridsfm_goc500_fulltop_ft_n1000.pt\",\n  \"checkpoint_sha256\": \"A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l1p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l1p0\\\\main\",\n  \"methods\": [\n    \"Guided-DC\",\n    \"Guided-GridSFM\",\n    \"TH-GridSFM-top1\",\n    \"TH-GridSFM-top2\"\n  ],\n  \"model_selection\": \"ft\",\n  \"model_variant\": \"fulltop_ft_n1000\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l1p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\complete_run_v001\\\\s3_l1p0\\\\refs\\\\reference_a_crossed_full_warm_ft.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 4,\n  \"warm_start_type\": \"gridsfm_ft_full_warm\"\n}\n",
+      "warm_model": "ft"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 25.631986141204834,
+      "setting_code": "s1_l0p0",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p0\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p0\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 28.897613286972046,
+      "setting_code": "s1_l0p2",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p2\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p2\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p2\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p2\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 23.389140605926514,
+      "setting_code": "s1_l0p5",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p5\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p5\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p5\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p5\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 25.63599991798401,
+      "setting_code": "s1_l0p8",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p8\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p8\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p8\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l0p8\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 25.931788682937622,
+      "setting_code": "s1_l1p0",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l1p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l1p0\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l1p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s1_l1p0\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 25.25933337211609,
+      "setting_code": "s2_l0p0",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p0\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p0\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 26.828038454055786,
+      "setting_code": "s2_l0p2",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p2\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p2\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p2\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p2\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 24.684410095214844,
+      "setting_code": "s2_l0p5",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p5\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p5\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p5\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p5\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 24.650304079055786,
+      "setting_code": "s2_l0p8",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p8\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p8\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p8\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l0p8\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 25.362831592559814,
+      "setting_code": "s2_l1p0",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l1p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l1p0\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l1p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s2_l1p0\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 24.532153367996216,
+      "setting_code": "s3_l0p0",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p0\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p0\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 25.144683122634888,
+      "setting_code": "s3_l0p2",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p2\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p2\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p2\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p2\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 24.047258138656616,
+      "setting_code": "s3_l0p5",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p5\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p5\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p5\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p5\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 21.902997970581055,
+      "setting_code": "s3_l0p8",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p8\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p8\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p8\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l0p8\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    },
+    {
+      "returncode": 0,
+      "runtime_seconds": 22.267674684524536,
+      "setting_code": "s3_l1p0",
+      "source_package": "ft",
+      "status": "PASS",
+      "stderr": "",
+      "stdout": "{\n  \"checkpoint_path\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\repos\\\\GridSFM\\\\model\\\\checkpoints\\\\gridsfm_open_v1.1.pt\",\n  \"checkpoint_sha256\": \"F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831\",\n  \"finalists_manifest\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l1p0\\\\finalists.json\",\n  \"j8_root\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l1p0\\\\main\",\n  \"methods\": [\n    \"Guided-GridSFM\"\n  ],\n  \"model_selection\": \"frozen\",\n  \"model_variant\": \"released_v1_1\",\n  \"output_dir\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l1p0\\\\refs\",\n  \"result_table\": \"C:\\\\Users\\\\Caleb Lu\\\\.gridfm_stage_j\\\\cache\\\\stage_j\\\\ft3_fulltop_ft_n1000_v002\\\\s3_l1p0\\\\refs\\\\reference_a_crossed_full_warm_frozen.csv\",\n  \"same_reference_a_instance\": true,\n  \"scope\": \"checkpoint-specific full GridSFM warm starts\",\n  \"start_payload\": \"Pg,Qg,V,theta\",\n  \"status\": \"PASS\",\n  \"warm_start_rows\": 1,\n  \"warm_start_type\": \"gridsfm_frozen_full_warm\"\n}\n",
+      "warm_model": "frozen"
+    }
+  ],
+  "finalist_families": [
+    "Guided-DC",
+    "Guided-GridSFM (frozen)",
+    "Guided-GridSFM (fine-tuned)",
+    "TH-GridSFM-top1",
+    "TH-GridSFM-top2"
+  ],
+  "frozen_checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt",
+  "frozen_checkpoint_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+  "ft_checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+  "ft_checkpoint_sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+  "max_objective_spread_across_starts": 8.406233973801136e-06,
+  "objective_spread_tolerance": 0.001,
+  "primary_metric": "solver_runtime_seconds",
+  "rows": 375,
+  "settings": 15,
+  "status": "PASS",
+  "supporting_metrics": [
+    "wall_seconds",
+    "start_construction_seconds",
+    "end_to_end_seconds"
+  ],
+  "warm_start_types": [
+    "cold_start",
+    "dc_partial_warm",
+    "gridsfm_frozen_full_warm",
+    "gridsfm_ft_full_warm",
+    "gt_warm"
+  ]
+}

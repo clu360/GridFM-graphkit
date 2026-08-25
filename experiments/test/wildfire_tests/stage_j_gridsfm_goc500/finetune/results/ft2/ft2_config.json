@@ -1,0 +1,29 @@
+{
+  "artifact_id": "STAGE-J-GRIDSFM-FT2-FULLTOP-N1-TEST",
+  "base_checkpoint": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM/model/checkpoints/gridsfm_open_v1.1.pt",
+  "batch_size": 8,
+  "case_name": "pglib_opf_case500_goc",
+  "device": "auto",
+  "expected_base_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+  "expected_gridsfm_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+  "expected_source_sha256": {
+    "checkpoint.py": "C05AB84B1A221E5B9FD033CDAAA1194E9D2856865BA12A53FDAF79B709779039",
+    "finetune_opfdata.py": "7C01551BA89A540E526F170C19BA01830406225AF603B61947F30BC3DD0A4CE2",
+    "loss.py": "FE1B13BDC232B08629BDC7F5090308D6341C64BF88D439587BB3EF72A36C268B",
+    "opfdata_train.py": "DA8104E40A80FE6E223615658BB4BECE905A7C073CF9B922A636CDE05467B62E"
+  },
+  "fine_tuned_checkpoint": "C:/Users/Caleb Lu/.gridfm_stage_j/checkpoints/stage_j_finetune/gridsfm_goc500_fulltop_ft_n1000.pt",
+  "ft1_manifest": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft1/ft1_manifest.json",
+  "gridsfm_root": "C:/Users/Caleb Lu/.gridfm_stage_j/repos/GridSFM",
+  "n_graphs": 750,
+  "num_groups": 1,
+  "num_workers": 0,
+  "opfdata_root": "C:/Users/Caleb Lu/.gridfm_stage_j/cache/opfdata",
+  "output_dir": "experiments/test/wildfire_tests/stage_j_gridsfm_goc500/finetune/results/ft2",
+  "seed": 42,
+  "split": "test",
+  "variants": [
+    "fulltop",
+    "n1"
+  ]
+}

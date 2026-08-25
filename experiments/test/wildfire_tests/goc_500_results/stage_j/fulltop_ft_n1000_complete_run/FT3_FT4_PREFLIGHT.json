@@ -1,0 +1,13 @@
+{
+  "artifact_id": "STAGE-J-GRIDSFM-FT3-FT4-FULLTOP-1000",
+  "checkpoint_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\checkpoints\\stage_j_finetune\\gridsfm_goc500_fulltop_ft_n1000.pt",
+  "checkpoint_sha256": "A1378FDAF38AF6B317F172C27DF7C0F14A23138143D65DFE5E1C46C613E119AD",
+  "frozen_result_root": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\complete_run",
+  "ft1_manifest": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_j_gridsfm_goc500\\finetune\\results\\ft1\\ft1_manifest.json",
+  "gridsfm_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+  "model_selection": "ft",
+  "model_variant": "fulltop_ft_n1000",
+  "settings": 15,
+  "status": "PASS",
+  "topology_pools": 30
+}
