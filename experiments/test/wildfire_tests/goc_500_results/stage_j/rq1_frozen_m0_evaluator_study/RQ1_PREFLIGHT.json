@@ -1,0 +1,23 @@
+{
+  "canonical_identity": "SHA256(z, alpha_effective, scaled_Pd, scaled_Qd) with exact float.hex encoding",
+  "duplicate_provenance_rows": 21,
+  "ft7_warm_start_parquet": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\goc_500_results\\stage_j\\refined_finetune_study\\core_results\\warm_start_crossed.parquet",
+  "ft7_warm_start_sha256": "97CA98E0323DDF4450BB1CE85167DC98B8DB126A5F8093A14B44B3C8B772A7E6",
+  "gates": {
+    "all_component_hashes_present": true,
+    "ft7_source_unchanged": true,
+    "m0_checkpoint_hash": true,
+    "provenance_rows_75": true,
+    "raw_case_hash": true,
+    "saved_alpha_matches_recomputed": true,
+    "unique_decisions_54": true
+  },
+  "m0_checkpoint": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\checkpoints\\gridsfm_open_v1.1.pt",
+  "m0_checkpoint_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+  "max_provenance_multiplicity": 9,
+  "provenance_rows": 75,
+  "raw_case_path": "C:\\Users\\Caleb Lu\\.gridfm_stage_j\\repos\\GridSFM\\model\\samples\\case500_goc.pyg.json",
+  "raw_case_sha256": "66457EF63E2F496757094D06DE0EC3CAFB59561CE074094828041E549ED53E5C",
+  "status": "RQ1_P0_PREFLIGHT_PASS",
+  "unique_decisions": 54
+}

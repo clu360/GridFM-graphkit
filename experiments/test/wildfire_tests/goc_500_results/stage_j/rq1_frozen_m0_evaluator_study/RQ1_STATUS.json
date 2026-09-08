@@ -1,0 +1,42 @@
+{
+  "gates": {
+    "all_m0_frozen": true,
+    "all_refa_solved": true,
+    "no_csv_published": true,
+    "positive_paired_speedups": true,
+    "provenance_rows_75": true,
+    "representative_has_alpha_action": true,
+    "representative_has_no_source_less_load": true,
+    "representative_is_m0_selected": true,
+    "representative_lambda_0p8": true,
+    "representative_target_hit": true,
+    "sealed_ft7_unchanged": true,
+    "unique_statistical_units_54": true
+  },
+  "paired_speedup": {
+    "core_geometric_mean": 3.403714696936572,
+    "core_geometric_mean_ci95": [
+      3.3142097596249482,
+      3.504641506835405
+    ],
+    "core_median": 3.3524688494864625,
+    "core_median_ci95": [
+      3.308370979616048,
+      3.449155146669189
+    ],
+    "evaluator_geometric_mean": 3.606035199758638,
+    "evaluator_geometric_mean_ci95": [
+      3.5223092031106407,
+      3.7005273777444097
+    ],
+    "evaluator_median": 3.5898957129535507,
+    "evaluator_median_ci95": [
+      3.4776640638183034,
+      3.6815256651495414
+    ]
+  },
+  "provenance_rows": 75,
+  "representative_unique_id": "RQ1U031",
+  "status": "RQ1_PUBLICATION_PASS",
+  "unique_decisions": 54
+}

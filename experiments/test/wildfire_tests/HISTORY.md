@@ -5981,3 +5981,55 @@ The refreshed publication contains 48 files: 20 Parquet tables, 15 PNG
 figures, 12 JSON records, and one Markdown summary. It includes a dedicated
 iteration figure, iteration summary and paired tables, and the controlled-run
 validation record. No CSVs or checkpoints are published.
+
+## August 25, 2026: Stage J Integrated Research Summary Completed
+
+Created `STAGE_J_FINAL_RESEARCH_SUMMARY.md` in the CASE-003 workflow directory
+as the preferred paper-facing and implementation-facing entry point for Stage
+J. The document consolidates the research questions, frozen OPS contract,
+FT0-FT7 chronology, official GridSFM/OPFData compatibility boundary, data and
+checkpoint provenance, sealed FullTop/N-1 evaluation, five-method OPS results,
+all-candidate Pareto method, controlled IPOPT warm-start result, limitations,
+code ownership map, artifact index, and rerun commands.
+
+The summary explicitly distinguishes final evidence from superseded
+intermediate timing conclusions. It records the 48-file publication as 38
+primary manifest artifacts plus ten supporting status/provenance records and
+retains Parquet as the required publication practice for large experiment
+tables. No optimization, fine-tuning, inference, or exact AC solve was rerun.
+
+## August 26, 2026: RQ1 Frozen M0 Evaluator Runtime Addendum
+
+Added a paired evaluator-runtime benchmark to the Stage J RQ1 evidence. The
+preflight preserved 75 provenance records while identifying 54 unique fixed
+decisions with a canonical SHA-256 identity over the complete branch-status
+vector, effective load-service vector, scaled active demand, and scaled
+reactive demand. It also pinned the released M0 checkpoint, GridSFM commit,
+raw GOC-500 case, and sealed FT7 source table.
+
+Frozen M0 was measured with seven total-evaluator repetitions per decision and
+adaptive core repetitions; Reference A used a persistent Julia process, three
+warmups, and three fresh fixed-decision solves per decision. The primary timing
+boundary starts when the initialized evaluator receives a fixed candidate and
+ends when a usable electrical state is returned. Downstream wildfire scoring,
+publication I/O, and one-time startup are excluded. Reference A retained its
+existing `V=1`, `theta=0`, midpoint-`Pg`, zero-`Qg` initialization.
+
+All 162 Reference A measurements solved locally with finite state and agreed
+with the sealed exact objectives to within `1.56e-08`. Across the 54 paired
+decisions, median total-evaluator time was `0.2973 s` for frozen M0 and
+`1.0919 s` for Reference A, giving a `3.59x` median paired speedup (95% paired
+bootstrap interval `3.48-3.68x`) and `3.61x` geometric-mean speedup. The core
+forward-versus-IPOPT comparison gave `3.35x` median speedup. The result supports
+M0 screening on this implementation, not an end-to-end OPS speedup claim.
+
+The publication illustration was refined to use the M0-selected
+`m0:s1_l0p8` finalist (`RQ1U031`), while all 54 unique decisions support the
+timing inference. This case opens lines 276 and wildfire target 473, actively
+curtails load 157, has no source-less loads, and returns predicted voltage
+range `0.976-1.100 p.u.` and maximum branch loading `1.309 p.u.`. The shared-
+layout before/after figure keeps decision overlays distinct from predicted
+branch-loading and node-voltage encodings. The compact publication
+under `goc_500_results/stage_j/rq1_frozen_m0_evaluator_study` uses Parquet for
+tables and includes figures, summary/status records, hashes, and all three
+phase-validation JSON files.

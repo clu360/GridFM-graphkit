@@ -1,0 +1,37 @@
+{
+  "core_rows": 1080,
+  "device": "cpu",
+  "diagnostic_rows": 54,
+  "evaluator_rows": 378,
+  "expected_grid_counts": {
+    "base_branches": 728,
+    "buses": 500,
+    "gridsfm_generators": 171
+  },
+  "gates": {
+    "all_expected_state_families": true,
+    "diagnostic_rows": true,
+    "evaluator_repetition_count": true,
+    "finite_positive_core_times": true,
+    "finite_positive_evaluator_times": true,
+    "m0_checkpoint_hash": true,
+    "unique_core_coverage": true,
+    "unique_evaluator_coverage": true
+  },
+  "gridsfm_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+  "m0_checkpoint_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "primary_exclusions": [
+    "downstream wildfire scoring",
+    "publication I/O",
+    "model loading",
+    "environment startup"
+  ],
+  "primary_timing_boundary": "fixed candidate received to usable electrical state returned",
+  "processor": "Intel64 Family 6 Model 158 Stepping 13, GenuineIntel",
+  "python": "3.12.11 | packaged by conda-forge | (main, Jun  4 2025, 14:29:09) [MSC v.1943 64 bit (AMD64)]",
+  "status": "RQ1_P1_M0_TIMING_PASS",
+  "torch_threads": 8,
+  "torch_version": "2.8.0+cpu",
+  "validation_rerun_only": true
+}

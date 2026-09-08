@@ -1,0 +1,68 @@
+\begin{thebibliography}{10}
+
+\bibitem{bayani2022quantifyingriskwildfireignition}
+Reza Bayani, Muhammad Waseem, Saeed~D. Manshadi, and Hassan Davani.
+\newblock Quantifying the risk of wildfire ignition by power lines under extreme weather conditions, 2022.
+
+\bibitem{chevalier2025maximalloadsheddingverification}
+Samuel Chevalier, Duncan Starkenburg, Robert Parker, and Noah Rhodes.
+\newblock Maximal load shedding verification for neural network models of ac line switching, 2025.
+
+\bibitem{donnot2018fastpowersecurityanalysis}
+Benjamin Donnot, Isabelle Guyon, Marc Schoenauer, Antoine Marot, and Patrick Panciatici.
+\newblock Fast power system security analysis with guided dropout, 2018.
+
+\bibitem{Huang2023ARO}
+Can Huang, Qinran Hu, Linwei Sang, Donald~D. Lucas, Robin Wong, Bin Wang, Wanshi Hong, Mengqi Yao, and Vaibhav Donde.
+\newblock A review of public safety power shutoffs (psps) for wildfire mitigation: Policies, practices, models and data sources.
+\newblock {\em IEEE Transactions on Energy Markets, Policy and Regulation}, 1:187--197, 2023.
+
+\bibitem{HUANG2027113687}
+Weimin Huang, Ryan Piansky, Bistra Dilkina, and Daniel~K. Molzahn.
+\newblock Machine learning guided optimal transmission switching to mitigate wildfire ignition risk.
+\newblock {\em Electric Power Systems Research}, 262:113687, 2027.
+
+\bibitem{Huang2025MachineLG}
+Weimin Huang, Ryan Piansky, Bistra~N. Dilkina, and Daniel~K. Molzahn.
+\newblock Machine learning guided optimal transmission switching to mitigate wildfire ignition risk.
+\newblock {\em ArXiv}, abs/2510.25147, 2025.
+
+\bibitem{nakiganda2025graphneuralnetworksfast}
+Agnes~M. Nakiganda and Spyros Chatzivasileiadis.
+\newblock Graph neural networks for fast contingency analysis of power systems, 2025.
+
+\bibitem{puech2026gencounifiedneural}
+Alban Puech, Matteo Mazzonelli, Tamara~R. Govindasamy, Mangaliso Mngomezulu, Héctor Maeso-García, Thomas Tolhurst, Javad Bayazi, Ali Moeini, Naomi Simumba, Celia Cintas, David Nelischer, Romeo Kienzler, Jonas Weiss, Anna Varbella, Florian Dörfler, Gabriela Hug, Martin Mevissen, Juan Bernabé-Moreno, François Mirallès, Hendrik~F. Hamann, Etienne Vos, and Thomas Brunschwiler.
+\newblock Genco - a unified neural solver embedded in a development framework for steady-state grid analysis, 2026.
+
+\bibitem{Rhodes2023SecurityCO}
+Noah Rhodes, Carleton Coffrin, and Line~A. Roald.
+\newblock Security constrained optimal power shutoff.
+\newblock {\em ArXiv}, abs/2304.13778, 2023.
+
+\bibitem{Rhodes2023LongST}
+Noah Rhodes, Eric Haag, and Line~A. Roald.
+\newblock Long solution times or low solution quality: On trade-offs in choosing a power flow formulation for the optimal power shut-off problem.
+\newblock {\em ArXiv}, abs/2310.13843, 2023.
+
+\bibitem{9305959}
+Noah Rhodes, Lewis Ntaimo, and Line Roald.
+\newblock Balancing wildfire risk and power outages through optimized power shut-offs.
+\newblock {\em IEEE Transactions on Power Systems}, 36(4):3118--3128, 2021.
+
+\bibitem{4073219}
+William.~F. Tinney and Clifford~E. Hart.
+\newblock Power flow solution by newton's method.
+\newblock {\em IEEE Transactions on Power Apparatus and Systems}, PAS-86(11):1449--1460, 1967.
+
+\bibitem{Wchter2006OnTI}
+Andreas W{\"a}chter and Lorenz~T. Biegler.
+\newblock On the implementation of an interior-point filter line-search algorithm for large-scale nonlinear programming.
+\newblock {\em Mathematical Programming}, 106:25--57, 2006.
+
+\bibitem{yang2026gridsfm}
+Weiwei Yang, Andrea Britto Mattos~Lima, Thiago~V. Spina, Spencer Fowers, Baosen Zhang, and Chris White.
+\newblock Gridsfm: A foundation model for ac optimal power flow.
+\newblock May 2026.
+
+\end{thebibliography}

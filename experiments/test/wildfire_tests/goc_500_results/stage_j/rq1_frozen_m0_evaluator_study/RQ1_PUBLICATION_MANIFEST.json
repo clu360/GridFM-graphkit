@@ -1,0 +1,132 @@
+{
+  "artifact_id": "STAGE-J-RQ1-FROZEN-M0-EVALUATOR",
+  "artifacts": [
+    {
+      "bytes": 62063,
+      "relative_path": "figures/rq1_post_decision_grid.pdf",
+      "sha256": "41842FA754395F67B124EC9D2B0B455C20FCD7195CF7CCA9B54CC3E73F6BEA56"
+    },
+    {
+      "bytes": 593253,
+      "relative_path": "figures/rq1_post_decision_grid.png",
+      "sha256": "375BDABBDE383B43FA70E16ACFC420697B351B6944235230A7869199BAE5B33E"
+    },
+    {
+      "bytes": 86914,
+      "relative_path": "figures/rq1_representative_grid.pdf",
+      "sha256": "6E012B45095080EA263D242316B50D85792680130FC67EC425A7E4B5FE600D8F"
+    },
+    {
+      "bytes": 1818483,
+      "relative_path": "figures/rq1_representative_grid.png",
+      "sha256": "F5BE27810F96282905377821CD1C625E5624684AEF6C1FACEEF0B6ABEA0D86FE"
+    },
+    {
+      "bytes": 86398,
+      "relative_path": "figures/rq1_representative_grid_paper_v2.pdf",
+      "sha256": "DA8D73B74D999B0391DCF4913F68CA1A85C4C9012ADEE6C648645D4CF9EE7FE0"
+    },
+    {
+      "bytes": 1811754,
+      "relative_path": "figures/rq1_representative_grid_paper_v2.png",
+      "sha256": "6D5C4A4464A539E209C0477A3985276C407602162102DCF151927D9FC8BC466E"
+    },
+    {
+      "bytes": 86914,
+      "relative_path": "figures/rq1_representative_grid_paper_v3.pdf",
+      "sha256": "6E012B45095080EA263D242316B50D85792680130FC67EC425A7E4B5FE600D8F"
+    },
+    {
+      "bytes": 1818483,
+      "relative_path": "figures/rq1_representative_grid_paper_v3.png",
+      "sha256": "F5BE27810F96282905377821CD1C625E5624684AEF6C1FACEEF0B6ABEA0D86FE"
+    },
+    {
+      "bytes": 321401,
+      "relative_path": "figures/rq1_runtime_figure.png",
+      "sha256": "047D6E1152E6204E17D92D73D700CF5FD331B9CA39CAA6A9111A2A0C939758D5"
+    },
+    {
+      "bytes": 1825,
+      "relative_path": "RQ1_FROZEN_EVALUATOR_STATUS.md",
+      "sha256": "9A6599E8C31ADA89C148BAF2FB8BCCF4776C87357241D2380AEB11EB6C24965A"
+    },
+    {
+      "bytes": 1288,
+      "relative_path": "RQ1_M0_TIMING_VALIDATION.json",
+      "sha256": "7166A1EBDA5BD47291A9FED5416EB92094E6F37A3BE5C999FC725BA484844FCD"
+    },
+    {
+      "bytes": 1353,
+      "relative_path": "RQ1_PREFLIGHT.json",
+      "sha256": "E8B4178F3C439852EA620D46F745950136229E33EF87D955E1CE82C87DC91D5E"
+    },
+    {
+      "bytes": 1437,
+      "relative_path": "RQ1_REFERENCE_A_TIMING_VALIDATION.json",
+      "sha256": "E39F45873EF4C3B7DE060D44AA6F04C6158D0E45313A42293004235488429AD0"
+    },
+    {
+      "bytes": 2366,
+      "relative_path": "rq1_representative_case.json",
+      "sha256": "CAD67CF0AA17695FF2E6647B170F36C02AA02036FC8B38D8FC24AB16D8BF1C25"
+    },
+    {
+      "bytes": 2428,
+      "relative_path": "rq1_runtime_summary.json",
+      "sha256": "8B4A27DF4BC0C05F0DA5F2166A9E36540F70452294802BB23453B31569DB4AA0"
+    },
+    {
+      "bytes": 1204,
+      "relative_path": "RQ1_STATUS.json",
+      "sha256": "67D896B2FF969EF797F972F2847888EDFB93F2C1FD745ABBCC094C345760A55C"
+    },
+    {
+      "bytes": 55591,
+      "relative_path": "tables/rq1_fixed_provenance.parquet",
+      "rows": 75,
+      "sha256": "9A8F4D6CC3C8F336B7F46FF1530A70697F8B118D01B71AAD372A6A2C0F4783F4"
+    },
+    {
+      "bytes": 19585,
+      "relative_path": "tables/rq1_m0_core_repetitions.parquet",
+      "rows": 1080,
+      "sha256": "768F05A82C0002DFEFC6830610C23FE87F66AE78067E288566F9609997A7E6CA"
+    },
+    {
+      "bytes": 27358,
+      "relative_path": "tables/rq1_m0_evaluator_repetitions.parquet",
+      "rows": 378,
+      "sha256": "28C8B63503D72646D5B839E1165110842D8B5A40AF2BEE209F164954C186CFC8"
+    },
+    {
+      "bytes": 52770,
+      "relative_path": "tables/rq1_paired_runtime.parquet",
+      "rows": 54,
+      "sha256": "E8E3F1D5AF68F955814ED0914FFD629A0AF48C21DE4F8D3BA26B06FCDE24BFD9"
+    },
+    {
+      "bytes": 28926,
+      "relative_path": "tables/rq1_refa_repetitions.parquet",
+      "rows": 162,
+      "sha256": "0FCA3CDE175951A4B7CA4AD08E8C9E24BABDBE5DD4BA4E3F20C3EAB1B87E1AF8"
+    },
+    {
+      "bytes": 7285,
+      "relative_path": "tables/rq1_runtime_summary.parquet",
+      "rows": 4,
+      "sha256": "1A891C3DAB07E6A421155300639CA17E7AFAE8286E7958CBB0DC504FC6C860F5"
+    },
+    {
+      "bytes": 25241,
+      "relative_path": "tables/rq1_unique_instances.parquet",
+      "rows": 54,
+      "sha256": "E4BFEC9BC53B4889E6A65474CCE3284EEC871AB17AF689090B070F282D64C781"
+    }
+  ],
+  "checkpoint_files_published": 0,
+  "csv_files_published": 0,
+  "files": 24,
+  "sealed_ft7_modified": false,
+  "status": "RQ1_PUBLICATION_PASS"
+}

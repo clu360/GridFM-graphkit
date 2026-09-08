@@ -1,5 +1,98 @@
 # Wildfire Current State Summary
 
+## Stage J RQ1 Frozen-Evaluator Runtime Addendum Complete - August 26, 2026
+
+The RQ1 computational-motivation addendum is complete. It preserves all 75
+refined-study provenance rows and deduplicates them to 54 statistical units by
+the canonical full `(z, alpha_effective, scaled Pd, scaled Qd)` identity. The
+released frozen GridSFM M0 evaluator and a fresh Reference A fixed-decision AC
+OPF were then timed on every unique decision under explicit matched boundaries.
+
+The primary boundary is fixed candidate received through usable electrical
+state returned; downstream wildfire scoring, publication I/O, and one-time
+startup are excluded. Reference A retains the established initialization
+`V=1`, `theta=0`, `Pg=(Pmin+Pmax)/2`, `Qg=0`. Median paired total-evaluator
+speedup was `3.59x` with a paired-bootstrap 95% interval of `3.48-3.68x`;
+geometric-mean speedup was `3.61x`. The narrower M0-forward versus IPOPT-solve
+comparison had median speedup `3.35x`.
+
+This supports frozen M0 as a faster approximate screening evaluator on this
+GOC-500 CPU implementation. It does not establish the same speedup for the
+complete OPS algorithm or replace exact finalist audit. The paper-facing
+before/after illustration uses the actual M0-selected `m0:s1_l0p8` finalist:
+it opens lines 276 and wildfire target 473, actively curtails load 157, and
+separately encodes predicted branch loading and bus-voltage magnitude. Tables,
+figures, manifests, and
+phase validations are under
+`goc_500_results/stage_j/rq1_frozen_m0_evaluator_study`.
+
+## Stage J M0 Before/After Physics Residual Diagnostic - August 28, 2026
+
+The RQ1 representative frozen-M0 decision was audited against the intact input
+using the explicit Stage J residual definitions. The intact case has every line
+energized and `alpha=1`. The modified case opens lines 276 and 473 (the latter
+is the wildfire target) and sets `alpha_157=0.00813062`. All quantities below
+are deterministic diagnostics recomputed from the GridSFM-predicted electrical
+state in per unit on the 100 MVA base.
+
+| Formulation component | Intact | Modified decision |
+|---|---:|---:|
+| Voltage-limit penalty | `0` | `0` |
+| Thermal-limit penalty | `3.1444e-6` | `1.5849e-4` |
+| Evaluated active-generator-bound penalty | `0` | `0` |
+| Source-less-service penalty | `0` | `0` |
+| **PAC_operational** | **`3.1444e-6`** | **`1.5849e-4`** |
+| Active-power balance MSE | `0.0768106` | `0.0886913` |
+| Reactive-power balance MSE | `0.0249941` | `0.0792497` |
+| **PAC_AC (P/Q balance total)** | **`0.1018047`** | **`0.1679410`** |
+| PAC_model_consistency | `0` | `0` |
+| **Unweighted physics total** | **`0.1018078`** | **`0.1680994`** |
+
+The corresponding active-power residual RMS/max changes from
+`0.2771/1.1401` to `0.2978/1.6121` p.u.; the reactive-power residual RMS/max
+changes from `0.1581/0.7152` to `0.2815/2.0221` p.u. The controlled intervention
+therefore produces a measurable change in both operational and AC-equation
+consistency. At the same time, the GridSFM state evaluator supports searching
+over the requested topology/load-control decisions and produced a selected
+decision that de-energizes the targeted wildfire-exposed line under the frozen
+Stage J search contract.
+
+This is a controlled methodology demonstration, not an economic-welfare or
+fairness conclusion. Its contribution is an employable workflow for using a
+GridSFM electrical-state prediction inside an OPS search, followed by explicit
+physics diagnostics and exact AC finalist audit. Future economic studies can
+retain this workflow while introducing realistic operating conditions and
+evaluating the distributional fairness and economic impact of the resulting
+decisions. The completed candidate tables store the feasibility-head proxy,
+not these explicit P/Q residual subterms; consequently this table is a matched
+M0 representative-case audit and must not be described as an all-candidate
+rerun under the corrected residual merit.
+
+## Stage J Final Research Record Complete - August 25, 2026
+
+Stage J is complete through the refined fine-tuning OPS study, controlled IPOPT
+timing/iteration rerun, and compact publication. The integrated scientific and
+implementation account is:
+
+```text
+workflow/cases/CASE-003-stage-j-gridsfm-goc500-implementation/
+STAGE_J_FINAL_RESEARCH_SUMMARY.md
+```
+
+That document is now the preferred starting point for Stage J. It connects the
+frozen OPS contract, FT0-FT7 chronology, checkpoint and data provenance, sealed
+FullTop/N-1 evaluation, five-method OPS outcomes, all-candidate empirical Pareto
+fronts, controlled 525-solve warm-start result, code map, reproducibility
+commands, and claim boundary.
+
+The final evidence package is
+`goc_500_results/stage_j/refined_finetune_study`: 48 physical files comprising
+20 Parquet tables, 15 figures, 12 JSON records, and one Markdown summary. Its
+manifest distinguishes 38 primary artifacts from ten supporting
+status/provenance records. The final warm-start interpretation is the controlled
+rotated-order result: M1 and M2 are effectively tied by solve time, and the
+earlier apparent multi-second M2/M3 slowdown is superseded.
+
 ## Stage J FT6 Sequential Fine-Tuning Complete - August 24, 2026
 
 FT6 Part I completed and stopped at the required external gate:

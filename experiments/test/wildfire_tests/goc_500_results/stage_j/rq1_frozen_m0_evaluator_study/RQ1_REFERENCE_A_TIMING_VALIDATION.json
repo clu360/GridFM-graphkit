@@ -1,0 +1,27 @@
+{
+  "elapsed_seconds": 190.1517014503479,
+  "gates": {
+    "all_alpha_complete": true,
+    "all_solved": true,
+    "all_state_finite": true,
+    "base_case_parsed_once": true,
+    "existing_reference_a_parity": true,
+    "objective_repeatability": true,
+    "persistent_process": true,
+    "positive_evaluator_time": true,
+    "positive_ipopt_time": true,
+    "row_count": true,
+    "standard_reference_a_initialization": true,
+    "unique_coverage": true
+  },
+  "initialization": "existing Reference A default: V=1, theta=0, Pg midpoint, Qg=0",
+  "max_existing_reference_a_objective_delta": 1.5541445463895798e-08,
+  "max_within_instance_objective_spread": 0.0,
+  "primary_timing_boundary": "fixed candidate received to usable electrical state returned",
+  "reference_interpretation": "locally solved fixed-decision AC OPF under declared solver tolerances",
+  "rows": 162,
+  "status": "RQ1_P2_REFERENCE_A_TIMING_PASS",
+  "stderr": "",
+  "stdout": "******************************************************************************\nThis program contains Ipopt, a library for large-scale nonlinear optimization.\n Ipopt is released as open source code under the Eclipse Public License (EPL).\n         For more information visit https://github.com/coin-or/Ipopt\n******************************************************************************\n\nRQ1_REFERENCE_A_BATCH_COMPLETE rows=162",
+  "unique_decisions": 54
+}

@@ -1,0 +1,83 @@
+{
+  "paired_speedup": {
+    "core_geometric_mean": 3.403714696936572,
+    "core_geometric_mean_ci95": [
+      3.3142097596249482,
+      3.504641506835405
+    ],
+    "core_median": 3.3524688494864625,
+    "core_median_ci95": [
+      3.308370979616048,
+      3.449155146669189
+    ],
+    "evaluator_geometric_mean": 3.606035199758638,
+    "evaluator_geometric_mean_ci95": [
+      3.5223092031106407,
+      3.7005273777444097
+    ],
+    "evaluator_median": 3.5898957129535507,
+    "evaluator_median_ci95": [
+      3.4776640638183034,
+      3.6815256651495414
+    ]
+  },
+  "primary_boundary": "fixed candidate received to usable electrical state returned",
+  "primary_exclusions": [
+    "downstream wildfire scoring",
+    "publication I/O",
+    "environment/model startup"
+  ],
+  "provenance_rows": 75,
+  "reference_a": "locally solved fixed-decision AC OPF under declared solver tolerances",
+  "statistical_unit": "54 unique canonical fixed decisions",
+  "timing_summary": [
+    {
+      "maximum": 0.2714575,
+      "mean": 0.22458339907407407,
+      "median": 0.222395875,
+      "metric": "m0_forward",
+      "minimum": 0.21721615,
+      "observations": 54,
+      "q25": 0.2203820875,
+      "q75": 0.22389699999999998,
+      "statistical_unit": "unique canonical fixed decision",
+      "unit": "seconds"
+    },
+    {
+      "maximum": 1.2300000190734863,
+      "mean": 0.7686296259915387,
+      "median": 0.7460000514984131,
+      "metric": "refa_ipopt",
+      "minimum": 0.6740000247955322,
+      "observations": 54,
+      "q25": 0.7192499041557312,
+      "q75": 0.7774999141693115,
+      "statistical_unit": "unique canonical fixed decision",
+      "unit": "seconds"
+    },
+    {
+      "maximum": 0.3313497,
+      "mean": 0.3008734351851852,
+      "median": 0.29726625,
+      "metric": "m0_evaluator_total",
+      "minimum": 0.2876495,
+      "observations": 54,
+      "q25": 0.292513775,
+      "q75": 0.305395375,
+      "statistical_unit": "unique canonical fixed decision",
+      "unit": "seconds"
+    },
+    {
+      "maximum": 1.499905,
+      "mean": 1.088782674074074,
+      "median": 1.0919446499999999,
+      "metric": "refa_evaluator_total",
+      "minimum": 0.9420106,
+      "observations": 54,
+      "q25": 1.0121292,
+      "q75": 1.1159871,
+      "statistical_unit": "unique canonical fixed decision",
+      "unit": "seconds"
+    }
+  ]
+}
