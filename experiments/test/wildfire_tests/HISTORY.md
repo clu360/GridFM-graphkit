@@ -6166,7 +6166,7 @@ now normalizes every check to a native Boolean; audit-only recovery job
 13433845 completed with exit 0:0. The aggregate script now refreshes production
 status after validation.
 
-Post-run analysis is under `texas_2k_results/full_run`. It retains the primary
+Post-run analysis is under `texas_2k_results/stage_k/full_run`. It retains the primary
 PACE tables, 14 supporting analysis tables, and ten figure families in PNG and
 PDF. GridSFM selected topology 841/3268 for every positive risk weight and
 preserved at least 99.80% selected service, but produced almost no exact AC risk
@@ -6177,3 +6177,15 @@ capability from continuous-recourse quality. Native-versus-Reference-A risk
 discrepancies were material for all methods, confirming that exact AC auditing
 must remain distinct from native screening metrics. Thirty-three Stage K tests
 pass after the reporting additions.
+
+## October 4, 2026: Texas2k Results Organized By Stage
+
+Moved the complete existing Texas2k result set under
+`texas_2k_results/stage_k/`: the frozen environmental snapshot, PACE smoke
+package, validated production package, post-run analysis plan, figures, tables,
+and reports. The 4,162-file production tree was copied through a short Windows
+drive alias and verified by file count and total bytes before its prior path was
+removed because OneDrive rejected an atomic directory rename. Active Stage K
+configs, runbooks, monitoring scripts, supervisor prompts, and documentation
+now use the stage-qualified paths. The exact archived `deployed_full.yaml`
+remains unchanged so its production configuration hash stays auditable.

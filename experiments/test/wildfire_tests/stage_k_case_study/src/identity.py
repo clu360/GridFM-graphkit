@@ -88,6 +88,7 @@ def build_identity(
     environment_path = Path(environment_path) if environment_path else (
         Path(__file__).resolve().parents[2]
         / "texas_2k_results"
+        / "stage_k"
         / "environment_snapshot_tau0p50" / "data" / "cum_hazard_risk.parquet"
     )
     environment = pd.read_parquet(environment_path)

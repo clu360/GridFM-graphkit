@@ -37,7 +37,7 @@ paths:
   case_file: data/raw/modifiedTexas2k.m
   load_file: data/raw/modifiedTexas2k_loads_scenarios_0_23.parquet
   coordinate_file: data/raw/modifiedTexas2k_coordinates.csv
-  environment_file: ../texas_2k_results/environment_snapshot_tau0p50/data/cum_hazard_risk.parquet
+  environment_file: ../texas_2k_results/stage_k/environment_snapshot_tau0p50/data/cum_hazard_risk.parquet
   gridsfm_root: "<GRIDSFM_ROOT>"
   gridsfm_checkpoint: "<GRIDSFM_CHECKPOINT>"
   output_root: "<SCRATCH_DIR>/stage_k/results"

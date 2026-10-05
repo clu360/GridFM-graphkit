@@ -122,7 +122,7 @@ Back on Phoenix, verify:
 ```bash
 cd "$STAGE_K_PROJECT_DIR"
 test -f experiments/test/wildfire_tests/stage_k_case_study/data/raw/modifiedTexas2k.m
-test -f experiments/test/wildfire_tests/texas_2k_results/environment_snapshot_tau0p50/data/cum_hazard_risk.parquet
+test -f experiments/test/wildfire_tests/texas_2k_results/stage_k/environment_snapshot_tau0p50/data/cum_hazard_risk.parquet
 ```
 
 Success produces no `test` output. If a file is

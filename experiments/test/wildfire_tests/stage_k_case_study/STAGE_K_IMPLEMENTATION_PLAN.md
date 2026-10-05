@@ -39,7 +39,7 @@ The implementation will use the following repository evidence:
 - the frozen Stage J PAC calibration: `rho_phys=2.0`, `w_op=1.0`,
   `w_ac=1.0`, and `w_model=0.0`;
 - the Stage K raw Texas2k files and the completed cumulative environmental
-  snapshot under `../texas_2k_results/environment_snapshot_tau0p50/`.
+  snapshot under `../texas_2k_results/stage_k/environment_snapshot_tau0p50/`.
 
 Stage J is a methodological source, not a code path to mutate. Stage K will
 reuse stable helpers where their contracts still hold and place Texas2k

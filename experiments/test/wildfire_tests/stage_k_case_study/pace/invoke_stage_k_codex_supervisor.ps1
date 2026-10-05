@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..\..\..')).Path
-$SupervisorDir = Join-Path $RepoRoot 'experiments\test\wildfire_tests\texas_2k_results\full_run\supervisor'
+$SupervisorDir = Join-Path $RepoRoot 'experiments\test\wildfire_tests\texas_2k_results\stage_k\full_run\supervisor'
 $Codex = Join-Path $env:APPDATA 'npm\codex.cmd'
 $Timestamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $Output = Join-Path $SupervisorDir ("codex-{0}-{1}.md" -f $EventType.ToLowerInvariant(), $Timestamp)
@@ -54,7 +54,7 @@ Diagnose the active production failure and perform the smallest auditable
 infrastructure/code-packaging recovery that preserves the frozen methodology.
 Leave healthy evaluator jobs and valid checkpoints untouched. Verify repaired
 jobs pass the prior failure point. Write a concise incident and recovery report
-under texas_2k_results/full_run/supervisor. If recovery reaches a hard stop,
+under texas_2k_results/stage_k/full_run/supervisor. If recovery reaches a hard stop,
 document exactly what user action is required.
 "@
 } else {
@@ -64,8 +64,8 @@ $Common
 First verify that RUN_COMPLETE.json is valid and that all evaluator, finalist,
 Reference A/B, validation, provenance, and Slurm-accounting requirements pass.
 Then retrieve the immutable production package with hash verification into
-experiments/test/wildfire_tests/texas_2k_results/full_run/stage_k_production_v001.
-Follow texas_2k_results/POST_RUN_ANALYSIS_PLAN.md to construct the local tables,
+experiments/test/wildfire_tests/texas_2k_results/stage_k/full_run/stage_k_production_v001.
+Follow texas_2k_results/stage_k/POST_RUN_ANALYSIS_PLAN.md to construct the local tables,
 figures, supporting evidence, and methodological results report. Do not claim
 completion if validation, retrieval, or required evidence is incomplete.
 "@

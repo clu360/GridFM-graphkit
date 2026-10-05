@@ -9,7 +9,7 @@ $Remote = "clu360@login-phoenix.pace.gatech.edu"
 $RunDir = "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001"
 $Project = "/storage/scratch1/9/clu360/stage_k/workspace_v3/GridFM-graphkit"
 $Supervisor = Join-Path $PSScriptRoot 'invoke_stage_k_codex_supervisor.ps1'
-$EventDir = Join-Path $PSScriptRoot '..\..\texas_2k_results\full_run\supervisor\events'
+$EventDir = Join-Path $PSScriptRoot '..\..\texas_2k_results\stage_k\full_run\supervisor\events'
 
 function Get-EventHash([string]$Value) {
     $bytes = [Text.Encoding]::UTF8.GetBytes($Value)
