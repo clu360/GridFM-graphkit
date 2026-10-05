@@ -1,0 +1,23 @@
+	Command being timed: "/storage/home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/bin/python -m experiments.test.wildfire_tests.stage_k_case_study.src.evaluator_runner --evaluator ac --lambda-r 0.5 --config experiments/test/wildfire_tests/stage_k_case_study/config/full.yaml --prepared-dir /storage/scratch1/9/clu360/stage_k/stage_k_production_v001/prepared --output-dir /storage/scratch1/9/clu360/stage_k/stage_k_production_v001/chunks/ac/lambda_0.5"
+	User time (seconds): 26982.84
+	System time (seconds): 869.86
+	Percent of CPU this job got: 90%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 8:30:33
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3341156
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 173379
+	Minor (reclaiming a frame) page faults: 144331831
+	Voluntary context switches: 705874
+	Involuntary context switches: 53998
+	Swaps: 0
+	File system inputs: 58686288
+	File system outputs: 623216
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

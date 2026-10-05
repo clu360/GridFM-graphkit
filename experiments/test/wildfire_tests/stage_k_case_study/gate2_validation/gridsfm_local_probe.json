@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "checkpoint_sha256": "F8A4396122E603E8303AFDEBE3B093819C0F64DAC0878394AED0BD63205FD831",
+  "device": "cpu",
+  "checkpoint_load_seconds": 0.8814976215362549,
+  "intact_inference_seconds": 2.5202038288116455,
+  "prepared_shapes": {
+    "bus": [2751, 16],
+    "generator": [736, 11],
+    "load": [1125, 2],
+    "shunt": [190, 2],
+    "branch_ac": [3993, 13],
+    "branch_tr": [1351, 15],
+    "cycle": [2594, 4]
+  },
+  "intact_prediction_shapes": {
+    "theta": [2751],
+    "V": [2751],
+    "Pg": [736],
+    "Qg": [736],
+    "Pij": [5344],
+    "Qij": [5344],
+    "Pji": [5344],
+    "Qji": [5344]
+  },
+  "k1_candidate_probe": {
+    "offline_canonical_branch_ids": [281],
+    "alpha_evaluation_budget": 5,
+    "actual_unique_alpha_evaluations": 5,
+    "selected_load_ids": [632, 758, 157, 697, 357],
+    "active_flow_count": 5343,
+    "evaluation_status": "model_output_penalized",
+    "j_total": 30.064765891436565,
+    "r_norm": 1.308917538412456,
+    "l_shed_total": 0.00015632587577791267
+  },
+  "local_environment_note": "The local environment lacked huggingface_hub. A no-network import stub was used only to exercise the already-local checkpoint; Gate 3 must install and validate the complete pinned GridSFM environment on A100."
+}

@@ -1,0 +1,35 @@
+{
+  "baseline_consistency_audit": {
+    "baseline_authority": "stored_scenario16_branch_loading",
+    "baseline_replaced": false,
+    "largest_discrepant_branch_ids": [
+      4164,
+      4241,
+      5134,
+      4917,
+      5322,
+      4587,
+      4867,
+      2388,
+      5135,
+      2578
+    ],
+    "loading_atol": 1e-05,
+    "maximum_absolute_loading_error": 0.7543023847084604,
+    "status": "STOP_REVIEW",
+    "termination_status": "LOCALLY_SOLVED",
+    "weighted_risk_difference": 3.5027059207155515
+  },
+  "checks": {
+    "baseline_consistency_audit": false,
+    "julia_found": true
+  },
+  "scope": "cpu",
+  "status": "FAIL",
+  "thread_environment": {
+    "JULIA_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

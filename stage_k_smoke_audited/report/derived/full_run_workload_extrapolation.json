@@ -1,0 +1,26 @@
+{
+  "ac": {
+    "estimate_scope": "candidate evaluation time only; excludes scheduler queueing and job startup",
+    "inner_evaluation_ratio_full_to_smoke": 1.0,
+    "observed_smoke_elapsed_seconds": 2585.2226820020005,
+    "serial_full_estimate_seconds": 185274.29221014338,
+    "topology_ratio_full_to_smoke": 71.66666666666667,
+    "workload_ratio_full_to_smoke": 71.66666666666667
+  },
+  "dc": {
+    "estimate_scope": "candidate evaluation time only; excludes scheduler queueing and job startup",
+    "inner_evaluation_ratio_full_to_smoke": 1.0,
+    "observed_smoke_elapsed_seconds": 201.43463443312794,
+    "serial_full_estimate_seconds": 14436.148801040837,
+    "topology_ratio_full_to_smoke": 71.66666666666667,
+    "workload_ratio_full_to_smoke": 71.66666666666667
+  },
+  "gridsfm": {
+    "estimate_scope": "candidate evaluation time only; excludes scheduler queueing and job startup",
+    "inner_evaluation_ratio_full_to_smoke": 4.0,
+    "observed_smoke_elapsed_seconds": 54.49258419126272,
+    "serial_full_estimate_seconds": 15621.207468161982,
+    "topology_ratio_full_to_smoke": 71.66666666666667,
+    "workload_ratio_full_to_smoke": 286.6666666666667
+  }
+}

@@ -1,0 +1,16 @@
+PRODUCTION DRY RUN (two gated submissions)
+config=full.yaml lambdas=0.0,0.2,0.5,0.8,1.0
+phase_1_command=submit_production.sh --preflight-submit
+prepare: sbatch --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=06:00:00 stage_k_production_prepare_gnr.sbatch
+GPU sanity (gpu-v100): afterok:<prepare> sbatch --account=gts-xliu976 --qos=inferno --partition=gpu-v100 --gres=gpu:v100:1 --time=08:00:00 stage_k_production_gpu_preflight_a100.sbatch
+HARD GATE: prepared input and GPU environment manifests must both report PASS
+phase_2_command=submit_production.sh --submit
+GridSFM: array=0-4%5 --account=gts-xliu976 --qos=inferno --partition=gpu-v100 --gres=gpu:v100:1 --time=08:00:00
+DC: array=0-4%5 --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=06:00:00
+AC: array=0-4%5 --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=16:00:00
+join/seal: afterok:<gridsfm>:<dc>:<ac> --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=06:00:00
+references: afterok:<join> array=0-14%5 --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=03:00:00
+reference join: afterok:<references> --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=06:00:00
+aggregation: afterok:<reference-join> --account=gts-xliu976 --qos=inferno --constraint=graniterapids --time=06:00:00
+run_dir=/storage/scratch1/9/clu360/stage_k/stage_k_production_v001
+environment_manifest=/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/preflight/gpu/gridsfm_environment_manifest.json

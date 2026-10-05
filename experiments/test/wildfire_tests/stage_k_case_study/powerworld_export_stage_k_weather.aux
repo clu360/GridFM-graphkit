@@ -1,0 +1,32 @@
+SCRIPT StageKWeatherExport
+{
+  // Stage K weather export from PowerWorld PWW.
+  // Run this inside PowerWorld Simulator if command-line auxiliary execution is
+  // not available in the installed Education/Evaluation edition.
+  //
+  // Output expected by the Stage K notebook:
+  //   data/stage_k_powerworld_weather_input_raw.csv
+  //
+  // Fields:
+  //   WEATHERSTATION_TEMPF          temperature in deg F
+  //   WEATHERSTATION_DEWPOINTF      dew point in deg F
+  //   WEATHERSTATION_WINDSPEED100MS 100m wind speed in m/s
+
+  TimeStepDeleteAll;
+  TimeStepLoadPWWRangeLatLon(
+    "C:\Users\Caleb Lu\Downloads\2023-06-25_Texas_Heat_Dome_Texas.pww",
+    2023-06-25T00:00:00Z,
+    2023-06-25T23:59:59Z,
+    24.0,
+    37.0,
+    -106.0,
+    -93.0,
+    "Weather Only"
+  );
+  TIMESTEPSaveInputCSV(
+    "C:\Users\Caleb Lu\OneDrive - Georgia Institute of Technology\GT\Extracurriculars\Research\Grid FM\Experiments\GridFM-graphkit\experiments\test\wildfire_tests\stage_k_case_study\data\stage_k_powerworld_weather_input_raw.csv",
+    [WEATHERSTATION_TEMPF, WEATHERSTATION_DEWPOINTF, WEATHERSTATION_WINDSPEED100MS],
+    2023-06-25T00:00:00Z,
+    2023-06-25T23:59:59Z
+  );
+}

@@ -1,0 +1,15 @@
+{
+  "branch_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/chunks/ac/lambda_0/ac/lambda_0/24_47/native_ac_branch_state.csv",
+  "bus_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/chunks/ac/lambda_0/ac/lambda_0/24_47/native_ac_bus_state.csv",
+  "economic_cost_diagnostic": null,
+  "elapsed_seconds": 101.28579711914062,
+  "gen_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/chunks/ac/lambda_0/ac/lambda_0/24_47/native_ac_gen_state.csv",
+  "iteration_count": 364,
+  "load_service_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/chunks/ac/lambda_0/ac/lambda_0/24_47/native_ac_load_service.csv",
+  "mode": "native_ac",
+  "objective": 2.8096415402126566e-6,
+  "risk_epigraph_count": 3991,
+  "risk_line_count_expected": 3991,
+  "solver_time_seconds": 99.0561580657959,
+  "termination_status": "LOCALLY_SOLVED"
+}

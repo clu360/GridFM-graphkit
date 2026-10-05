@@ -1,0 +1,8 @@
+evaluator,status,eligible,count
+ac,evaluator_exception,False,4
+ac,locally_solved,True,1498
+ac,numerical_failure,False,2
+ac,time_limit,False,1
+dc,evaluator_exception,False,1
+dc,locally_solved,True,1504
+gridsfm,model_output_penalized,True,1505

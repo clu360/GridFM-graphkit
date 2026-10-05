@@ -1,0 +1,13 @@
+{
+  "config_sha256": "6a277095a69643701a2e07be8de08aef6f6f38e4bce443d0c4e3101c1d91c830",
+  "evaluators": [
+    "gridsfm"
+  ],
+  "lambda_values": [
+    0.5
+  ],
+  "reference_a_rows": 1,
+  "reference_b2_failure_count": 0,
+  "reference_b_rows": 1,
+  "status": "PASS"
+}

@@ -6033,3 +6033,147 @@ branch-loading and node-voltage encodings. The compact publication
 under `goc_500_results/stage_j/rq1_frozen_m0_evaluator_study` uses Parquet for
 tables and includes figures, summary/status records, hashes, and all three
 phase-validation JSON files.
+
+## September 21, 2026: Stage K Gate 2 Texas2k Package Implemented
+
+Implemented the approved Stage K modified-Texas2k smoke package without
+submitting PACE jobs. The frozen case uses Scenario 16, the June 23 16:00 CDT
+`p_cumulative` snapshot, stored solved loading as the authoritative baseline,
+and `R_base=32.97542569928573` over 3,993 controllable transmission lines.
+Canonical preparation found 2,751 buses, 1,125 loads, 1,099 generators, 5,344
+physical branches, and 1,351 fixed transformers.
+
+Stage K directly reuses the Stage J connectivity/source-less `c_l`
+implementation. All Texas2k single-line `c_l` values are zero. Exact-K proxy
+separability was proved and tested, allowing deterministic K1 and parent-fixed
+K2 ranking without Gurobi. Smoke/full configuration, GridSFM external alpha
+search, native PowerModels DC/AC recourse, all-energized-line AC risk
+epigraphs, sealed Reference A/B, exact discrepancy metrics, checkpoint/resume,
+derived reporting, and four PACE job scripts were added.
+
+Local canonical validation and 21 Stage K tests passed. Official GridSFM
+preprocessing produced the expected Texas2k graph shapes; the released v1.1
+checkpoint completed intact inference and a full five-alpha K1 candidate probe
+on CPU. Julia/PowerModels/Ipopt execution, the intact AC consistency audit,
+A100 inference, and live Phoenix resource syntax remain Gate 3 validations.
+No smoke or production job was launched.
+
+## September 21, 2026: Stage K GridSFM Environment Amendment
+
+Added the missing reproducible Python/A100 contract before Gate 3. The package
+now pins the official Microsoft GridSFM repository at commit
+`1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6`, GridSFM 1.1.0, Python 3.11.9,
+torch 2.7.1+cu126, torch-geometric 2.6.1, NumPy 1.26.4, SciPy 1.15.3, and
+huggingface-hub 0.34.4. It binds `microsoft/GridSFM_Open` checkpoint
+`gridsfm_open_v1.1.pt` at repository revision
+`1b41299b80252adf1869d5c3b479a4a402c52591` to SHA-256
+`f8a4396122e603e8303afdebe3b093819c0f64dac0878394aed0bd63205fd831`.
+
+The official package setup performs a one-time source checkout and checkpoint
+cache, while inference jobs run with Hugging Face offline. GPU preflight now
+requires exactly one visible A100 on `cuda:0`, CUDA runtime 12.6, real
+environment-installed GridSFM and huggingface-hub packages, exact source and
+checkpoint identities, and successful intact Texas2k inference. It records all
+installed distributions and device metadata in an observed environment
+manifest. The GridSFM batch job revalidates the contract before screening.
+The temporary local Gate 2 import stub has no role in the PACE environment.
+No PACE job was submitted.
+
+## September 21, 2026: Stage K Gate 3 Deployment-Audit Amendment
+
+Aligned CPU preflight with the frozen stored-baseline methodology after the
+first Phoenix deployment probe. The newly solved intact economic AC-OPF is now
+gated as a Julia/PowerModels/Ipopt and branch-export sanity check: accepted
+termination status plus complete, unique, finite output for all 5,344 intact
+physical branches. Its maximum loading discrepancy, weighted risk difference,
+and largest discrepant branch IDs remain retained diagnostics but do not gate
+PASS because economic redispatch is not required to reproduce the stored
+Scenario-16 flow vector. The stored baseline, proxy weights, and `R_base` are
+unchanged. The discovered deployment-only dependency `lightning==2.6.6` was
+also added to the frozen GridSFM environment contract.
+
+## September 21, 2026: Stage K Phoenix Resource Contract Verified
+
+Aligned Gate 3 resource requests with Phoenix's resource-driven partition
+assignment policy. A live request using `--constraint=graniterapids` reached
+`cpu-gnr` and reported two Intel Xeon 6972P sockets, 192 cores, and about
+1.5 TiB RAM. A live one-GPU request using `--gres=gpu:a100:1` was assigned to
+`gpu-a100`; it was cancelled while pending for scheduler priority, so physical
+A100 identity remains a mandatory check inside the eventual allocation.
+
+The smoke runbook now omits hard-coded partition flags, records the verified
+GNR and A100 resource arguments, and requires in-allocation hardware checks.
+These probes did not run evaluator workloads or submit the Stage K smoke test.
+
+The corrected Gate 3 CPU preflight was subsequently run on `cpu-gnr` and
+passed. The intact deployment AC-OPF returned `LOCALLY_SOLVED` with all 5,344
+physical branch outputs complete and finite; the stored Scenario-16 baseline
+remained authoritative. The A100 GPU preflight request was routed to
+`gpu-a100` but did not receive an allocation during the interactive queue
+window and was cancelled. GPU identity, CUDA checks, checkpoint loading, and
+intact Texas2k GridSFM inference therefore remain outstanding. No smoke job
+was submitted, and no probe job was left queued or running.
+
+## September 21, 2026: Stage K Gate 4 Phoenix Smoke Completed
+
+Completed the Stage K smoke workflow on Phoenix after an explicitly approved
+smoke-only move from queued A100 resources to an available V100. The frozen
+GridSFM source, v1.1 checkpoint, Python environment, CUDA/device contract, and
+intact Texas2k inference probe passed on the V100. GridSFM, native DC-OPF, and
+native AC-OPF each evaluated the intact state, ten shared K1 states, and ten
+evaluator-specific K2 states at `lambda_R=0.8`. All 63 candidate rows were
+eligible; all DC/AC solves were locally solved, while all 21 released-GridSFM
+states carried the frozen model-output penalty.
+
+The selected topologies were GridSFM line 4872, DC line 2245, and AC lines
+281/1950. Exact AC Reference A and maximum-delivery Reference B1 completed for
+all three. GridSFM Reference B2 returned `OTHER_ERROR`, so its economic
+tie-break is uncertified; its valid B1 result still establishes 100% maximum
+service. Reporting now falls back to B1 physical diagnostics and emits
+`PASS_WITH_WARNINGS` when B2 is not solver-eligible.
+
+The smoke deployment exposed and fixed DC loading export through active power,
+empty generation-cost diagnostics, stale-checkpoint handling, and GridSFM
+runtime extrapolation. The corrected full serial screening estimates are 4.34
+hours for GridSFM on V100, 4.01 hours for DC, and 51.47 hours for AC. Five-
+lambda serial references are estimated at 7.97 hours. The three evaluator
+families may run concurrently, but production AC should be split into
+deterministic chunks, with references dependent on every successful chunk.
+
+The combined reference/report job timed out only after all six reference solves
+were written: postprocessing blocked in Phoenix `cl_sync_io_wait`. Immutable
+Parquet outputs were retrieved and aggregation completed locally in under ten
+seconds. The audited package is under `stage_k_smoke_audited`, and the detailed
+Gate 4 interpretation is recorded in `stage_k_case_study/GATE4_SMOKE_TEST_REPORT.md`.
+Thirty-one Stage K contract tests pass. Production remains a separate approval gate.
+
+## September 22, 2026: Stage K Texas2k Production And Post-Run Analysis Completed
+
+Completed the frozen five-lambda Texas2k production study on Phoenix using a
+V100 for GridSFM and GNR CPUs for DC-OPF, AC-OPF, exact references, and
+aggregation. Each evaluator attempted 1,505 states: intact plus 50 shared K1
+and 250 evaluator-specific K2 candidates at each of five risk weights. GridSFM
+retained all 1,505 candidates, DC retained 1,504, and AC retained 1,498. One AC
+array task recovered from an 8 GB Slurm-memory failure by resuming its 301
+deterministic checkpoints at 16 GB; no scientific configuration changed.
+
+All 15 sealed finalists completed AC Reference A and Reference B1/B2. Every B1
+and B2 solve was solver-eligible, every B1 certified essentially 100% maximum
+service, and final validation passed with no failed checks or warnings. A final
+validator batch initially exited after writing valid artifacts because two
+Pandas reductions returned non-JSON-serializable NumPy booleans. The validator
+now normalizes every check to a native Boolean; audit-only recovery job
+13433845 completed with exit 0:0. The aggregate script now refreshes production
+status after validation.
+
+Post-run analysis is under `texas_2k_results/full_run`. It retains the primary
+PACE tables, 14 supporting analysis tables, and ten figure families in PNG and
+PDF. GridSFM selected topology 841/3268 for every positive risk weight and
+preserved at least 99.80% selected service, but produced almost no exact AC risk
+reduction. DC and AC found large exact AC risk reductions at higher weights but
+selected substantial avoidable load shedding. Reference B1 showed every
+selected topology could serve essentially all demand, separating topology
+capability from continuous-recourse quality. Native-versus-Reference-A risk
+discrepancies were material for all methods, confirming that exact AC auditing
+must remain distinct from native screening metrics. Thirty-three Stage K tests
+pass after the reporting additions.

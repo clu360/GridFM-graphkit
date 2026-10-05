@@ -1,0 +1,7 @@
+{
+  "b1_status": "LOCALLY_SOLVED",
+  "b2_status": "OTHER_ERROR",
+  "load_shed_limit_pu": 1.0e-6,
+  "maximum_served_pu": 928.9547114704058,
+  "mode": "reference_b"
+}

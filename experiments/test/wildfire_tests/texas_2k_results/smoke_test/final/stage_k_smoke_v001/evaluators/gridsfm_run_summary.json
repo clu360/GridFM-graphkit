@@ -1,0 +1,9 @@
+{
+  "attempted_states": 21,
+  "checkpoint_resident_for_job": true,
+  "config_sha256": "c41fd0846aedf9405c01d9b9fbbbf1da575fb17bde86435e5dda2162f1ae36d0",
+  "eligible_states": 21,
+  "evaluator": "gridsfm",
+  "finalist_count": 1,
+  "status": "PASS"
+}

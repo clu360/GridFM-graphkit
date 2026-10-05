@@ -1,0 +1,17 @@
+{
+  "ac": {
+    "observed_smoke_elapsed_seconds": 1743.28544885898,
+    "serial_full_estimate_seconds": 124935.4571682269,
+    "workload_ratio_full_to_smoke": 71.66666666666667
+  },
+  "dc": {
+    "observed_smoke_elapsed_seconds": 166.90526454290375,
+    "serial_full_estimate_seconds": 11961.543958908102,
+    "workload_ratio_full_to_smoke": 71.66666666666667
+  },
+  "gridsfm": {
+    "observed_smoke_elapsed_seconds": 54.49258419126272,
+    "serial_full_estimate_seconds": 3905.301867040495,
+    "workload_ratio_full_to_smoke": 71.66666666666667
+  }
+}

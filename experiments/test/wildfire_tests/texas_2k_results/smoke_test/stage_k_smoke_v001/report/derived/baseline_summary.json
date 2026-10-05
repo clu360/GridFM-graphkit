@@ -1,0 +1,14 @@
+{
+  "baseline_authority": "stored_scenario16_branch_loading",
+  "baseline_replaced_by_new_ac_solve": false,
+  "counts": {
+    "buses": 2751,
+    "generators": 1099,
+    "l_trans": 3993,
+    "loads_scenario16": 1125,
+    "online_generators": 736,
+    "physical_branches": 5344,
+    "transformer_or_other_fixed": 1351
+  },
+  "r_base": 32.975425699285616
+}

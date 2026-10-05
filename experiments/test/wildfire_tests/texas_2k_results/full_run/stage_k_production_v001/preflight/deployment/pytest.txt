@@ -1,0 +1,30 @@
+.................................                                        [100%]
+=============================== warnings summary ===============================
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:64
+  /storage/home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:64: PyparsingDeprecationWarning: 'oneOf' deprecated - use 'one_of'
+    prop = Group((name + Suppress("=") + comma_separated(value)) | oneOf(_CONSTANTS))
+
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85
+  /storage/home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:85: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    parse = parser.parseString(pattern)
+
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89
+  /storage/home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_fontconfig_pattern.py:89: PyparsingDeprecationWarning: 'resetCache' deprecated - use 'reset_cache'
+    parser.resetCache()
+
+../../../../../../home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_mathtext.py:45
+  /storage/home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/lib/python3.11/site-packages/matplotlib/_mathtext.py:45: PyparsingDeprecationWarning: 'enablePackrat' deprecated - use 'enable_packrat'
+    ParserElement.enablePackrat()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+33 passed, 14 warnings in 25.86s

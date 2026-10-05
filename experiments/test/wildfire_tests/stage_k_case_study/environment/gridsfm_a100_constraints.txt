@@ -1,0 +1,15 @@
+# Exact Stage K Python/A100 resolution. GridSFM itself is installed from the
+# official Microsoft checkout pinned in GRIDSFM_ENVIRONMENT_CONTRACT.json.
+torch==2.7.1
+torch_geometric==2.6.1
+numpy==1.26.4
+scipy==1.15.3
+huggingface_hub==0.34.4
+
+# Stage K orchestration, Parquet output, plotting, and tests.
+pandas==2.2.3
+pyarrow==19.0.1
+PyYAML==6.0.2
+matplotlib==3.10.1
+lightning==2.6.6
+pytest==8.3.5

@@ -1,0 +1,5 @@
+{
+  "message": "MethodError: reducing over an empty collection is not allowed; consider supplying `init` to the reducer",
+  "mode": "native_ac",
+  "termination_status": "evaluator_exception"
+}

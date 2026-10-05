@@ -1,0 +1,44 @@
+{
+  "baseline_consistency_audit": {
+    "baseline_authority": "stored_scenario16_branch_loading",
+    "baseline_replaced": false,
+    "branch_output_complete": true,
+    "branch_output_finite": true,
+    "expected_branch_count": 5344,
+    "largest_discrepant_branch_ids": [
+      4164,
+      4241,
+      5134,
+      4917,
+      5322,
+      4587,
+      4867,
+      2388,
+      5135,
+      2578
+    ],
+    "loading_atol": 1e-05,
+    "loading_comparison_gate": false,
+    "loading_comparison_role": "diagnostic_only",
+    "loading_within_atol": false,
+    "maximum_absolute_loading_error": 0.7543023847084604,
+    "observed_branch_count": 5344,
+    "solver_status_ok": true,
+    "status": "PASS",
+    "status_basis": "accepted_solver_status_and_complete_finite_intact_branch_output",
+    "termination_status": "LOCALLY_SOLVED",
+    "weighted_risk_difference": 3.5027059207155515
+  },
+  "checks": {
+    "baseline_consistency_audit": true,
+    "julia_found": true
+  },
+  "scope": "cpu",
+  "status": "PASS",
+  "thread_environment": {
+    "JULIA_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

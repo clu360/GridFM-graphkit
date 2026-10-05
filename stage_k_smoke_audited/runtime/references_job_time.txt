@@ -1,0 +1,23 @@
+	Command being timed: "/storage/scratch1/9/clu360/stage_k/workspace_v3/envs/stage-k-gridsfm-a100/bin/python -m experiments.test.wildfire_tests.stage_k_case_study.src.reference_runner --config experiments/test/wildfire_tests/stage_k_case_study/config/smoke.yaml --prepared-dir /storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/prepared --evaluator-dir /storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/evaluators --output-dir /storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/references"
+	User time (seconds): 655.32
+	System time (seconds): 22.19
+	Percent of CPU this job got: 11%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:35:37
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1650100
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 104520
+	Minor (reclaiming a frame) page faults: 3964777
+	Voluntary context switches: 163028
+	Involuntary context switches: 7640
+	Swaps: 0
+	File system inputs: 7608640
+	File system outputs: 14640
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,12 @@
+{
+  "attempted_states": 301,
+  "config_sha256": "6a277095a69643701a2e07be8de08aef6f6f38e4bce443d0c4e3101c1d91c830",
+  "eligible_states": 299,
+  "evaluator": "ac",
+  "finalist_count": 1,
+  "input_sha256": "18e2a60d5145269f4c3399ff47ad0951574397efae6c2a47eb3fe3f299073bf5",
+  "lambda_values": [
+    0.8
+  ],
+  "status": "PASS"
+}

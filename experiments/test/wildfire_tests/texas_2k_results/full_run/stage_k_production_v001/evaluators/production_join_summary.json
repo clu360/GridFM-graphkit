@@ -1,0 +1,142 @@
+{
+  "chunks": {
+    "ac:0": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "ac:0.2": {
+      "attempted": 301,
+      "eligible": 299,
+      "failed": 2,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "ac:0.5": {
+      "attempted": 301,
+      "eligible": 300,
+      "failed": 1,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "ac:0.8": {
+      "attempted": 301,
+      "eligible": 299,
+      "failed": 2,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "ac:1": {
+      "attempted": 301,
+      "eligible": 299,
+      "failed": 2,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "dc:0": {
+      "attempted": 301,
+      "eligible": 300,
+      "failed": 1,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "dc:0.2": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "dc:0.5": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "dc:0.8": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "dc:1": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "gridsfm:0": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "gridsfm:0.2": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "gridsfm:0.5": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "gridsfm:0.8": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    },
+    "gridsfm:1": {
+      "attempted": 301,
+      "eligible": 301,
+      "failed": 0,
+      "k0": 1,
+      "k1": 50,
+      "k2": 250,
+      "status": "PASS"
+    }
+  },
+  "config_sha256": "6a277095a69643701a2e07be8de08aef6f6f38e4bce443d0c4e3101c1d91c830",
+  "input_sha256": "18e2a60d5145269f4c3399ff47ad0951574397efae6c2a47eb3fe3f299073bf5",
+  "status": "PASS"
+}

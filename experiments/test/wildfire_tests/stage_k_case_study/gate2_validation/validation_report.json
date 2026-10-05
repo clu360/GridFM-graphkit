@@ -1,0 +1,22 @@
+{
+  "checks": {
+    "baseline_not_replaced": true,
+    "bus_count": true,
+    "config_hash_match": true,
+    "fixed_transformer_count": true,
+    "k1_count_per_lambda": true,
+    "l_trans_count": true,
+    "manifest_pass": true,
+    "physical_branch_count": true,
+    "r_base_positive": true,
+    "scenario16_load_count": true,
+    "stored_baseline_authoritative": true
+  },
+  "gate3_required": [
+    "intact PowerModels AC baseline consistency audit",
+    "Julia/PowerModels/Ipopt native evaluator probe",
+    "released GridSFM checkpoint A100 inference",
+    "live Phoenix GNR/A100 selector and account validation"
+  ],
+  "status": "PASS"
+}

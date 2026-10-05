@@ -1,0 +1,99 @@
+{
+  "checks": {
+    "environment_checkpoint_filename": true,
+    "environment_checkpoint_repository": true,
+    "environment_checkpoint_revision": true,
+    "environment_checkpoint_sha256": true,
+    "environment_compute_capability": true,
+    "environment_cuda_available": true,
+    "environment_cuda_device": true,
+    "environment_cuda_runtime": true,
+    "environment_git_clean": true,
+    "environment_git_commit": true,
+    "environment_git_repository": true,
+    "environment_gridsfm_from_environment": true,
+    "environment_gridsfm_package": true,
+    "environment_huggingface_hub_from_environment": true,
+    "environment_huggingface_hub_real_import": true,
+    "environment_nvidia_driver_visible": true,
+    "environment_one_gpu_visible": true,
+    "environment_package_huggingface_hub": true,
+    "environment_package_lightning": true,
+    "environment_package_numpy": true,
+    "environment_package_scipy": true,
+    "environment_package_torch": true,
+    "environment_package_torch_geometric": true,
+    "environment_python_version": true,
+    "environment_required_gpu_visible": true,
+    "intact_inference": true
+  },
+  "environment_manifest": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/preflight/gpu_v100/gridsfm_environment_manifest.json",
+  "prediction_shapes": {
+    "Pg": [
+      736
+    ],
+    "Pij": [
+      5344
+    ],
+    "Pji": [
+      5344
+    ],
+    "Qg": [
+      736
+    ],
+    "Qij": [
+      5344
+    ],
+    "Qji": [
+      5344
+    ],
+    "V": [
+      2751
+    ],
+    "feas": null,
+    "feas_logit": null,
+    "flow_edge_counts": null,
+    "flow_edge_types": null,
+    "theta": [
+      2751
+    ]
+  },
+  "prepared_shapes": {
+    "branch_ac": [
+      3993,
+      13
+    ],
+    "branch_tr": [
+      1351,
+      15
+    ],
+    "bus": [
+      2751,
+      16
+    ],
+    "cycle": [
+      2594,
+      4
+    ],
+    "generator": [
+      736,
+      11
+    ],
+    "load": [
+      1125,
+      2
+    ],
+    "shunt": [
+      190,
+      2
+    ]
+  },
+  "scope": "gpu",
+  "status": "PASS",
+  "thread_environment": {
+    "JULIA_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

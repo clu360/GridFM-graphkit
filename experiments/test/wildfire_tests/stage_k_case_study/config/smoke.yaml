@@ -1,0 +1,43 @@
+study: stage_k_texas2k
+mode: smoke
+snapshot:
+  electrical_scenario: 16
+  weather_timestamp: "2023-06-23 16:00 CDT"
+  weather_timestamp_utc: "2023-06-23T21:00:00+00:00"
+  p_env_column: hazard_score_p_cumulative
+  baseline_loading_column: baseline_loading
+objective:
+  rho_phys: 2.0
+  w_op: 1.0
+  w_ac: 1.0
+  w_model: 0.0
+search:
+  lambda_r: [0.8]
+  k1_count: 10
+  parent_count: 5
+  k2_children_per_parent: 2
+  k2_max_unique: 10
+  gridsfm_q: 5
+  gridsfm_alpha_budget: 5
+solvers:
+  ipopt_max_iter: 10000
+  time_limit_seconds: 3600
+  baseline_audit_loading_atol: 1.0e-5
+  reference_b_service_tolerance_mw: 1.0e-4
+pace:
+  cpu_selector: "<GNR_SELECTOR>"
+  gpu_selector: "<V100_SELECTOR_SMOKE_ONLY>"
+  cpus_per_task: 8
+  memory: 32G
+  julia_num_threads: 8
+  omp_num_threads: 1
+  mkl_num_threads: 1
+  openblas_num_threads: 1
+paths:
+  case_file: data/raw/modifiedTexas2k.m
+  load_file: data/raw/modifiedTexas2k_loads_scenarios_0_23.parquet
+  coordinate_file: data/raw/modifiedTexas2k_coordinates.csv
+  environment_file: ../texas_2k_results/environment_snapshot_tau0p50/data/cum_hazard_risk.parquet
+  gridsfm_root: "<GRIDSFM_ROOT>"
+  gridsfm_checkpoint: "<GRIDSFM_CHECKPOINT>"
+  output_root: "<SCRATCH_DIR>/stage_k/results"

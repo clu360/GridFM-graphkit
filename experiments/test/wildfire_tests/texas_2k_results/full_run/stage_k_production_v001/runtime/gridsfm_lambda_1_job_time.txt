@@ -1,0 +1,23 @@
+	Command being timed: "/storage/home/hcoda1/9/clu360/.stage_k_private/envs/stage-k-gridsfm-production-v100-home/bin/python -m experiments.test.wildfire_tests.stage_k_case_study.src.evaluator_runner --evaluator gridsfm --lambda-r 1.0 --config experiments/test/wildfire_tests/stage_k_case_study/config/full.yaml --prepared-dir /storage/scratch1/9/clu360/stage_k/stage_k_production_v001/prepared --output-dir /storage/scratch1/9/clu360/stage_k/stage_k_production_v001/chunks/gridsfm/lambda_1 --gridsfm-root /storage/scratch1/9/clu360/stage_k/workspace_v3/external/GridSFM --checkpoint /storage/scratch1/9/clu360/stage_k/workspace_v3/checkpoints/gridsfm_open_v1.1.pt --environment-manifest /storage/scratch1/9/clu360/stage_k/stage_k_production_v001/preflight/gpu/gridsfm_environment_manifest.json --environment-contract /storage/scratch1/9/clu360/stage_k/workspace_v3/GridFM-graphkit/experiments/test/wildfire_tests/stage_k_case_study/environment/GRIDSFM_PRODUCTION_V100_CONTRACT.json --device cuda:0"
+	User time (seconds): 2820.53
+	System time (seconds): 13.28
+	Percent of CPU this job got: 91%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 51:51.49
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2687000
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 10
+	Minor (reclaiming a frame) page faults: 442216
+	Voluntary context switches: 125052
+	Involuntary context switches: 22876
+	Swaps: 0
+	File system inputs: 124704
+	File system outputs: 9014856
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,11 @@
+{
+  "aggregation_summary": {
+    "candidate_attempts": 63,
+    "diagnostic_nondominated_points": 24,
+    "eligible_candidates": 63,
+    "reference_b2_failure_count": 1,
+    "status": "PASS_WITH_WARNINGS"
+  },
+  "note": "Gate 4 smoke package complete; production remains a separate approval gate.",
+  "status": "complete"
+}

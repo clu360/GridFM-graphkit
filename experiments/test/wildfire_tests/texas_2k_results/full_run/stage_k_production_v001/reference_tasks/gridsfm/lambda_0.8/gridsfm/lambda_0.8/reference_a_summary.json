@@ -1,0 +1,11 @@
+{
+  "branch_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/reference_tasks/gridsfm/lambda_0.8/gridsfm/lambda_0.8/reference_a_branch_state.csv",
+  "bus_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/reference_tasks/gridsfm/lambda_0.8/gridsfm/lambda_0.8/reference_a_bus_state.csv",
+  "elapsed_seconds": 30.152193069458008,
+  "gen_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/reference_tasks/gridsfm/lambda_0.8/gridsfm/lambda_0.8/reference_a_gen_state.csv",
+  "load_service_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_production_v001/reference_tasks/gridsfm/lambda_0.8/gridsfm/lambda_0.8/reference_a_load_service.csv",
+  "mode": "reference_a",
+  "objective": 299656.54515400477,
+  "solver_time_seconds": 26.079930067062378,
+  "termination_status": "LOCALLY_SOLVED"
+}

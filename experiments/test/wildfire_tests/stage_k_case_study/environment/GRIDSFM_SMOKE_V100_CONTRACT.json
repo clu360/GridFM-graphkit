@@ -1,0 +1,34 @@
+{
+  "contract_version": "stage-k-gridsfm-smoke-v100-v001",
+  "source": {
+    "git_commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6",
+    "git_repository": "https://github.com/microsoft/GridSFM.git",
+    "package_name": "gridsfm",
+    "package_version": "1.1.0"
+  },
+  "checkpoint": {
+    "filename": "gridsfm_open_v1.1.pt",
+    "repository": "microsoft/GridSFM_Open",
+    "revision": "1b41299b80252adf1869d5c3b479a4a402c52591",
+    "sha256": "f8a4396122e603e8303afdebe3b093819c0f64dac0878394aed0bd63205fd831"
+  },
+  "runtime": {
+    "python": "3.11.9",
+    "packages": {
+      "huggingface_hub": "0.34.4",
+      "lightning": "2.6.6",
+      "numpy": "1.26.4",
+      "scipy": "1.15.3",
+      "torch": "2.7.1+cu126",
+      "torch_geometric": "2.6.1"
+    }
+  },
+  "device": {
+    "cuda_device": "cuda:0",
+    "driver_requirement": "NVIDIA driver compatible with CUDA 12.6",
+    "expected_cuda_runtime": "12.6",
+    "expected_compute_capability": [7, 0],
+    "expected_gpu_count": 1,
+    "required_name_fragment": "V100"
+  }
+}

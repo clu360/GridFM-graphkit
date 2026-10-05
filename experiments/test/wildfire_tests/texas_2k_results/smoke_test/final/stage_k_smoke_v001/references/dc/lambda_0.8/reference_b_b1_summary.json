@@ -1,0 +1,15 @@
+{
+  "branch_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/references/dc/lambda_0.8/reference_b_b1_branch_state.csv",
+  "bus_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/references/dc/lambda_0.8/reference_b_b1_bus_state.csv",
+  "economic_cost_diagnostic": null,
+  "elapsed_seconds": 48.251299142837524,
+  "gen_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/references/dc/lambda_0.8/reference_b_b1_gen_state.csv",
+  "iteration_count": 221,
+  "load_service_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/references/dc/lambda_0.8/reference_b_b1_load_service.csv",
+  "mode": "reference_b",
+  "objective": 928.9547114704054,
+  "risk_epigraph_count": 0,
+  "risk_line_count_expected": 3992,
+  "solver_time_seconds": 46.5634548664093,
+  "termination_status": "LOCALLY_SOLVED"
+}

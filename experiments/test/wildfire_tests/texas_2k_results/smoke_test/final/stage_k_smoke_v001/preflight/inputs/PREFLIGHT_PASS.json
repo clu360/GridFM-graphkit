@@ -1,0 +1,71 @@
+{
+  "checks": {
+    "inputs": true
+  },
+  "input_manifest": {
+    "artifacts": [
+      "branch_model_mapping.parquet",
+      "canonical_branch.parquet",
+      "canonical_bus.parquet",
+      "canonical_generator.parquet",
+      "canonical_load.parquet",
+      "proxy_components.parquet",
+      "shared_k1.parquet"
+    ],
+    "baseline_authority": "stored_scenario16_branch_loading",
+    "baseline_replaced_by_new_ac_solve": false,
+    "c_l_implementation": "experiments.test.wildfire_tests.stage_j_gridsfm_goc500.scenario_builder.connectivity_service_impact_proxy",
+    "c_l_source_sha256": "b7ef750859a7baef64f197b5c2f736178467f4d3b44ee0e2a698255cbb2b4f82",
+    "config_sha256": "3af580998270d243e38b5ba19795dd0e65eb75aebb8c2bb78bb982f58d5d924d",
+    "counts": {
+      "buses": 2751,
+      "generators": 1099,
+      "l_trans": 3993,
+      "loads_scenario16": 1125,
+      "online_generators": 736,
+      "physical_branches": 5344,
+      "transformer_or_other_fixed": 1351
+    },
+    "input_sha256": {
+      "case": "d71d1630e73ee280794009880a12ff79f6f229bef9f9283ab293ac6492c279da",
+      "config": "ee5c968d5fede925be947faa5ef5e33798b2c1dd9a8f9cfa9acbde42cff014b6",
+      "coordinates": "ac751ee1628f0f796d7831f037b59384795f63e7504545334c15d15c5ff469df",
+      "environment": "98a2bf8e38376ba5a8d452c8e1de5698944abf2226c61ff3d591e36b00e35b3d",
+      "loads": "16263d1b3fd5ccfb3b8d01be03e200ff72e7e855b12e93ee55dd2b8d1ebc605e"
+    },
+    "proxy_backend": "deterministic_exact_k_separable_ranking",
+    "proxy_equivalence": "J_proxy=lambda+sum_open((1-lambda)*c_l-lambda*w_l/R_base); exact-K ranking is additive and equivalent to repeated MILP no-good enumeration",
+    "r_base": 32.975425699285616,
+    "status": "PASS"
+  },
+  "input_validation": {
+    "checks": {
+      "baseline_not_replaced": true,
+      "bus_count": true,
+      "config_hash_match": true,
+      "fixed_transformer_count": true,
+      "k1_count_per_lambda": true,
+      "l_trans_count": true,
+      "manifest_pass": true,
+      "physical_branch_count": true,
+      "r_base_positive": true,
+      "scenario16_load_count": true,
+      "stored_baseline_authoritative": true
+    },
+    "gate3_required": [
+      "intact PowerModels AC baseline consistency audit",
+      "Julia/PowerModels/Ipopt native evaluator probe",
+      "released GridSFM checkpoint A100 inference",
+      "live Phoenix GNR/A100 selector and account validation"
+    ],
+    "status": "PASS"
+  },
+  "scope": "inputs",
+  "status": "PASS",
+  "thread_environment": {
+    "JULIA_NUM_THREADS": "8",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

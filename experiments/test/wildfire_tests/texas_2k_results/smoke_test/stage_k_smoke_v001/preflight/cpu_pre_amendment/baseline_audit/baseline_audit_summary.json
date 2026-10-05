@@ -1,0 +1,11 @@
+{
+  "branch_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/preflight/cpu/baseline_audit/baseline_audit_branch_state.csv",
+  "bus_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/preflight/cpu/baseline_audit/baseline_audit_bus_state.csv",
+  "elapsed_seconds": 50.87578105926514,
+  "gen_state_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/preflight/cpu/baseline_audit/baseline_audit_gen_state.csv",
+  "load_service_csv": "/storage/scratch1/9/clu360/stage_k/stage_k_smoke_v001/preflight/cpu/baseline_audit/baseline_audit_load_service.csv",
+  "mode": "baseline_audit",
+  "objective": 297139.7959998675,
+  "solver_time_seconds": 44.72224712371826,
+  "termination_status": "LOCALLY_SOLVED"
+}

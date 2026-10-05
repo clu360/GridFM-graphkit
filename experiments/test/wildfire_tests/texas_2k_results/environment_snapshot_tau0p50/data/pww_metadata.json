@@ -1,0 +1,41 @@
+{
+  "bytecount_per_time_location": 9,
+  "count": 168,
+  "data_offset": 1449615,
+  "first_utc": "2023-06-23T00:00:00+00:00",
+  "last_utc": "2023-06-29T23:00:00+00:00",
+  "location_count": 38497,
+  "location_optional_field_names": [],
+  "max_latitude": 58.0,
+  "max_longitude": -60.0,
+  "metadata_strings": [
+    "PowerWorld Timestep Simulation Weather"
+  ],
+  "min_latitude": 24.0,
+  "min_longitude": -130.0,
+  "path": "C:\\Users\\Caleb Lu\\OneDrive - Georgia Institute of Technology\\GT\\Extracurriculars\\Research\\Grid FM\\Experiments\\GridFM-graphkit\\experiments\\test\\wildfire_tests\\stage_k_case_study\\data\\raw\\2023-06-25_Texas_Heat_Dome_Texas.pww",
+  "sample_seconds": 3600,
+  "valid_counts": [
+    6467496,
+    6467496,
+    6467496,
+    6467496,
+    6467496,
+    6467496,
+    6467496,
+    6467496,
+    6467496
+  ],
+  "variable_types": [
+    102,
+    104,
+    106,
+    107,
+    119,
+    110,
+    120,
+    121,
+    136
+  ],
+  "version": 2
+}
