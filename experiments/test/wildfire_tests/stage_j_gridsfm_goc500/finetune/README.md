@@ -1,5 +1,19 @@
 # Stage J GridSFM fine-tuning
 
+## Published Checkpoints
+
+The four earlier fine-tuned weights (FT0 smoke, M1 FullTop-1000, M2
+FullTop-1500, and M3 FullTop-1000 plus N-1-500) are now included in
+[`models/`](models/README.md), with hashes and training lineage. They are
+GOC-500 fine-tunes of released Open GridSFM v1.1.
+
+The old `C:\Users\Caleb Lu\.gridfm_stage_j` cache is retired at Caleb's
+request after model publication. Commands and manifests below retain their
+historical paths for provenance; running them again requires rebuilding the
+environment/data cache and supplying the repository checkpoint paths.
+
+## Historical Training Workflow
+
 This directory is a thin experiment wrapper around the official
 `microsoft/GridSFM` v1.1 OPFData fine-tuning implementation. It does not copy
 the model, losses, dataset adapter, topology transforms, evaluation metrics, or

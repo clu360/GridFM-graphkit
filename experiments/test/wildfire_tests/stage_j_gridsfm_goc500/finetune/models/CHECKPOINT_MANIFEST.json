@@ -1,0 +1,55 @@
+{
+  "artifact_id": "STAGE-J-PUBLISHED-FINETUNED-GRIDSFM-MODELS",
+  "publication_date": "2026-10-18",
+  "task": "AC-OPF",
+  "target_grid": "pglib_opf_case500_goc",
+  "base_model": {
+    "repository": "microsoft/GridSFM_Open",
+    "filename": "gridsfm_open_v1.1.pt",
+    "sha256": "f8a4396122e603e8303afdebe3b093819c0f64dac0878394aed0bd63205fd831"
+  },
+  "implementation": {
+    "repository": "microsoft/GridSFM",
+    "version": "1.1.0",
+    "commit": "1ca775fd436d7ce013a1c0ab946e61ac7ef59ad6"
+  },
+  "total_bytes": 244031989,
+  "checkpoints": [
+    {
+      "model": "FT0",
+      "file": "gridsfm_goc500_fulltop_ft0_n10.pt",
+      "bytes": 61003599,
+      "sha256": "cf72e0f6036d1e37fb5a298eb3db5e69a6524f48bc7b0b8b5cd34e758ddfe4a2",
+      "parent": "released v1.1",
+      "training": "10 FullTop samples; smoke test",
+      "evidence": "../results/ft0/ft0_manifest.json"
+    },
+    {
+      "model": "M1",
+      "file": "gridsfm_goc500_fulltop_ft_n1000.pt",
+      "bytes": 61007770,
+      "sha256": "a1378fdaf38af6b317f172c27df7c0f14a23138143d65dfe5e1c46c613e119ad",
+      "parent": "released v1.1",
+      "training": "FullTop train indices 0-999",
+      "evidence": "../results/ft1/ft1_manifest.json"
+    },
+    {
+      "model": "M2",
+      "file": "gridsfm_goc500_ft1000_plus_fulltop500.pt",
+      "bytes": 61012764,
+      "sha256": "08eda70270f787db42c48b751becc9da2062b0482550a5c2a761b4eba0c94ff6",
+      "parent": "M1",
+      "training": "M1 continued on FullTop train indices 1000-1499",
+      "evidence": "../results/ft6/m2/m2_manifest.json"
+    },
+    {
+      "model": "M3",
+      "file": "gridsfm_goc500_ft1000_plus_n1_500.pt",
+      "bytes": 61007856,
+      "sha256": "4ec89d36de80081be2fc26c14a1bc5a5369d7423b557d71b9dd4a254462f302d",
+      "parent": "M1",
+      "training": "M1 continued on N-1 train indices 0-499",
+      "evidence": "../results/ft6/m3/m3_manifest.json"
+    }
+  ]
+}
